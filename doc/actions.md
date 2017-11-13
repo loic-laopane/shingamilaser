@@ -1,0 +1,7 @@
+- Ecriture d'un scénario
+- Identification des fonctionnalités : 4h
+- Identification Entité : 0.5h
+- Creation un Diagramme de classe : 2h
+- Creation d'un Bundle Supplier
+    - Creation d'un entité C
+- Création
