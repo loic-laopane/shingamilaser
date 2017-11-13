@@ -57,6 +57,14 @@ class Card
      */
     private $center;
 
+    /**
+     * @var Customer
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $customer;
+
 
     /**
      * Get id
@@ -186,5 +194,29 @@ class Card
     public function getCenter()
     {
         return $this->center;
+    }
+
+    /**
+     * Set customer
+     *
+     * @param \AppBundle\Entity\Customer $customer
+     *
+     * @return Card
+     */
+    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Get customer
+     *
+     * @return \AppBundle\Entity\Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
     }
 }
