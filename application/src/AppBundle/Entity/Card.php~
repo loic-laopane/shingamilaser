@@ -53,7 +53,6 @@ class Card
      * @var Center
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Center")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $center;
 
@@ -163,28 +162,5 @@ class Card
     {
         return $this->active;
     }
-
-    /**
-     * Set center
-     *
-     * @param \AppBundle\Entity\Center $center
-     *
-     * @return Card
-     */
-    public function setCenter(\AppBundle\Entity\Center $center = null)
-    {
-        $this->center = $center;
-
-        return $this;
-    }
-
-    /**
-     * Get center
-     *
-     * @return \AppBundle\Entity\Center
-     */
-    public function getCenter()
-    {
-        return $this->center;
-    }
 }
+

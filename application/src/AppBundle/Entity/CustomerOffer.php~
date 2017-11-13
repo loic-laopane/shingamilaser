@@ -76,52 +76,5 @@ class CustomerOffer
     {
         return $this->usedAt;
     }
-
-    /**
-     * Set customer
-     *
-     * @param \AppBundle\Entity\Customer $customer
-     *
-     * @return CustomerOffer
-     */
-    public function setCustomer(\AppBundle\Entity\Customer $customer = null)
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    /**
-     * Get customer
-     *
-     * @return \AppBundle\Entity\Customer
-     */
-    public function getCustomer()
-    {
-        return $this->customer;
-    }
-
-    /**
-     * Set offer
-     *
-     * @param \Appbundle\Entity\Offer $offer
-     *
-     * @return CustomerOffer
-     */
-    public function setOffer(\Appbundle\Entity\Offer $offer = null)
-    {
-        $this->offer = $offer;
-
-        return $this;
-    }
-
-    /**
-     * Get offer
-     *
-     * @return \Appbundle\Entity\Offer
-     */
-    public function getOffer()
-    {
-        return $this->offer;
-    }
 }
+

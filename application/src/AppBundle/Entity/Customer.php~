@@ -81,7 +81,7 @@ class Customer
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -367,39 +367,5 @@ class Customer
     public function getCustomerGame()
     {
         return $this->customerGame;
-    }
-
-    /**
-     * Add customerOffer
-     *
-     * @param \AppBundle\Entity\CustomerOffer $customerOffer
-     *
-     * @return Customer
-     */
-    public function addCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
-    {
-        $this->customerOffer[] = $customerOffer;
-
-        return $this;
-    }
-
-    /**
-     * Remove customerOffer
-     *
-     * @param \AppBundle\Entity\CustomerOffer $customerOffer
-     */
-    public function removeCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
-    {
-        $this->customerOffer->removeElement($customerOffer);
-    }
-
-    /**
-     * Get customerOffer
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCustomerOffer()
-    {
-        return $this->customerOffer;
     }
 }
