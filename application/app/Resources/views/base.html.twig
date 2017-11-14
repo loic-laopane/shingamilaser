@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{{ asset('dist/bootstrap3/css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('dist/font-awesome/css/font-awesome.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('dist/paperkit/css/ct-paper.css') }}" />
+        <link rel="stylesheet" href="{{ asset('dist/paperkit/css/demo.css') }}" />
 
 
         <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
@@ -31,9 +32,19 @@
 
         {% include '::menu.html.twig' %}
         <div class="wrapper">
+            <div class="jumbotron">
+                <div class="container">
+                    <h1>{{ app_name }}</h1>
+                    <p></p>
+                    <p><a class="btn btn-primary btn-lg" href="#" role="button">See more</a></p>
+                </div>
+
+            </div>
             <div class="main">
                 <div class="container">
+                        <div class="row">
                     {% block body %}{% endblock %}
+                        </div>
                 </div>
 
             </div>

@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Customer;
 use AppBundle\Form\CustomerType;
 use AppBundle\Manager\CustomerManager;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
