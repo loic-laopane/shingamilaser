@@ -38,5 +38,7 @@ class CustomerManager
         $this->userManager->encodeUserPassword($customer->getUser());
         $this->manager->persist($customer);
         $this->manager->flush();
+
+        return $this;
     }
 }
