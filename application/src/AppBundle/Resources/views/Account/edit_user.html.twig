@@ -5,5 +5,9 @@
 {% block content %}
     <h1>{{ 'Edit account' | trans }}</h1>
     <legend></legend>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary btn-fill">{{ 'btn.save' | trans }}</button>
+    {{ form_end(form) }}
 {% endblock %}
 

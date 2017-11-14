@@ -2,8 +2,16 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Customer;
+use AppBundle\Entity\User;
+use AppBundle\Form\CustomerAccountType;
+use AppBundle\Form\UserAccountType;
+use AppBundle\Manager\CustomerManager;
+use AppBundle\Manager\UserManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class AccountController extends Controller
 {
@@ -20,20 +28,41 @@ class AccountController extends Controller
     /**
      * @Route("/account/edit", name="account_edit")
      */
-    public function editUserAction()
+    public function editUserAction(Request $request, ObjectManager $objectManager)
     {
+        $user = $this->getUser();
+        $form = $this->createForm(UserAccountType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $objectManager->flush();
+            $this->addFlash('success', 'Account updated');
+        }
         return $this->render('AppBundle:Account:edit_user.html.twig', array(
-            // ...
+            'form' => $form->createView(),
+            'user' => $user
         ));
     }
 
     /**
      * @Route("/account/profile/edit", name="account_profile_edit")
      */
-    public function editCustomerAction()
+    public function editCustomerAction(Request $request, CustomerManager $manager)
     {
+
+        $customer = $manager->getCustomerByUser($this->getUser());
+
+        $form = $this->createForm(CustomerAccountType::class, $customer);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->save($customer);
+            $this->addFlash('success', 'Profile updated');
+        }
         return $this->render('AppBundle:Account:edit_customer.html.twig', array(
-            // ...
+            'form' => $form->createView(),
+            'customer' => $customer
         ));
     }
 

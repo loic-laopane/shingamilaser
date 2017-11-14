@@ -7,9 +7,8 @@ use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Valid;
 
-class CustomerType extends AbstractType
+class CustomerAccountType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -25,17 +24,14 @@ class CustomerType extends AbstractType
                 ->add('nickname', TextType::class, array(
                     'error_bubbling' => true
                 ))
-                ->add('society', TextType::class)
+                ->add('society', TextType::class, array('required' => false))
                 ->add('address', TextType::class)
                 ->add('zipcode',TextType::class)
                 ->add('city', TextType::class)
                 ->add('birthdate', BirthdayType::class, array(
                     'attr' => array('class' => 'datepicker')
                 ))
-                ->add('user', UserRegisterType::class, array(
-                    //'constraints' => array(new Valid()),
-                    'error_bubbling' => true
-                ));
+                ;
     }
     
     /**

@@ -21,29 +21,24 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% set errors = app.session.flashbag.all() %}
-        {% for type, messages in errors %}
-            <div class="alert alert-{{ type }}">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endfor %}
+
 
         {% include '::menu.html.twig' %}
         <div class="wrapper">
-            <div class="jumbotron">
-                <div class="container">
-                    <h1>{{ app_name }}</h1>
-                    <p></p>
-                    <p><a class="btn btn-primary btn-lg" href="#" role="button">See more</a></p>
-                </div>
-
-            </div>
+            {% block jobotron %}{% endblock %}
             <div class="main">
                 <div class="container">
                         <div class="row">
-                    {% block body %}{% endblock %}
+                            {% set errors = app.session.flashbag.all() %}
+                            {% for type, messages in errors %}
+                                <div class="alert alert-{{ type }}">
+                                    {% for message in messages %}
+                                        <p>{{ message }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+
+                            {% block body %}{% endblock %}
                         </div>
                 </div>
 

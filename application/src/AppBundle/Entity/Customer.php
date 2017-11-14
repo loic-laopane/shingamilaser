@@ -57,6 +57,7 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="society", type="string", length=255, nullable=true)
+     * @Assert\Blank()
      */
     private $society;
 
