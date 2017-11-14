@@ -1,19 +1,19 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Security:login{% endblock %}
+{% block title %}{{ 'Signin' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Security:login page</h1>
+<h1>{{ 'Signin' }}</h1>
     {% if errors_login %}
-        <div>{{ errors_login.messageKey|trans(errors_login.messageData, 'security') }}</div>
+        <div class="alert alert-danger">{{ errors_login.messageKey|trans(errors_login.messageData, 'security') }}</div>
     {% endif %}
 
     <form action="{{ path('login') }}" method="post">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" />
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" />
+        <input type="password" id="password" name="_password" class="form-control" />
 
         {#
             If you want to control the URL the user
@@ -21,6 +21,6 @@
             <input type="hidden" name="_target_path" value="/account" />
         #}
 
-        <button type="submit">{{ 'btn.login' | trans }}</button>
+        <button type="submit" class="btn btn-primary btn-fill">{{ 'btn.login' | trans }}</button>
     </form>
 {% endblock %}

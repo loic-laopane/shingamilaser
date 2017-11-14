@@ -1,11 +1,23 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Security:register{% endblock %}
+{% block title %}{{ 'registration' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>{{ 'registration' | trans | title }}</h1>
+<h1>{{ 'Registration' | trans | title }}</h1>
     {{ form_start(form) }}
     {{ form_widget(form) }}
-        <button type="submit" formnovalidate>{{ 'btn.register' | trans }}</button>
+        <button type="submit" class="btn btn-primary btn-fill" formnovalidate>{{ 'btn.register' | trans }}</button>
     {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+    $('.datepicker').datepicker({
+
+    weekStart:1,
+
+    color: '{color}'
+
+    });
+    </script>
 {% endblock %}

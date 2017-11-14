@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "169e651c26da0e09d2e0505da9c00ea8",
+    "content-hash": "85b6fe166833482ad8c59dded2b4567c",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1354,6 +1354,50 @@
             "time": "2017-01-02T13:31:39+00:00"
         },
         {
+            "name": "ravenberg/uikit-bundle",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ravenberg/uikit-bundle.git",
+                "reference": "d260c78ef9c2711b467644b698250eaf59e4f4e2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ravenberg/uikit-bundle/zipball/d260c78ef9c2711b467644b698250eaf59e4f4e2",
+                "reference": "d260c78ef9c2711b467644b698250eaf59e4f4e2",
+                "shasum": ""
+            },
+            "require": {
+                "twig/extensions": "^1.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ravenberg\\UiKitBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nils Uliczka",
+                    "email": "nils.uliczka@darookee.net"
+                },
+                {
+                    "name": "Philippe Aellig",
+                    "email": "philippe@aelligs.ch"
+                },
+                {
+                    "name": "Lee Ravenberg",
+                    "email": "me@lravenberg.com"
+                }
+            ],
+            "description": "Use UiKit in Symfony",
+            "time": "2016-10-25T20:59:25+00:00"
+        },
+        {
             "name": "sensio/distribution-bundle",
             "version": "v5.0.21",
             "source": {
@@ -2189,6 +2233,62 @@
                 "framework"
             ],
             "time": "2017-11-10T20:08:30+00:00"
+        },
+        {
+            "name": "twig/extensions",
+            "version": "v1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig-extensions.git",
+                "reference": "d188c76168b853481cc75879ea045bf93d718e9c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/d188c76168b853481cc75879ea045bf93d718e9c",
+                "reference": "d188c76168b853481cc75879ea045bf93d718e9c",
+                "shasum": ""
+            },
+            "require": {
+                "twig/twig": "~1.27|~2.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~3.3@dev",
+                "symfony/translation": "~2.3|~3.0"
+            },
+            "suggest": {
+                "symfony/translation": "Allow the time_diff output to be translated"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_Extensions_": "lib/"
+                },
+                "psr-4": {
+                    "Twig\\Extensions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Common additional features for Twig that do not directly belong in core",
+            "homepage": "http://twig.sensiolabs.org/doc/extensions/index.html",
+            "keywords": [
+                "i18n",
+                "text"
+            ],
+            "time": "2017-06-08T18:19:53+00:00"
         },
         {
             "name": "twig/twig",

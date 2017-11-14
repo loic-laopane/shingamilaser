@@ -29,7 +29,9 @@ class CustomerType extends AbstractType
                 ->add('address', TextType::class)
                 ->add('zipcode',TextType::class)
                 ->add('city', TextType::class)
-                ->add('birthdate', BirthdayType::class)
+                ->add('birthdate', BirthdayType::class, array(
+                    'attr' => array('class' => 'datepicker')
+                ))
                 ->add('user', UserRegisterType::class, array(
                     //'constraints' => array(new Valid()),
                     'error_bubbling' => true
