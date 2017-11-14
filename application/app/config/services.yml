@@ -42,3 +42,7 @@ services:
 
     AppBundle\Manager\CustomerManager:
         public: true
+
+    AppBundle\Event\Listener\LoginListener:
+            tags:
+                - { name: kernel.event_listener, event: kernel.request}
