@@ -1,0 +1,60 @@
+<div id="navbar">
+
+    <nav class="navbar navbar-ct-primary" role="navigation">
+
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+
+                    <span class="sr-only">Toggle navigation</span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+
+                </button>
+
+                <a class="navbar-brand" href="#">{{ app_name }}</a>
+
+            </div>
+
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav">
+
+                    <li><a href="{{ path('login') }}"><i class="fa fa-sign-in"></i> {{ 'menu.login' | trans }}</a></li>
+
+                    <li><a href="{{ path('register') }}"><i class="fa fa-unlock"></i> {{ 'menu.register' | trans }}</a></li>
+
+                    <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i> {{ 'menu.home' | trans }}</a></li>
+
+                    <li class="dropdown">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ 'menu.account' | trans}} <b class="caret"></b></a>
+
+                        <ul class="dropdown-menu">
+
+                            <li><a href="#"><i class="fa fa-id-card-o"></i> {{ 'menu.profile' | trans }}</a></li>
+
+                            <li class="divider"></li>
+
+                            <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out"></i> {{ 'menu.logout' | trans }}</a></li>
+
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+
+        </div><!-- /.container-fluid -->
+
+    </nav>
+
+</div><!--  end navbar -->
