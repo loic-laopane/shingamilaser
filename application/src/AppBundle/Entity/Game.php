@@ -42,13 +42,6 @@ class Game
      */
     private $endedAt;
 
-    /**
-     * @var CustomerGame
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerGame", mappedBy="game")
-     */
-    private $customerGame;
-
 
     /**
      * Get id
@@ -136,40 +129,6 @@ class Game
      */
     public function __construct()
     {
-        $this->customerGame = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add customerGame
-     *
-     * @param \AppBundle\Entity\CustomerGame $customerGame
-     *
-     * @return Game
-     */
-    public function addCustomerGame(\AppBundle\Entity\CustomerGame $customerGame)
-    {
-        $this->customerGame[] = $customerGame;
-
-        return $this;
-    }
-
-    /**
-     * Remove customerGame
-     *
-     * @param \AppBundle\Entity\CustomerGame $customerGame
-     */
-    public function removeCustomerGame(\AppBundle\Entity\CustomerGame $customerGame)
-    {
-        $this->customerGame->removeElement($customerGame);
-    }
-
-    /**
-     * Get customerGame
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCustomerGame()
-    {
-        return $this->customerGame;
+        //$this->customerGame = new \Doctrine\Common\Collections\ArrayCollection();
     }
 }

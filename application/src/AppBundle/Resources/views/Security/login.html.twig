@@ -4,8 +4,8 @@
 
 {% block body %}
 <h1>Welcome to the Security:login page</h1>
-    {% if errors %}
-        <div>{{ errors.messageKey|trans(errors.messageData, 'security') }}</div>
+    {% if errors_login %}
+        <div>{{ errors_login.messageKey|trans(errors_login.messageData, 'security') }}</div>
     {% endif %}
 
     <form action="{{ path('login') }}" method="post">

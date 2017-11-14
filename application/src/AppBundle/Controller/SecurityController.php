@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Customer;
 use AppBundle\Form\CustomerType;
+use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,16 +21,17 @@ class SecurityController extends Controller
         $errors = $authenticationUtils->getLastAuthenticationError();
 
         $lastUsername = $authenticationUtils->getLastUsername();
+
         return $this->render('AppBundle:Security:login.html.twig', array(
             'last_username' => $lastUsername,
-            'errors' => $errors
+            'errors_login' => $errors
         ));
     }
 
     /**
      * @Route("/register", name="register")
      */
-    public function registerAction(Request $request, ObjectManager $manager)
+    public function registerAction(Request $request, CustomerManager $customerManager)
     {
         $customer = new Customer();
         $form = $this->createForm(CustomerType::class, $customer);
@@ -37,8 +39,9 @@ class SecurityController extends Controller
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $manager->persist($customer);
-            $manager->flush();
+            $customerManager->register($customer);
+
+            //Todo : A ajouter a un evenement
             $this->addFlash('success', 'registration.success');
             return $this->redirectToRoute('login');
         }

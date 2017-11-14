@@ -112,14 +112,7 @@ class Customer
      */
     //private $customerOffer;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->customerGame = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->customerOffer = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
     
     /**
      * Get id
@@ -347,72 +340,4 @@ class Customer
         return $this->user;
     }
 
-
-    /**
-     * Add customerGame
-     *
-     * @param \AppBundle\Entity\CustomerGame $customerGame
-     *
-     * @return Customer
-     */
-    public function addCustomerGame(\AppBundle\Entity\CustomerGame $customerGame)
-    {
-        $this->customerGame[] = $customerGame;
-
-        return $this;
-    }
-
-    /**
-     * Remove customerGame
-     *
-     * @param \AppBundle\Entity\CustomerGame $customerGame
-     */
-    public function removeCustomerGame(\AppBundle\Entity\CustomerGame $customerGame)
-    {
-        $this->customerGame->removeElement($customerGame);
-    }
-
-    /**
-     * Get customerGame
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCustomerGame()
-    {
-        return $this->customerGame;
-    }
-
-    /**
-     * Add customerOffer
-     *
-     * @param \AppBundle\Entity\CustomerOffer $customerOffer
-     *
-     * @return Customer
-     */
-    public function addCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
-    {
-        $this->customerOffer[] = $customerOffer;
-
-        return $this;
-    }
-
-    /**
-     * Remove customerOffer
-     *
-     * @param \AppBundle\Entity\CustomerOffer $customerOffer
-     */
-    public function removeCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
-    {
-        $this->customerOffer->removeElement($customerOffer);
-    }
-
-    /**
-     * Get customerOffer
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCustomerOffer()
-    {
-        return $this->customerOffer;
-    }
 }
