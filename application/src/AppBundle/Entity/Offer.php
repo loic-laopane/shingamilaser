@@ -46,7 +46,7 @@ class Offer
     /**
      * @var CustomerOffer
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerOffer", mappedBy="offer")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerOffer")
      */
     private $customerOffer;
 

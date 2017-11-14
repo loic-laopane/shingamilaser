@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Customer
@@ -25,6 +26,9 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
+     * @Assert\NotBlank(
+     *     message="The field firstname is required"
+     * )
      */
     private $firstname;
 
@@ -32,6 +36,9 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255)
+     * @Assert\NotBlank(
+     *     message="The field lastname is required"
+     * )
      */
     private $lastname;
 
@@ -40,6 +47,9 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="nickname", type="string", length=255)
+     * @Assert\NotBlank(
+     *     message="The field nickname is required"
+     * )
      */
     private $nickname;
 
@@ -81,8 +91,10 @@ class Customer
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="User is required")
+     * @Assert\Valid()
      */
     private $user;
 
@@ -91,14 +103,14 @@ class Customer
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerGame", mappedBy="customer")
      */
-    private $customerGame;
+    //private $customerGame;
 
     /**
      * @var CustomerOffer
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerOffer", mappedBy="customer")
      */
-    private $customerOffer;
+    //private $customerOffer;
 
     /**
      * Constructor
@@ -106,6 +118,7 @@ class Customer
     public function __construct()
     {
         $this->customerGame = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->customerOffer = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**

@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -10,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -25,6 +27,9 @@ class User
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
+     * @Assert\NotBlank(
+     *     message="The field username is required"
+     * )
      */
     private $username;
 
@@ -32,6 +37,13 @@ class User
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
+     * @Assert\NotBlank(
+     *     message="The field password is required"
+     * )
+     * @Assert\Length(
+     *     min="4",
+     *     minMessage="Password must contain {{ limit }} characters"
+     * )
      */
     private $password;
 
@@ -39,6 +51,12 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\NotBlank(
+     *     message="The field email is required"
+     * )
+     * @Assert\Email(
+     *     message="The field email must be a valid email"
+     * )
      */
     private $email;
 
@@ -62,6 +80,19 @@ class User
      * @ORM\Column(name="roles", type="array")
      */
     private $roles;
+
+
+    /**
+     * @var string
+     */
+    private $salt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->active = true;
+        $this->setRoles(['ROLE_USER']);
+    }
 
 
     /**
@@ -216,6 +247,32 @@ class User
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+        return $this;
+    }
+
+    /**
+     *
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
 

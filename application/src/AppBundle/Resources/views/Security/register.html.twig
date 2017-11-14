@@ -1,0 +1,11 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Security:register{% endblock %}
+
+{% block body %}
+<h1>{{ 'registration' | trans | title }}</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+        <button type="submit" formnovalidate>{{ 'btn.register' | trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}
