@@ -42,22 +42,6 @@ class Offer
      */
     private $expiredAt;
 
-
-    /**
-     * @var CustomerOffer
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerOffer", mappedBy="offer")
-     */
-    private $customerOffer;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->customerOffer = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
     /**
      * Get id
      *
@@ -140,37 +124,4 @@ class Offer
         return $this->expiredAt;
     }
 
-    /**
-     * Add customerOffer
-     *
-     * @param \AppBundle\Entity\CustomerOffer $customerOffer
-     *
-     * @return Offer
-     */
-    public function addCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
-    {
-        $this->customerOffer[] = $customerOffer;
-
-        return $this;
-    }
-
-    /**
-     * Remove customerOffer
-     *
-     * @param \AppBundle\Entity\CustomerOffer $customerOffer
-     */
-    public function removeCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
-    {
-        $this->customerOffer->removeElement($customerOffer);
-    }
-
-    /**
-     * Get customerOffer
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCustomerOffer()
-    {
-        return $this->customerOffer;
-    }
 }
