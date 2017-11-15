@@ -1,0 +1,58 @@
+{% extends "AppBundle:Account:account.layout.html.twig" %}
+
+{% block title %}{{ parent() }} > {{ 'Add card' | trans }}{% endblock %}
+
+{% block content %}
+    <h1>{{ 'Your card' | trans }}</h1>
+    <legend></legend>
+    <div class="col-md-8">
+    <div class="fidelity-card">
+        <div class="block-left">
+            <div class="qrcode" id="qrcode"></div>
+            <div class="code">
+                {{ card.numero }}
+            </div>
+        </div>
+        <div class="block-right">
+            <div class="card-title">{{ app_name }}</div>
+            <div class="card-identity">
+                <div class="row">
+                    <div class="col-sm-7">Lastname :</div>
+                    <div class="col-sm-5 text-info">{{ card.customer.lastname }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-7">Firstname :</div>
+                    <div class="col-sm-5 text-info">{{ card.customer.firstname }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7">Card number :</div>
+                    <div class="col-sm-5 text-info">{{ card.numero }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-7">Activated at :</div>
+                    <div class="col-sm-5 text-info">{{ card.activatedAt | date('d/m/Y') }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            Delivered by {{ card.center.name }}
+        </div>
+
+    </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('dist/qrcode/qrcode.min.js') }}"></script>
+    <script type="text/javascript">
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width : 100,
+            height : 100
+        });
+
+        qrcode.makeCode({{ card.numero }});
+    </script>
+
+{% endblock %}

@@ -5,4 +5,9 @@
 {% block content %}
     <h1>{{ 'Show offers' | trans }}</h1>
     <legend></legend>
+    {% for offer in offers %}
+        <li>{{ offer.title }}</li>
+    {% else %}
+        <p>No offer available</p>
+    {% endfor %}
 {% endblock %}

@@ -5,6 +5,10 @@
 {% block content %}
     <h1>{{ 'Add card' | trans }}</h1>
     <legend></legend>
+    <div class="jumbotron">
+        <p>Attach a card to your account</p>
+    </div>
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn btn-primary btn-fill">{{ 'btn.attach' | trans }}</button>

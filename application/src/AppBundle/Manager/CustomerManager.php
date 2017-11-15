@@ -8,9 +8,12 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityRepository;
 
 class CustomerManager
 {
@@ -25,7 +28,7 @@ class CustomerManager
     private $userManager;
 
     /**
-     * @var
+     * @var EntityRepository
      */
     private $repository;
 
@@ -66,5 +69,20 @@ class CustomerManager
     public function getCustomerByUser(User $user)
     {
         return $this->repository->findOneByUser($user);
+    }
+
+    /**
+     * Get all cards of one customer
+     * @param Customer $customer
+     * @return ArrayCollection
+     */
+    public function getCustomerCards(Customer $customer)
+    {
+        $cards = $this->manager->getRepository(Card::class)->findByCustomer($customer);
+        if(null === $cards)
+        {
+            $cards = new ArrayCollection();
+        }
+        return $cards;
     }
 }

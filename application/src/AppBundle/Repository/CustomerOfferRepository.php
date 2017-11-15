@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Customer;
+
 /**
  * CustomerOfferRepository
  *
@@ -10,4 +12,19 @@ namespace AppBundle\Repository;
  */
 class CustomerOfferRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Get all offers of one customer
+     * @param Customer $customer
+     */
+    public function findCustomerOffers(Customer $customer)
+    {
+        $this->createQueryBuilder('co')
+            ->join('co.offer', 'o')
+            ->select('co, o')
+            ->where('co.customer = :customer')->setParameter('customer', $customer)
+            ->orderBy('co.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
 }
