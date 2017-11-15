@@ -12,6 +12,7 @@ use AppBundle\Form\UserAccountType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
@@ -23,6 +24,7 @@ class AccountController extends Controller
      * @param $objectManager ObjectManager
      * @param $customerManager CustomerManager
      * @Route("/account/show", name="account_show")
+     * @Method({"GET"})
      */
     public function showAction(ObjectManager $objectManager, CustomerManager $customerManager)
     {
