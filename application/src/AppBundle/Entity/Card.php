@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Card
@@ -60,10 +61,18 @@ class Card
     /**
      * @var Customer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer", inversedBy="cards")
      * @ORM\JoinColumn(nullable=true)
      */
     private $customer;
+
+    /**
+     * @var string
+     * @ORM\Column(name="numero", type="string", length=10)
+     * @Assert\NotBlank()
+     * @Assert\Regex("/\d{10}/", message="This value must have 10 digits")
+     */
+    private $numero;
 
 
     /**
@@ -86,6 +95,7 @@ class Card
     public function setCode($code)
     {
         $this->code = $code;
+        $this->hydrateNumero();
 
         return $this;
     }
@@ -110,6 +120,7 @@ class Card
     public function setChecksum($checksum)
     {
         $this->checksum = $checksum;
+        $this->hydrateNumero();
 
         return $this;
     }
@@ -182,6 +193,7 @@ class Card
     public function setCenter(\AppBundle\Entity\Center $center = null)
     {
         $this->center = $center;
+        $this->hydrateNumero();
 
         return $this;
     }
@@ -218,5 +230,49 @@ class Card
     public function getCustomer()
     {
         return $this->customer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * @param mixed $numero
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * @return Customer
+     */
+    public function hasOwner()
+    {
+        return $this->getCustomer();
+    }
+
+    /**
+     * @return string
+     */
+    private function generateNumero()
+    {
+        return $this->getCenter()->getCode().$this->getCode().$this->getChecksum();
+    }
+
+    /**
+     * Set Numero with generated numero
+     * @return $this
+     */
+    private function hydrateNumero()
+    {
+        $this->setNumero($this->generateNumero());
+        return $this;
     }
 }

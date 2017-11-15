@@ -3,9 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Customer;
-use AppBundle\Form\CustomerType;
+use AppBundle\Form\CustomerRegisterType;
 use AppBundle\Manager\CustomerManager;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,7 +33,7 @@ class SecurityController extends Controller
     public function registerAction(Request $request, CustomerManager $customerManager)
     {
         $customer = new Customer();
-        $form = $this->createForm(CustomerType::class, $customer);
+        $form = $this->createForm(CustomerRegisterType::class, $customer);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())

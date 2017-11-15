@@ -11,29 +11,37 @@
         <link rel="stylesheet" href="{{ asset('dist/bootstrap3/css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('dist/font-awesome/css/font-awesome.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('dist/paperkit/css/ct-paper.css') }}" />
+        <link rel="stylesheet" href="{{ asset('dist/paperkit/css/demo.css') }}" />
 
 
         <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 
+
+        <link rel="stylesheet" href="{{ asset('styles/css/styles.css') }}" />
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% set errors = app.session.flashbag.all() %}
-        {% for type, messages in errors %}
-            <div class="alert alert-{{ type }}">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endfor %}
+
 
         {% include '::menu.html.twig' %}
         <div class="wrapper">
+            {% block jobotron %}{% endblock %}
             <div class="main">
                 <div class="container">
-                    {% block body %}{% endblock %}
+                        <div class="row">
+                            {% set errors = app.session.flashbag.all() %}
+                            {% for type, messages in errors %}
+                                <div class="alert alert-{{ type }}">
+                                    {% for message in messages %}
+                                        <p>{{ message }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+
+                            {% block body %}{% endblock %}
+                        </div>
                 </div>
 
             </div>

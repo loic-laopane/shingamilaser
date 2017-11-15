@@ -1,0 +1,88 @@
+{% extends "AppBundle:Account:account.layout.html.twig" %}
+
+{% block title %}{{ parent() }} > {{ 'Profile' | trans }}{% endblock %}
+
+{% block content %}
+    <h1>{{ 'Profile' | trans }}</h1>
+    <legend></legend>
+    <div class="jumbotron">
+       <p>Access to your personal informations</p>
+    </div>
+
+    <div class="nav-tabs-navigation" style="text-align: left">
+        <div class="nav-tabs-wrapper">
+            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                <li class="active"><a href="#infos" data-toggle="tab">Information</a></li>
+                <li><a href="#cards" data-toggle="tab">Fidelity cards</a></li>
+                <li><a href="#offers" data-toggle="tab">Offers</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="infos">
+                <div class="row">
+                    <div class="col-sm-3">Nickname</div>
+                    <div class="col-sm-9 text-info">{{ customer.nickname }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">Firstname</div>
+                    <div class="col-sm-9 text-info">{{ customer.firstname }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">Lastname</div>
+                    <div class="col-sm-9 text-info">{{ customer.lastname }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">Address</div>
+                    <div class="col-sm-9 text-info">
+                        {{ customer.address }}
+                        {% if customer.zipcode %}, {{ customer.zipcode }}{% endif %}
+                        {{ customer.city }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">Birthdate</div>
+                    <div class="col-sm-9 text-info">{{ customer.birthdate | date('d/m/Y') }}</div>
+                </div>
+            <hr>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-fill" onclick="window.location.href='{{ path('account_profile_edit') }}'">{{ 'btn.edit_profile' | trans }}</button>
+                </div>
+        </div>
+        <div class="tab-pane" id="cards">
+            {% if cards | length > 0 %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Card number</th>
+                            <th>Activated at</th>
+                            <th>Center</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                {% for card in cards %}
+                    <tr>
+                        <td><a href="{{ path('account_card_show', { 'id' : card.id }) }}">{{ card.numero }}</a></td>
+                        <td>{{ card.activatedAt | date('d/m/Y') }}</td>
+                        <td>{{ card.center.name }}</td>
+                        <td>{{ card.active }}</td>
+                    </tr>
+                {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No card available</p>
+            {% endif %}
+        </div>
+        <div class="tab-pane" id="offers">
+            {% for offer in offers %}
+                <li>{{ offer.title }}</li>
+            {% else %}
+                <p>No offer available</p>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
