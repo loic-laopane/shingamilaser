@@ -2,10 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
+use AppBundle\Entity\CustomerOffer;
 use AppBundle\Entity\User;
 use AppBundle\Form\CustomerAccountType;
+use AppBundle\Form\CustomerAddCardType;
 use AppBundle\Form\UserAccountType;
+use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\UserManager;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -69,20 +73,35 @@ class AccountController extends Controller
     /**
      * @Route("/account/cards/add", name="account_card_add")
      */
-    public function addCardAction()
+    public function addCardAction(Request $request, CustomerManager $customerManager, CardManager $cardManager)
     {
+
+        $customer = $customerManager->getCustomerByUser($this->getUser());
+        $empty_card = new Card();
+        $form = $this->createForm(CustomerAddCardType::class, $empty_card);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $cardManager->rattach($empty_card->getNumero(), $customer);
+        }
         return $this->render('AppBundle:Account:add_card.html.twig', array(
-            // ...
+            'form' => $form->createView()
         ));
     }
 
     /**
      * @Route("/account/offers", name="account_offers_show")
      */
-    public function showOffersAction()
+    public function showOffersAction(ObjectManager $objectManager, CustomerManager $customerManager)
     {
+        /*
+        $customer = $customerManager->getCustomerByUser($this->getUser());
+        $offers = $this->getDoctrine()->getRepository(CustomerOffer::class)->findByCustomer($customer);
+        */
         return $this->render('AppBundle:Account:show_offers.html.twig', array(
-            // ...
+
         ));
     }
 

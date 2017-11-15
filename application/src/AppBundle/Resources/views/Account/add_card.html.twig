@@ -5,5 +5,9 @@
 {% block content %}
     <h1>{{ 'Add card' | trans }}</h1>
     <legend></legend>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary btn-fill">{{ 'btn.attach' | trans }}</button>
+    {{ form_end(form) }}
 {% endblock %}
 
