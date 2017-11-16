@@ -5,7 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Form\UserEditType;
 use AppBundle\Form\UserType;
+use AppBundle\Manager\UserManager;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +17,8 @@ class UserController extends Controller
 {
     /**
      * @Route("/admin/users", name="admin_user_list")
+     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Method({"GET"})
      */
     public function listAction(ObjectManager $objectManager)
     {
@@ -25,8 +30,10 @@ class UserController extends Controller
 
     /**
      * @Route("/admin/user/create", name="admin_user_create")
+     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Method({"GET","POST"})
      */
-    public function createAction(Request $request, ObjectManager $objectManager)
+    public function createAction(Request $request, UserManager $userManager)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -34,12 +41,12 @@ class UserController extends Controller
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $objectManager->persist($user);
-            $objectManager->flush();
-            $this->addFlash('success', 'User created');
-            return $this->redirectToRoute('admin_user_edit', array(
-                'id' => $user->getId()
-            ));
+            if($userManager->insert($user))
+            {
+                return $this->redirectToRoute('admin_user_edit', array(
+                    'id' => $user->getId()
+                ));
+            }
         }
 
         return $this->render('AppBundle:Admin:User/store.html.twig', array(
@@ -49,6 +56,8 @@ class UserController extends Controller
 
     /**
      * @Route("/admin/user/{id}/edit", name="admin_user_edit")
+     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, User $user, ObjectManager $objectManager)
     {
@@ -68,19 +77,12 @@ class UserController extends Controller
 
     /**
      * @Route("/admin/user/{id}/delete", name="admin_user_delete")
+     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Method({"GET"})
      */
-    public function deleteAction($id, ObjectManager $objectManager)
+    public function deleteAction($id, UserManager $userManager)
     {
-        $user = $objectManager->getRepository(User::class)->find($id);
-        if (null === $user){
-           $this->addFlash('danger', 'User doesn\'t exist');
-        }
-        else {
-            $username = $user->getUsername();
-            $objectManager->remove($user);
-            $objectManager->flush();
-            $this->addFlash('success', 'User '.$username.' has been deleted');
-        }
+        $userManager->delete($id);
         return $this->redirectToRoute('admin_user_list');
     }
 

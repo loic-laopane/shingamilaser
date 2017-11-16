@@ -5,8 +5,8 @@
     <div class="col-md-2">
         <div class="fixed-section">
             <div class="list-group ">
-                <a href="{{ path('admin_user_list') }}" class="list-group-item{{ current_path matches '{^admin_user}'  ? ' list-group-item-info' }}">Users</a>
-                {#<a href="{{ path('admin_center_list') }}" class="list-group-item{{ current_path == 'admin_center_list' ? ' list-group-item-info' }}">Centers</a>#}
+                <a href="{{ path('admin_user_list') }}" class="list-group-item{{ current_path matches '{^admin_user}'  ? ' list-group-item-info' }}"><i class="fa fa-users"></i> Users</a>
+                <a href="{{ path('admin_center_list') }}" class="list-group-item{{ current_path matches '{^admin_center}' ? ' list-group-item-info' }}"><i class="fa fa-industry"></i> Centers</a>
                 {#<a href="{{ path('account_offers_show') }}">Show offers</a>#}
             </div>
         </div>

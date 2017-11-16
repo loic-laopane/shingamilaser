@@ -3,20 +3,21 @@
 {% block title %}AppBundle:User:list{% endblock %}
 
 {% block content %}
-<h1>Users list</h1>
-    {% if users | length > 0 %}
+<h1>Centers list</h1>
+    {% if centers | length > 0 %}
         <table class="table">
             <thead>
                 <tr>
-                    <th>Username</th>
-                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>City</th>
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                {% for center in centers %}
                     <tr>
-                        <td><a href="{{ path('admin_user_edit', { id : user.id }) }}">{{ user.username }}</a></td>
-                        <td>{{ user.email }}</td>
+                        <td><a href="{{ path('admin_center_edit', { id : center.id }) }}">{{ center.name }}</a></td>
+                        <td>{{ center.code }}</td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -25,9 +26,9 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_user_edit', { 'id' : user.id }) }}"><i class="fa fa-edit"></i> {{ 'btn-edit' | trans }}</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_center_edit', { 'id' : center.id }) }}"><i class="fa fa-edit"></i> {{ 'btn-edit' | trans }}</a></li>
 
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_user_delete', { 'id' : user.id }) }}"><i class="fa fa-trash"></i> {{ 'btn-delete' }}</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_center_delete', { 'id' : center.id }) }}"><i class="fa fa-trash"></i> {{ 'btn-delete' }}</a></li>
 
                                 </ul>
 
@@ -38,5 +39,5 @@
             </tbody>
         </table>
     {% endif %}
-    <button class="btn btn-success btn-fill btn-action" data-href="{{ path('admin_user_create') }}">{{ 'btn.create' | trans }}</button>
+    <button class="btn btn-success btn-fill btn-action" data-href="{{ path('admin_center_create') }}">{{ 'btn.create' | trans }}</button>
 {% endblock %}

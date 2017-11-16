@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Center
@@ -25,7 +27,15 @@ class Center
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=3)
+     * @ORM\Column(name="code", type="string", length=3, unique=true)
+     * @Assert\NotBlank(
+     *     message="Code is required"
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d{3}/",
+     *     match=true,
+     *     message="Code must contain 3 digits"
+     * )
      */
     private $code;
 
@@ -33,6 +43,10 @@ class Center
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(
+     *     message="Code is required"
+     * )
+     *
      */
     private $name;
 
@@ -47,6 +61,12 @@ class Center
      * @var string
      *
      * @ORM\Column(name="zipcode", type="string", length=5, nullable=true)
+     * @Assert\Length(
+     *     min="5",
+     *     max="5",
+     *     minMessage="Zip code must have {{ limit }} digits",
+     *     maxMessage="Zip code must have {{ limit }} digits",
+     * )
      */
     private $zipcode;
 
@@ -54,6 +74,15 @@ class Center
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     *     message="Code is required"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^\d/",
+     *     match=false,
+     *     message="City cannot contain digits"
+     *
+     * )
      */
     private $city;
 
