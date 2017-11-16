@@ -1,0 +1,12 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Create new Game{% endblock %}
+
+{% block body %}
+<h1>Create new game</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary btn-fill" formnovalidate>{{ 'btn.create.game' | trans }}</button>
+    {{ form_end(form) }}
+    </form>
+{% endblock %}

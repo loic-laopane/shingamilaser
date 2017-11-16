@@ -1,0 +1,13 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Game:edit{% endblock %}
+
+{% block body %}
+<h1>Edit game</h1>
+    {{ game.title }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary btn-fill" formnovalidate>{{ 'btn.edit.game' | trans }}</button>
+    {{ form_end(form) }}
+    </form>
+{% endblock %}
