@@ -1,0 +1,12 @@
+{% extends "AppBundle:Admin:layout.html.twig" %}
+
+{% block title %}AppBundle:User:edit{% endblock %}
+
+{% block content %}
+<h1>{% if user is defined %}Edit user {{ user.username }}{% else %}New User{% endif %}</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary btn-fill" type="submit">{{ 'btn.save' | trans }}</button>
+    <button class="btn btn-default btn-action" data-href="{{ path('admin_user_list') }}">{{ 'btn.return' | trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}
