@@ -32,7 +32,7 @@ class CenterController extends Controller
      * @Security("has_role('ROLE_SUPERADMIN')")
      * @Method({"GET", "POST"})
      */
-    public function createAction(Request $request, ObjectManager $objectManager, CenterManager $centerManager)
+    public function createAction(Request $request, CenterManager $centerManager)
     {
         $center = new Center();
         $form = $this->createForm(CenterType::class, $center);

@@ -65,6 +65,10 @@ class UserManager
         return $this->repository->findOneByUsername($user->getUsername());
     }
 
+    /**
+     * @param User $user
+     * @return mixed
+     */
     public function mailExists(User $user)
     {
         return $this->repository->findOneByEmail($user->getEmail());
