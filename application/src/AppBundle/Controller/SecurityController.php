@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Customer;
 use AppBundle\Form\CustomerRegisterType;
 use AppBundle\Manager\CustomerManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +48,18 @@ class SecurityController extends Controller
 
         return $this->render('AppBundle:Security:register.html.twig', array(
             'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/admin", name="admin")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Security("has_role('ROLE_SUPERADMIN')")
+     */
+    public function adminAction()
+    {
+        return $this->render('AppBundle:Security:admin.html.twig', array(
+
         ));
     }
 

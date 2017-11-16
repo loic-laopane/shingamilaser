@@ -35,21 +35,25 @@
                         <li><a href="{{ path('register') }}"><i class="fa fa-unlock"></i> {{ 'menu.register' | trans }}</a></li>
                     {% else %}
 
-                    <li class="dropdown">
+                        <li class="dropdown">
 
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ 'menu.account' | trans}} <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ 'menu.account' | trans}} <b class="caret"></b></a>
 
-                        <ul class="dropdown-menu">
+                            <ul class="dropdown-menu">
 
-                            <li><a href="{{ path('account_show') }}"><i class="fa fa-id-card-o"></i> {{ 'menu.profile' | trans }}</a></li>
+                                <li><a href="{{ path('account_show') }}"><i class="fa fa-id-card-o"></i> {{ 'menu.profile' | trans }}</a></li>
 
-                            <li class="divider"></li>
+                                <li class="divider"></li>
 
-                            <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out"></i> {{ 'menu.logout' | trans }}</a></li>
+                                <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out"></i> {{ 'menu.logout' | trans }}</a></li>
 
-                        </ul>
+                            </ul>
 
-                    </li>
+                        </li>
+
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            <li><a href="{{ path('admin') }}"><i class="fa fa-lock"></i> {{ 'menu.admin' | trans }}</a></li>
+                        {% endif %}
                     {% endif %}
 
                 </ul>
