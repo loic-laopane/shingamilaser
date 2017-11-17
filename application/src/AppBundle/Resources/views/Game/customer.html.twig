@@ -1,0 +1,24 @@
+
+<div class="panel panel-info">
+    <div class="panel-heading">Customer</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">N° :</div>
+            <div class="col-md-8">{{ card.numero }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">Nickname :</div>
+            <div class="col-md-8">{{ card.customer.nickname }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+                <form action="{{ path('game_add_user', { 'id' : card.id }) }}" method="POST">
+                    <input type="hidden" name="numero" value="{{ card.numero }}">
+                    <button class="btn btn-primary btn-fill">{{ 'btn.add' | trans }}</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -85,4 +85,10 @@ class CardManager
         return $this;
     }
 
+    public function search($numero)
+    {
+       return $this->repository->findOneByNumero($numero);
+    }
+
+
 }

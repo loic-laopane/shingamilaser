@@ -69,7 +69,16 @@ class GameManager
         $this->manager->flush();
 
         $this->session->getFlashBag()->add('success', 'Game '.$title.' has been deleted');
-
+        return true;
     }
+
+    /**
+     *
+     */
+    public function getList()
+    {
+        return $this->repository->findAll();
+    }
+
 
 }

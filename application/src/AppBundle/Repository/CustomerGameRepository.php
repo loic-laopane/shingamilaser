@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Game;
 
 /**
  * CustomerGameRepository
@@ -10,4 +11,16 @@ namespace AppBundle\Repository;
  */
 class CustomerGameRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getCustomersByGame(Game $game)
+    {
+        return $this->createQueryBuilder('cg')
+            ->join('cg.customer', 'c')
+            ->select('cg, c')
+            ->where('cg.game = :game')
+            ->setParameter('game', $game)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }
