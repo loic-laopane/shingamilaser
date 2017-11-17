@@ -16,7 +16,7 @@
             <tbody>
                 {% for game in games %}
                     <tr>
-                        <td><a href="{{ path('game_add_user', { id : game.id }) }}">{{ game.title }}</a></td>
+                        <td><a href="{{ path('game_edit', { id : game.id }) }}">{{ game.title }}</a></td>
                         <td>{{ game.startedAt is not null ? game.endedAt | date('d/m/Y H:i') : game.startedAt }}</td>
                         <td>{{ game.endedAt is not null ? game.endedAt | date('d/m/Y H:i') : game.endedAt }}</td>
                         <td>

@@ -52,12 +52,12 @@ class GameController extends Controller
 
     /**
      * @Route("/manage/game/{id}/edit", name="game_edit")
+     *
      */
     public function editAction(Game $game, Request $request)
     {
-        $customerGame = new CustomerGame();
-        $customerGame->setGame($game);
-        $form = $this->createForm(CustomerGameType::class, $customerGame);
+
+        $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
         return $this->render('AppBundle:Game:edit.html.twig', array(
             'form' => $form->createView(),
@@ -69,6 +69,7 @@ class GameController extends Controller
     /**
      * @param Request $request
      * @Route("/manage/game/{id}/manage", name="game_manage")
+     * @Method({"GET"})
      */
     public function manageAction(Game $game, CustomerGameManager $customerGameManager)
     {

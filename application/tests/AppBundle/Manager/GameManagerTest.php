@@ -34,10 +34,7 @@ class GameManagerTest extends TestCase
 
         $this->entity = $this->createMock(Game::class);
 
-
-
         $this->objectManager = $this->createMock(ObjectManager::class);
-
 
         $this->encoder = $this->getMockBuilder(UserPasswordEncoderInterface::class)->getMock();
         $nativeSessionStorage = $this->createMock(NativeSessionStorage::class);
