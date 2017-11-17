@@ -65,6 +65,15 @@ class GameController extends Controller
         ));
     }
 
+    /**
+     * @Route("/manage/game/{id}/record", name="game_record")
+     *
+     */
+    public function recordAction(Game $game, GameManager $gameManager)
+    {
+        $gameManager->record($game);
+        return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
+    }
 
     /**
      * @param Request $request

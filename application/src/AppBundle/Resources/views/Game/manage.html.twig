@@ -4,7 +4,23 @@
 
 {% block body %}
     <h1>Game : {{ game.title }}</h1>
-     <div id="errors"></div>
+    <div id="errors"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{{ path('game_record', { 'id' : game.id }) }}">
+                {% if game.startedAt is null %}
+                    <button class="btn btn-success btn-fill"><i class="fa fa-play"></i> {{ 'btn.start.game' | trans }}</button>
+                {% else %}
+                    {% if game.endedAt is null %}
+                        <button class="btn btn-danger btn-fill"><i class="fa fa-pause"></i> {{ 'btn.end.game' | trans }}</button>
+                    {% endif %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    {% if game.endedAt is null %}
+    <hr>
     <div class="row">
         <div class="col-md-6">
             {{ form_start(form, { 'attr' : {'id':'form_search', 'action' : path('game_search') }}) }}
@@ -14,21 +30,21 @@
 
         </div>
         <div class="col-md-6" id="response"></div>
-
     </div>
-
+    {% endif %}
 
     <div class="row">
         <hr>
-    <h2>Players</h2>
+        <h2>Players</h2>
         {% if customersGame | length > 0 %}
-
             <table class="table">
                 <thead>
                     <tr>
                         <th>Player</th>
                         <th>Score</th>
+                        {% if game.startedAt is null %}
                         <th>Actions</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -36,11 +52,13 @@
                         <tr>
                             <td>{{ customerGame.customer.nickname }}</td>
                             <td>{{ customerGame.score }}</td>
+                            {% if game.startedAt is null %}
                             <td>
                                 <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
                                     <button class="btn btn-danger btn-fill"><i class="fa fa-minus"></i> {{ 'btn.remove' }}</button>
                                 </form>
                             </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>

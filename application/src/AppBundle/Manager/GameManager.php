@@ -72,6 +72,20 @@ class GameManager
         return true;
     }
 
+    public function record(Game $game)
+    {
+        $now = new \DateTime();
+        if(null !== $game->getStartedAt()) {
+            $game->setEndedAt($now);
+        }
+        else {
+            $game->setStartedAt($now);
+        }
+
+        $this->manager->flush();
+        return $this;
+    }
+
     /**
      *
      */
