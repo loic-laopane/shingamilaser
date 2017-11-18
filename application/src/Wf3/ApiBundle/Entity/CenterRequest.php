@@ -22,6 +22,7 @@ class CenterRequest
      */
     private $id;
 
+
     /**
      * @var int
      *
@@ -52,7 +53,7 @@ class CenterRequest
 
     /**
      * @var Center
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\Center")
+     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\Center")
      */
     private $center;
 

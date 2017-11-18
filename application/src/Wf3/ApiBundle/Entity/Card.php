@@ -44,7 +44,7 @@ class Card
 
     /**
      * @var CenterRequest
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\CenterRequest")
+     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\CenterRequest")
      */
     private $centerRequest;
 
