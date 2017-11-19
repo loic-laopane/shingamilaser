@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="card")
  * @ORM\Entity(repositoryClass="Wf3\ApiBundle\Repository\CardRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Card
 {
@@ -134,11 +135,11 @@ class Card
     /**
      * Set centerRequest
      *
-     * @param \ApiBundle\Entity\CenterRequest $centerRequest
+     * @param \Wf3\ApiBundle\Entity\CenterRequest $centerRequest
      *
      * @return Card
      */
-    public function setCenterRequest(\ApiBundle\Entity\CenterRequest $centerRequest = null)
+    public function setCenterRequest(CenterRequest $centerRequest = null)
     {
         $this->centerRequest = $centerRequest;
 
@@ -148,10 +149,21 @@ class Card
     /**
      * Get centerRequest
      *
-     * @return \ApiBundle\Entity\CenterRequest
+     * @return \Wf3\ApiBundle\Entity\CenterRequest
      */
     public function getCenterRequest()
     {
         return $this->centerRequest;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function generateNumero()
+    {
+        $baseNumero = $this->getCenterRequest()->getCenter()->getCode().$this->getCode();
+        $splitNumero = str_split($baseNumero);
+        $checksum = array_sum($splitNumero) % 9;
+        $this->setNumero($baseNumero.$checksum);
     }
 }

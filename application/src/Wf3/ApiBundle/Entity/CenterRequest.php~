@@ -22,6 +22,7 @@ class CenterRequest
      */
     private $id;
 
+
     /**
      * @var int
      *
@@ -52,7 +53,7 @@ class CenterRequest
 
     /**
      * @var Center
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\Center")
+     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\Center")
      */
     private $center;
 
@@ -161,5 +162,28 @@ class CenterRequest
     {
         return $this->status;
     }
-}
 
+    /**
+     * Set center
+     *
+     * @param \ApiBundle\Entity\Center $center
+     *
+     * @return CenterRequest
+     */
+    public function setCenter(\ApiBundle\Entity\Center $center = null)
+    {
+        $this->center = $center;
+
+        return $this;
+    }
+
+    /**
+     * Get center
+     *
+     * @return \ApiBundle\Entity\Center
+     */
+    public function getCenter()
+    {
+        return $this->center;
+    }
+}

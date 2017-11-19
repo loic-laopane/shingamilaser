@@ -2,7 +2,6 @@
 
 namespace Wf3\ApiBundle\Entity;
 
-use AppBundle\Entity\Center;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -166,11 +165,11 @@ class CenterRequest
     /**
      * Set center
      *
-     * @param \ApiBundle\Entity\Center $center
+     * @param Center $center
      *
      * @return CenterRequest
      */
-    public function setCenter(\ApiBundle\Entity\Center $center = null)
+    public function setCenter(\Wf3\ApiBundle\Entity\Center $center = null)
     {
         $this->center = $center;
 
@@ -180,7 +179,7 @@ class CenterRequest
     /**
      * Get center
      *
-     * @return \ApiBundle\Entity\Center
+     * @return Center
      */
     public function getCenter()
     {
