@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ResponseRequest
 {
+    const STATUS_OK = 200;
     /**
      * @var int
      *
@@ -48,6 +49,10 @@ class ResponseRequest
      */
     private $centerRequest;
 
+    public function __construct()
+    {
+        $this->setStatusCode(self::STATUS_OK);
+    }
 
     /**
      * Get id

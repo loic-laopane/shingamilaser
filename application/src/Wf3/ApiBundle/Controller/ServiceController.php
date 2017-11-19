@@ -41,20 +41,21 @@ class ServiceController extends Controller
      */
     public function requestAction(Request $request)
     {
-
+        //Recuperation du manager
         $responseRequestManager = $this->get('api.manager.response_request');
+
+        //Recuperation du serialize
         $serializer = $this->get('jms_serializer');
 
         //Doit contenir un tableau avec le n° du center
         $data = $serializer->deserialize($request->getContent(), 'array', 'json');
+        //On retourne une ResponseRequest
+        $responseRequest = $responseRequestManager->response($data);
 
-        //On cherche le center en base
-        //On retourne une reponse
-        $responseRequest = $responseRequestManager->reponse($data);
+        //Formattage de l'objet ResponseRequest en JSON
+        $jsonResponse = $serializer->serialize($responseRequest, 'json');
 
-        $returnedResponse = $serializer->serialize($responseRequest, 'json');
-
-        $response = new Response($returnedResponse);
+        $response = new Response($jsonResponse);
         $request->headers->set('Content-Type', 'application/json');
         return $response;
     }

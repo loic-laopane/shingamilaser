@@ -49,7 +49,7 @@ class CardManager
      */
     private function createUniqId()
     {
-        return mt_rand(0, 999999);
+        return mt_rand(100000, 999999);
     }
 
 

@@ -31,11 +31,14 @@ class CenterRequestManager
      */
     private $cardManager;
 
+    private $messages;
+
     public function __construct(ObjectManager $objectManager, CardManager $cardManager)
     {
 
         $this->objectManager = $objectManager;
         $this->cardManager = $cardManager;
+        $this->messages = array();
     }
 
     public function checkData(array $data, ResponseRequest $responseRequest)
@@ -46,27 +49,28 @@ class CenterRequestManager
     }
     public function validRequest(array $data)
     {
-        $message = null;
         if(!isset($data['center']))
         {
-            $message .= 'Field Center is required. ';
+           $this->addMessage('Field Center is required');
         }
 
         if(!isset($data['quantity']) || (isset($data['quantity']) && !($data['quantity']))) {
-            $message .= 'Field Quantity is required and must not be null. ';
+            $this->addMessage('Field Quantity is required and must not be null');
         }
-        if(null !== $message)
+
+        $center = $this->findCenter(@$data['center']);
+        if(null === $center)
         {
-            $this->responseRequest->setMessage($message);
-            $this->responseRequest->setStatusCode(400);
+            $this->addMessage('Center code '.@$data['center'].' unknown');
+        }
+
+        if(count($this->messages) > 0) {
+            $this->responseRequest->setMessage(implode('. ', $this->messages));
             return false;
         }
 
-        $center = $this->findCenter($data['center']);
-        if($center)
-        {
-            $this->create($center, $data['quantity']);
-        }
+        $this->create($center, $data['quantity']);
+
     }
 
     public function create(Center $center, $quantity)
@@ -99,6 +103,16 @@ class CenterRequestManager
         {
             $this->cardManager->create($centerRequest);
         }
+        return $this;
+    }
+
+    /**
+     * @param $message
+     * @return $this
+     */
+    private function addMessage($message)
+    {
+        array_push($this->messages, $message);
         return $this;
     }
 }

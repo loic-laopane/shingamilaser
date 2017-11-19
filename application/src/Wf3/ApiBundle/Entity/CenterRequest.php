@@ -56,6 +56,11 @@ class CenterRequest
      */
     private $center;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     /**
      * Get id
      *

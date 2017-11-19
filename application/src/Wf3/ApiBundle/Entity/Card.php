@@ -45,9 +45,14 @@ class Card
 
     /**
      * @var CenterRequest
-     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\CenterRequest")
+     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\CenterRequest", cascade={"persist"})
      */
     private $centerRequest;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
 
     /**

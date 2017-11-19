@@ -23,7 +23,11 @@ class ResponseRequestManager
         $this->centerRequestManager = $centerRequestManager;
     }
 
-    public function reponse(array $data)
+    /**
+     * @param array $data
+     * @return ResponseRequest
+     */
+    public function response(array $data)
     {
         return $this->centerRequestManager->checkData($data, new ResponseRequest());
     }
