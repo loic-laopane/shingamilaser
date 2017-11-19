@@ -3,22 +3,26 @@
 namespace Wf3\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * ResponseRequest
  *
  * @ORM\Table(name="response_request")
  * @ORM\Entity(repositoryClass="Wf3\ApiBundle\Repository\ResponseRequestRepository")
+ * @Serializer\ExclusionPolicy("ALL")
  */
 class ResponseRequest
 {
     const STATUS_OK = 200;
+    const STATUS_BAD_REQUEST = 400;
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private $id;
 
@@ -26,6 +30,7 @@ class ResponseRequest
      * @var string
      *
      * @ORM\Column(name="status_code", type="string", length=3)
+     * @Serializer\Expose()
      */
     private $statusCode;
 
@@ -33,6 +38,7 @@ class ResponseRequest
      * @var string
      *
      * @ORM\Column(name="message", type="string", length=255, nullable=true)
+     * @Serializer\Expose()
      */
     private $message;
 
@@ -40,6 +46,7 @@ class ResponseRequest
      * @var int
      *
      * @ORM\Column(name="request_id", type="integer", nullable=true)
+     * @Serializer\Expose()
      */
     private $requestId;
 
@@ -49,6 +56,9 @@ class ResponseRequest
      */
     private $centerRequest;
 
+    /**
+     * ResponseRequest constructor.
+     */
     public function __construct()
     {
         $this->setStatusCode(self::STATUS_OK);

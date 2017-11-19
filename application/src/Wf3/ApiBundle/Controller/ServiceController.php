@@ -5,11 +5,13 @@ namespace Wf3\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wf3\ApiBundle\Entity\Center;
 use Wf3\ApiBundle\Entity\CenterRequest;
+use Wf3\ApiBundle\Entity\ResponseRequest;
 use Wf3\ApiBundle\Manager\ResponseRequestManager;
 
 class ServiceController extends Controller
@@ -44,19 +46,29 @@ class ServiceController extends Controller
         //Recuperation du manager
         $responseRequestManager = $this->get('api.manager.response_request');
 
-        //Recuperation du serialize
+        //Recuperation du serializer
         $serializer = $this->get('jms_serializer');
 
-        //Doit contenir un tableau avec le n° du center
-        $data = $serializer->deserialize($request->getContent(), 'array', 'json');
-        //On retourne une ResponseRequest
-        $responseRequest = $responseRequestManager->response($data);
+
+        try {
+            //Doit contenir un tableau avec le n° du center
+            $data = $serializer->deserialize($request->getContent(), 'array', 'json');
+            //On retourne une ResponseRequest
+            $responseRequest = $responseRequestManager->response($data);
+        }
+        catch (Exception $exception)
+        {
+            $responseRequest = $responseRequestManager->exception($exception->getMessage());
+        }
 
         //Formattage de l'objet ResponseRequest en JSON
         $jsonResponse = $serializer->serialize($responseRequest, 'json');
 
-        $response = new Response($jsonResponse);
+        //Creation et envoi d'une reponse
+        $response = new Response();
+        $response->setContent($jsonResponse);
         $request->headers->set('Content-Type', 'application/json');
+
         return $response;
     }
 

@@ -10,6 +10,7 @@ namespace Wf3\ApiBundle\Manager;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Wf3\ApiBundle\Entity\Center;
 use Wf3\ApiBundle\Entity\CenterRequest;
 use Wf3\ApiBundle\Entity\ResponseRequest;
@@ -31,8 +32,21 @@ class CenterRequestManager
      */
     private $cardManager;
 
+    /**
+     * @var array
+     */
     private $messages;
 
+    /**
+     * @var array
+     */
+    private $accept = array('center', 'quantity');
+
+    /**
+     * CenterRequestManager constructor.
+     * @param ObjectManager $objectManager
+     * @param CardManager $cardManager
+     */
     public function __construct(ObjectManager $objectManager, CardManager $cardManager)
     {
 
@@ -41,41 +55,51 @@ class CenterRequestManager
         $this->messages = array();
     }
 
+    /**
+     * @param array $data
+     * @param ResponseRequest $responseRequest
+     * @return ResponseRequest
+     */
     public function checkData(array $data, ResponseRequest $responseRequest)
     {
         $this->responseRequest = $responseRequest;
         $this->validRequest($data);
         return $this->responseRequest;
     }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
     public function validRequest(array $data)
     {
-        if(!isset($data['center']))
+        $missing_fields = array_diff($this->accept, array_keys($data));
+        $unknown_fields = array_diff(array_keys($data), $this->accept);
+        foreach($missing_fields as $field)
         {
-           $this->addMessage('Field Center is required');
+            throw new Exception('Field '.$field.' is required');
         }
-
-        if(!isset($data['quantity']) || (isset($data['quantity']) && !($data['quantity']))) {
-            $this->addMessage('Field Quantity is required and must not be null');
-        }
-
-        $center = $this->findCenter(@$data['center']);
-        if(null === $center)
+        foreach($unknown_fields as $field)
         {
-            $this->addMessage('Center code '.@$data['center'].' unknown');
+            throw new Exception('Field '.$field.' is unknown');
         }
 
-        if(count($this->messages) > 0) {
-            $this->responseRequest->setMessage(implode('. ', $this->messages));
-            return false;
+        if(!($data['quantity'])) {
+            throw new Exception('Field Quantity is required and must not be null');
         }
+
+        $center = $this->findCenter($data['center']);
 
         $this->create($center, $data['quantity']);
 
     }
 
+    /**
+     * @param Center $center
+     * @param $quantity
+     */
     public function create(Center $center, $quantity)
     {
-
         $centerRequest = new CenterRequest();
         $centerRequest->setCenter($center);
         $centerRequest->setQuantity($quantity);
@@ -84,19 +108,31 @@ class CenterRequestManager
 
         $this->objectManager->persist($center);
         $this->objectManager->flush();
-        $this->responseRequest->setCenterRequest($centerRequest);
-        $this->responseRequest->setStatusCode(200);
-        $this->responseRequest->setRequestId($centerRequest->getId());
-        $this->responseRequest->setMessage('All cards created on request '.$centerRequest->getId().' for center '.$centerRequest->getCenter()->getCode());
+
+        $this->responseRequest->setCenterRequest($centerRequest)
+                              ->setStatusCode(200)
+                              ->setRequestId($centerRequest->getId())
+                              ->setMessage('All cards created on request #'.$centerRequest->getId().' for center '.$centerRequest->getCenter()->getCode());
     }
 
-
-
+    /**
+     * @param $numero
+     * @return object
+     */
     private function findCenter($numero)
     {
-        return $this->objectManager->getRepository(Center::class)->findOneBy(['code' => $numero]);
+        $center = $this->objectManager->getRepository(Center::class)->findOneBy(['code' => $numero]);
+        if(false === $center instanceof Center) {
+            throw new Exception('Center code '.$numero.' unknown');
+        }
+        return $center;
     }
 
+    /**
+     * @param CenterRequest $centerRequest
+     * @param $quantity
+     * @return $this
+     */
     private function createCards(CenterRequest $centerRequest, $quantity)
     {
         for($i=0; $i < $quantity; $i++)
