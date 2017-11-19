@@ -27,7 +27,7 @@ class ResponseRequestManager
      * @param array $data
      * @return ResponseRequest
      */
-    public function response(array $data)
+    public function response(array $data, $type='request')
     {
         return $this->centerRequestManager->checkData($data, new ResponseRequest());
     }

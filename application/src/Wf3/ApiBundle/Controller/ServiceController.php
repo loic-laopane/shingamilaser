@@ -31,9 +31,34 @@ class ServiceController extends Controller
      * @Route("/cards", name="api_get_all")
      * @Method({"GET"})
      */
-    public function getAllAction()
+    public function getAllAction(Request $request)
     {
-        return $this->json([]);
+        //Recuperation du manager
+        $responseRequestManager = $this->get('api.manager.response_request');
+
+        //Recuperation du serializer
+        $serializer = $this->get('jms_serializer');
+
+        try {
+            //Doit contenir un tableau avec le n° du center
+            $data = $serializer->deserialize($request->getContent(), 'array', 'json');
+            //On retourne une ResponseRequest
+            $responseRequest = $responseRequestManager->response($data);
+        }
+        catch (Exception $exception)
+        {
+            $responseRequest = $responseRequestManager->exception($exception->getMessage());
+        }
+
+        //Formattage de l'objet ResponseRequest en JSON
+        $jsonResponse = $serializer->serialize($responseRequest, 'json');
+
+        //Creation et envoi d'une reponse
+        $response = new Response();
+        $response->setContent($jsonResponse);
+        $request->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
     /**
@@ -54,7 +79,7 @@ class ServiceController extends Controller
             //Doit contenir un tableau avec le n° du center
             $data = $serializer->deserialize($request->getContent(), 'array', 'json');
             //On retourne une ResponseRequest
-            $responseRequest = $responseRequestManager->response($data);
+            $responseRequest = $responseRequestManager->response($data, 'request');
         }
         catch (Exception $exception)
         {
