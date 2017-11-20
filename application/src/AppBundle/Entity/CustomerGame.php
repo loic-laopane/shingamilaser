@@ -24,7 +24,7 @@ class CustomerGame
     /**
      * @var int
      *
-     * @ORM\Column(name="score", type="integer")
+     * @ORM\Column(name="score", type="integer", nullable=true)
      */
     private $score;
 
@@ -44,6 +44,13 @@ class CustomerGame
      */
     private $game;
 
+    /**
+     * CustomerGame constructor.
+     */
+    public function __construct()
+    {
+        $this->score = 0;
+    }
 
     /**
      * Get id

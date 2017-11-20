@@ -25,7 +25,7 @@ class Card
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=6, unique=true)
+     * @ORM\Column(name="code", type="string", length=6, nullable=true)
      */
     private $code;
 

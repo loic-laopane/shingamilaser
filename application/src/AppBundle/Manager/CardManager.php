@@ -40,7 +40,7 @@ class CardManager
      */
     public function rattach($numero, Customer $customer)
     {
-        $card = $this->repository->findOneByNumero($numero);
+        $card = $this->repository->findOneBy(['numero' => $numero]);
         if(!$card instanceof Card) {
             $this->session->getFlashBag()->add('danger', 'Card '.$numero.' doesn\'t exist');
             return false;
@@ -84,5 +84,11 @@ class CardManager
         $this->objectManager->flush();
         return $this;
     }
+
+    public function search($numero)
+    {
+       return $this->repository->findOneBy(['numero' => $numero]);
+    }
+
 
 }
