@@ -45,7 +45,7 @@ class Card
 
     /**
      * @var CenterRequest
-     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\CenterRequest", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\CenterRequest", cascade={"persist"}, inversedBy="cards")
      */
     private $centerRequest;
 

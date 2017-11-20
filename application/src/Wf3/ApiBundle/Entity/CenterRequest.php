@@ -3,12 +3,14 @@
 namespace Wf3\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * CenterRequest
  *
  * @ORM\Table(name="center_request")
  * @ORM\Entity(repositoryClass="Wf3\ApiBundle\Repository\CenterRequestRepository")
+ * @Serializer\ExclusionPolicy("ALL")
  */
 class CenterRequest
 {
@@ -55,6 +57,13 @@ class CenterRequest
      * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\Center")
      */
     private $center;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Wf3\ApiBundle\Entity\Card", mappedBy="centerRequest")
+     * @Serializer\Expose()
+     */
+    private $cards;
 
     public function __construct()
     {
@@ -189,5 +198,39 @@ class CenterRequest
     public function getCenter()
     {
         return $this->center;
+    }
+
+    /**
+     * Add card
+     *
+     * @param \Wf3\ApiBundle\Entity\Card $card
+     *
+     * @return CenterRequest
+     */
+    public function addCard(\Wf3\ApiBundle\Entity\Card $card)
+    {
+        $this->cards[] = $card;
+
+        return $this;
+    }
+
+    /**
+     * Remove card
+     *
+     * @param \Wf3\ApiBundle\Entity\Card $card
+     */
+    public function removeCard(\Wf3\ApiBundle\Entity\Card $card)
+    {
+        $this->cards->removeElement($card);
+    }
+
+    /**
+     * Get cards
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCards()
+    {
+        return $this->cards;
     }
 }

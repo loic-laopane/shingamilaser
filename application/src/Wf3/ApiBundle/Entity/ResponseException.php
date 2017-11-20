@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * ResponseRequest
+ * ResponseException
  *
  * @ORM\Table(name="response_request")
  * @ORM\Entity(repositoryClass="Wf3\ApiBundle\Repository\ResponseRequestRepository")
  * @Serializer\ExclusionPolicy("ALL")
  */
-class ResponseRequest extends AbstractResponse
+class ResponseException extends AbstractResponse
 {
     const STATUS_OK = 200;
     const STATUS_BAD_REQUEST = 400;
@@ -42,28 +42,13 @@ class ResponseRequest extends AbstractResponse
      */
     private $message;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="request_id", type="integer", nullable=true)
-     * @Serializer\Expose()
-     */
-    private $requestId;
-
-    /**
-     * @var CenterRequest
-     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\CenterRequest")
-     */
-    private $centerRequest;
-
-
 
     /**
      * ResponseRequest constructor.
      */
     public function __construct()
     {
-        $this->setStatusCode(self::STATUS_OK);
+        $this->setStatusCode(parent::STATUS_BAD_REQUEST);
     }
 
     /**
@@ -81,7 +66,7 @@ class ResponseRequest extends AbstractResponse
      *
      * @param string $statusCode
      *
-     * @return ResponseRequest
+     * @return ResponseException
      */
     public function setStatusCode($statusCode)
     {
@@ -105,7 +90,7 @@ class ResponseRequest extends AbstractResponse
      *
      * @param string $message
      *
-     * @return ResponseRequest
+     * @return ResponseException
      */
     public function setMessage($message)
     {
@@ -124,51 +109,4 @@ class ResponseRequest extends AbstractResponse
         return $this->message;
     }
 
-    /**
-     * Set requestId
-     *
-     * @param integer $requestId
-     *
-     * @return ResponseRequest
-     */
-    public function setRequestId($requestId)
-    {
-        $this->requestId = $requestId;
-
-        return $this;
-    }
-
-    /**
-     * Get requestId
-     *
-     * @return int
-     */
-    public function getRequestId()
-    {
-        return $this->requestId;
-    }
-
-    /**
-     * Set centerRequest
-     *
-     * @param \Wf3\ApiBundle\Entity\CenterRequest $centerRequest
-     *
-     * @return ResponseRequest
-     */
-    public function setCenterRequest(\Wf3\ApiBundle\Entity\CenterRequest $centerRequest = null)
-    {
-        $this->centerRequest = $centerRequest;
-
-        return $this;
-    }
-
-    /**
-     * Get centerRequest
-     *
-     * @return \Wf3\ApiBundle\Entity\CenterRequest
-     */
-    public function getCenterRequest()
-    {
-        return $this->centerRequest;
-    }
 }
