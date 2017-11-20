@@ -1,9 +1,10 @@
 <?php
 
-namespace Wf3\ApiBundle\Entity;
+namespace Wf3\ApiBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Wf3\ApiBundle\Entity\CenterRequest;
 
 /**
  * ResponseRequest

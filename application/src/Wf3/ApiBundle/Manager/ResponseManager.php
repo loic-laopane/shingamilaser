@@ -13,9 +13,9 @@ use JMS\Serializer\Serializer;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wf3\ApiBundle\Entity\AbstractResponse;
-use Wf3\ApiBundle\Entity\ResponseException;
-use Wf3\ApiBundle\Entity\ResponseRequest;
+use Wf3\ApiBundle\Model\AbstractResponse;
+use Wf3\ApiBundle\Model\ResponseException;
+
 
 class ResponseManager
 {
@@ -46,7 +46,7 @@ class ResponseManager
             throw new Exception('Error method response');
         }
         $class_name = 'Response'.ucfirst(strtolower($method));
-        $class = "Wf3\\ApiBundle\\Entity\\".$class_name;
+        $class = "Wf3\\ApiBundle\\Model\\".$class_name;
         if(!class_exists($class))
         {
             throw new Exception('Class '.$class.' not found');
@@ -81,6 +81,7 @@ class ResponseManager
     public function exception($message) {
         $reponse = new ResponseException();
         $reponse->setMessage($message);
+        $reponse->setStatusCode(AbstractResponse::STATUS_BAD_REQUEST);
         return $this->makeResponse($reponse);
     }
 }

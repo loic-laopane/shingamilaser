@@ -13,7 +13,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Wf3\ApiBundle\Entity\Center;
 use Wf3\ApiBundle\Entity\CenterRequest;
-use Wf3\ApiBundle\Entity\ResponseRequest;
+use Wf3\ApiBundle\Model\ResponseRequest;
 
 class CenterRequestManager
 {

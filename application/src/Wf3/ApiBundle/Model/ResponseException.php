@@ -1,6 +1,6 @@
 <?php
 
-namespace Wf3\ApiBundle\Entity;
+namespace Wf3\ApiBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 

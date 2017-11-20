@@ -1,6 +1,6 @@
 <?php
 
-namespace Wf3\ApiBundle\Entity;
+namespace Wf3\ApiBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -17,27 +17,34 @@ abstract class AbstractResponse
 
     /**
      * @var
+     * @Serializer\Expose()
      */
-    private $statusCode;
+    protected $statusCode;
 
     /**
      * @var
+     * @Serializer\Expose()
      */
-    private $message;
+    protected $message;
     /**
      * Set statusCode
      *
      * @param string $statusCode
 
      */
-    abstract public function setStatusCode($statusCode);
+    public function setStatusCode($statusCode) {
+        $this->statusCode = $statusCode;
+        return $this;
+    }
 
     /**
      * Get statusCode
      *
      * @return string
      */
-    abstract public function getStatusCode();
+    public function getStatusCode() {
+        return $this->statusCode;
+    }
 
     /**
      * Set message
@@ -46,12 +53,16 @@ abstract class AbstractResponse
      *
      * @return ResponseRequest
      */
-    abstract public function setMessage($message);
+    public function setMessage($message) {
+        $this->message = $message;
+    }
 
     /**
      * Get message
      *
      * @return string
      */
-    abstract public function getMessage();
+    public function getMessage() {
+        return $this->message;
+    }
 }
