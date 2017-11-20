@@ -29,7 +29,7 @@ class ServiceController extends Controller
     /**
      * Fournit toutes les cards d'une requete
      * @Route("/cards", name="api_get_all")
-     * @Method({"GET"})
+     * @Method({"POST"})
      */
     public function getAllAction(Request $request)
     {
@@ -37,6 +37,7 @@ class ServiceController extends Controller
         $responseManager = $this->get('api.manager.response');
 
         try {
+
             $responseGetAll = $responseManager->response($request, 'getAll');
         }
         catch (Exception $exception)
@@ -60,6 +61,7 @@ class ServiceController extends Controller
 
         try {
             //Doit contenir un tableau avec le n° du center
+            //$this->get('jms_serializer')->deserialize($request->getContent(), 'array', 'json');
             $responseRequest = $responseManager->response($request, 'request');
         }
         catch (Exception $exception)

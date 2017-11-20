@@ -26,6 +26,7 @@ abstract class AbstractResponse
      * @Serializer\Expose()
      */
     protected $message;
+
     /**
      * Set statusCode
      *
@@ -51,10 +52,13 @@ abstract class AbstractResponse
      *
      * @param string $message
      *
-     * @return ResponseRequest
+     * @return AbstractResponse
      */
-    public function setMessage($message) {
+    public function setMessage($message)
+    {
         $this->message = $message;
+
+        return $this;
     }
 
     /**
@@ -65,4 +69,5 @@ abstract class AbstractResponse
     public function getMessage() {
         return $this->message;
     }
+
 }

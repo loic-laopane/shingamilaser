@@ -9,6 +9,7 @@
 namespace Wf3\ApiBundle\Manager;
 
 
+use JMS\Serializer\Exception\LogicException;
 use JMS\Serializer\Serializer;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,16 +41,20 @@ class ResponseManager
      */
     public function response(Request $request, $method='request')
     {
-
-        if(!method_exists($this->centerRequestManager, $method))
-        {
+        if (!method_exists($this->centerRequestManager, $method)) {
             throw new Exception('Error method response');
         }
-        $class_name = 'Response'.ucfirst(strtolower($method));
+        $class_name = 'Response'.ucfirst($method);
         $class = "Wf3\\ApiBundle\\Model\\".$class_name;
-        if(!class_exists($class))
-        {
+        if(!class_exists($class)) {
             throw new Exception('Class '.$class.' not found');
+        }
+
+        $isJson = json_decode($request->getContent());
+
+        if(null===$isJson)
+        {
+            return $this->exception('Invalid JSON');
         }
 
         $data = $this->serializer->deserialize($request->getContent(), 'array', 'json');

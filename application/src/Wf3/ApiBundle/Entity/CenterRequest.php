@@ -65,6 +65,9 @@ class CenterRequest
      */
     private $cards;
 
+    /**
+     * CenterRequest constructor.
+     */
     public function __construct()
     {
         $this->createdAt = new \DateTime();

@@ -13,6 +13,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Wf3\ApiBundle\Entity\Center;
 use Wf3\ApiBundle\Entity\CenterRequest;
+use Wf3\ApiBundle\Model\AbstractResponse;
 use Wf3\ApiBundle\Model\ResponseRequest;
 
 class CenterRequestManager
@@ -24,9 +25,9 @@ class CenterRequestManager
     private $objectManager;
 
     /**
-     * @var ResponseRequest
+     * @var AbstractResponse
      */
-    private $responseRequest;
+    private $abstractResponse;
     /**
      * @var CardManager
      */
@@ -60,18 +61,25 @@ class CenterRequestManager
      * Retourne une ResponseRequete avec validation des data
      * @param array $data
      * @param ResponseRequest $responseRequest
-     * @return ResponseRequest
+     * @return AbstractResponse
      */
-    public function request(array $data, ResponseRequest $responseRequest)
+    public function request(array $data, AbstractResponse $responseRequest)
     {
-        $this->responseRequest = $responseRequest;
+        $this->abstractResponse = $responseRequest;
         $this->validRequest($data);
-        return $this->responseRequest;
+        return $this->abstractResponse;
     }
 
-    public function getAll(array $data, ResponseRequest $responseRequest)
+    /**
+     * @param array $data
+     * @param AbstractResponse $responseRequest
+     * @return AbstractResponse
+     */
+    public function getAll(array $data, AbstractResponse $responseRequest)
     {
-        $this->responseRequest = $responseRequest;
+        $this->abstractResponse = $responseRequest;
+        $this->validGetAll($data);
+        return $this->abstractResponse;
     }
 
     /**
@@ -85,11 +93,11 @@ class CenterRequestManager
         $unknown_fields = array_diff(array_keys($data), $accept);
         foreach($missing_fields as $field)
         {
-            throw new Exception('Field '.$field.' is required');
+            throw new Exception('Field ['.$field.'] is required');
         }
         foreach($unknown_fields as $field)
         {
-            throw new Exception('Field '.$field.' is unknown');
+            throw new Exception('Field ['.$field.'] is unknown');
         }
     }
 
@@ -102,7 +110,7 @@ class CenterRequestManager
         $this->checkEntries($data, $this->request_accept);
 
         if(!($data['quantity'])) {
-            throw new Exception('Field Quantity is required and must not be null');
+            throw new Exception('Field [quantity] is required and must not be null');
         }
 
         $center = $this->findCenter($data['center']);
@@ -111,16 +119,24 @@ class CenterRequestManager
 
     }
 
+    /**
+     * @param array $data
+     */
     public function validGetAll(array $data)
     {
         $this->checkEntries($data, $this->get_all_accept);
 
-        $cards = $this->cardManager->requestedCards($data['center'], $data['request']);
+        $cards = $this->cardManager->requestedCards($data['center'], $data['request_id']);
 
         if(null === $cards)
         {
             throw new Exception('No card found');
         }
+
+        $this->abstractResponse->setStatusCode(200)
+                                    ->setMessage(count($cards).' card(s) found')
+                                    ->setCards($cards);
+
     }
 
     /**
@@ -139,7 +155,7 @@ class CenterRequestManager
         $this->objectManager->persist($center);
         $this->objectManager->flush();
 
-        $this->responseRequest->setCenterRequest($centerRequest)
+        $this->abstractResponse->setCenterRequest($centerRequest)
                               ->setStatusCode(200)
                               ->setRequestId($centerRequest->getId())
                               ->setMessage($quantity.' card(s) created on request #'.$centerRequest->getId().' for center '.$centerRequest->getCenter()->getCode());
@@ -169,16 +185,6 @@ class CenterRequestManager
         {
             $this->cardManager->create($centerRequest);
         }
-        return $this;
-    }
-
-    /**
-     * @param $message
-     * @return $this
-     */
-    private function addMessage($message)
-    {
-        array_push($this->messages, $message);
         return $this;
     }
 }

@@ -10,7 +10,9 @@ namespace Wf3\ApiBundle\Manager;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Wf3\ApiBundle\Entity\Card;
+use Wf3\ApiBundle\Entity\Center;
 use Wf3\ApiBundle\Entity\CenterRequest;
 
 class CardManager
@@ -50,6 +52,26 @@ class CardManager
     private function createUniqId()
     {
         return mt_rand(100000, 999999);
+    }
+
+    /**
+     * Liste les cards d'apres un id de centerRequest et le centre
+     * @param $center_code
+     * @param $request_id
+     * @return array|Card[]
+     */
+    public function requestedCards($center_code, $request_id)
+    {
+        $centerRequest = $this->objectManager->getRepository('ApiBundle:CenterRequest')->findCenterRequestByCenterAndId($center_code, $request_id);
+        if(null === $centerRequest) {
+            throw new Exception('Request not found');
+        }
+
+        $cards = $this->objectManager->getRepository('ApiBundle:Card')->findBy(array(
+            'centerRequest' => $centerRequest
+        ));
+
+        return $cards;
     }
 
 
