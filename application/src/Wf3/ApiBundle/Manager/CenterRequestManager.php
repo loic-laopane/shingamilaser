@@ -13,7 +13,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Wf3\ApiBundle\Entity\Center;
 use Wf3\ApiBundle\Entity\CenterRequest;
-use Wf3\ApiBundle\Entity\ResponseRequest;
+use Wf3\ApiBundle\Model\AbstractResponse;
+use Wf3\ApiBundle\Model\ResponseRequest;
 
 class CenterRequestManager
 {
@@ -24,9 +25,9 @@ class CenterRequestManager
     private $objectManager;
 
     /**
-     * @var ResponseRequest
+     * @var AbstractResponse
      */
-    private $responseRequest;
+    private $abstractResponse;
     /**
      * @var CardManager
      */
@@ -40,7 +41,8 @@ class CenterRequestManager
     /**
      * @var array
      */
-    private $accept = array('center', 'quantity');
+    private $request_accept = array('center', 'quantity');
+    private $get_all_accept = array('center', 'request_id');
 
     /**
      * CenterRequestManager constructor.
@@ -56,15 +58,47 @@ class CenterRequestManager
     }
 
     /**
+     * Retourne une ResponseRequete avec validation des data
      * @param array $data
      * @param ResponseRequest $responseRequest
-     * @return ResponseRequest
+     * @return AbstractResponse
      */
-    public function checkData(array $data, ResponseRequest $responseRequest)
+    public function request(array $data, AbstractResponse $responseRequest)
     {
-        $this->responseRequest = $responseRequest;
+        $this->abstractResponse = $responseRequest;
         $this->validRequest($data);
-        return $this->responseRequest;
+        return $this->abstractResponse;
+    }
+
+    /**
+     * @param array $data
+     * @param AbstractResponse $responseRequest
+     * @return AbstractResponse
+     */
+    public function getAll(array $data, AbstractResponse $responseRequest)
+    {
+        $this->abstractResponse = $responseRequest;
+        $this->validGetAll($data);
+        return $this->abstractResponse;
+    }
+
+    /**
+     * Verification que les champs entrés sont bien valide selon la method de l'api appelée
+     * @param array $data
+     * @param $accept
+     */
+    public function checkEntries(array $data, $accept)
+    {
+        $missing_fields = array_diff($accept, array_keys($data));
+        $unknown_fields = array_diff(array_keys($data), $accept);
+        foreach($missing_fields as $field)
+        {
+            throw new Exception('Field ['.$field.'] is required');
+        }
+        foreach($unknown_fields as $field)
+        {
+            throw new Exception('Field ['.$field.'] is unknown');
+        }
     }
 
     /**
@@ -73,19 +107,10 @@ class CenterRequestManager
      */
     public function validRequest(array $data)
     {
-        $missing_fields = array_diff($this->accept, array_keys($data));
-        $unknown_fields = array_diff(array_keys($data), $this->accept);
-        foreach($missing_fields as $field)
-        {
-            throw new Exception('Field '.$field.' is required');
-        }
-        foreach($unknown_fields as $field)
-        {
-            throw new Exception('Field '.$field.' is unknown');
-        }
+        $this->checkEntries($data, $this->request_accept);
 
         if(!($data['quantity'])) {
-            throw new Exception('Field Quantity is required and must not be null');
+            throw new Exception('Field [quantity] is required and must not be null');
         }
 
         $center = $this->findCenter($data['center']);
@@ -95,6 +120,27 @@ class CenterRequestManager
     }
 
     /**
+     * @param array $data
+     */
+    public function validGetAll(array $data)
+    {
+        $this->checkEntries($data, $this->get_all_accept);
+
+        $cards = $this->cardManager->requestedCards($data['center'], $data['request_id']);
+
+        if(null === $cards)
+        {
+            throw new Exception('No card found');
+        }
+
+        $this->abstractResponse->setStatusCode(200)
+                                    ->setMessage(count($cards).' card(s) found')
+                                    ->setCards($cards);
+
+    }
+
+    /**
+     * Creer un liste de carte d'apres un center et un quantite
      * @param Center $center
      * @param $quantity
      */
@@ -109,10 +155,10 @@ class CenterRequestManager
         $this->objectManager->persist($center);
         $this->objectManager->flush();
 
-        $this->responseRequest->setCenterRequest($centerRequest)
+        $this->abstractResponse->setCenterRequest($centerRequest)
                               ->setStatusCode(200)
                               ->setRequestId($centerRequest->getId())
-                              ->setMessage('All cards created on request #'.$centerRequest->getId().' for center '.$centerRequest->getCenter()->getCode());
+                              ->setMessage($quantity.' card(s) created on request #'.$centerRequest->getId().' for center '.$centerRequest->getCenter()->getCode());
     }
 
     /**
@@ -139,16 +185,6 @@ class CenterRequestManager
         {
             $this->cardManager->create($centerRequest);
         }
-        return $this;
-    }
-
-    /**
-     * @param $message
-     * @return $this
-     */
-    private function addMessage($message)
-    {
-        array_push($this->messages, $message);
         return $this;
     }
 }

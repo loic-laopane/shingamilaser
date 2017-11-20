@@ -3,6 +3,7 @@
 namespace Wf3\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Card
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="card")
  * @ORM\Entity(repositoryClass="Wf3\ApiBundle\Repository\CardRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @Serializer\ExclusionPolicy("ALL")
  */
 class Card
 {
@@ -26,6 +28,7 @@ class Card
      * @var string
      *
      * @ORM\Column(name="numero", type="string", length=10, nullable=true)
+     * @Serializer\Expose()
      */
     private $numero;
 
@@ -33,6 +36,7 @@ class Card
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=6)
+     * @Serializer\Expose()
      */
     private $code;
 
@@ -45,7 +49,7 @@ class Card
 
     /**
      * @var CenterRequest
-     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\CenterRequest", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Wf3\ApiBundle\Entity\CenterRequest", cascade={"persist"}, inversedBy="cards")
      */
     private $centerRequest;
 

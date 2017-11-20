@@ -10,4 +10,19 @@ namespace Wf3\ApiBundle\Repository;
  */
 class CenterRequestRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findCenterRequestByCenterAndId($centerCode, $centerRequestId)
+    {
+        return $this->createQueryBuilder('cr')
+            ->select('cr')
+            ->join('cr.center', 'c')
+            ->where('cr.id = :center_request_id')
+            ->setParameter('center_request_id', $centerRequestId)
+            ->andWhere('c.code = :center_code')
+            ->setParameter('center_code', $centerCode)
+            ->getQuery()
+            ->getResult()
+            ;
+
+    }
+
 }

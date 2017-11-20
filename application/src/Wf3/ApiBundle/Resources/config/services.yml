@@ -23,8 +23,9 @@ services:
         arguments:
             - '@doctrine.orm.api_entity_manager'
 
-    api.manager.response_request:
-        class: Wf3\ApiBundle\Manager\ResponseRequestManager
+    api.manager.response:
+        class: Wf3\ApiBundle\Manager\ResponseManager
         public: true
         arguments:
             - '@api.manager.center_request'
+            - '@jms_serializer'

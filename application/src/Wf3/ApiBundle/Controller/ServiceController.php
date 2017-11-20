@@ -29,72 +29,47 @@ class ServiceController extends Controller
     /**
      * Fournit toutes les cards d'une requete
      * @Route("/cards", name="api_get_all")
-     * @Method({"GET"})
+     * @Method({"POST"})
      */
     public function getAllAction(Request $request)
     {
         //Recuperation du manager
-        $responseRequestManager = $this->get('api.manager.response_request');
-
-        //Recuperation du serializer
-        $serializer = $this->get('jms_serializer');
+        $responseManager = $this->get('api.manager.response');
 
         try {
-            //Doit contenir un tableau avec le n° du center
-            $data = $serializer->deserialize($request->getContent(), 'array', 'json');
-            //On retourne une ResponseRequest
-            $responseRequest = $responseRequestManager->response($data);
+
+            $responseGetAll = $responseManager->response($request, 'getAll');
         }
         catch (Exception $exception)
         {
-            $responseRequest = $responseRequestManager->exception($exception->getMessage());
+            $responseGetAll = $responseManager->exception($exception->getMessage());
         }
 
-        //Formattage de l'objet ResponseRequest en JSON
-        $jsonResponse = $serializer->serialize($responseRequest, 'json');
-
-        //Creation et envoi d'une reponse
-        $response = new Response();
-        $response->setContent($jsonResponse);
-        $request->headers->set('Content-Type', 'application/json');
-
-        return $response;
+        return $responseGetAll;
     }
 
     /**
-     * Enregistre une requete de cards
+     * Enregistre une requete de cards et retourne un reponse json
      * @Route("/request", name="api_create_request")
      * @Method({"POST"})
+     * @return Response
      */
     public function requestAction(Request $request)
     {
         //Recuperation du manager
-        $responseRequestManager = $this->get('api.manager.response_request');
-
-        //Recuperation du serializer
-        $serializer = $this->get('jms_serializer');
-
+        $responseManager = $this->get('api.manager.response');
 
         try {
             //Doit contenir un tableau avec le n° du center
-            $data = $serializer->deserialize($request->getContent(), 'array', 'json');
-            //On retourne une ResponseRequest
-            $responseRequest = $responseRequestManager->response($data, 'request');
+            //$this->get('jms_serializer')->deserialize($request->getContent(), 'array', 'json');
+            $responseRequest = $responseManager->response($request, 'request');
         }
         catch (Exception $exception)
         {
-            $responseRequest = $responseRequestManager->exception($exception->getMessage());
+            $responseRequest = $responseManager->exception($exception->getMessage());
         }
 
-        //Formattage de l'objet ResponseRequest en JSON
-        $jsonResponse = $serializer->serialize($responseRequest, 'json');
-
-        //Creation et envoi d'une reponse
-        $response = new Response();
-        $response->setContent($jsonResponse);
-        $request->headers->set('Content-Type', 'application/json');
-
-        return $response;
+        return $responseRequest;
     }
 
 }
