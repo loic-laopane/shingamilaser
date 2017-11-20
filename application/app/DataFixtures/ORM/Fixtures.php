@@ -21,6 +21,7 @@ class Fixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        $api_manager = $this->container->get('doctrine.orm.api_entity_manager');
         $encoder = $this->container->get('security.password_encoder');
         // TODO: Implement load() method.
         $admin = new User();
@@ -46,8 +47,18 @@ class Fixtures extends Fixture
         $center = new Center();
         $center->setCode('123')
                 ->setName('Shishi')
-                ->setCity('Pau');
+                ->setAddress('Rue de Paris')
+                ->setZipcode('69021')
+                ->setCity('Bourgogne city');
         $manager->persist($center);
+
+        $center_api = New \Wf3\ApiBundle\Entity\Center();
+        $center_api->setCode($center->getCode())
+                    ->setName($center->getName())
+                    ->setAddress($center->getAddress())
+                    ->setZipcode($center->getZipcode())
+                    ->setCity($center->getCity());
+        $api_manager->persist($center_api);
 
         $card = new Card();
         $card
@@ -65,6 +76,8 @@ class Fixtures extends Fixture
         $manager->persist($game);
 
         $manager->flush();
+
+        $api_manager->flush();
 
 
     }
