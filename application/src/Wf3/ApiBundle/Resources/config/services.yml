@@ -1,0 +1,30 @@
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
+
+    api.manager.card:
+        class: Wf3\ApiBundle\Manager\CardManager
+        public: true
+        arguments:
+            - '@doctrine.orm.api_entity_manager'
+
+    api.manager.center_request:
+        class: Wf3\ApiBundle\Manager\CenterRequestManager
+        public: true
+        arguments:
+            - '@doctrine.orm.api_entity_manager'
+
+    api.manager.response_request:
+        class: Wf3\ApiBundle\Manager\ResponseRequestManager
+        public: true
+        arguments:
+            - '@api.manager.center_request'
