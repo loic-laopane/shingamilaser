@@ -10,6 +10,13 @@ parameters:
     # You should uncomment this if you want to use pdo_sqlite
     database_path: '%kernel.project_dir%/var/shinigami.sqlite'
 
+    database_host_api: 127.0.0.1
+    database_port_api: null
+    database_name_api: supplier
+    database_user_api: root
+    database_password_api: null
+    database_path_api: '%kernel.project_dir%/var/%database_name_api%.sqlite'
+
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: ~
