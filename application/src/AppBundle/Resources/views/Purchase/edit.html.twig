@@ -3,26 +3,62 @@
 {% block title %}AppBundle:Purchase:show{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Purchase:edit page</h1>
-    <div class="jumbotron">
-        Faites une demande de carte auprès de votre fournisseur en indiquant la quantité voulue
-    </div>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.edit' | trans }}</button>
-    {{ form_end(form) }}
-
+<h1>Manage purchase</h1>
+    {% if workflow_can(purchase, 'validate') or workflow_can(purchase, 'revalidate') %}
     <div class="panel">
         <div class="panel-heading">
             <h3>Manage request</h3>
         </div>
         <div class="panel-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+                <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.edit' | trans }}</button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+    {% endif %}
+    <div class="panel">
+        <div class="panel-heading">
+            <h3>Manage request</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Status :</div>
+                    <div class="col-md-4">{{ purchase.status }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Quantity :</div>
+                    <div class="col-md-4">{{ purchase.quantity }} cards</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Created at :</div>
+                    <div class="col-md-4">{{ purchase.createdAt | date('d/m/Y') }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Last update :</div>
+                    <div class="col-md-4">{{ purchase.updatedAt | date('d/m/Y') }}</div>
+                </div>
+            </div>
+            <hr>
+            {% if workflow_can(purchase, 'validate') or workflow_can(purchase, 'revalidate') or workflow_can(purchase, 'request') %}
             <form action="{{ path('purchase_request', { 'id' : purchase.id }) }}" method="post">
                 <button class="btn btn-success btn-fill"><i class="fa fa-send"></i> {{ 'btn.send.request' | trans }}</button>
             </form>
+            {% endif %}
+            {% if workflow_can(purchase, 'complete') %}
             <form action="" method="post">
                 <button class="btn btn-info btn-fill"><i class="fa fa-download"></i> {{ 'btn.get.cards' | trans }}</button>
             </form>
+            {% endif %}
         </div>
     </div>
 
