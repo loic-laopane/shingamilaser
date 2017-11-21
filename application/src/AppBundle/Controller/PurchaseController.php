@@ -38,13 +38,6 @@ class PurchaseController extends Controller
         }
 
         return $this->redirectToRoute('purchase_edit', array('id' => $purchase->getId()));
-
-        /*
-        $res = $client->request('GET', 'http://localhost/web/app_dev.php/api/request');
-        echo $res->getStatusCode(); // 200
-        echo $res->getHeaderLine('content-type'); // 'application/json; charset=utf8'
-        echo $res->getBody(); // '{"id": 1420053, "name": "guzzle", ...}'
-        */
     }
 
     /**

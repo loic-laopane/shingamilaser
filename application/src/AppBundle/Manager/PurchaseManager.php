@@ -40,18 +40,15 @@ class PurchaseManager
      * @var Serializer
      */
     private $serializer;
-    /**
-     * @var Client
-     */
-    private $client;
 
-    private $base_uri = 'http://localhost/web/app_dev.php/api/';
+    private $base_uri;
     /**
      * @var Workflow
      */
     private $workflow;
 
     public function __construct(Workflow $workflow,
+                                $base_uri,
                                 ObjectManager $objectManager,
                                 SessionInterface $session,
                                 EventDispatcherInterface $dispatcher,
@@ -64,6 +61,7 @@ class PurchaseManager
         $this->dispatcher = $dispatcher;
         $this->serializer = $serializer;
         $this->workflow = $workflow;
+        $this->base_uri = $base_uri;
     }
 
     public function save(Purchase $purchase)
