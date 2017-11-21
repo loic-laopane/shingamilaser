@@ -85,6 +85,7 @@ class PurchaseController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
             $purchaseManager->save($purchase);
+            $this->get('session')->getFlashBag()->add('success', 'Purchase updated');
         }
 
         return $this->render('AppBundle:Purchase:edit.html.twig', array(
