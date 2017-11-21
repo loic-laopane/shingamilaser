@@ -68,9 +68,11 @@
 
             {% if purchase.cards is not null %}
                 <h4>Associated cards</h4>
+                <div class="card-list">
                 {% for card in purchase.cards %}
-                    <li>{{ card.numero }}</li>
+                    <li {{ card.active == false ? 'class="stroken"' }}>{{ card.numero }}</li>
                 {% endfor %}
+                </div>
             {% endif %}
         </div>
     </div>
@@ -79,6 +81,12 @@
     <style>
         form {
             display: inline-block;
+        }
+        .card-list {
+            font-family: "Courier New";
+        }
+        .stroken {
+            text-decoration: line-through;
         }
     </style>
 {% endblock %}

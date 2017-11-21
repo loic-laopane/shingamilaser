@@ -92,19 +92,65 @@ class PurchaseManager
        return $this->repository->findOneBy(['numero' => $numero]);
     }
 
+    /**
+     * @param Purchase $purchase
+     */
+    private function checkPrerequisite(Purchase $purchase)
+    {
+        $user = $purchase->getRequester();
+        if(null === $user) {
+            $this->setErrorStatus($purchase);
+            throw new Exception('No requester found on this purchase');
+        }
+        if(null === $user->getCenter()) {
+            $this->setErrorStatus($purchase);
+            throw new Exception('No center associated on current user');
+        }
+        if(!$purchase->getQuantity()) {
+            $this->setErrorStatus($purchase);
+            throw new Exception('Qunatity cannot be null');
+        }
+    }
+
+    /**
+     * @param int $quantity
+     * @return $this
+     */
+    public function makeRequest(Purchase $purchase)
+    {
+        $this->checkPrerequisite($purchase);
+
+        //Si on est en erreur, on revalide
+        if($this->workflow->can($purchase, 'validate'))
+        {
+            $this->workflow->apply($purchase, 'validate');
+        }
+
+        if($this->workflow->can($purchase, 'revalidate'))
+        {
+            $this->workflow->apply($purchase, 'revalidate');
+        }
+
+        $client = new Client(['base_uri' => $this->base_uri]);
+        $data = array(
+            'center' => $purchase->getRequester()->getCenter()->getCode(),
+            'quantity' => $purchase->getQuantity()
+        );
+        $jsonData = $this->serializer->serialize($data, 'json');
+        $response = $client->request('POST', 'request', array(
+            'body' => $jsonData
+        ));
+
+        $this->threadRequest($purchase, $response);
+
+        return $this;
+    }
 
     /**
      * @param Purchase $purchase
      * @param ResponseInterface $response
      * @return $this
      */
-    public function thread(Purchase $purchase, ResponseInterface $response)
-    {
-
-
-
-    }
-
     private function threadRequest(Purchase $purchase, ResponseInterface $response)
     {
         $content = $response->getBody()->getContents();
@@ -128,6 +174,34 @@ class PurchaseManager
 
     }
 
+    /**
+     * @param Purchase $purchase
+     * @return $this
+     */
+    public function getCards(Purchase $purchase)
+    {
+        $this->checkPrerequisite($purchase);
+
+        $client = new Client(['base_uri' => $this->base_uri]);
+        $data = array(
+            'center' => $purchase->getRequester()->getCenter()->getCode(),
+            'request_id' => $purchase->getReference()
+        );
+        $jsonData = $this->serializer->serialize($data, 'json');
+        $response = $client->request('POST', 'cards', array(
+            'body' => $jsonData
+        ));
+
+        $this->threadGetCards($purchase, $response);
+
+        return $this;
+    }
+
+    /**
+     * @param Purchase $purchase
+     * @param ResponseInterface $response
+     * @return $this
+     */
     private function threadGetCards(Purchase $purchase, ResponseInterface $response)
     {
         $content = $response->getBody()->getContents();
@@ -209,71 +283,6 @@ class PurchaseManager
         return $this;
     }
 
-    /**
-     * @param int $quantity
-     * @return $this
-     */
-    public function makeRequest(Purchase $purchase)
-    {
-        $this->checkPrerequisite($purchase);
 
-        //Si on est en erreur, on revalide
-        if($this->workflow->can($purchase, 'validate'))
-        {
-            $this->workflow->apply($purchase, 'validate');
-        }
 
-        if($this->workflow->can($purchase, 'revalidate'))
-        {
-            $this->workflow->apply($purchase, 'revalidate');
-        }
-
-        $client = new Client(['base_uri' => $this->base_uri]);
-        $data = array(
-            'center' => $purchase->getRequester()->getCenter()->getCode(),
-            'quantity' => $purchase->getQuantity()
-        );
-        $jsonData = $this->serializer->serialize($data, 'json');
-        $response = $client->request('POST', 'request', array(
-            'body' => $jsonData
-        ));
-
-        $this->threadRequest($purchase, $response);
-
-        return $this;
-    }
-
-    public function getCards(Purchase $purchase)
-    {
-        $this->checkPrerequisite($purchase);
-
-        $client = new Client(['base_uri' => $this->base_uri]);
-        $data = array(
-            'center' => $purchase->getRequester()->getCenter()->getCode(),
-            'request_id' => $purchase->getReference()
-        );
-        $jsonData = $this->serializer->serialize($data, 'json');
-        $response = $client->request('POST', 'cards', array(
-            'body' => $jsonData
-        ));
-
-        $this->threadGetCards($purchase, $response);
-    }
-
-    private function checkPrerequisite(Purchase $purchase)
-    {
-        $user = $purchase->getRequester();
-        if(null === $user) {
-            $this->setErrorStatus($purchase);
-            throw new Exception('No requester found on this purchase');
-        }
-        if(null === $user->getCenter()) {
-            $this->setErrorStatus($purchase);
-            throw new Exception('No center associated on current user');
-        }
-        if(!$purchase->getQuantity()) {
-            $this->setErrorStatus($purchase);
-            throw new Exception('Qunatity cannot be null');
-        }
-    }
 }
