@@ -11,8 +11,7 @@ services:
         # if you need to do this, you can override this setting on individual services
         public: false
 
-    api.manager.card:
-        class: Wf3\ApiBundle\Manager\CardManager
+    Wf3\ApiBundle\Manager\CardManager:
         public: true
         arguments:
             - '@doctrine.orm.api_entity_manager'

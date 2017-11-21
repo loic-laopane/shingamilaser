@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Purchase:show{% endblock %}
+
+{% block body %}
+<h1>Welcome to the Purchase:create page</h1>
+    <div class="jumbotron">
+        Faites une demande de carte auprès de votre fournisseur en indiquant la quantité voulue
+    </div>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary btn-fill">{{ 'btn.create' | trans }}</button>
+    {{ form_end(form) }}
+{% endblock %}
