@@ -16,11 +16,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-
+/**
+ * Class GameController
+ * @package AppBundle\Controller
+ * @Route("/staff")
+ */
 class GameController extends Controller
 {
     /**
-     * @Route("/manage/games", name="game_list")
+     * @Route("/games", name="game_list")
      */
     public function listAction(GameManager $gameManager)
     {
@@ -31,7 +35,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/manage/game/create", name="game_create")
+     * @Route("/game/create", name="game_create")
      */
     public function createAction(Request $request, GameManager $gameManager)
     {
@@ -51,7 +55,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/manage/game/{id}/edit", name="game_edit")
+     * @Route("/game/{id}/edit", name="game_edit")
      *
      */
     public function editAction(Game $game, Request $request)
@@ -66,7 +70,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/manage/game/{id}/record", name="game_record")
+     * @Route("/game/{id}/record", name="game_record")
      *
      */
     public function recordAction(Game $game, GameManager $gameManager)
@@ -77,7 +81,7 @@ class GameController extends Controller
 
     /**
      * @param Request $request
-     * @Route("/manage/game/{id}/manage", name="game_manage")
+     * @Route("/game/{id}/manage", name="game_manage")
      * @Method({"GET"})
      */
     public function manageAction(Game $game, CustomerGameManager $customerGameManager)
@@ -95,7 +99,7 @@ class GameController extends Controller
 
     /**
      * @param Request $request
-     * @Route("/manage/game/{id}/addUser", name="game_add_user")
+     * @Route("/game/{id}/addUser", name="game_add_user")
      * @Method({"POST"})
      */
     public function addUserAction(Game $game, Request $request, CardManager $cardManager, CustomerGameManager $customerGameManager)
@@ -108,7 +112,7 @@ class GameController extends Controller
 
     /**
      * @param Request $request
-     * @Route("/manage/game/{id}/removeUser/{customer_id}", name="game_remove_user")
+     * @Route("/game/{id}/removeUser/{customer_id}", name="game_remove_user")
      * @Method({"POST"})
      */
     public function removeUserAction(Game $game, Customer $customer, CustomerGameManager $customerGameManager)
@@ -119,7 +123,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/manage/game/{id}/delete", name="game_delete")
+     * @Route("/game/{id}/delete", name="game_delete")
      */
     public function deleteAction($id)
     {
@@ -129,8 +133,8 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/manage/game/search", name="game_search")
-     * @Method({"POST"})
+     * @Route("/game/search", name="game_search")
+     * @Method({"GET", "POST"})
      */
     public function searchAction(Request $request, CardManager $cardManager)
     {
