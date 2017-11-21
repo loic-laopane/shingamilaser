@@ -281,28 +281,5 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
-
-    /**
-     * Set center
-     *
-     * @param \AppBundle\Entity\Center $center
-     *
-     * @return User
-     */
-    public function setCenter(\AppBundle\Entity\Center $center = null)
-    {
-        $this->center = $center;
-
-        return $this;
-    }
-
-    /**
-     * Get center
-     *
-     * @return \AppBundle\Entity\Center
-     */
-    public function getCenter()
-    {
-        return $this->center;
-    }
 }
+

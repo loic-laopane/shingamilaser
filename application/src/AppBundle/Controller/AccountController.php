@@ -15,6 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -98,7 +99,13 @@ class AccountController extends Controller
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $cardManager->rattach($empty_card->getNumero(), $customer);
+            try {
+                $cardManager->rattach($empty_card->getNumero(), $customer);
+            }
+            catch (Exception $e)
+            {
+                $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
+            }
         }
         return $this->render('AppBundle:Account:add_card.html.twig', array(
             'form' => $form->createView()

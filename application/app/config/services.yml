@@ -43,6 +43,12 @@ services:
     AppBundle\Manager\CustomerManager:
         public: true
 
+    AppBundle\Manager\PurchaseManager:
+        public: true
+        arguments:
+            - '@workflow.purchase'
+            - '%api_base_uri%'
+
     AppBundle\Event\Listener\LoginListener:
             tags:
                 - { name: kernel.event_listener, event: kernel.request}

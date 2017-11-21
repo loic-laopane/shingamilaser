@@ -12,6 +12,7 @@ namespace AppBundle\Manager;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CardManager
@@ -42,20 +43,27 @@ class CardManager
     {
         $card = $this->repository->findOneBy(['numero' => $numero]);
         if(!$card instanceof Card) {
-            $this->session->getFlashBag()->add('danger', 'Card '.$numero.' doesn\'t exist');
-            return false;
+            throw new Exception('Card '.$numero.' doesn\'t exist');
+
         }
 
         if($card->hasOwner())
         {
             if($card->getCustomer() === $customer) {
-                $this->session->getFlashBag()->add('danger', 'Card '.$numero.' is already attached to your account');
+                throw new Exception('Card '.$numero.' is already attached to your account');
             }
             else {
-                $this->session->getFlashBag()->add('danger', 'Card '.$numero.' has already an owner');
+                throw new Exception('Card '.$numero.' has already an owner');
             }
-            return false;
         }
+
+        if(!$card->getActive())
+        {
+            throw new Exception('Card '.$numero.' is not active');
+        }
+
+        //Desactivation des cards
+        $this->unactiveCards($customer);
 
         $this->attach($card, $customer);
         $this->session->getFlashBag()->add('success', 'Card '.$numero.' has been attached to your account');
@@ -70,6 +78,7 @@ class CardManager
      */
     public function attach(Card $card, Customer $customer)
     {
+        $card->setActivatedAt(new \DateTime());
         $card->setCustomer($customer);
         $this->save($card);
     }
@@ -85,10 +94,26 @@ class CardManager
         return $this;
     }
 
+    /**
+     * @param $numero
+     * @return Card|null|object
+     */
     public function search($numero)
     {
        return $this->repository->findOneBy(['numero' => $numero]);
     }
 
+    /**
+     * @param Customer $customer
+     */
+    private function unactiveCards(Customer $customer)
+    {
+        foreach($customer->getCards() as $card) {
+            $card->setActive(false);
+            $this->objectManager->persist($card);
+        }
+        $this->objectManager->flush();
 
+        return $this;
+    }
 }
