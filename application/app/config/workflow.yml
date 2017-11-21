@@ -1,0 +1,26 @@
+framework:
+    workflows:
+        purchase:
+            type: 'state_machine'
+            marking_store:
+                type: single_state
+                arguments:
+                    - state
+            supports:
+                - AppBundle\Entity\Purchase
+            places:
+                - created
+                - requested
+                - error
+                - completed
+
+            transitions:
+                request:
+                    from: [created, error]
+                    to:   requested
+                error:
+                    from: created
+                    to:   error
+                complete:
+                    from: requested
+                    to:   completed
