@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -60,6 +61,12 @@ class Purchase
      * @ORM\Column(name="status", type="string", length=20)
      */
     private $status;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Card", mappedBy="purchase")
+     */
+    private $cards;
 
 
     public function __construct()
@@ -220,5 +227,39 @@ class Purchase
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Add card
+     *
+     * @param \AppBundle\Entity\Card $card
+     *
+     * @return Purchase
+     */
+    public function addCard(\AppBundle\Entity\Card $card)
+    {
+        $this->cards[] = $card;
+
+        return $this;
+    }
+
+    /**
+     * Remove card
+     *
+     * @param \AppBundle\Entity\Card $card
+     */
+    public function removeCard(\AppBundle\Entity\Card $card)
+    {
+        $this->cards->removeElement($card);
+    }
+
+    /**
+     * Get cards
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCards()
+    {
+        return $this->cards;
     }
 }

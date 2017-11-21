@@ -70,6 +70,7 @@ class CardManager
      */
     public function attach(Card $card, Customer $customer)
     {
+        $card->setActivatedAt(new \DateTime());
         $card->setCustomer($customer);
         $this->save($card);
     }

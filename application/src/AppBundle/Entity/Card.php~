@@ -62,7 +62,7 @@ class Card
 
     /**
      * @var string
-     * @ORM\Column(name="numero", type="string", length=10, unique=true)
+     * @ORM\Column(name="numero", type="string", length=10)
      * @Assert\NotBlank()
      * @Assert\Regex("/\d{10}/", message="This value must have 10 digits")
      */
@@ -70,7 +70,7 @@ class Card
 
     /**
      * @var Purchase
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Purchase", inversedBy="cards")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Purchase")
      */
     private $purchase;
 
@@ -237,28 +237,4 @@ class Card
     }
 
 
-
-    /**
-     * Set purchase
-     *
-     * @param \AppBundle\Entity\Purchase $purchase
-     *
-     * @return Card
-     */
-    public function setPurchase(\AppBundle\Entity\Purchase $purchase = null)
-    {
-        $this->purchase = $purchase;
-
-        return $this;
-    }
-
-    /**
-     * Get purchase
-     *
-     * @return \AppBundle\Entity\Purchase
-     */
-    public function getPurchase()
-    {
-        return $this->purchase;
-    }
 }

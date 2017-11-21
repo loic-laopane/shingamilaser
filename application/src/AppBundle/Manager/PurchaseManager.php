@@ -8,6 +8,7 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Entity\Card;
 use AppBundle\Entity\Purchase;
 use AppBundle\Entity\User;
 use AppBundle\Event\PurchaseEvent;
@@ -46,6 +47,7 @@ class PurchaseManager
      * @var Workflow
      */
     private $workflow;
+
 
     public function __construct(Workflow $workflow,
                                 $base_uri,
@@ -98,6 +100,13 @@ class PurchaseManager
      */
     public function thread(Purchase $purchase, ResponseInterface $response)
     {
+
+
+
+    }
+
+    private function threadRequest(Purchase $purchase, ResponseInterface $response)
+    {
         $content = $response->getBody()->getContents();
         $data = $this->serializer->deserialize($content, 'array', 'json');
         $return = array();
@@ -106,12 +115,47 @@ class PurchaseManager
         if ($data['status_code'] === 400)
         {
             $this->setErrorStatus($purchase);
-            $this->session->getFlashBag()->add('danger', $data['message']);
+            throw new Exception($data['message']);
         }
 
         if(isset($data['request_id'])) {
 
             $this->setRequestedStatus($purchase, $data['request_id']);
+            $this->session->getFlashBag()->add('success', $data['message']);
+        }
+
+        return $this;
+
+    }
+
+    private function threadGetCards(Purchase $purchase, ResponseInterface $response)
+    {
+        $content = $response->getBody()->getContents();
+        $data = $this->serializer->deserialize($content, 'array', 'json');
+        $return = array();
+        $return['status'] = $data['status_code'];
+        $return['message'] = $data['message'];
+        if ($data['status_code'] === 400)
+        {
+            $this->setErrorStatus($purchase);
+            throw new Exception($data['message']);
+        }
+
+        if(isset($data['cards'])) {
+            foreach($data['cards'] as $api_card)
+            {
+                $card = new Card();
+                $card->setCode($api_card['code']);
+                $card->setNumero($api_card['numero']);
+                $card->setCenter($purchase->getRequester()->getCenter());
+                $card->setPurchase($purchase);
+
+                $this->objectManager->persist($card);
+            }
+            $this->objectManager->flush();
+
+            $this->setCompletedStatus($purchase);
+
             $this->session->getFlashBag()->add('success', $data['message']);
         }
 
@@ -139,15 +183,30 @@ class PurchaseManager
      */
     private function setErrorStatus(Purchase $purchase)
     {
-        if(!$this->workflow->can($purchase, 'error'))
+        if($this->workflow->can($purchase, 'error'))
         {
-            throw new Exception('Purchase cannot be as error status');
+            $this->workflow->apply($purchase, 'error');
+            $purchase->setUpdatedAt(new \DateTime());
+            $this->save($purchase);
         }
-        $this->workflow->apply($purchase, 'error');
+        return $this;
+
+    }
+
+    /**
+     * @param Purchase $purchase
+     * @return $this
+     */
+    private function setCompletedStatus(Purchase $purchase)
+    {
+        if(!$this->workflow->can($purchase, 'complete'))
+        {
+            throw new Exception('Purchase cannot be as Completed status');
+        }
+        $this->workflow->apply($purchase, 'complete');
         $purchase->setUpdatedAt(new \DateTime());
         $this->save($purchase);
         return $this;
-
     }
 
     /**
@@ -156,23 +215,7 @@ class PurchaseManager
      */
     public function makeRequest(Purchase $purchase)
     {
-        $quantity = $purchase->getQuantity();
-        $user = $purchase->getRequester();
-
-
-        if(null === $user) {
-            $this->setErrorStatus($purchase);
-            throw new Exception('No requester found on this purchase');
-        }
-        if(null === $user->getCenter()) {
-            $this->setErrorStatus($purchase);
-            throw new Exception('No center associated on current user');
-        }
-
-        if(!$quantity) {
-            $this->setErrorStatus($purchase);
-            throw new Exception('Qunatity cannot be null');
-        }
+        $this->checkPrerequisite($purchase);
 
         //Si on est en erreur, on revalide
         if($this->workflow->can($purchase, 'validate'))
@@ -187,16 +230,50 @@ class PurchaseManager
 
         $client = new Client(['base_uri' => $this->base_uri]);
         $data = array(
-            'center' => $user->getCenter()->getCode(),
-            'quantity' => $quantity
+            'center' => $purchase->getRequester()->getCenter()->getCode(),
+            'quantity' => $purchase->getQuantity()
         );
         $jsonData = $this->serializer->serialize($data, 'json');
         $response = $client->request('POST', 'request', array(
             'body' => $jsonData
         ));
 
-        $this->thread($purchase, $response);
+        $this->threadRequest($purchase, $response);
 
         return $this;
+    }
+
+    public function getCards(Purchase $purchase)
+    {
+        $this->checkPrerequisite($purchase);
+
+        $client = new Client(['base_uri' => $this->base_uri]);
+        $data = array(
+            'center' => $purchase->getRequester()->getCenter()->getCode(),
+            'request_id' => $purchase->getReference()
+        );
+        $jsonData = $this->serializer->serialize($data, 'json');
+        $response = $client->request('POST', 'cards', array(
+            'body' => $jsonData
+        ));
+
+        $this->threadGetCards($purchase, $response);
+    }
+
+    private function checkPrerequisite(Purchase $purchase)
+    {
+        $user = $purchase->getRequester();
+        if(null === $user) {
+            $this->setErrorStatus($purchase);
+            throw new Exception('No requester found on this purchase');
+        }
+        if(null === $user->getCenter()) {
+            $this->setErrorStatus($purchase);
+            throw new Exception('No center associated on current user');
+        }
+        if(!$purchase->getQuantity()) {
+            $this->setErrorStatus($purchase);
+            throw new Exception('Qunatity cannot be null');
+        }
     }
 }

@@ -22,25 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PurchaseController extends Controller
 {
 
-    /**
-     * @Route("/purchase/{id}/request", name="purchase_request")
-     * @Method({"POST"})
-     */
-    public function requestAction(Purchase $purchase, PurchaseManager $purchaseManager)
-    {
-        try {
-
-            $purchaseManager->makeRequest($purchase);
-        }
-        catch (Exception $e)
-        {
-            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
-        }
-
-        return $this->redirectToRoute('purchase_edit', array('id' => $purchase->getId()));
-    }
-
-    /**
+     /**
      * @param Request $request
      * @return Response
      * @Route("/purchase/create", name="purchase_create")
