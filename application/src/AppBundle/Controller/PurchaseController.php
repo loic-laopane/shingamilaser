@@ -6,6 +6,7 @@ use AppBundle\Entity\Purchase;
 use AppBundle\Form\PurchaseType;
 use AppBundle\Manager\PurchaseManager;
 use GuzzleHttp\Client;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,34 +24,18 @@ class PurchaseController extends Controller
 
     /**
      * @Route("/purchase/{id}/request", name="purchase_request")
+     * @Method({"POST"})
      */
-    public function requestAction(Request $request, Purchase $purchase, PurchaseManager $purchaseManager)
+    public function requestAction(Purchase $purchase, PurchaseManager $purchaseManager)
     {
-        $base_uri = 'http://localhost/web/app_dev.php/api/';
-        $serializer = $this->get('jms_serializer');
-        $client = new Client(['base_uri' => $base_uri]);
-
         try {
 
-            $data = ['center' => 123, 'quantity' => $purchase->getQuantity()];
-            $jsonData = $serializer->serialize($data, 'json');
-            $response = $client->request('POST', 'request', array(
-                'body' => $jsonData
-            ));
-
-            //print_r($response);
-            $purchaseManager->thread($purchase, $response);
-
-            //$data = $serializer->deserialize($response->getBody()->getContents(), 'array', 'json');
-
+            $purchaseManager->makeRequest($purchase);
         }
-
         catch (Exception $e)
         {
-            dump($e->getMessage());
+            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
-
-
 
         return $this->redirectToRoute('purchase_edit', array('id' => $purchase->getId()));
 
@@ -59,10 +44,7 @@ class PurchaseController extends Controller
         echo $res->getStatusCode(); // 200
         echo $res->getHeaderLine('content-type'); // 'application/json; charset=utf8'
         echo $res->getBody(); // '{"id": 1420053, "name": "guzzle", ...}'
-*/
-        return $this->render('AppBundle:Purchase:request.html.twig', array(
-            // ...
-        ));
+        */
     }
 
     /**
@@ -80,6 +62,7 @@ class PurchaseController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
             $purchaseManager->create($purchase);
+
             return $this->redirectToRoute('purchase_edit', array(
                 'id' => $purchase->getId()
             ));

@@ -87,12 +87,6 @@ class Center
     private $city;
 
     /**
-     * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User")
-     */
-    private $users;
-
-    /**
      * Get id
      *
      * @return int

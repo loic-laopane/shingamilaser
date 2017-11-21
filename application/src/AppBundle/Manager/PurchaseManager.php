@@ -9,11 +9,14 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\Purchase;
+use AppBundle\Entity\User;
 use AppBundle\Event\PurchaseEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 
+use GuzzleHttp\Client;
 use JMS\Serializer\Serializer;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -35,6 +38,12 @@ class PurchaseManager
      * @var Serializer
      */
     private $serializer;
+    /**
+     * @var Client
+     */
+    private $client;
+
+    private $base_uri = 'http://localhost/web/app_dev.php/api/';
 
     public function __construct(ObjectManager $objectManager,
                                 SessionInterface $session,
@@ -112,4 +121,39 @@ class PurchaseManager
 
     }
 
+    /**
+     * @param int $quantity
+     * @return $this
+     */
+    public function makeRequest(Purchase $purchase)
+    {
+        $quantity = $purchase->getQuantity();
+        $user = $purchase->getRequester();
+
+        if(null === $user) {
+            throw new Exception('No requester found on this purchase');
+        }
+        if(null === $user->getCenter()) {
+            throw new Exception('No center associated on current user');
+        }
+
+        if(!$quantity) {
+            throw new Exception('Qunatity cannot be null');
+        }
+
+        $client = new Client(['base_uri' => $this->base_uri]);
+        $data = array(
+            'center' => $user->getCenter()->getCode(),
+            'quantity' => $quantity
+        );
+        $jsonData = $this->serializer->serialize($data, 'json');
+        $response = $client->request('POST', 'request', array(
+            'body' => $jsonData
+        ));
+
+        $this->thread($purchase, $response);
+
+        return $this;
+
+    }
 }
