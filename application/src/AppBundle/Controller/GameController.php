@@ -15,6 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -166,30 +167,22 @@ class GameController extends Controller
      */
     public function qrcodeAction(ObjectManager $objectManager, Request $request, CustomerGameManager $customerGameManager, CardManager $cardManager)
     {
-        $return = [];
-        $numero = $request->request->get('qrData');
-        $game_id = $request->request->get('game');
-        $game = $objectManager->getRepository('AppBundle:Game')->find($game_id);
-        $card = $cardManager->search($numero);
+        $return = ['status' => 1];
+        try {
+            $numero = $request->request->get('qrData');
+            $game_id = $request->request->get('game_id');
+            $game = $objectManager->getRepository('AppBundle:Game')->find($game_id);
+            $card = $cardManager->search($numero);
+            $customerGameManager->add($card->getCustomer(), $game);
 
-        if(null === $card) {
-            $return['status'] = 0;
-            $return['message'] = 'Card not found';
+
         }
-        else {
-            if(null === $card->getCustomer())
-            {
-                $return['status'] = 0;
-                $return['message'] = 'Customer not found';
-            }
-            else {
-                $customerGameManager->add($card->getCustomer(), $game);
-                $return['status'] = 1;
-                $return['message'] = 'User found';
-            }
+        catch(Exception $exception)
+        {
+            $return['status'] = 0;
+            $this->get('session')->getFlashBag()->add('danger', $exception->getMessage());
         }
 
         return $this->json($return);
-
     }
 }
