@@ -11,6 +11,7 @@ use AppBundle\Form\GameType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerGameManager;
 use AppBundle\Manager\GameManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -158,5 +159,38 @@ class GameController extends Controller
         }
         //return $this->render('AppBundle:Game:customer.html.twig', array('card' => $card));
         return $this->json($response);
+    }
+
+    /**
+     * @Route("/qrcode", name="qrcode")
+     */
+    public function qrcodeAction(ObjectManager $objectManager, Request $request, CustomerGameManager $customerGameManager, CardManager $cardManager)
+    {
+        $return = [];
+        $numero = $request->request->get('qrData');
+        $game_id = $request->request->get('game');
+        $game = $objectManager->getRepository('AppBundle:Game')->find($game_id);
+        $card = $cardManager->search($numero);
+
+        if(null === $card) {
+            $return['status'] = 0;
+            $return['message'] = 'Card not found';
+        }
+        else {
+            if(null === $card->getCustomer())
+            {
+                $return['status'] = 0;
+                $return['message'] = 'Customer not found';
+            }
+            else {
+                $customerGameManager->add($card->getCustomer(), $game);
+                $return['status'] = 1;
+                $return['message'] = 'User found';
+            }
+        }
+
+
+        return $this->json($return);
+        //$objectManager->getRepository('AppBundle:Card')->findOneBy(['numero' => ]);
     }
 }
