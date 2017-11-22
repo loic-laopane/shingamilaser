@@ -191,7 +191,7 @@ class User implements UserInterface
      *
      * @return User
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\Datetime $createdAt)
     {
         $this->createdAt = $createdAt;
 
