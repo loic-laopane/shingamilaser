@@ -6,9 +6,13 @@
  * Time: 14:11
  */
 
-namespace AppBundle\Entity;
+namespace test\AppBundle\Entity;
 
 
+use AppBundle\Entity\Card;
+use AppBundle\Entity\Center;
+use AppBundle\Entity\Customer;
+use AppBundle\Entity\Purchase;
 use PHPUnit\Framework\TestCase;
 
 class CardTest extends TestCase

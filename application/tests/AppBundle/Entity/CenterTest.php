@@ -6,12 +6,13 @@
  * Time: 15:10
  */
 
-namespace AppBundle\Entity;
+namespace test\AppBundle\Entity;
 
 
+use AppBundle\Entity\Center;
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class CenterTest extends TestCase
 {
@@ -98,15 +99,12 @@ class CenterTest extends TestCase
         $user_1 = $this->createMock(User::class);
         $user_2 = $this->createMock(User::class);
         $user_3 = $this->createMock(User::class);
-        $users = new ArrayCollection([$user_1, $user_3]);
 
         $this->center->addUser($user_1);
         $this->center->addUser($user_2);
         $this->center->addUser($user_3);
 
         $this->center->removeUser($user_1);
-
-
 
         $this->assertEquals(2, count($this->center->getUsers()->toArray()));
     }

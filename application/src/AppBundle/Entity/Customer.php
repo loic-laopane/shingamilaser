@@ -262,6 +262,9 @@ class Customer
      */
     public function setZipcode($zipcode)
     {
+        if(strlen($zipcode) !== 5) {
+            throw new \InvalidArgumentException('Zip code must contain 5 digits');
+        }
         $this->zipcode = $zipcode;
 
         return $this;
@@ -308,7 +311,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setBirthdate($birthdate)
+    public function setBirthdate(\DateTime $birthdate)
     {
         $this->birthdate = $birthdate;
 

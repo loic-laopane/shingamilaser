@@ -73,6 +73,7 @@ class Purchase
     {
         $this->createdAt = new \DateTime();
         $this->status = 'created';
+        $this->cards = new ArrayCollection();
     }
 
     /**
@@ -116,7 +117,7 @@ class Purchase
      *
      * @return Purchase
      */
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity)
     {
         $this->quantity = $quantity;
 
@@ -140,7 +141,7 @@ class Purchase
      *
      * @return Purchase
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
 
@@ -164,7 +165,7 @@ class Purchase
      *
      * @return Purchase
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
 
