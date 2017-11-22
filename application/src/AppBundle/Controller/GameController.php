@@ -162,7 +162,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/qrcode", name="qrcode")
+     * @Route("/qrcode", name="game_qrcode")
      */
     public function qrcodeAction(ObjectManager $objectManager, Request $request, CustomerGameManager $customerGameManager, CardManager $cardManager)
     {
@@ -189,8 +189,7 @@ class GameController extends Controller
             }
         }
 
-
         return $this->json($return);
-        //$objectManager->getRepository('AppBundle:Card')->findOneBy(['numero' => ]);
+
     }
 }

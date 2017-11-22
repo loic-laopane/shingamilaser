@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Game:delete{% endblock %}
+{% block title %}Manage game{% endblock %}
 
 {% block body %}
     <h1>Game : {{ game.title }}</h1>
@@ -41,41 +41,42 @@
         <div class="col-md-12" id="response"></div>
     </div>
     {% endif %}
-
+    <hr>
     <div class="row">
-        <hr>
-        <h2>Players</h2>
-        {% if customersGame | length > 0 %}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Score</th>
-                        {% if game.startedAt is null %}
-                        <th>Actions</th>
-                        {% endif %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for customerGame in customersGame %}
+        <div class="col-md-12">
+            <h2>Players</h2>
+            {% if customersGame | length > 0 %}
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ customerGame.customer.nickname }}</td>
-                            <td>{{ customerGame.score }}</td>
+                            <th>Player</th>
+                            <th>Score</th>
                             {% if game.startedAt is null %}
-                            <td>
-                                <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
-                                    <button class="btn btn-danger btn-fill"><i class="fa fa-minus"></i> {{ 'btn.remove' }}</button>
-                                </form>
-                            </td>
+                            <th>Actions</th>
                             {% endif %}
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for customerGame in customersGame %}
+                            <tr>
+                                <td>{{ customerGame.customer.nickname }}</td>
+                                <td>{{ customerGame.score }}</td>
+                                {% if game.startedAt is null %}
+                                <td>
+                                    <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
+                                        <button class="btn btn-danger btn-fill"><i class="fa fa-minus"></i> {{ 'btn.remove' }}</button>
+                                    </form>
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-        {% else %}
-            <p>No players in this game</p>
-        {% endif %}
+            {% else %}
+                <p>No players in this game</p>
+            {% endif %}
+        </div>
     </div>
 
     <hr>
