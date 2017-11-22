@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Game:delete{% endblock %}
+{% block title %}Manage game{% endblock %}
 
 {% block body %}
     <h1>Game : {{ game.title }}</h1>
@@ -29,121 +29,63 @@
             {{ form_end(form) }}
 
             {# ------ #}
-            <h2>Démo</h2>
-            <div id="cameraChoose">
-            </div>
-            <div id="camera">
-            </div>
-            <p>
-                <input id="ScanQRStartStop" value="Démarrer / Stop le scan d'un code QR" type="button" /></p>
 
-            <h2 id="ScanQRResult"></h2>
-            <script src="https://blog.niap3d.com/jsQRScan/jsQRScan.1.0.min.js"></script>
-            <script type="text/javascript">
-                //<![CDATA[
-
-                // crée le menu déroulant de choix de la caméra
-                var s = document.createElement('select');
-                s.id = 'videoInputLst';
-                document.getElementById('cameraChoose').appendChild(s);
-
-                s.addEventListener('change', function(){
-                    scanner.VideoInputChange(this.options[this.selectedIndex].value);
-                }, false);
-
-                navigator.mediaDevices.enumerateDevices().
-                then(function(devices){
-                    devices.forEach(function(device){
-                        var s = document.getElementById('videoInputLst')
-                        if(device.kind == 'videoinput'){
-                            var o = document.createElement('option');
-                            o.value = device.deviceId;
-                            o.text = device.label || 'Caméra '+(s.length + 1);
-                            s.appendChild(o);
-                        }
-                    });
-                })
-                    .catch(function(err){
-                        console.log(err.name + ": " + error.message);
-                    });
-
-                // callback scanner
-                function retour(qrData){
-                    document.getElementById('ScanQRResult').innerHTML = 'Résultat du scan : '+qrData;
-                    scanner = 0;
-                }
-
-                function retourError(){
-                    document.getElementById('ScanQRResult').innerHTML = 'Aucun QR trouvé';
-                    scanner.Stop();
-                    scanner = 0;
-                }
-
-                // init scanner
-                var scanner = 0;
-                document.getElementById('ScanQRStartStop').addEventListener('click', function(ev){
-                    if(scanner){
-                        document.getElementById('ScanQRResult').innerHTML = '';
-                        scanner.Stop();
-                        scanner = 0;
-
-                    }else{
-                        document.getElementById('ScanQRResult').innerHTML = 'Scan en cours...';
-                        scanner = new jsQRScan({
-                            'id': 'camera',
-                            'width': 320,
-                            'height': 240,
-                            'streamId': document.getElementById('videoInputLst').options[document.getElementById('videoInputLst').selectedIndex].value,
-                            'callbackSuccess': retour,
-                            'callbackEnd': retourError
-                        });
-                    }
-                }, false);
-
-                //]]>
-            </script>
 
 
             {# ------ #}
         </div>
+        <div class="col-md-6">
+            {% include 'AppBundle:Game:qrcode.html.twig' %}
+        </div>
 
-        <div class="col-md-6" id="response"></div>
+        <div class="col-md-12" id="response"></div>
     </div>
     {% endif %}
-
+    <hr>
     <div class="row">
-        <hr>
-        <h2>Players</h2>
-        {% if customersGame | length > 0 %}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Score</th>
-                        {% if game.startedAt is null %}
-                        <th>Actions</th>
-                        {% endif %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for customerGame in customersGame %}
+        <div class="col-md-12">
+            <h2>Players</h2>
+            {% if customersGame | length > 0 %}
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ customerGame.customer.nickname }}</td>
-                            <td>{{ customerGame.score }}</td>
+                            <th>Player</th>
+                            <th>Score</th>
                             {% if game.startedAt is null %}
-                            <td>
-                                <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
-                                    <button class="btn btn-danger btn-fill"><i class="fa fa-minus"></i> {{ 'btn.remove' }}</button>
-                                </form>
-                            </td>
+                            <th>Actions</th>
                             {% endif %}
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for customerGame in customersGame %}
+                            <tr>
+                                <td>{{ customerGame.customer.nickname }}</td>
+                                <td>{{ customerGame.score }}</td>
+                                {% if game.startedAt is null %}
+                                <td>
+                                    <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
+                                        <button class="btn btn-danger btn-fill"><i class="fa fa-minus"></i> {{ 'btn.remove' }}</button>
+                                    </form>
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-        {% else %}
-            <p>No players in this game</p>
-        {% endif %}
+            {% else %}
+                <p>No players in this game</p>
+            {% endif %}
+        </div>
     </div>
+
+    <hr>
+    <canvas width="320" height="240" id="webcodecam-canvas"></canvas>
+    <hr>
+    <ul></ul>
+
+
+{% endblock %}
+{% block javascripts %}
+
 {% endblock %}

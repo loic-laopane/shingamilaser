@@ -11,9 +11,11 @@ use AppBundle\Form\GameType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerGameManager;
 use AppBundle\Manager\GameManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -158,5 +160,29 @@ class GameController extends Controller
         }
         //return $this->render('AppBundle:Game:customer.html.twig', array('card' => $card));
         return $this->json($response);
+    }
+
+    /**
+     * @Route("/qrcode", name="game_qrcode")
+     */
+    public function qrcodeAction(ObjectManager $objectManager, Request $request, CustomerGameManager $customerGameManager, CardManager $cardManager)
+    {
+        $return = ['status' => 1];
+        try {
+            $numero = $request->request->get('qrData');
+            $game_id = $request->request->get('game_id');
+            $game = $objectManager->getRepository('AppBundle:Game')->find($game_id);
+            $card = $cardManager->search($numero);
+            $customerGameManager->add($card->getCustomer(), $game);
+
+
+        }
+        catch(Exception $exception)
+        {
+            $return['status'] = 0;
+            $this->get('session')->getFlashBag()->add('danger', $exception->getMessage());
+        }
+
+        return $this->json($return);
     }
 }
