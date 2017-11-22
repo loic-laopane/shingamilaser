@@ -103,8 +103,12 @@ class Center
      *
      * @return Center
      */
-    public function setCode($code)
+    public function setCode(int $code)
     {
+        if(strlen($code) !== 3)
+        {
+            throw new \InvalidArgumentException('Code must contain 3 digits');
+        }
         $this->code = $code;
 
         return $this;
@@ -177,6 +181,9 @@ class Center
      */
     public function setZipcode($zipcode)
     {
+        if (strlen($zipcode) !== 5) {
+            throw new \InvalidArgumentException('Zipcode must contain 5 digits');
+        }
         $this->zipcode = $zipcode;
 
         return $this;
@@ -245,6 +252,8 @@ class Center
     public function removeUser(\AppBundle\Entity\User $user)
     {
         $this->users->removeElement($user);
+
+        return $this;
     }
 
     /**

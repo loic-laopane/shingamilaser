@@ -17,11 +17,10 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Exception;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class GameManagerTest extends TestCase
+class GameManagerTest
 {
     private $objectManager;
     private $encoder;
