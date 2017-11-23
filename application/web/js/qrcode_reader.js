@@ -55,7 +55,7 @@ function autoAdd(qrData)
         url: uri,
         method: 'POST',
         dataType: 'json',
-        data: 'game_id={{ game.id }}&qrData='+qrData,
+        data: 'qrData='+qrData,
         success: function(response) {
             document.getElementById('numero').value = qrData;
             if(response.status)

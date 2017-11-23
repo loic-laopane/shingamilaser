@@ -2,7 +2,7 @@
 
 <div>
     <label for="autoadd">
-        <input type="checkbox" id="autoadd" checked="checked" data-href="{{ path('game_qrcode') }}"> Automatic add customer
+        <input type="checkbox" id="autoadd" checked="checked" data-href="{{ path('game_qrcode', { 'id' : game.id }) }}"> Automatic add customer
     </label>
 </div>
 
