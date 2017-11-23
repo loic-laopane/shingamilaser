@@ -51,7 +51,7 @@ class PurchaseTest extends TestCase
     public function testInsertInvalidQuantity()
     {
         $quantity = 'a';
-        $this->expectException(\TypeError::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->purchase->setQuantity($quantity);
     }
 

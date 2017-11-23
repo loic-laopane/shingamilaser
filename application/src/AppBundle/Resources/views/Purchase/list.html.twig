@@ -1,7 +1,51 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Purchase:list{% endblock %}
+{% block title %}Purchases list{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Purchase:list page</h1>
+<h1>Purchases list</h1>
+    <a href="{{ path('purchase_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
+    <hr>
+    {% if purchases is not null %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Quantity</th>
+                    <th>Requester</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
+                    <th>~</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for purchase in purchases %}
+                <tr>
+                    <td>#{{ purchase.id }}</td>
+                    <td>{{ purchase.quantity }}</td>
+                    <td>{{ purchase.requester.username }}</td>
+                    <td>{{ purchase.createdAt | date('d/m/Y') }}</td>
+                    <td>{{ purchase.updatedAt | date('d/m/Y H:i') }}</td>
+                    <td>{{ purchase.status | trans }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                Actions
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('purchase_edit', { 'id' : purchase.id }) }}"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('purchase_show', { 'id' : purchase.id }) }}"><i class="fa fa-eye"></i> {{ 'btn.show' | trans }}</a></li>
+                            </ul>
+
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No purchase</p>
+    {% endif %}
 {% endblock %}

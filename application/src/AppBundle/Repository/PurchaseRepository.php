@@ -10,4 +10,12 @@ namespace AppBundle\Repository;
  */
 class PurchaseRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAll($requester)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.requester = :user')
+            ->setParameter('user', $requester)
+            ->getQuery()
+            ->getResult();
+    }
 }

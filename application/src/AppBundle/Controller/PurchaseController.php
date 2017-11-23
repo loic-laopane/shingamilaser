@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Purchase;
 use AppBundle\Form\PurchaseType;
 use AppBundle\Manager\PurchaseManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -69,7 +70,7 @@ class PurchaseController extends Controller
         ));
     }
     /**
-     * @Route("/purchase/show")
+     * @Route("/purchase/show", name="purchase_show")
      */
     public function showAction()
     {
@@ -81,10 +82,11 @@ class PurchaseController extends Controller
     /**
      * @Route("/purchase/list", name="purchase_list")
      */
-    public function listAction()
+    public function listAction(ObjectManager $objectManager)
     {
+        $purchases = $objectManager->getRepository(Purchase::class)->getAll($this->getUser());
         return $this->render('AppBundle:Purchase:list.html.twig', array(
-            // ...
+            'purchases' => $purchases
         ));
     }
 

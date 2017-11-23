@@ -224,10 +224,10 @@ class Card
     /**
      * @param int $numero
      */
-    public function setNumero(int $numero)
+    public function setNumero($numero)
     {
-        if(strlen($numero) !== 10) {
-            throw new \InvalidArgumentException('Card number must contain 10 digits');
+        if(strlen($numero) !== 10 || !is_numeric($numero)) {
+            throw new \InvalidArgumentException('Card number ('.$numero.') must contain 10 digits');
         }
         $this->numero = $numero;
 

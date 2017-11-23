@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     /**
      * @Route("/admin/users", name="admin_user_list")
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
     public function listAction(ObjectManager $objectManager)
@@ -30,7 +30,7 @@ class UserController extends Controller
 
     /**
      * @Route("/admin/user/create", name="admin_user_create")
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET","POST"})
      */
     public function createAction(Request $request, UserManager $userManager)
@@ -56,7 +56,7 @@ class UserController extends Controller
 
     /**
      * @Route("/admin/user/{id}/edit", name="admin_user_edit")
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, User $user, ObjectManager $objectManager)
@@ -77,7 +77,7 @@ class UserController extends Controller
 
     /**
      * @Route("/admin/user/{id}/delete", name="admin_user_delete")
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
     public function deleteAction($id, UserManager $userManager)
