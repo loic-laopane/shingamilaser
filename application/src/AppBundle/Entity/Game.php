@@ -67,7 +67,7 @@ class Game
      *
      * @return Game
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
 
@@ -91,7 +91,7 @@ class Game
      *
      * @return Game
      */
-    public function setStartedAt($startedAt)
+    public function setStartedAt(\DateTime $startedAt)
     {
         $this->startedAt = $startedAt;
 
@@ -115,7 +115,7 @@ class Game
      *
      * @return Game
      */
-    public function setEndedAt($endedAt)
+    public function setEndedAt(\DateTime $endedAt)
     {
         $this->endedAt = $endedAt;
 

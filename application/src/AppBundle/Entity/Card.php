@@ -25,7 +25,7 @@ class Card
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=6)
+     * @ORM\Column(name="code", type="string", length=6, nullable=true)
      */
     private $code;
 
@@ -99,6 +99,9 @@ class Card
      */
     public function setCode($code)
     {
+        if(strlen($code) !== 6) {
+            throw new \InvalidArgumentException('Card code must contain 6 digits');
+        }
         $this->code = $code;
 
         return $this;
@@ -121,7 +124,7 @@ class Card
      *
      * @return Card
      */
-    public function setActivatedAt($activatedAt)
+    public function setActivatedAt(\DateTime $activatedAt)
     {
         $this->activatedAt = $activatedAt;
 
@@ -145,7 +148,7 @@ class Card
      *
      * @return Card
      */
-    public function setActive($active)
+    public function setActive(bool $active)
     {
         $this->active = $active;
 
@@ -219,10 +222,13 @@ class Card
     }
 
     /**
-     * @param mixed $numero
+     * @param int $numero
      */
-    public function setNumero($numero)
+    public function setNumero(int $numero)
     {
+        if(strlen($numero) !== 10) {
+            throw new \InvalidArgumentException('Card number must contain 10 digits');
+        }
         $this->numero = $numero;
 
         return $this;

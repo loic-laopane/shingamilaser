@@ -57,7 +57,7 @@ class CardManager
             }
         }
 
-        if(!$card->getActive())
+        if($card->getActive() === false)
         {
             throw new Exception('Card '.$numero.' is not active');
         }
