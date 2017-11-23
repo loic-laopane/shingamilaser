@@ -169,6 +169,9 @@ class User implements UserInterface
      */
     public function setEmail($email)
     {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException('Email invalid');
+        }
         $this->email = $email;
 
         return $this;
@@ -217,6 +220,10 @@ class User implements UserInterface
      */
     public function setActive($active)
     {
+        if(!is_bool($active))
+        {
+            throw new \InvalidArgumentException('Set User active require boolean');
+        }
         $this->active = $active;
 
         return $this;
@@ -241,6 +248,10 @@ class User implements UserInterface
      */
     public function setRoles($roles)
     {
+        if(!is_array($roles))
+        {
+            throw new \InvalidArgumentException('Roles must be an array');
+        }
         $this->roles = $roles;
 
         return $this;
@@ -280,6 +291,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+        return $this;
     }
 
     /**

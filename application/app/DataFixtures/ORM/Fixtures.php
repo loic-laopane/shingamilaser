@@ -25,18 +25,26 @@ class Fixtures extends Fixture
         $encoder = $this->container->get('security.password_encoder');
         // TODO: Implement load() method.
         $admin = new User();
-        $admin->setUsername('loic')
+        $admin->setUsername('admin')
             ->setEmail('loic@wf3.com')
-            ->setRoles(['ROLE_SUPERADMIN']);
-        $password = $encoder->encodePassword($admin, 'loic');
+            ->setRoles(['ROLE_ADMIN']);
+        $password = $encoder->encodePassword($admin, 'admin');
         $admin->setPassword($password);
         $manager->persist($admin);
 
+        $staff = new User();
+        $staff->setUsername('staff')
+            ->setEmail('staff@wf3.com')
+            ->setRoles(['ROLE_STAFF']);
+        $password = $encoder->encodePassword($staff, 'staff');
+        $staff->setPassword($password);
+        $manager->persist($staff);
+
         $user = new User();
-        $user->setUsername('aaa')
+        $user->setUsername('user')
             ->setEmail('aaa@wf3.com')
             ->setRoles(['ROLE_USER']);
-        $password = $encoder->encodePassword($user, 'aaaa');
+        $password = $encoder->encodePassword($user, 'user');
         $user->setPassword($password);
         $manager->persist($user);
 
@@ -52,7 +60,7 @@ class Fixtures extends Fixture
                 ->setCity('Bourgogne city');
         $manager->persist($center);
 
-        $center_api = New \Wf3\ApiBundle\Entity\Center();
+        $center_api = new \Wf3\ApiBundle\Entity\Center();
         $center_api->setCode($center->getCode())
                     ->setName($center->getName())
                     ->setAddress($center->getAddress())
@@ -64,7 +72,6 @@ class Fixtures extends Fixture
         $card
             ->setCenter($center)
             ->setCustomer($customer)
-            ->setChecksum(7)
             ->setNumero('1231234567')
             ->setActivatedAt(new \DateTime())
             ->setActive(true);
