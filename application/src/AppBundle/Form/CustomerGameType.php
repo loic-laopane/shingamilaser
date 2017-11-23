@@ -14,7 +14,8 @@ class CustomerGameType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('numero', TextType::class);
+        $builder->add('numero', TextType::class, array('required' => false));
+        $builder->add('nickname', TextType::class, array('required' => false));
     }
     
     /**
@@ -23,7 +24,7 @@ class CustomerGameType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Card'
+            //'data_class' => 'AppBundle\Entity\Card'
         ));
     }
 

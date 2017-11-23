@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Purchase:show{% endblock %}
+{% block title %}Manager purchase{% endblock %}
 
 {% block body %}
 <h1>Manage purchase</h1>
@@ -65,14 +65,18 @@
                 <button class="btn btn-info btn-fill"><i class="fa fa-download"></i> {{ 'btn.get.cards' | trans }}</button>
             </form>
             {% endif %}
+            <a href="{{ path('purchase_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.return' }}</a>
 
             {% if purchase.cards is not null %}
                 <h4>Associated cards</h4>
                 <div class="card-list">
                 {% for card in purchase.cards %}
                     <li {{ card.active == false ? 'class="stroken"' }}>{{ card.numero }}</li>
+                {% else %}
+                    <p>No cards associated</p>
                 {% endfor %}
                 </div>
+
             {% endif %}
         </div>
     </div>

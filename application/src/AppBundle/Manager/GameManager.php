@@ -8,9 +8,11 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Entity\CustomerGame;
 use AppBundle\Entity\Game;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 class GameManager
 {
@@ -27,13 +29,23 @@ class GameManager
      * @var SessionInterface
      */
     private $session;
+    /**
+     * @var EngineInterface
+     */
+    private $templating;
+    /**
+     * @var CustomerManager
+     */
+    private $customerManager;
 
 
-    public function __construct(ObjectManager $manager, SessionInterface $session)
+    public function __construct(ObjectManager $manager, SessionInterface $session, EngineInterface $templating, CustomerManager $customerManager)
     {
         $this->manager = $manager;
         $this->repository = $manager->getRepository(Game::class);
         $this->session = $session;
+        $this->templating = $templating;
+        $this->customerManager = $customerManager;
     }
 
 
@@ -77,6 +89,7 @@ class GameManager
         $now = new \DateTime();
         if(null !== $game->getStartedAt()) {
             $game->setEndedAt($now);
+            $this->simuleScore($game);
         }
         else {
             $game->setStartedAt($now);
@@ -94,5 +107,64 @@ class GameManager
         return $this->repository->findAll();
     }
 
+    /**
+     * Recherche un Client d'apres des parametre venant d'un formulaire
+     * Retourne un reponse
+     * Si reponse positive, retourne une vue incluant le game
+     * @param array $data
+     * @param Game $game
+     * @return array
+     */
+    public function searchCustomerWithGame(array $data, Game $game)
+    {
+
+        $numero = $data['numero'];
+        $nickname = $data['nickname'];
+        $response = [
+            'status' => 0,
+            'message' => 'No customer found with number '.$numero,
+            'data' => null
+        ];
+
+        if(empty($numero) && empty($nickname))
+        {
+            $response['message'] = 'Please fill card number or customer nickname';
+        }
+        else {
+            $customers = $this->customerManager->getCustomerByParams($data);
+            if(count($customers) == 0) {
+                $response['message'] = 'No customer found';
+            }
+            else {
+                foreach($customers  as $customer)
+                {
+                    $response['data'] .= $this->templating->render('AppBundle:Game:customer.html.twig', array(
+                        'customer' => $customer,
+                        'game' => $game
+                    ));
+                }
+                $response['status'] = 1;
+                $response['message'] = 'Customer found';
+
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * @param Game $game
+     * @return $this
+     */
+    public function simuleScore(Game $game)
+    {
+        $customerGame = $this->manager->getRepository(CustomerGame::class)->findBy(['game' => $game]);
+        foreach($customerGame as $row)
+        {
+            $row->setScore(mt_rand(0, 100));
+        }
+        $this->manager->flush();
+
+        return $this;
+    }
 
 }

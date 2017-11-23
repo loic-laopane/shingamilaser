@@ -54,7 +54,7 @@ class SecurityController extends Controller
     /**
      * @Route("/admin", name="admin")
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function adminAction()
     {

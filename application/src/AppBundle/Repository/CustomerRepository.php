@@ -10,4 +10,22 @@ namespace AppBundle\Repository;
  */
 class CustomerRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByParams(array $params)
+    {
+        $qr =  $this->createQueryBuilder('c');
+        if(isset($params['numero']) && !empty($params['numero']))
+        {
+            $qr->join('c.cards', 'card', 'WITH', 'card.numero = :numero')
+                ->setParameter('numero', $params['numero'])
+                ->andWhere('card.active = 1');
+        }
+        if(isset($params['nickname']) && !empty($params['nickname']))
+        {
+            $qr->andWhere('c.nickname = :nickname')
+                ->setParameter('nickname', $params['nickname']);
+        }
+        return $qr->getQuery()->getResult();
+    }
+
+
 }

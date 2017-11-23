@@ -4,6 +4,8 @@
 
 {% block body %}
     <h1>Game list</h1>
+    <a href="{{ path('game_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
+    <hr>
     {% if games | length > 0 %}
         <table class="table">
             <thead>

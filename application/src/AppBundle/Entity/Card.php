@@ -148,8 +148,12 @@ class Card
      *
      * @return Card
      */
-    public function setActive(bool $active)
+    public function setActive($active)
     {
+        if(!is_bool($active))
+        {
+            throw new \InvalidArgumentException('Attribute Active must be a boolean');
+        }
         $this->active = $active;
 
         return $this;
@@ -224,10 +228,10 @@ class Card
     /**
      * @param int $numero
      */
-    public function setNumero(int $numero)
+    public function setNumero($numero)
     {
-        if(strlen($numero) !== 10) {
-            throw new \InvalidArgumentException('Card number must contain 10 digits');
+        if(strlen($numero) !== 10 || !is_numeric($numero)) {
+            throw new \InvalidArgumentException('Card number ('.$numero.') must contain 10 digits');
         }
         $this->numero = $numero;
 

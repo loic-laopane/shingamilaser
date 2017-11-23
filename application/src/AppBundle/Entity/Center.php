@@ -103,9 +103,9 @@ class Center
      *
      * @return Center
      */
-    public function setCode(int $code)
+    public function setCode($code)
     {
-        if(strlen($code) !== 3)
+        if(strlen($code) !== 3 || !is_int($code))
         {
             throw new \InvalidArgumentException('Code must contain 3 digits');
         }

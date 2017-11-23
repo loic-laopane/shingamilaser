@@ -85,4 +85,10 @@ class CustomerManager
         }
         return $cards;
     }
+
+    public function getCustomerByParams(array $params)
+    {
+        $customers = $this->repository->findByParams($params);
+        return $customers;
+    }
 }

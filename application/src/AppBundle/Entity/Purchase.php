@@ -113,12 +113,15 @@ class Purchase
     /**
      * Set quantity
      *
-     * @param integer $quantity
+     * @param int $quantity
      *
      * @return Purchase
      */
-    public function setQuantity(int $quantity)
+    public function setQuantity($quantity)
     {
+        if(!is_int($quantity)) {
+            throw new \InvalidArgumentException('Quantity must be an integer');
+        }
         $this->quantity = $quantity;
 
         return $this;

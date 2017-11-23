@@ -68,16 +68,6 @@ class Fixtures extends Fixture
                     ->setCity($center->getCity());
         $api_manager->persist($center_api);
 
-        $card = new Card();
-        $card
-            ->setCenter($center)
-            ->setCustomer($customer)
-            ->setNumero('1231234567')
-            ->setActivatedAt(new \DateTime())
-            ->setActive(true);
-
-        $manager->persist($card);
-
         $game = new Game();
         $game->setTitle('Party One')->setCreatedAt(new \DateTime());
         $manager->persist($game);

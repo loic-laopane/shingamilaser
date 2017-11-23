@@ -4,12 +4,12 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
-use AppBundle\Entity\CustomerGame;
 use AppBundle\Entity\Game;
 use AppBundle\Form\CustomerGameType;
 use AppBundle\Form\GameType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerGameManager;
+use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\GameManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -89,7 +89,7 @@ class GameController extends Controller
     public function manageAction(Game $game, CustomerGameManager $customerGameManager)
     {
         $card = new Card();
-        $form = $this->createForm(CustomerGameType::class, $card);
+        $form = $this->createForm(CustomerGameType::class);
         $customersGame = $customerGameManager->getCustomersByGame($game);
 
         return $this->render('AppBundle:Game:manage.html.twig', array(
@@ -104,11 +104,11 @@ class GameController extends Controller
      * @Route("/game/{id}/addUser", name="game_add_user")
      * @Method({"POST"})
      */
-    public function addUserAction(Game $game, Request $request, CardManager $cardManager, CustomerGameManager $customerGameManager)
+    public function addUserAction(Game $game, Request $request, ObjectManager $objectManager, CustomerGameManager $customerGameManager)
     {
-        $numero = $request->request->get('numero');
-        $card = $cardManager->search($numero);
-        $customerGameManager->add($card->getCustomer(), $game);
+        $customer_id = $request->request->get('customer_id');
+        $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
+        $customerGameManager->add($customer, $game);
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 
@@ -117,9 +117,9 @@ class GameController extends Controller
      * @Route("/game/{id}/removeUser/{customer_id}", name="game_remove_user")
      * @Method({"POST"})
      */
-    public function removeUserAction(Game $game, Customer $customer, CustomerGameManager $customerGameManager)
+    public function removeUserAction(Game $game,  $customer_id, ObjectManager $objectManager, CustomerGameManager $customerGameManager)
     {
-
+        $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
         $customerGameManager->remove($customer, $game);
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
@@ -135,46 +135,30 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/game/search", name="game_search")
+     * Ajax Method
+     * @Route("/game/{id}/search", name="game_search_customer")
      * @Method({"GET", "POST"})
      */
-    public function searchAction(Request $request, CardManager $cardManager)
+    public function searchAction(Game $game, Request $request, CustomerManager $customerManager, GameManager $gameManager)
     {
-        $numero = $request->request->get('numero');
-
-        $card = $cardManager->search($numero);
-
-        $response = [
-            'status' => 0,
-            'message' => 'No customer found with number '.$numero,
-            'data' => null
-        ];
-
-        if($card instanceof Card && null !== $card->getCustomer())
-        {
-            $response['status'] = 1;
-            $response['message'] = 'Customer found';
-            $response['data'] = $this->renderView('AppBundle:Game:customer.html.twig', array(
-                'card' => $card
-            ));
-        }
-        //return $this->render('AppBundle:Game:customer.html.twig', array('card' => $card));
+        $params = $request->request->all();
+        $response = $gameManager->searchCustomerWithGame($params, $game);
         return $this->json($response);
     }
 
     /**
-     * @Route("/qrcode", name="game_qrcode")
+     * AjaxMethod
+     * @Route("/game/{id}/qrcode", name="game_qrcode")
      */
-    public function qrcodeAction(ObjectManager $objectManager, Request $request, CustomerGameManager $customerGameManager, CardManager $cardManager)
+    public function qrcodeAction(Game $game, ObjectManager $objectManager, Request $request, CustomerGameManager $customerGameManager, CardManager $cardManager)
     {
         $return = ['status' => 1];
         try {
             $numero = $request->request->get('qrData');
-            $game_id = $request->request->get('game_id');
-            $game = $objectManager->getRepository('AppBundle:Game')->find($game_id);
+            //$game_id = $request->request->get('game_id');
+            //$game = $objectManager->getRepository('AppBundle:Game')->find($game_id);
             $card = $cardManager->search($numero);
             $customerGameManager->add($card->getCustomer(), $game);
-
 
         }
         catch(Exception $exception)
@@ -185,4 +169,5 @@ class GameController extends Controller
 
         return $this->json($return);
     }
+
 }

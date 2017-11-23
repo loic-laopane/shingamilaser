@@ -10,17 +10,16 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Purchase;
-use AppBundle\Entity\User;
 use AppBundle\Event\PurchaseEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use GuzzleHttp\Client;
 use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Workflow\Transition;
 use Symfony\Component\Workflow\Workflow;
 
 class PurchaseManager
@@ -54,7 +53,7 @@ class PurchaseManager
                                 ObjectManager $objectManager,
                                 SessionInterface $session,
                                 EventDispatcherInterface $dispatcher,
-                                Serializer $serializer
+                                SerializerInterface $serializer
                                 )
     {
         $this->objectManager = $objectManager;

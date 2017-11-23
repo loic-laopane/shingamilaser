@@ -41,33 +41,44 @@
 
                             <ul class="dropdown-menu">
 
+                                {% if is_granted('ROLE_STAFF') == false %}
                                 <li><a href="{{ path('account_show') }}"><i class="fa fa-id-card-o"></i> {{ 'menu.profile' | trans }}</a></li>
 
                                 <li class="divider"></li>
+                                {% endif %}
 
                                 <li><a href="{{ path('logout') }}"><i class="fa fa-sign-out"></i> {{ 'menu.logout' | trans }}</a></li>
 
                             </ul>
 
                         </li>
-                        {% if is_granted('ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_STAFF') %}
 
                             <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-id-card-o"></i> {{ 'menu.card' | trans}} <b class="caret"></b></a>
 
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ 'menu.game' | trans}} <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+
+                                    <li><a href="{{ path('purchase_create') }}"><i class="fa fa-plus"></i> {{ 'menu.puchase.create' | trans }}</a></li>
+                                    <li><a href="{{ path('purchase_list') }}"><i class="fa fa-list"></i> {{ 'menu.puchase.list' | trans }}</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gamepad"></i> {{ 'menu.game' | trans}} <b class="caret"></b></a>
 
                                 <ul class="dropdown-menu">
 
                                     <li><a href="{{ path('game_create') }}"><i class="fa fa-plus"></i> {{ 'menu.game.create' | trans }}</a></li>
                                     <li><a href="{{ path('game_list') }}"><i class="fa fa-list"></i> {{ 'menu.game.list' | trans }}</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="{{ path('game_search') }}"><i class="fa fa-search"></i> {{ 'menu.game.seach' | trans }}</a></li>
+                                    {#<li><a href="{{ path('game_search') }}"><i class="fa fa-search"></i> {{ 'menu.game.search' | trans }}</a></li>#}
 
                                 </ul>
-
                             </li>
 
-                            {% if is_granted('ROLE_SUPERADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <li><a href="{{ path('admin') }}"><i class="fa fa-lock"></i> {{ 'menu.admin' | trans }}</a></li>
                             {% endif %}
                         {% endif %}
