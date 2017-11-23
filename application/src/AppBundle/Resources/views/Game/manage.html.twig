@@ -23,7 +23,7 @@
     <hr>
     <div class="row">
         <div class="col-md-6">
-            {{ form_start(form, { 'attr' : {'id':'form_search', 'action' : path('game_search') }}) }}
+            {{ form_start(form, { 'attr' : {'id':'form_search', 'action' : path('game_search_customer', { 'id' : game.id }) }}) }}
             {{ form_widget(form) }}
             <button class="btn btn-primary">{{ 'btn.search' | trans }}</button>
             {{ form_end(form) }}
@@ -37,7 +37,9 @@
         <div class="col-md-6">
             {% include 'AppBundle:Game:qrcode.html.twig' %}
         </div>
-
+    </div>
+        <hr>
+     <div class="row">
         <div class="col-md-12" id="response"></div>
     </div>
     {% endif %}

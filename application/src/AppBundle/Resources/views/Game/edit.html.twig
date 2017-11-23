@@ -6,8 +6,9 @@
 <h1>Edit game</h1>
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary btn-fill" formnovalidate>{{ 'btn.edit.game' | trans }}</button>
-    <a class="btn btn-default" href="{{ path('game_list') }}">{{ 'btn.return' | trans }}</a>
+    <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.edit.game' | trans }}</button>
+    <a class="btn btn-success btn-fill" href="{{ path('game_manage', { 'id' : game.id }) }}"><i class="fa fa-cog"></i> {{ 'btn.manage' | trans }}</a>
+    <a class="btn btn-default" href="{{ path('game_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
     {{ form_end(form) }}
     </form>
 {% endblock %}
