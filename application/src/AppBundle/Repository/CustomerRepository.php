@@ -26,4 +26,6 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
         }
         return $qr->getQuery()->getResult();
     }
+
+
 }

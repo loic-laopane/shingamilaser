@@ -8,6 +8,7 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\CustomerGame;
 use AppBundle\Entity\Game;
@@ -78,6 +79,11 @@ class CustomerGameManager
         $customerGame = new CustomerGame();
         $customerGame->setGame($game);
         $customerGame->setCustomer($customer);
+        $card = $this->manager->getRepository(Card::class)->findCustomerActiveCard($customer);
+        if(null !== $card)
+        {
+            $customerGame->setCard($card);
+        }
 
         if($this->exists($customerGame))
         {

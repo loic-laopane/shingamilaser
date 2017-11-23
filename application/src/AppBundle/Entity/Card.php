@@ -148,8 +148,12 @@ class Card
      *
      * @return Card
      */
-    public function setActive(bool $active)
+    public function setActive($active)
     {
+        if(!is_bool($active))
+        {
+            throw new \InvalidArgumentException('Attribute Active must be a boolean');
+        }
         $this->active = $active;
 
         return $this;

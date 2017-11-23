@@ -140,28 +140,4 @@ class CustomerGame
     {
         return $this->game;
     }
-
-    /**
-     * Set card
-     *
-     * @param \AppBundle\Entity\Card $card
-     *
-     * @return CustomerGame
-     */
-    public function setCard(\AppBundle\Entity\Card $card = null)
-    {
-        $this->card = $card;
-
-        return $this;
-    }
-
-    /**
-     * Get card
-     *
-     * @return \AppBundle\Entity\Card
-     */
-    public function getCard()
-    {
-        return $this->card;
-    }
 }
