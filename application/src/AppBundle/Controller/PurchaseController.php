@@ -26,7 +26,7 @@ class PurchaseController extends Controller
      * @param Request $request
      * @return Response
      * @Route("/purchase/create", name="purchase_create")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_STAFF')")
      */
     public function createAction(Request $request, PurchaseManager $purchaseManager)
     {
@@ -79,7 +79,7 @@ class PurchaseController extends Controller
     }
 
     /**
-     * @Route("/purchase/list")
+     * @Route("/purchase/list", name="purchase_list")
      */
     public function listAction()
     {
