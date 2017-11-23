@@ -135,47 +135,19 @@ class GameController extends Controller
     }
 
     /**
+     * Ajax Method
      * @Route("/game/{id}/search", name="game_search_customer")
      * @Method({"GET", "POST"})
      */
-    public function searchAction(Game $game, Request $request, CustomerManager $customerManager)
+    public function searchAction(Game $game, Request $request, CustomerManager $customerManager, GameManager $gameManager)
     {
         $params = $request->request->all();
-        $numero = $request->request->get('numero');
-        $nickname = $request->request->get('nickname');
-        $response = [
-            'status' => 0,
-            'message' => 'No customer found with number '.$numero,
-            'data' => null
-        ];
-
-        if(empty($numero) && empty($nickname))
-        {
-            $response['message'] = 'Please fill card number or customer nickname';
-        }
-        else {
-            $customers = $customerManager->getCustomerByParams($params);
-            if(count($customers) == 0) {
-                $response['message'] = 'No customer found';
-            }
-            else {
-                foreach($customers  as $customer)
-                {
-                    $response['data'] .= $this->renderView('AppBundle:Game:customer.html.twig', array(
-                        'customer' => $customer,
-                        'game' => $game
-                    ));
-                }
-                $response['status'] = 1;
-                $response['message'] = 'Customer found';
-
-            }
-        }
-
+        $response = $gameManager->searchCustomerWithGame($params, $game);
         return $this->json($response);
     }
 
     /**
+     * AjaxMethod
      * @Route("/game/{id}/qrcode", name="game_qrcode")
      */
     public function qrcodeAction(Game $game, ObjectManager $objectManager, Request $request, CustomerGameManager $customerGameManager, CardManager $cardManager)
