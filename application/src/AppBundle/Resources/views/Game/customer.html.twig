@@ -11,9 +11,14 @@
 
                 {% for card in customer.cards %}
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">N° :</label>
+                    <label class="col-sm-4 col-form-label">Card N° :</label>
                     <div class="col-sm-8">{{ card.numero }}</div>
                 </div>
+                 {% else %}
+                     <div class="form-group row">
+                         <label class="col-sm-4 col-form-label"></label>
+                         <div class="col-sm-8">No active card found <a href="#" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add card</a></div>
+                     </div>
                 {% endfor %}
                 <div class="row">
                     <div class="col-sm-4"></div>
