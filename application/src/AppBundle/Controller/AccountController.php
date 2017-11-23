@@ -94,18 +94,19 @@ class AccountController extends Controller
         $customer = $customerManager->getCustomerByUser($this->getUser());
         $empty_card = new Card();
         $form = $this->createForm(CustomerAddCardType::class, $empty_card);
+        try {
+            $form->handleRequest($request);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            try {
-                $cardManager->rattach($empty_card->getNumero(), $customer);
-            }
-            catch (Exception $e)
+            if ($form->isSubmitted() && $form->isValid())
             {
-                $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
+
+                    $cardManager->rattach($empty_card->getNumero(), $customer);
+
             }
+        }
+        catch (\Exception $e)
+        {
+            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
         return $this->render('AppBundle:Account:add_card.html.twig', array(
             'form' => $form->createView()

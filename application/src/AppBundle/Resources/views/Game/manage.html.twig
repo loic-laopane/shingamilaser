@@ -89,5 +89,32 @@
 
 {% endblock %}
 {% block javascripts %}
-
+    <script src="{{ asset('dist/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script>
+        $( function() {
+            $( "#nickname" ).autocomplete({
+                source: function( request, response ) {
+                    $.ajax( {
+                        url: "{{ path('customer_search') }}",
+                        method: 'POST',
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function( data ) {
+                            response( data );
+                        },
+                        error: function(xhr, status, error)
+                        {
+                            console.log(error);
+                        }
+                    } );
+                },
+                minLength: 2
+            } );
+        } );
+    </script
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('dist/jquery-ui/jquery-ui.min.css') }}">
 {% endblock %}

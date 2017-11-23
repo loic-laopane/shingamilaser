@@ -21,10 +21,19 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
         }
         if(isset($params['nickname']) && !empty($params['nickname']))
         {
-            $qr->andWhere('c.nickname = :nickname')
-                ->setParameter('nickname', $params['nickname']);
+            $qr->andWhere('c.nickname LIKE :nickname')
+                ->setParameter('nickname', $params['nickname'].'%');
         }
         return $qr->getQuery()->getResult();
+    }
+
+    public function findByNicknameLike($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.nickname LIKE :nickname')
+            ->setParameter('nickname', '%'.$value.'%')
+            ->getQuery()
+            ->getResult();
     }
 
 
