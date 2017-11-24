@@ -108,6 +108,12 @@ class Customer
     private $cards;
 
     /**
+     * @var Image
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
+     */
+    private $avatar;
+
+    /**
      * @var CustomerGame
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerGame", mappedBy="customer")
@@ -392,5 +398,29 @@ class Customer
     public function getCards()
     {
         return $this->cards;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param \AppBundle\Entity\Image $avatar
+     *
+     * @return Customer
+     */
+    public function setAvatar(\AppBundle\Entity\Image $avatar = null)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return \AppBundle\Entity\Image
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
     }
 }

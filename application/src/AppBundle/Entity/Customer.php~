@@ -108,6 +108,13 @@ class Customer
     private $cards;
 
     /**
+     * @var Image
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $avatar;
+
+    /**
      * @var CustomerGame
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerGame", mappedBy="customer")
@@ -262,6 +269,9 @@ class Customer
      */
     public function setZipcode($zipcode)
     {
+        if(strlen($zipcode) !== 5) {
+            throw new \InvalidArgumentException('Zip code must contain 5 digits');
+        }
         $this->zipcode = $zipcode;
 
         return $this;
@@ -308,7 +318,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setBirthdate($birthdate)
+    public function setBirthdate(\DateTime $birthdate)
     {
         $this->birthdate = $birthdate;
 
@@ -349,4 +359,45 @@ class Customer
         return $this->user;
     }
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->cards = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add card
+     *
+     * @param \AppBundle\Entity\Card $card
+     *
+     * @return Customer
+     */
+    public function addCard(\AppBundle\Entity\Card $card)
+    {
+        $this->cards[] = $card;
+
+        return $this;
+    }
+
+    /**
+     * Remove card
+     *
+     * @param \AppBundle\Entity\Card $card
+     */
+    public function removeCard(\AppBundle\Entity\Card $card)
+    {
+        $this->cards->removeElement($card);
+    }
+
+    /**
+     * Get cards
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCards()
+    {
+        return $this->cards;
+    }
 }

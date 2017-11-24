@@ -72,6 +72,7 @@ class AccountController extends Controller
 
         $form = $this->createForm(CustomerAccountType::class, $customer);
         $form->handleRequest($request);
+        dump($customer);
         if($form->isSubmitted() && $form->isValid())
         {
             $manager->save($customer);
@@ -84,6 +85,7 @@ class AccountController extends Controller
     }
 
     /**
+     * toDo : Method a supprimer apres verification
      * @param $request Request
      * @param $customerManager CustomerManager
      * @param $cardManager CardManager

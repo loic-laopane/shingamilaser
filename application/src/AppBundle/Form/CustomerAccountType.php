@@ -25,12 +25,16 @@ class CustomerAccountType extends AbstractType
                     'error_bubbling' => true
                 ))
                 ->add('society', TextType::class, array('required' => false))
-                ->add('address', TextType::class)
-                ->add('zipcode',TextType::class)
-                ->add('city', TextType::class)
+                ->add('address', TextType::class, array('required' => false))
+                ->add('zipcode',TextType::class, array('required' => false))
+                ->add('city', TextType::class, array('required' => false))
+            /*
                 ->add('birthdate', BirthdayType::class, array(
-                    'attr' => array('class' => 'datepicker')
+                    'attr' => array('class' => 'datepicker'),
+                    'required' => false
                 ))
+            */
+                ->add('avatar', ImageType::class, array('required' => false))
                 ;
     }
     
