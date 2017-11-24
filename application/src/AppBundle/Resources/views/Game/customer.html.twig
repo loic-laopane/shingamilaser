@@ -15,11 +15,12 @@
                     <div class="col-sm-8">{{ card.numero }}</div>
                 </div>
                  {% else %}
-                     <div class="form-group row">
+                     <div class="form-group row" id="cardnumber">
                          <label class="col-sm-4 col-form-label"></label>
-                         <div class="col-sm-8">No active card found <a href="#" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add card</a></div>
+                         <div class="col-sm-8">No active card found <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#addCardModal"><i class="fa fa-plus"></i> Add card</a></div>
                      </div>
                 {% endfor %}
+
                 <div class="row">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-8">
@@ -34,3 +35,79 @@
         </div>
     </div>
 </div>
+
+{# Modal #}
+<div class="modal fade" id="addCardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Associate card to customer {{ customer.nickname }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert" id="alert-modal"></div>
+                {{ render(controller('AppBundle:Customer:renderAssociateCardType', { 'id' : customer.id})) }}
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">{{ 'btn.close' }}</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    {#<button type="button" class="btn btn-danger btn-simple">{{ 'btn.close' }}</button>#}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function()
+    {
+        //Quand la modal a fini d'etre masquée
+        $('#addCardModal').on('hidden.bs.modal', function () {
+            $(this).find('#numero').val('');
+            $(this).find('#alert-modal').removeClass('alert-danger').removeClass('alert-success');
+            //$('#form_search').submit();
+        });
+
+        //Quand le formulaire est posté
+        $('#form_add_card').on('submit', function (event)
+        {
+           event.preventDefault();
+           var cardNumber = $('#addCardModal').find('#numero').val();
+           $.ajax({
+               url: $(this).attr('action'),
+               method: 'POST',
+               dataType: 'json',
+               data: $(this).serialize(),
+               success: function(response) {
+                    if(response.status)
+                    {
+                        //On affiche le message
+                        $('#alert-modal').addClass('alert-success').html(response.message);
+                        //On masque la modal
+                        //$('#addCardModal').modal('toggle');
+                        $('#cardnumber').find('label').html('Card N° :');
+                        $('#cardnumber').find('div').html(cardNumber);
+
+                    }
+                    else {
+                        $('#alert-modal').addClass('alert-danger').html(response.message);
+                    }
+
+               },
+               error: function(xhr, status, error)
+               {
+                   $('#alert-modal').addClass('alert-danger').html(error);
+               }
+           });
+        });
+
+        //A chaque fois qu'on tape, on masque et vide le message d'erreur
+        $('#addCardModal').on('keyup', '#numero', function(event){
+            $('#alert-modal').removeClass('alert-success').removeClass('alert-danger').html('');
+        });
+    });
+
+</script>

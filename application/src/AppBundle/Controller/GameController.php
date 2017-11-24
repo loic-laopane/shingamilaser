@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\Game;
+use AppBundle\Form\CustomerAddCardType;
 use AppBundle\Form\CustomerGameType;
 use AppBundle\Form\GameType;
 use AppBundle\Manager\CardManager;
@@ -92,10 +93,13 @@ class GameController extends Controller
         $form = $this->createForm(CustomerGameType::class);
         $customersGame = $customerGameManager->getCustomersByGame($game);
 
+        $form_card_customer = $this->createForm(CustomerAddCardType::class, $card);
+
         return $this->render('AppBundle:Game:manage.html.twig', array(
             'game' => $game,
             'form' => $form->createView(),
-            'customersGame' => $customersGame
+            'customersGame' => $customersGame,
+            'form_card_customer' => $form_card_customer->createView()
         ));
     }
 
@@ -135,7 +139,7 @@ class GameController extends Controller
     }
 
     /**
-     * Ajax Method
+     * Ajax Method to search customer by card or nickname
      * @Route("/game/{id}/search", name="game_search_customer")
      * @Method({"GET", "POST"})
      */

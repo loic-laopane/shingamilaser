@@ -53,6 +53,7 @@
                         <tr>
                             <th>Player</th>
                             <th>Score</th>
+                            <th>Has card</th>
                             {% if game.startedAt is null %}
                             <th>Actions</th>
                             {% endif %}
@@ -63,6 +64,8 @@
                             <tr>
                                 <td>{{ customerGame.customer.nickname }}</td>
                                 <td>{{ customerGame.score }}</td>
+                                <td>{{ customerGame.customer.cards | length == 0 ? '<i class="fa fa-close"></i>' | raw  : '<i class="fa fa-check"></i>' | raw }}
+                                </td>
                                 {% if game.startedAt is null %}
                                 <td>
                                     <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
@@ -84,13 +87,14 @@
     <hr>
     <canvas width="320" height="240" id="webcodecam-canvas"></canvas>
     <hr>
-    <ul></ul>
+
+
 
 
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('dist/jquery-ui/jquery-ui.min.js') }}"></script>
-    <script>
+    <script type="text/javascript">
         $( function() {
             $( "#nickname" ).autocomplete({
                 source: function( request, response ) {
@@ -113,7 +117,9 @@
                 minLength: 2
             } );
         } );
-    </script
+    </script>
+
+
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('dist/jquery-ui/jquery-ui.min.css') }}">

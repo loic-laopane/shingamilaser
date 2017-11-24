@@ -30,7 +30,6 @@ $(function()
         var div_response = $('#response');
         div_response.html('');
         event.preventDefault();
-
         $.ajax({
             url : $(this).attr('action'),
             method: 'POST',

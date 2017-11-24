@@ -132,6 +132,8 @@ class GameManager
         }
         else {
             $customers = $this->customerManager->getCustomerByParams($data);
+            //$response['message'] = $customers;
+            //return $response;
             if(count($customers) == 0) {
                 $response['message'] = 'No customer found';
             }
