@@ -66,7 +66,7 @@ class CardManager
         $this->unactiveCards($customer);
 
         $this->attach($card, $customer);
-        $this->session->getFlashBag()->add('success', 'Card '.$numero.' has been attached to your account');
+        //$this->session->getFlashBag()->add('success', 'Card '.$numero.' has been attached to your account');
 
         return true;
     }

@@ -51,30 +51,15 @@
                 </div>
         </div>
         <div class="tab-pane" id="cards">
-            {% if cards | length > 0 %}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Card number</th>
-                            <th>Activated at</th>
-                            <th>Center</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                {% for card in cards %}
-                    <tr>
-                        <td><a href="{{ path('account_card_show', { 'id' : card.id }) }}">{{ card.numero }}</a></td>
-                        <td>{{ card.activatedAt | date('d/m/Y') }}</td>
-                        <td>{{ card.center.name }}</td>
-                        <td>{{ card.active }}</td>
-                    </tr>
-                {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>No card available</p>
-            {% endif %}
+
+            <button class="btn btn-success" data-toggle="modal" data-target="#addCardModal"><i class="fa fa-plus"></i> Add card</button>
+            <hr>
+
+            <div id="customer_cards"></div>
+
+            {{ render(controller('AppBundle:Customer:displayModalAddCardToCustomer', {'id' : customer.id })) }}
+
+
         </div>
         <div class="tab-pane" id="offers">
             {% for offer in offers %}
@@ -85,4 +70,70 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('dist/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script>
+        function loadTable()
+        {
+            $.ajax({
+                url: '{{ path('customer_get_cards') }}',
+                method:'POST',
+                data: 'html',
+                success: function(response)
+                {
+                    $('#customer_cards').html(response);
+                }
+            });
+        }
+
+        $(function()
+        {
+            //On charge le table
+            loadTable();
+
+            //Quand la modal a fini d'etre masquée
+            $('#addCardModal').on('hidden.bs.modal', function () {
+                $(this).find('#numero').val('');
+                $(this).find('#alert-modal').removeClass('alert-danger').removeClass('alert-success');
+            });
+
+            //Quand le formulaire est posté
+            $('#form_add_card').on('submit', function (event)
+            {
+                event.preventDefault();
+                event.stopPropagation();
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    dataType: 'json',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if(response.status)
+                        {
+                            //On affiche le message
+                            $('#alert-modal').addClass('alert-success').html(response.message);
+                            //On recharche le table
+                            loadTable();
+
+                        }
+                        else {
+                            $('#alert-modal').addClass('alert-danger').html(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error)
+                    {
+                        $('#alert-modal').addClass('alert-danger').html(error);
+                    }
+                });
+            });
+
+            //A chaque fois qu'on tape, on masque et vide le message d'erreur
+            $('#addCardModal').on('keyup', '#numero', function(event){
+                $('#alert-modal').removeClass('alert-success').removeClass('alert-danger').html('');
+            });
+        });
+    </script>
 {% endblock %}

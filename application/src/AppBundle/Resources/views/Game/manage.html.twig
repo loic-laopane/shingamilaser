@@ -25,21 +25,16 @@
         <div class="col-md-6">
             {{ form_start(form, { 'attr' : {'id':'form_search', 'action' : path('game_search_customer', { 'id' : game.id }) }}) }}
             {{ form_widget(form) }}
-            <button class="btn btn-primary">{{ 'btn.search' | trans }}</button>
+            <button class="btn btn-primary"><i class="fa fa-search"></i> {{ 'btn.search' | trans }}</button>
             {{ form_end(form) }}
 
-            {# ------ #}
-
-
-
-            {# ------ #}
         </div>
         <div class="col-md-6">
             {% include 'AppBundle:Game:qrcode.html.twig' %}
         </div>
     </div>
-        <hr>
-     <div class="row">
+    <hr />
+    <div class="row">
         <div class="col-md-12" id="response"></div>
     </div>
     {% endif %}
@@ -53,6 +48,7 @@
                         <tr>
                             <th>Player</th>
                             <th>Score</th>
+                            <th>Has card</th>
                             {% if game.startedAt is null %}
                             <th>Actions</th>
                             {% endif %}
@@ -63,6 +59,8 @@
                             <tr>
                                 <td>{{ customerGame.customer.nickname }}</td>
                                 <td>{{ customerGame.score }}</td>
+                                <td>{{ customerGame.customer.cards | length == 0 ? '<i class="fa fa-check"></i>' | raw  : '<i class="fa fa-cloase"></i>' | raw }}
+                                </td>
                                 {% if game.startedAt is null %}
                                 <td>
                                     <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
@@ -84,13 +82,14 @@
     <hr>
     <canvas width="320" height="240" id="webcodecam-canvas"></canvas>
     <hr>
-    <ul></ul>
+
+
 
 
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('dist/jquery-ui/jquery-ui.min.js') }}"></script>
-    <script>
+    <script type="text/javascript">
         $( function() {
             $( "#nickname" ).autocomplete({
                 source: function( request, response ) {
@@ -113,7 +112,9 @@
                 minLength: 2
             } );
         } );
-    </script
+    </script>
+
+
 {% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('dist/jquery-ui/jquery-ui.min.css') }}">

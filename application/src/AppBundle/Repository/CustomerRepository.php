@@ -13,17 +13,21 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
     public function findByParams(array $params)
     {
         $qr =  $this->createQueryBuilder('c');
+        $qr->leftJoin('c.cards', 'card','WITH', 'card.active = :active')
+            ->setParameter('active', true)
+            ->select('c, card')
+            ;
         if(isset($params['numero']) && !empty($params['numero']))
         {
-            $qr->join('c.cards', 'card', 'WITH', 'card.numero = :numero')
-                ->setParameter('numero', $params['numero'])
-                ->andWhere('card.active = 1');
+            $qr->andWhere('card.numero = :numero')
+                ->setParameter('numero', $params['numero']);
         }
         if(isset($params['nickname']) && !empty($params['nickname']))
         {
             $qr->andWhere('c.nickname LIKE :nickname')
                 ->setParameter('nickname', $params['nickname'].'%');
         }
+        //return $qr->getQuery()->getSQL();
         return $qr->getQuery()->getResult();
     }
 
