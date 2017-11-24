@@ -28,7 +28,7 @@ $(function()
         var div_errors= $('#errors');
         div_errors.html('').removeClass('alert alert-danger');
         var div_response = $('#response');
-        div_response.html('');
+        div_response.html('Loading <i class="fa fa-spinner fa-spin"></i><span class="sr-only">Loading...</span>');
         event.preventDefault();
         $.ajax({
             url : $(this).attr('action'),
@@ -50,7 +50,9 @@ $(function()
                     //console.log(response);
                     div_errors.addClass('alert alert-danger');
                     div_errors.html(response.message);
+                    div_response.html('');
                 }
+
             },
             error: function(xhr, status, error)
             {

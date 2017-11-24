@@ -1,3 +1,4 @@
+{# Affiche la fiche d'un customer apres recherche dans un Game #}
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-info">
@@ -17,7 +18,7 @@
                  {% else %}
                      <div class="form-group row" id="cardnumber">
                          <label class="col-sm-4 col-form-label"></label>
-                         <div class="col-sm-8">No active card found <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#addCardModal"><i class="fa fa-plus"></i> Add card</a></div>
+                         <div class="col-sm-8">No active card found <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#addCardModal"><i class="fa fa-plus"></i> Add card</button></div>
                      </div>
                 {% endfor %}
 
@@ -26,7 +27,7 @@
                     <div class="col-sm-8">
                         <form action="{{ path('game_add_user', { 'id' : game.id }) }}" method="POST">
                             <input type="hidden" name="customer_id" value="{{ customer.id }}">
-                            <button class="btn btn-primary btn-fill">{{ 'btn.add' | trans }}</button>
+                            <button class="btn btn-primary btn-fill"><i class="fa fa-share-square-o"></i> {{ 'btn.add' | trans }}</button>
                         </form>
                     </div>
                 </div>
@@ -37,29 +38,7 @@
 </div>
 
 {# Modal #}
-<div class="modal fade" id="addCardModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Associate card to customer {{ customer.nickname }}</h4>
-            </div>
-            <div class="modal-body">
-                <div class="alert" id="alert-modal"></div>
-                {{ render(controller('AppBundle:Customer:renderAssociateCardType', { 'id' : customer.id})) }}
-            </div>
-            <div class="modal-footer">
-                <div class="left-side">
-                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">{{ 'btn.close' }}</button>
-                </div>
-                <div class="divider"></div>
-                <div class="right-side">
-                    {#<button type="button" class="btn btn-danger btn-simple">{{ 'btn.close' }}</button>#}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{{ render(controller('AppBundle:Customer:displayModalAddCardToCustomer', { 'id' : customer.id })) }}
 
 <script>
     $(function()
@@ -75,6 +54,7 @@
         $('#form_add_card').on('submit', function (event)
         {
            event.preventDefault();
+           event.stopPropagation();
            var cardNumber = $('#addCardModal').find('#numero').val();
            $.ajax({
                url: $(this).attr('action'),

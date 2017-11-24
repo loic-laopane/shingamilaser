@@ -35,11 +35,22 @@ class CustomerController extends Controller
     }
 
     /**
+     * @param Customer $customer
+     * @Route("/customer/{id}/modal", name="customer_modal")
+     */
+    public function displayModalAddCardToCustomerAction(Customer $customer)
+    {
+        return $this->render('AppBundle:Customer:modal_add_card.html.twig', array(
+            'customer' => $customer
+        ));
+    }
+
+    /**
      * Affiche le formulaire de la modale
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route("/customer/{id}/renderForm", name="customer_associate_card_form")
+     * @Route("/customer/{id}/renderForm", name="customer_card_form")
      */
-    public function renderAssociateCardTypeAction(Customer $customer)
+    public function renderCustomerCardTypeAction(Customer $customer)
     {
         $empty_card = new Card();
         $form = $this->createForm(CustomerAddCardType::class, $empty_card, array(
@@ -48,7 +59,7 @@ class CustomerController extends Controller
             'method' => 'POST'
         ));
 
-        return $this->render('AppBundle:Customer:associated_card.html.twig', array(
+        return $this->render('AppBundle:Customer:link_card_form.html.twig', array(
             'form' => $form->createView(),
             'customer' => $customer
         ));
@@ -71,6 +82,7 @@ class CustomerController extends Controller
             $cardManager->rattach($card->getNumero(), $customer);
             $response['status'] = 1;
             $response['message'] = 'Card associated to '.($customer->getUser() === $this->getUser() ? 'your account' : ' customer '.$customer->getNickname());
+            $response['card'] = $card;
         }
         catch (\Exception $e)
         {
@@ -78,6 +90,15 @@ class CustomerController extends Controller
             $response['message'] = $e->getMessage();
         }
         return $this->json($response);
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/customer/getCards", name="customer_get_cards")
+     */
+    public function getCardsAction(Request $request, ObjectManager $objectManager) {
+        $customer = $objectManager->getRepository(Customer::class)->findOneBy(['user' => $this->getUser()]);
+        return $this->render('AppBundle:Account:customer_cards.html.twig', array('customer' => $customer));
     }
 
 }

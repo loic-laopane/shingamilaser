@@ -25,21 +25,16 @@
         <div class="col-md-6">
             {{ form_start(form, { 'attr' : {'id':'form_search', 'action' : path('game_search_customer', { 'id' : game.id }) }}) }}
             {{ form_widget(form) }}
-            <button class="btn btn-primary">{{ 'btn.search' | trans }}</button>
+            <button class="btn btn-primary"><i class="fa fa-search"></i> {{ 'btn.search' | trans }}</button>
             {{ form_end(form) }}
 
-            {# ------ #}
-
-
-
-            {# ------ #}
         </div>
         <div class="col-md-6">
             {% include 'AppBundle:Game:qrcode.html.twig' %}
         </div>
     </div>
-        <hr>
-     <div class="row">
+    <hr />
+    <div class="row">
         <div class="col-md-12" id="response"></div>
     </div>
     {% endif %}
@@ -64,7 +59,7 @@
                             <tr>
                                 <td>{{ customerGame.customer.nickname }}</td>
                                 <td>{{ customerGame.score }}</td>
-                                <td>{{ customerGame.customer.cards | length == 0 ? '<i class="fa fa-close"></i>' | raw  : '<i class="fa fa-check"></i>' | raw }}
+                                <td>{{ customerGame.customer.cards | length == 0 ? '<i class="fa fa-check"></i>' | raw  : '<i class="fa fa-cloase"></i>' | raw }}
                                 </td>
                                 {% if game.startedAt is null %}
                                 <td>
