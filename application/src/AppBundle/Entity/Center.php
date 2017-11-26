@@ -34,7 +34,7 @@ class Center
      * @Assert\Regex(
      *     pattern="/\d{3}/",
      *     match=true,
-     *     message="Code must contain 3 digits"
+     *     message="Center code must contain 3 digits"
      * )
      */
     private $code;
@@ -105,9 +105,9 @@ class Center
      */
     public function setCode($code)
     {
-        if(strlen($code) !== 3 || !is_int($code))
+        if(strlen($code) !== 3 || !is_numeric($code))
         {
-            throw new \InvalidArgumentException('Code must contain 3 digits');
+            throw new \InvalidArgumentException('Center code must contain 3 digits');
         }
         $this->code = $code;
 

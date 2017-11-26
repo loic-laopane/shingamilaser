@@ -50,5 +50,9 @@ services:
             - '%api_base_uri%'
 
     AppBundle\Event\Listener\LoginListener:
-            tags:
-                - { name: kernel.event_listener, event: kernel.request}
+        tags:
+            - { name: kernel.event_listener, event: kernel.request}
+
+    AppBundle\Event\Subscriber\UploadAvatarSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber}

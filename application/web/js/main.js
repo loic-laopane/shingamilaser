@@ -59,5 +59,34 @@ $(function()
                 console.log(error);
             }
         });
+    });
+
+    $('.block-avatar').on('mouseenter', function(event) {
+        $(this).find('.remove-avatar').show('fast');
+    });
+
+    $('.block-avatar').on('mouseleave', function(event) {
+        $(this).find('.remove-avatar').hide('fast');
+    });
+    $('.btn-remove-avatar').on('click', function(event) {
+        var btn = $(this);
+        event.preventDefault();
+        event.stopPropagation();
+        $.ajax({
+            url: btn.attr('href'),
+            method: 'POST',
+            dataType: 'json',
+            success: function(response)
+            {
+                if(response.status)
+                {
+                    btn.parent().hide('fast');
+                    $('.avatar > img').fadeOut('fast');
+
+                }
+
+            }
+
+        })
     })
 });

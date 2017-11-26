@@ -49,3 +49,45 @@
     text-align: center;
   }
 }
+
+$avatar_edge: 55px;
+.avatar {
+  width: $avatar_edge;
+  height: $avatar_edge;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  background-image: url('/web/img/default-avatar.png');
+  background-repeat: no-repeat;
+  img
+  {
+    position: absolute;
+    width: inherit;
+  }
+
+}
+.round-avatar {
+  border-radius: 50px;
+}
+
+.block-avatar
+{
+  width: 100px;
+  position: relative;
+  img {
+    width:inherit;
+  }
+  .remove-avatar {
+    width: 25px;
+    height:25px;
+    text-align: center;
+    position: absolute;
+    z-index: 2;
+    top:-3px;
+    right:-3px;
+    border: 2px solid #666666;
+    background: #ffffff;
+    border-radius: 25px;
+    display: none;
+  }
+}

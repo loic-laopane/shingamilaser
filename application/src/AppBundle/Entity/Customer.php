@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CustomerRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Customer
 {
@@ -106,6 +107,13 @@ class Customer
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Card", mappedBy="customer")
      */
     private $cards;
+
+    /**
+     * @var Image
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $avatar;
 
     /**
      * @var CustomerGame
@@ -393,4 +401,29 @@ class Customer
     {
         return $this->cards;
     }
+
+    /**
+     * Set avatar
+     *
+     * @param \AppBundle\Entity\Image $avatar
+     *
+     * @return Customer
+     */
+    public function setAvatar(\AppBundle\Entity\Image $avatar = null)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return \AppBundle\Entity\Image
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
 }

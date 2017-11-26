@@ -91,4 +91,14 @@ class CustomerManager
         $customers = $this->repository->findByParams($params);
         return $customers;
     }
+
+    public function removeAvatar(Customer $customer) {
+
+        if(null !== $customer->getAvatar())
+        {
+            $this->manager->remove($customer->getAvatar());
+            $customer->setAvatar(null);
+            $this->manager->flush();
+        }
+    }
 }
