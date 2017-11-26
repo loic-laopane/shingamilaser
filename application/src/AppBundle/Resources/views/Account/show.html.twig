@@ -3,7 +3,14 @@
 {% block title %}{{ parent() }} > {{ 'Profile' | trans }}{% endblock %}
 
 {% block content %}
-    <h1>{{ 'Profile' | trans }}</h1>
+    <h1>
+        <div class="avatar round-avatar">
+            {% if customer.avatar is not null %}
+                <img src="{{ asset('img/avatar/' ~ customer.avatar.filename) }}" alt="{{ customer.avatar.name }}" title="avatar of {{ customer.firstname }}">
+            {% endif %}
+        </div>
+
+        {{ 'Profile' | trans }}</h1>
     <legend></legend>
     <div class="jumbotron">
        <p>Access to your personal informations</p>

@@ -3,6 +3,7 @@
 namespace Wf3\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Wf3\ApiBundle\Model\AbstractResponse;
 
 /**
  * ResponseException

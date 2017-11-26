@@ -16,3 +16,5 @@
 /vendor/
 /web/bundles/
 /web/phpunit
+/web/styles/.sass-cache/*
+/web/img/avatar/*

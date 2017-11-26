@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CustomerRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Customer
 {
@@ -110,6 +111,7 @@ class Customer
     /**
      * @var Image
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $avatar;
 
@@ -423,4 +425,5 @@ class Customer
     {
         return $this->avatar;
     }
+
 }

@@ -13,6 +13,7 @@ use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -72,7 +73,6 @@ class AccountController extends Controller
 
         $form = $this->createForm(CustomerAccountType::class, $customer);
         $form->handleRequest($request);
-        dump($customer);
         if($form->isSubmitted() && $form->isValid())
         {
             $manager->save($customer);
@@ -145,6 +145,25 @@ class AccountController extends Controller
         return $this->render('AppBundle:Account:show_offers.html.twig', array(
             'offers' => $offers
         ));
+    }
+
+    /**
+     * @Route("/customer/{id}/removeAvatar", name="customer_avatar_remove")
+     * @Method({"POST"})
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function removeAvatar(Customer $customer, CustomerManager $customerManager)
+    {
+        $response = array('status' => 1);
+        try {
+            $customerManager->removeAvatar($customer);
+        }
+        catch (Exception $e) {
+            $response['error'] = 'Error while removing avatar';
+            $response['status'] = 0;
+        }
+
+        return $this->json($response);
     }
 
 }
