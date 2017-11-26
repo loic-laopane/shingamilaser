@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="image")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ImageRepository")
- * @ORM\HasLifecycleCallbacks()
+
  */
 class Image
 {
@@ -215,42 +215,6 @@ class Image
     public function getUploadedDir()
     {
         return __DIR__.'/../../../web/img/avatar';
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function hydrate()
-    {
-        $filename = uniqid().'.'.$this->file->guessExtension();
-        $this->setName($this->file->getClientOriginalName());
-        $this->setFilename($filename);
-        $this->setExtension($this->file->guessExtension());
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-
-    public function upload()
-    {
-        $this->file->move($this->getUploadedDir(), $this->getFilename());
-
-        if(null !== $this->getTmpFilename())
-        {
-            if(file_exists($this->getTmpFilename())) unlink($this->getTmpFilename());
-        }
-    }
-
-    /**
-     * @ORM\PreRemove()
-     */
-    public function unlink()
-    {
-        $fileToRemove = $this->getUploadedDir().'/'.$this->getFilename();
-        if(file_exists($fileToRemove)) unlink($fileToRemove);
     }
 
 }
