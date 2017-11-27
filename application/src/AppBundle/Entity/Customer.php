@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CustomerRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Customer
 {
@@ -59,7 +58,6 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="society", type="string", length=255, nullable=true)
-     * @Assert\Blank()
      */
     private $society;
 
@@ -88,6 +86,9 @@ class Customer
      * @var \DateTime
      *
      * @ORM\Column(name="birthdate", type="datetime", nullable=true)
+     * @Assert\Date(
+     *     message="Not a date"
+     * )
      */
     private $birthdate;
 

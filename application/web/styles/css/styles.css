@@ -4,13 +4,28 @@
 .fidelity-card {
   position: relative;
   width: 100%;
-  height: 200px;
+  max-width: 480px;
+  height: 280px;
   border: 1px solid #333;
   border-radius: 5px;
   padding: 10px;
-  display: flex; }
+  display: flex;
+  background-image: linear-gradient(60deg, #438fcf, #254f72);
+  color: white;
+  box-shadow: 5px 5px 8px #666; }
   .fidelity-card .block-left {
     width: 100px; }
+    .fidelity-card .block-left .photo {
+      width: 100%;
+      border: 1px solid #666;
+      height: 100px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: url("/web/img/default-avatar.jpg");
+      background-repeat: no-repeat;
+      background-size: contain; }
+      .fidelity-card .block-left .photo img {
+        width: inherit; }
     .fidelity-card .block-left .code {
       padding: 5px auto;
       font-size: 1.1em;
@@ -42,8 +57,9 @@
   display: inline-block;
   overflow: hidden;
   position: relative;
-  background-image: url("/web/img/default-avatar.png");
-  background-repeat: no-repeat; }
+  background-image: url("/web/img/default-avatar.jpg");
+  background-repeat: no-repeat;
+  background-size: contain; }
   .avatar img {
     position: absolute;
     width: inherit; }
@@ -68,5 +84,8 @@
     background: #ffffff;
     border-radius: 25px;
     display: none; }
+
+.text-bold {
+  font-weight: bold; }
 
 /*# sourceMappingURL=styles.css.map */

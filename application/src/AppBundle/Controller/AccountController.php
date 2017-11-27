@@ -73,11 +73,13 @@ class AccountController extends Controller
 
         $form = $this->createForm(CustomerAccountType::class, $customer);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid())
         {
             $manager->save($customer);
             $this->addFlash('success', 'Profile updated');
         }
+        dump($customer);
         return $this->render('AppBundle:Account:edit_customer.html.twig', array(
             'form' => $form->createView(),
             'customer' => $customer
