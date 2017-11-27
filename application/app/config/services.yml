@@ -56,3 +56,9 @@ services:
     AppBundle\Event\Subscriber\UploadAvatarSubscriber:
         tags:
             - { name: doctrine.event_subscriber}
+
+    AppBundle\Event\Listener\RegisterListener:
+        arguments:
+            - '%mailer_sender_address%'
+        tags:
+            - { name: kernel.event_listener, event: register.event, method: onRegistration }
