@@ -91,6 +91,19 @@
 .card-list .stroken {
   text-decoration: line-through; }
 
+.customer-details {
+  border: 1px solid #ccc; }
+  .customer-details .heading {
+    background: #8ECFD5;
+    font-weight: bold;
+    color: white;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    font-size: 1.1em; }
+  .customer-details .body {
+    padding: 10px; }
+
 .text-bold {
   font-weight: bold; }
 

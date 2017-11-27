@@ -118,6 +118,25 @@ $avatar_edge: 55px;
   }
 
 }
+
+.customer-details {
+  $heading_height: 40px;
+  $block_padding: 10px;
+  border: 1px solid #ccc;
+  .heading {
+    background: #8ECFD5;
+    font-weight: bold;
+    color: white;
+    height: $heading_height;
+    line-height: $heading_height;
+    padding: 0 $block_padding;
+    font-size:1.1em;
+  }
+
+  .body {
+    padding: $block_padding;
+  }
+}
 .text-bold {
   font-weight: bold;
 }

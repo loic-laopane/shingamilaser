@@ -143,7 +143,7 @@ class GameController extends Controller
      * @Route("/game/{id}/search", name="game_search_customer")
      * @Method({"GET", "POST"})
      */
-    public function searchAction(Game $game, Request $request, CustomerManager $customerManager, GameManager $gameManager)
+    public function searchAction(Game $game, Request $request, GameManager $gameManager)
     {
         $params = $request->request->all();
         $response = $gameManager->searchCustomerWithGame($params, $game);
@@ -159,8 +159,6 @@ class GameController extends Controller
         $return = ['status' => 1];
         try {
             $numero = $request->request->get('qrData');
-            //$game_id = $request->request->get('game_id');
-            //$game = $objectManager->getRepository('AppBundle:Game')->find($game_id);
             $card = $cardManager->search($numero);
             $customerGameManager->add($card->getCustomer(), $game);
 

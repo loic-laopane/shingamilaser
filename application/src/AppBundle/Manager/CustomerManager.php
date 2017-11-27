@@ -46,6 +46,10 @@ class CustomerManager
     public function register(Customer $customer)
     {
         $this->userManager->encodeUserPassword($customer->getUser());
+
+        if($this->userManager->mailExists($customer->getUser())) {
+            throw new \Exception('This email is already used');
+        }
         $this->manager->persist($customer);
         $this->manager->flush();
 
@@ -101,4 +105,24 @@ class CustomerManager
             $this->manager->flush();
         }
     }
+
+    /**
+     * @param Customer $customer
+     * @param User $user
+     * @return $this
+     */
+    public function quickCreate(Customer $customer, User $user)
+    {
+        $user->setUsername($user->getEmail());
+        $user->setPassword(substr(uniqid(), 0, 6));
+        $this->userManager->encodeUserPassword($user);
+        $user->setRoles(['ROLE_USER']);
+        $customer->setUser($user);
+
+        $this->register($customer);
+
+        return $this;
+    }
+
+
 }

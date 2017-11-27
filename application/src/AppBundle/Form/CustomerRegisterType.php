@@ -29,6 +29,7 @@ class CustomerRegisterType extends AbstractType
                 ->add('zipcode',TextType::class)
                 ->add('city', TextType::class)
                 ->add('birthdate', BirthdayType::class, array(
+                    'required' => false,
                     'attr' => array('class' => 'datepicker'),
                     'widget' => 'single_text',
                     'required' => false,
