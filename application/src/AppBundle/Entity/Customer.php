@@ -26,7 +26,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
      *     message="The field firstname is required"
      * )
@@ -36,7 +36,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=255)
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
      *     message="The field lastname is required"
      * )
@@ -49,6 +49,9 @@ class Customer
      *
      * @ORM\Column(name="nickname", type="string", length=255)
      * @Assert\NotBlank(
+     *     message="The field nickname is required"
+     * )
+     * @Assert\NotNull(
      *     message="The field nickname is required"
      * )
      */
@@ -199,6 +202,10 @@ class Customer
      */
     public function setNickname($nickname)
     {
+        if(empty($nickname))
+        {
+            throw new \InvalidArgumentException("Nickname is required");
+        }
         $this->nickname = $nickname;
 
         return $this;
@@ -320,7 +327,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setBirthdate(\DateTime $birthdate)
+    public function setBirthdate(\DateTime $birthdate=null)
     {
         $this->birthdate = $birthdate;
 
