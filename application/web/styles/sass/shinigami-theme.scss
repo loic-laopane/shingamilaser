@@ -1,0 +1,24 @@
+html, body {
+  background: #2B3E50;
+  .main {
+    background: inherit;
+    color: white;
+
+    .modal {
+      color: #666;
+      input {
+        background: #eee;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+
+    .my-panel {
+      background: white;
+      color: #666;
+      box-shadow: 5px 5px 5px #333;
+    }
+  }
+}
+.jumbotron {
+  background: orange;
+}

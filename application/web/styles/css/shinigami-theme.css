@@ -1,0 +1,19 @@
+html, body {
+  background: #2B3E50; }
+  html .main, body .main {
+    background: inherit;
+    color: white; }
+    html .main .modal, body .main .modal {
+      color: #666; }
+      html .main .modal input, body .main .modal input {
+        background: #eee;
+        border-bottom: 1px solid #ccc; }
+    html .main .my-panel, body .main .my-panel {
+      background: white;
+      color: #666;
+      box-shadow: 5px 5px 5px #333; }
+
+.jumbotron {
+  background: orange; }
+
+/*# sourceMappingURL=shinigami-theme.css.map */
