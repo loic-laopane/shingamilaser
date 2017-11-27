@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CustomerRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Customer
 {
@@ -27,7 +26,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
      *     message="The field firstname is required"
      * )
@@ -37,7 +36,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=255)
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
      *     message="The field lastname is required"
      * )
@@ -52,6 +51,9 @@ class Customer
      * @Assert\NotBlank(
      *     message="The field nickname is required"
      * )
+     * @Assert\NotNull(
+     *     message="The field nickname is required"
+     * )
      */
     private $nickname;
 
@@ -59,7 +61,6 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="society", type="string", length=255, nullable=true)
-     * @Assert\Blank()
      */
     private $society;
 
@@ -88,6 +89,9 @@ class Customer
      * @var \DateTime
      *
      * @ORM\Column(name="birthdate", type="datetime", nullable=true)
+     * @Assert\Date(
+     *     message="Not a date"
+     * )
      */
     private $birthdate;
 
@@ -198,6 +202,10 @@ class Customer
      */
     public function setNickname($nickname)
     {
+        if(empty($nickname))
+        {
+            throw new \InvalidArgumentException("Nickname is required");
+        }
         $this->nickname = $nickname;
 
         return $this;
@@ -319,7 +327,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setBirthdate(\DateTime $birthdate)
+    public function setBirthdate(\DateTime $birthdate=null)
     {
         $this->birthdate = $birthdate;
 

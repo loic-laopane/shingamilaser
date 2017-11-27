@@ -4,8 +4,11 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
+use AppBundle\Entity\User;
 use AppBundle\Form\CustomerAddCardType;
+use AppBundle\Form\CustomerQuickCreateType;
 use AppBundle\Manager\CardManager;
+use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -99,6 +102,58 @@ class CustomerController extends Controller
     public function getCardsAction(Request $request, ObjectManager $objectManager) {
         $customer = $objectManager->getRepository(Customer::class)->findOneBy(['user' => $this->getUser()]);
         return $this->render('AppBundle:Account:customer_cards.html.twig', array('customer' => $customer));
+    }
+
+    /**
+     * @param Customer $customer
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/customer/create/quick", name="customer_create_quick")
+     */
+    public function renderCreateQuickCustomerTypeAction(Request $request)
+    {
+        $customer = new Customer();
+        $form = $this->createForm(CustomerQuickCreateType::class, $customer, array(
+            'attr' => array('id' => 'form_customer_quick_create'),
+            'action' => $this->generateUrl('customer_create'),
+            'method' => 'POST'
+        ));
+
+        return $this->render('AppBundle:Customer:create_form.html.twig', array(
+            'form' => $form->createView(),
+            'customer' => $customer
+        ));
+    }
+
+    /**
+     * @param Request $request
+     * Associe un carte a un customer en ajax
+     * @Route("/customer/create/quick/new", name="customer_create")
+     * @Method({"POST"})
+     */
+    public function createCustomer(Request $request, CustomerManager $customerManager)
+    {
+        $nickname = $request->request->get('nickname');
+        $email = $request->request->get('email');
+
+
+        $response = ['status' => 0, 'message' => ''];
+
+        try {
+            $customer = new Customer();
+            $customer->setNickname($nickname);
+dump($customer);
+            $user = new User();
+            $user->setEmail($email);
+            $customerManager->quickCreate($customer, $user);
+            $response['status'] = 1;
+            $response['message'] = 'Account created';
+        }
+        catch (\Exception $e)
+        {
+            //$this->get('session')->getFlashBag()->add('danger', $e->getMessage());
+            $response['message'] = $e->getMessage();
+        }
+        return $this->json($response);
     }
 
 }

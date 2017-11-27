@@ -5,14 +5,30 @@
   $padding : 10px;
   position: relative;
   width: 100%;
-  height: 200px;
+  max-width: 480px;
+  height: 280px;
   border: 1px solid #333;
   border-radius: 5px;
   padding: $padding;
   display: flex;
+  background-image:linear-gradient(60deg, #438fcf, #254f72);
+  color: white;
+  box-shadow: 5px 5px 8px #666;
   .block-left {
     width: 100px;
-
+    .photo {
+      width: 100%;
+      border: 1px solid #666;
+      height: 100px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: url("/web/img/default-avatar.jpg");
+      background-repeat: no-repeat;
+      background-size: contain;
+      img {
+        width: inherit;
+      }
+    }
     .qrcode {
 
     }
@@ -54,11 +70,13 @@ $avatar_edge: 55px;
 .avatar {
   width: $avatar_edge;
   height: $avatar_edge;
+  border: 1px solid #ccc;
   display: inline-block;
   overflow: hidden;
   position: relative;
-  background-image: url('/web/img/default-avatar.png');
+  background-image: url('/web/img/default-avatar.jpg');
   background-repeat: no-repeat;
+  background-size: contain;
   img
   {
     position: absolute;
@@ -90,4 +108,35 @@ $avatar_edge: 55px;
     border-radius: 25px;
     display: none;
   }
+}
+.card-list {
+  .card-number {
+    font-family: "Courier New", sans-serif;
+  }
+  .stroken {
+    text-decoration: line-through;
+  }
+
+}
+
+.customer-details {
+  $heading_height: 40px;
+  $block_padding: 10px;
+  border: 1px solid #ccc;
+  .heading {
+    background: #8ECFD5;
+    font-weight: bold;
+    color: white;
+    height: $heading_height;
+    line-height: $heading_height;
+    padding: 0 $block_padding;
+    font-size:1.1em;
+  }
+
+  .body {
+    padding: $block_padding;
+  }
+}
+.text-bold {
+  font-weight: bold;
 }

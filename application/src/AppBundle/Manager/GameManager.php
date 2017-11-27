@@ -117,18 +117,26 @@ class GameManager
      */
     public function searchCustomerWithGame(array $data, Game $game)
     {
+        $required_fields = ['numero', 'lastname', 'firstname', 'nickname'];
+        $fields_valid = false;
+        foreach($required_fields as $field)
+        {
+            if(isset($data[$field]) && !empty($data[$field]))
+            {
+                $fields_valid = true;
+                break;
+            }
+        }
 
-        $numero = $data['numero'];
-        $nickname = $data['nickname'];
         $response = [
             'status' => 0,
-            'message' => 'No customer found with number '.$numero,
+            'message' => 'No customer found',
             'data' => null
         ];
 
-        if(empty($numero) && empty($nickname))
+        if(!$fields_valid)
         {
-            $response['message'] = 'Please fill card number or customer nickname';
+            $response['message'] = 'Please fill at least one search field';
         }
         else {
             $customers = $this->customerManager->getCustomerByParams($data);

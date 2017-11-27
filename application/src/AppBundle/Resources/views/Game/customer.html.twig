@@ -1,9 +1,17 @@
 {# Affiche la fiche d'un customer apres recherche dans un Game #}
-<div class="row">
+
     <div class="col-md-6">
-        <div class="panel panel-info">
-            <div class="panel-heading">Customer</div>
-            <div class="panel-body">
+        <div class="customer-details">
+            <div class="heading">Customer detail</div>
+            <div class="body">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Firstname :</label>
+                    <div class="col-sm-8">{{ customer.firstname }}</div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Lastname :</label>
+                    <div class="col-sm-8">{{ customer.lastname }}</div>
+                </div>
 
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label">Nickname :</label>
@@ -12,7 +20,7 @@
 
                 {% for card in customer.cards %}
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Card N° :</label>
+                    <label class="col-sm-4 col-form-label">Card number :</label>
                     <div class="col-sm-8">{{ card.numero }}</div>
                 </div>
                  {% else %}
@@ -27,7 +35,7 @@
                     <div class="col-sm-8">
                         <form action="{{ path('game_add_user', { 'id' : game.id }) }}" method="POST">
                             <input type="hidden" name="customer_id" value="{{ customer.id }}">
-                            <button class="btn btn-primary btn-fill"><i class="fa fa-share-square-o"></i> {{ 'btn.add' | trans }}</button>
+                            <button class="btn btn-success btn-fill"><i class="fa fa-share-square-o"></i> {{ 'btn.add' | trans }}</button>
                         </form>
                     </div>
                 </div>
@@ -35,7 +43,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 {# Modal #}
 {{ render(controller('AppBundle:Customer:displayModalAddCardToCustomer', { 'id' : customer.id })) }}

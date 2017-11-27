@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -28,12 +29,15 @@ class CustomerAccountType extends AbstractType
                 ->add('address', TextType::class, array('required' => false))
                 ->add('zipcode',TextType::class, array('required' => false))
                 ->add('city', TextType::class, array('required' => false))
-            /*
+
                 ->add('birthdate', BirthdayType::class, array(
                     'attr' => array('class' => 'datepicker'),
-                    'required' => false
+                    'widget' => 'single_text',
+                    'required' => false,
+                    'format' => 'dd/MM/yyyy',
+                    'html5' => false
                 ))
-            */
+
                 ->add('avatar', ImageType::class, array('required' => false))
                 ;
     }

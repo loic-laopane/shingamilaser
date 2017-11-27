@@ -14,7 +14,7 @@
                 <td><a href="{{ path('account_card_show', { 'id' : card.id }) }}">{{ card.numero }}</a></td>
                 <td>{{ card.activatedAt | date('d/m/Y') }}</td>
                 <td>{{ card.center.name }}</td>
-                <td>{{ card.active }}</td>
+                <td><i class="fa {{ card.active ? 'fa-check' : 'fa-close'}}"></i></td>
             </tr>
         {% endfor %}
         </tbody>

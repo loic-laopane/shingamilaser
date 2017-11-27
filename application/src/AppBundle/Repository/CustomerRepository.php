@@ -27,6 +27,18 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
             $qr->andWhere('c.nickname LIKE :nickname')
                 ->setParameter('nickname', $params['nickname'].'%');
         }
+
+        if(isset($params['lastname']) && !empty($params['lastname']))
+        {
+            $qr->andWhere('c.lastname LIKE :lastname')
+                ->setParameter('lastname', $params['lastname'].'%');
+        }
+
+        if(isset($params['firstname']) && !empty($params['firstname']))
+        {
+            $qr->andWhere('c.firstname LIKE :firstname')
+                ->setParameter('firstname', $params['firstname'].'%');
+        }
         //return $qr->getQuery()->getSQL();
         return $qr->getQuery()->getResult();
     }

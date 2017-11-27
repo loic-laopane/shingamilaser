@@ -9,6 +9,11 @@
     <div class="col-md-8">
     <div class="fidelity-card">
         <div class="block-left">
+            <div class="photo">
+                {% if card.customer.avatar is not null %}
+                    <img src="{{ asset('img/avatar/' ~ card.customer.avatar.filename) }}">
+                {% endif %}
+            </div>
             <div class="qrcode" id="qrcode"></div>
             <div class="code">
                 {{ card.numero }}
@@ -20,21 +25,21 @@
             <div class="card-identity">
                 <div class="row">
                     <div class="col-sm-7">Lastname :</div>
-                    <div class="col-sm-5 text-info">{{ card.customer.lastname }}</div>
+                    <div class="col-sm-5 text-bold">{{ card.customer.lastname }}</div>
                 </div>
                 <div class="row">
                     <div class="col-sm-7">Firstname :</div>
-                    <div class="col-sm-5 text-info">{{ card.customer.firstname }}</div>
+                    <div class="col-sm-5 text-bold">{{ card.customer.firstname }}</div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-7">Card number :</div>
-                    <div class="col-sm-5 text-info">{{ card.numero }}</div>
+                    <div class="col-sm-5 text-bold">{{ card.numero }}</div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-7">Activated at :</div>
-                    <div class="col-sm-5 text-info">{{ card.activatedAt | date('d/m/Y') }}</div>
+                    <div class="col-sm-5 text-bold">{{ card.activatedAt | date('d/m/Y') }}</div>
                 </div>
             </div>
         </div>
