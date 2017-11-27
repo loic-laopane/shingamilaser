@@ -70,11 +70,30 @@
             {% if purchase.cards is not null %}
                 <h4>Associated cards</h4>
                 <div class="card-list">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Card number</th>
+                                <th>Owner</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
                 {% for card in purchase.cards %}
-                    <li {{ card.active == false ? 'class="stroken"' }}>{{ card.numero }}</li>
+                    <tr>
+                    <td class="card-number{{ card.active == false ? ' stroken' }}">{{ card.numero }}</td>
+                    <td>
+                        {% if card.customer is not null %}
+                            {{ card.customer.firstname ~ ' ' ~ card.customer.lastname }}
+                        {% endif %}
+                    </td>
+                        <td></td>
+                    </tr>
                 {% else %}
                     <p>No cards associated</p>
                 {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
 
             {% endif %}
@@ -85,12 +104,6 @@
     <style>
         form {
             display: inline-block;
-        }
-        .card-list {
-            font-family: "Courier New";
-        }
-        .stroken {
-            text-decoration: line-through;
         }
     </style>
 {% endblock %}

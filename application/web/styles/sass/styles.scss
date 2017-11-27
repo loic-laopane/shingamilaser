@@ -70,6 +70,7 @@ $avatar_edge: 55px;
 .avatar {
   width: $avatar_edge;
   height: $avatar_edge;
+  border: 1px solid #ccc;
   display: inline-block;
   overflow: hidden;
   position: relative;
@@ -108,7 +109,15 @@ $avatar_edge: 55px;
     display: none;
   }
 }
+.card-list {
+  .card-number {
+    font-family: "Courier New", sans-serif;
+  }
+  .stroken {
+    text-decoration: line-through;
+  }
 
+}
 .text-bold {
   font-weight: bold;
 }

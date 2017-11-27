@@ -54,6 +54,7 @@
 .avatar {
   width: 55px;
   height: 55px;
+  border: 1px solid #ccc;
   display: inline-block;
   overflow: hidden;
   position: relative;
@@ -84,6 +85,11 @@
     background: #ffffff;
     border-radius: 25px;
     display: none; }
+
+.card-list .card-number {
+  font-family: "Courier New", sans-serif; }
+.card-list .stroken {
+  text-decoration: line-through; }
 
 .text-bold {
   font-weight: bold; }

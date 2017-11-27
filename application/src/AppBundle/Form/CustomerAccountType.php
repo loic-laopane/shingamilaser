@@ -30,10 +30,9 @@ class CustomerAccountType extends AbstractType
                 ->add('zipcode',TextType::class, array('required' => false))
                 ->add('city', TextType::class, array('required' => false))
 
-                ->add('birthdate', DateType::class, array(
+                ->add('birthdate', BirthdayType::class, array(
                     'attr' => array('class' => 'datepicker'),
                     'widget' => 'single_text',
-                    'label' => 'Birthdate',
                     'required' => false,
                     'format' => 'dd/MM/yyyy',
                     'html5' => false
