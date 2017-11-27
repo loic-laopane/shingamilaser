@@ -39,11 +39,18 @@ class SecurityController extends Controller
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $customerManager->register($customer);
+            try {
+                $customerManager->register($customer);
+                //Todo : A ajouter a un evenement
+                $this->addFlash('success', 'registration.success');
+                return $this->redirectToRoute('login');
+            }
+            catch(\Exception $exception)
+            {
+                $this->addFlash('danger', $exception->getMessage());
+            }
 
-            //Todo : A ajouter a un evenement
-            $this->addFlash('success', 'registration.success');
-            return $this->redirectToRoute('login');
+
         }
 
         return $this->render('AppBundle:Security:register.html.twig', array(

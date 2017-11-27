@@ -1,6 +1,31 @@
 * {
   box-sizing: border-box; }
 
+.my-panel {
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #999;
+  max-width: 600px;
+  margin: 10px auto; }
+  .my-panel .heading {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 20px;
+    background: #438fcf;
+    border-radius: 10px 10px 0 0;
+    font-size: 1.5em;
+    color: white; }
+  .my-panel .body {
+    border-radius: 0 0 10px 10px;
+    padding: 10px 20px; }
+    .my-panel .body form input[type="text"], .my-panel .body form input[type="password"], .my-panel .body form input[type="email"] {
+      border-bottom: 1px solid #ccc;
+      background: #eee; }
+    .my-panel .body section {
+      padding: 20px 0;
+      border-top: 1px solid #438fcf; }
+    .my-panel .body section:first-child, .my-panel .body section:last-child {
+      border-top: none; }
+
 .fidelity-card {
   position: relative;
   width: 100%;

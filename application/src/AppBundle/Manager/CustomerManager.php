@@ -11,9 +11,11 @@ namespace AppBundle\Manager;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
+use AppBundle\Event\RegisterEvent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CustomerManager
 {
@@ -31,12 +33,19 @@ class CustomerManager
      * @var EntityRepository
      */
     private $repository;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
-    public function __construct(ObjectManager $manager, UserManager $userManager)
+    public function __construct(ObjectManager $manager,
+                                UserManager $userManager,
+                                EventDispatcherInterface $dispatcher)
     {
         $this->manager = $manager;
         $this->userManager = $userManager;
         $this->repository = $this->manager->getRepository(Customer::class);
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -45,6 +54,7 @@ class CustomerManager
      */
     public function register(Customer $customer)
     {
+        $user = clone $customer->getUser();
         $this->userManager->encodeUserPassword($customer->getUser());
 
         if($this->userManager->mailExists($customer->getUser())) {
@@ -52,6 +62,8 @@ class CustomerManager
         }
         $this->manager->persist($customer);
         $this->manager->flush();
+
+        $this->dispatcher->dispatch(RegisterEvent::EVENT, new RegisterEvent($customer, $user));
 
         return $this;
     }

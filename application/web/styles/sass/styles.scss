@@ -1,5 +1,45 @@
+$blue_light: #438fcf;
+$blue_dark: #254f72;
 * {
   box-sizing: border-box;
+}
+
+
+.my-panel {
+  $radius: 10px;
+  $padding: 20px;
+  border-radius: $radius;
+  box-shadow: 5px 5px 5px #999;
+  max-width:600px;
+  margin: 10px auto;
+  .heading {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 $padding;
+    background: $blue_light;
+    border-radius: $radius $radius 0 0;
+    font-size: 1.5em;
+    color: white;
+  }
+  .body {
+    border-radius: 0 0 $radius $radius;
+    padding: 10px $padding;
+    form {
+      input {
+        &[type="text"], &[type="password"], &[type="email"] {
+          border-bottom:1px solid #ccc ;
+          background: #eee;
+        }
+      }
+    }
+    section {
+      padding: $padding 0;
+      border-top: 1px solid $blue_light;
+    }
+    section:first-child, section:last-child {
+      border-top:none;
+    }
+  }
 }
 .fidelity-card {
   $padding : 10px;
@@ -11,7 +51,7 @@
   border-radius: 5px;
   padding: $padding;
   display: flex;
-  background-image:linear-gradient(60deg, #438fcf, #254f72);
+  background-image:linear-gradient(60deg, $blue_light, $blue_dark);
   color: white;
   box-shadow: 5px 5px 8px #666;
   .block-left {
