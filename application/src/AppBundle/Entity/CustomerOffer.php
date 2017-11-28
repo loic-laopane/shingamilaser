@@ -31,7 +31,7 @@ class CustomerOffer
     /**
      * @var Customer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer", inversedBy="customerOffers")
      */
     private $customer;
 

@@ -32,7 +32,10 @@ class OfferListener
         $this->dispatcher = $dispatcher;
     }
 
-    public function onOfferUnlocked(OfferEvent $event)
+    /**
+     * @param OfferEvent $event
+     */
+    public function onOfferUnlockable(OfferEvent $event)
     {
         $customer = $event->getCustomer();
         $game = $event->getGame();
@@ -60,5 +63,10 @@ class OfferListener
                 $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
             }
         }
+    }
+
+    public function onOfferUnlocked(OfferEvent $event)
+    {
+
     }
 }
