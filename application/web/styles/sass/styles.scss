@@ -6,7 +6,7 @@ $blue_dark: #254f72;
 
 
 .my-panel {
-  $radius: 10px;
+  $radius: 0px;
   $padding: 20px;
   border-radius: $radius;
   box-shadow: 5px 5px 5px #999;
@@ -103,6 +103,7 @@ $blue_dark: #254f72;
     font-size: 0.9em;
     color: white;
     text-align: center;
+    border-radius: 0 0 5px 5px;
   }
 }
 
@@ -179,4 +180,7 @@ $avatar_edge: 55px;
 }
 .text-bold {
   font-weight: bold;
+}
+.btn {
+  border-radius: 2px;
 }

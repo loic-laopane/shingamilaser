@@ -2,7 +2,7 @@
   box-sizing: border-box; }
 
 .my-panel {
-  border-radius: 10px;
+  border-radius: 0px;
   box-shadow: 5px 5px 5px #999;
   max-width: 600px;
   margin: 10px auto; }
@@ -11,11 +11,11 @@
     line-height: 50px;
     padding: 0 20px;
     background: #438fcf;
-    border-radius: 10px 10px 0 0;
+    border-radius: 0px 0px 0 0;
     font-size: 1.5em;
     color: white; }
   .my-panel .body {
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 0px 0px;
     padding: 10px 20px; }
     .my-panel .body form input[type="text"], .my-panel .body form input[type="password"], .my-panel .body form input[type="email"] {
       border-bottom: 1px solid #ccc;
@@ -74,7 +74,8 @@
     margin-left: -10px;
     font-size: 0.9em;
     color: white;
-    text-align: center; }
+    text-align: center;
+    border-radius: 0 0 5px 5px; }
 
 .avatar {
   width: 55px;
@@ -131,5 +132,8 @@
 
 .text-bold {
   font-weight: bold; }
+
+.btn {
+  border-radius: 2px; }
 
 /*# sourceMappingURL=styles.css.map */

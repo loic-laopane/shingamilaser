@@ -35,7 +35,7 @@
                     <div class="col-sm-8">
                         <form action="{{ path('game_add_user', { 'id' : game.id }) }}" method="POST">
                             <input type="hidden" name="customer_id" value="{{ customer.id }}">
-                            <button class="btn btn-success btn-fill"><i class="fa fa-share-square-o"></i> {{ 'btn.add' | trans }}</button>
+                            <button class="btn btn-success btn-fill"><i class="fa fa-share-square-o"></i> {{ 'btn.add_to_game' | trans }}</button>
                         </form>
                     </div>
                 </div>

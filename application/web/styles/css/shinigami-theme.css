@@ -16,4 +16,12 @@ html, body {
 .jumbotron {
   background: #4E5D6C; }
 
+.customer-details {
+  background: white;
+  color: #666666;
+  border: none; }
+
+.fidelity-card {
+  box-shadow: 5px 5px 8px #333; }
+
 /*# sourceMappingURL=shinigami-theme.css.map */
