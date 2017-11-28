@@ -62,3 +62,9 @@ services:
             - '%mailer_sender_address%'
         tags:
             - { name: kernel.event_listener, event: register.event, method: onRegistration }
+
+    AppBundle\Event\Listener\RequestPasswordListener:
+            arguments:
+                - '%mailer_sender_address%'
+            tags:
+                - { name: kernel.event_listener, event: forgotten.event, method: onRequestPassword }

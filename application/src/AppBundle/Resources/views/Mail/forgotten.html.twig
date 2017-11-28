@@ -1,0 +1,11 @@
+{% extends 'AppBundle:Mail:layout_mail.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'Request forgotten password' | trans }}</h1>
+    <h3>Hi {{ user.username }}, </h3>
+    <p>You have requeste to change your forgotten password, for <b>{{ user.username }} account.</b></p>
+    <p>If you don't, please ignore this email.</p>
+
+
+    <p>Follow this <a href="{{ url('new_password', { 'token' : requestPassword.token }) }}">link</a> to change your password</p>
+{% endblock %}

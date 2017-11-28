@@ -9,11 +9,15 @@
 namespace AppBundle\Manager;
 
 
+use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
+use AppBundle\Event\SecurityEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserManager
 {
@@ -34,13 +38,21 @@ class UserManager
      * @var ObjectRepository
      */
     private $repository;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
-    public function __construct(ObjectManager $manager, UserPasswordEncoderInterface $encoder, SessionInterface $session)
+    public function __construct(ObjectManager $manager,
+                                UserPasswordEncoderInterface $encoder,
+                                SessionInterface $session,
+                                EventDispatcherInterface $dispatcher)
     {
         $this->manager = $manager;
         $this->encoder = $encoder;
         $this->session = $session;
         $this->repository = $this->manager->getRepository(User::class);
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -98,6 +110,17 @@ class UserManager
         return true;
     }
 
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function save()
+    {
+        $this->manager->flush();
+
+        return $this;
+    }
+
     public function delete($id)
     {
         $user = $this->repository->find($id);
@@ -115,4 +138,36 @@ class UserManager
         return true;
     }
 
+    /**
+     * @param User $anonymous_user
+     * @throws \Exception
+     */
+    public function sendRequestPassword(User $anonymous_user)
+    {
+        $user = $this->getUserByEmail($anonymous_user->getEmail());
+        if(null === $user) {
+            throw new \Exception('User not found with email '.$anonymous_user->getEmail());
+        }
+
+        $this->dispatcher->dispatch(SecurityEvent::FORGOTTEN, new SecurityEvent(new Customer(), $user));
+    }
+
+    /**
+     * @param $email
+     * @return User
+     * @throws \Exception
+     */
+    public function getUserByEmail($email)
+    {
+        if(empty($email))
+        {
+            throw new \Exception('Email required');
+        }
+
+        $user = $this->repository->findOneBy(['email' => $email]);
+        if(null === $user) {
+            throw new \Exception('User not found with email '.$email);
+        }
+        return $user;
+    }
 }
