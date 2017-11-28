@@ -9,45 +9,42 @@
 namespace AppBundle\Event;
 
 use AppBundle\Entity\Customer;
+use AppBundle\Entity\RequestPassword;
 use AppBundle\Entity\User;
 use Symfony\Component\EventDispatcher\Event;
 
-class RegisterEvent extends Event
+class PasswordEvent extends Event
 {
-    const EVENT = 'register.event';
-    /**
-     * @var Customer
-     */
-    private $customer;
+    const FORGOTTEN = 'forgotten.event';
 
     /**
-     * @var User
+     * @var RequestPassword
      */
-    private $user;
+    private $requestPassword;
 
     /**
      * RegisterEvent constructor.
      * @param Customer $customer
      * @param User $user
      */
-    public function __construct(Customer $customer, User $user)
+    public function __construct(RequestPassword $requestPassword)
     {
-        $this->customer = $customer;
-        $this->user = $user;
+
+        $this->requestPassword = $requestPassword;
     }
 
     /**
-     * @return Customer
+     * @return RequestPassword
      */
-    public function getCustomer()
+    public function getRequestPassword()
     {
-        return $this->customer;
+        return $this->requestPassword;
     }
 
     /**
      * @return User
      */
     public function getUser() {
-        return $this->user;
+        return $this->requestPassword->getUser();
     }
 }

@@ -9,11 +9,11 @@
 namespace AppBundle\Event\Listener;
 
 
-use AppBundle\Event\SecurityEvent;
+use AppBundle\Event\PasswordEvent;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class RegisterListener
+class RequestPasswordListener
 {
     /**
      * @var \Swift_Mailer
@@ -41,17 +41,17 @@ class RegisterListener
     }
 
     /**
-     * @param SecurityEvent $event
+     * @param PasswordEvent $event
      */
-    public function onRegistration(SecurityEvent $event)
+    public function onRequestPassword(PasswordEvent $event)
     {
-        $customer = $event->getCustomer();
+        $requestPassword = $event->getRequestPassword();
         $user = $event->getUser();
-        $message = new \Swift_Message($this->translator->trans('Registration completed'));
+        $message = new \Swift_Message($this->translator->trans('Request forgotten password'));
         $message->setFrom($this->from)
                 ->setTo($user->getEmail())
-                ->setBody($this->templating->render('AppBundle:Mail:registration.html.twig', array(
-                  'customer' => $customer,
+                ->setBody($this->templating->render('AppBundle:Mail:forgotten.html.twig', array(
+                  'requestPassword' => $requestPassword,
                     'user' => $user
                 )),
                   'text/html');

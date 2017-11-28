@@ -11,7 +11,7 @@ namespace AppBundle\Manager;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
-use AppBundle\Event\RegisterEvent;
+use AppBundle\Event\SecurityEvent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
@@ -63,7 +63,7 @@ class CustomerManager
         $this->manager->persist($customer);
         $this->manager->flush();
 
-        $this->dispatcher->dispatch(RegisterEvent::EVENT, new RegisterEvent($customer, $user));
+        $this->dispatcher->dispatch(SecurityEvent::REGISTER, new SecurityEvent($customer, $user));
 
         return $this;
     }

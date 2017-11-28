@@ -1,0 +1,135 @@
+* {
+  box-sizing: border-box; }
+
+.my-panel {
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #999;
+  max-width: 600px;
+  margin: 10px auto; }
+  .my-panel .heading {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 20px;
+    background: #438fcf;
+    border-radius: 10px 10px 0 0;
+    font-size: 1.5em;
+    color: white; }
+  .my-panel .body {
+    border-radius: 0 0 10px 10px;
+    padding: 10px 20px; }
+    .my-panel .body form input[type="text"], .my-panel .body form input[type="password"], .my-panel .body form input[type="email"] {
+      border-bottom: 1px solid #ccc;
+      background: #eee; }
+    .my-panel .body section {
+      padding: 20px 0;
+      border-top: 1px solid #438fcf; }
+    .my-panel .body section:first-child, .my-panel .body section:last-child {
+      border-top: none; }
+
+.fidelity-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 280px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  background-image: linear-gradient(60deg, #438fcf, #254f72);
+  color: white;
+  box-shadow: 5px 5px 8px #666; }
+  .fidelity-card .block-left {
+    width: 100px; }
+    .fidelity-card .block-left .photo {
+      width: 100%;
+      border: 1px solid #666;
+      height: 100px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: url("/web/img/default-avatar.jpg");
+      background-repeat: no-repeat;
+      background-size: contain; }
+      .fidelity-card .block-left .photo img {
+        width: inherit; }
+    .fidelity-card .block-left .code {
+      padding: 5px auto;
+      font-size: 1.1em;
+      font-weight: bold;
+      width: 100%;
+      text-align: center; }
+  .fidelity-card .block-right {
+    padding: 0 15px; }
+    .fidelity-card .block-right .card-title {
+      padding: 0;
+      font-size: 1.5em;
+      font-weight: bold; }
+    .fidelity-card .block-right .card-identity {
+      font-size: 0.8em; }
+  .fidelity-card .card-footer {
+    position: absolute;
+    bottom: 0;
+    height: 20px;
+    background: black;
+    width: 100%;
+    margin-left: -10px;
+    font-size: 0.9em;
+    color: white;
+    text-align: center; }
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  border: 1px solid #ccc;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  background-image: url("/web/img/default-avatar.jpg");
+  background-repeat: no-repeat;
+  background-size: contain; }
+  .avatar img {
+    position: absolute;
+    width: inherit; }
+
+.round-avatar {
+  border-radius: 50px; }
+
+.block-avatar {
+  width: 100px;
+  position: relative; }
+  .block-avatar img {
+    width: inherit; }
+  .block-avatar .remove-avatar {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    position: absolute;
+    z-index: 2;
+    top: -3px;
+    right: -3px;
+    border: 2px solid #666666;
+    background: #ffffff;
+    border-radius: 25px;
+    display: none; }
+
+.card-list .card-number {
+  font-family: "Courier New", sans-serif; }
+.card-list .stroken {
+  text-decoration: line-through; }
+
+.customer-details {
+  border: 1px solid #ccc; }
+  .customer-details .heading {
+    background: #8ECFD5;
+    font-weight: bold;
+    color: white;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    font-size: 1.1em; }
+  .customer-details .body {
+    padding: 10px; }
+
+.text-bold {
+  font-weight: bold; }
+
+/*# sourceMappingURL=styles.css.map */
