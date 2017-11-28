@@ -15,6 +15,8 @@ use AppBundle\Event\OfferEvent;
 use AppBundle\Manager\PlayerManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class OfferListener
 {
@@ -30,13 +32,35 @@ class OfferListener
      * @var PlayerManager
      */
     private $playerManager;
+    /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
+    private $from;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+    /**
+     * @var EngineInterface
+     */
+    private $templating;
 
-    public function __construct(ObjectManager $objectManager,
-                                EventDispatcherInterface $dispatcher, PlayerManager $playerManager)
+    public function __construct($from,
+                                ObjectManager $objectManager,
+                                EventDispatcherInterface $dispatcher,
+                                PlayerManager $playerManager,
+                                \Swift_Mailer $mailer,
+                                TranslatorInterface $translator,
+                                EngineInterface $templating)
     {
         $this->objectManager = $objectManager;
         $this->dispatcher = $dispatcher;
         $this->playerManager = $playerManager;
+        $this->mailer = $mailer;
+        $this->from = $from;
+        $this->translator = $translator;
+        $this->templating = $templating;
     }
 
     /**
@@ -75,6 +99,18 @@ class OfferListener
 
     public function onOfferUnlocked(OfferEvent $event)
     {
-
+        $user = $event->getUser();
+        $customer = $event->getCustomer();
+        $game = $event->getGame();
+        $message = new \Swift_Message($this->translator->trans('Offer unlocked'));
+        $message->setFrom($this->from)
+            ->setTo($user->getEmail())
+            ->setBody($this->templating->render('AppBundle:Mail:offer-unlocked.html.twig', array(
+                'user' => $user,
+                'customer' => $customer,
+                'game' => $game
+            )),
+                'text/html');
+        $this->mailer->send($message);
     }
 }
