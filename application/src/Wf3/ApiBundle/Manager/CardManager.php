@@ -51,7 +51,22 @@ class CardManager
      */
     private function createUniqId()
     {
-        return mt_rand(100000, 999999);
+        $rand = mt_rand(0, 999999);
+        return $this->formatUniqId($rand);
+    }
+
+    /**
+     * @param $int
+     * @return string
+     */
+    private function formatUniqId($int)
+    {
+        $diff =  Card::CODE_LENGTH - strlen($int);
+        for($i = 0; $i < $diff; $i++)
+        {
+            $int = '0'.$int;
+        }
+        return $int;
     }
 
     /**
