@@ -1,3 +1,4 @@
+$color_grey: #666666;
 html, body {
   background: #2B3E50;
   .main {
@@ -5,7 +6,7 @@ html, body {
     color: white;
 
     .modal {
-      color: #666;
+      color: $color_grey;
       input {
         background: #eee;
         border-bottom: 1px solid #ccc;
@@ -14,7 +15,7 @@ html, body {
 
     .my-panel {
       background: white;
-      color: #666;
+      color: $color_grey;
       box-shadow: 5px 5px 5px #333;
     }
   }
@@ -30,4 +31,8 @@ html, body {
 
 .fidelity-card {
   box-shadow: 5px 5px 8px #333;
+}
+
+.panel {
+  color: $color_grey;
 }
