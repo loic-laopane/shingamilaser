@@ -8,9 +8,11 @@
 
 namespace AppBundle\Manager;
 
-use AppBundle\Entity\CustomerGame;
+use AppBundle\Entity\Player;
 use AppBundle\Entity\Game;
+use AppBundle\Event\OfferEvent;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -37,15 +39,24 @@ class GameManager
      * @var CustomerManager
      */
     private $customerManager;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
 
-    public function __construct(ObjectManager $manager, SessionInterface $session, EngineInterface $templating, CustomerManager $customerManager)
+    public function __construct(ObjectManager $manager,
+                                SessionInterface $session,
+                                EngineInterface $templating,
+                                CustomerManager $customerManager,
+                                EventDispatcherInterface $dispatcher)
     {
         $this->manager = $manager;
         $this->repository = $manager->getRepository(Game::class);
         $this->session = $session;
         $this->templating = $templating;
         $this->customerManager = $customerManager;
+        $this->dispatcher = $dispatcher;
     }
 
 
@@ -167,10 +178,11 @@ class GameManager
      */
     public function simuleScore(Game $game)
     {
-        $customerGame = $this->manager->getRepository(CustomerGame::class)->findBy(['game' => $game]);
-        foreach($customerGame as $row)
+        $players = $this->manager->getRepository(Player::class)->findBy(['game' => $game]);
+        foreach($players as $player)
         {
-            $row->setScore(mt_rand(0, 100));
+            $player->setScore(mt_rand(0, 100));
+            $this->dispatcher->dispatch(OfferEvent::UNLOCKABLE_EVENT, new OfferEvent($game, $player->getCustomer()));
         }
         $this->manager->flush();
 
