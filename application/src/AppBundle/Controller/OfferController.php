@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Offer;
 use AppBundle\Form\Offer\OfferType;
+use AppBundle\Manager\OfferManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -36,7 +37,7 @@ class OfferController extends Controller
      * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_STAFF')")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, OfferManager $offerManager)
     {
         $offer = new Offer();
         $form = $this->createForm(OfferType::class, $offer);
@@ -45,7 +46,7 @@ class OfferController extends Controller
         {
             try
             {
-                //save offer
+                $offerManager->save($offer);
                 $this->addFlash('success', 'Offer created');
                 return $this->redirectToRoute('offer_edit', array('id' => $offer->getId()));
             }
@@ -65,7 +66,7 @@ class OfferController extends Controller
      * @Method({"GET", "POST"})
      * @Security("has_role('ROLE_STAFF')")
      */
-    public function editAction(Offer $offer, Request $request)
+    public function editAction(Offer $offer, Request $request, OfferManager $offerManager)
     {
         $form = $this->createForm(OfferType::class, $offer);
         $form->handleRequest($request);
@@ -73,6 +74,7 @@ class OfferController extends Controller
         {
             try {
                 //save
+                $offerManager->save($offer);
                 $this->addFlash('success', 'Offer '.$offer->getTitle().' update');
             }
             catch (\Exception $exception)
