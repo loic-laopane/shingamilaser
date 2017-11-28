@@ -75,7 +75,7 @@ class OfferController extends Controller
             try {
                 //save
                 $offerManager->save($offer);
-                $this->addFlash('success', 'Offer '.$offer->getTitle().' update');
+                $this->addFlash('success', 'Offer '.$offer->getTitle().' updated');
             }
             catch (\Exception $exception)
             {

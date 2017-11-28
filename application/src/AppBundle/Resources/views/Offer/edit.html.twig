@@ -1,7 +1,12 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Offer:edit{% endblock %}
+{% block title %}Edit the offer :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Offer:edit page</h1>
+    <h1>Edit the offer</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.save' | trans }}</button>
+    <a href="{{ path('offer_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
+    {{ form_end(form) }}
 {% endblock %}

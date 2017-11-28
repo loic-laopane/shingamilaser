@@ -12,6 +12,7 @@
             <tr>
                 <th>Title</th>
                 <th>On count</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -19,7 +20,7 @@
                 <tr>
                     <td><a href="{{ path('offer_edit', { id : offer.id }) }}">{{ offer.title }}</a></td>
                     <td>{{ offer.count}}</td>
-                    <td><a href="{{ path('offer_edit', { id : offer.id }) }}" class="btn btn-primary"></a></td>
+                    <td><a href="{{ path('offer_edit', { id : offer.id }) }}" class="btn btn-primary btn-fill"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></td>
                 </tr>
             {% endfor %}
             </tbody>
