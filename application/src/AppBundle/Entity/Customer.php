@@ -122,16 +122,16 @@ class Customer
     /**
      * @var Player
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerGame", mappedBy="customer")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Player", mappedBy="customer")
      */
-    //private $customerGame;
+    private $customerGames;
 
     /**
      * @var CustomerOffer
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerOffer", mappedBy="customer")
      */
-    //private $customerOffer;
+    private $customerOffers;
 
 
     
@@ -374,6 +374,8 @@ class Customer
     public function __construct()
     {
         $this->cards = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->customerGames = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->customerOffers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -434,4 +436,72 @@ class Customer
         return $this->avatar;
     }
 
+
+    /**
+     * Add customerGame
+     *
+     * @param \AppBundle\Entity\Player $customerGame
+     *
+     * @return Customer
+     */
+    public function addCustomerGame(\AppBundle\Entity\Player $customerGame)
+    {
+        $this->customerGames[] = $customerGame;
+
+        return $this;
+    }
+
+    /**
+     * Remove customerGame
+     *
+     * @param \AppBundle\Entity\Player $customerGame
+     */
+    public function removeCustomerGame(\AppBundle\Entity\Player $customerGame)
+    {
+        $this->customerGames->removeElement($customerGame);
+    }
+
+    /**
+     * Get customerGames
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCustomerGames()
+    {
+        return $this->customerGames;
+    }
+
+    /**
+     * Add customerOffer
+     *
+     * @param \AppBundle\Entity\CustomerOffer $customerOffer
+     *
+     * @return Customer
+     */
+    public function addCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
+    {
+        $this->customerOffers[] = $customerOffer;
+
+        return $this;
+    }
+
+    /**
+     * Remove customerOffer
+     *
+     * @param \AppBundle\Entity\CustomerOffer $customerOffer
+     */
+    public function removeCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
+    {
+        $this->customerOffers->removeElement($customerOffer);
+    }
+
+    /**
+     * Get customerOffers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCustomerOffers()
+    {
+        return $this->customerOffers;
+    }
 }
