@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\Event;
 class SecurityEvent extends Event
 {
     const REGISTER = 'register.event';
-    const FORGOTTEN = 'forgotten.event';
+    const CHANGE_PASSWORD = 'change_password.event';
     /**
      * @var Customer
      */

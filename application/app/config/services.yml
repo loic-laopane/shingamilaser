@@ -68,3 +68,4 @@ services:
                 - '%mailer_sender_address%'
             tags:
                 - { name: kernel.event_listener, event: forgotten.event, method: onRequestPassword }
+                - { name: kernel.event_listener, event: change_password.event, method: onChangePassword }
