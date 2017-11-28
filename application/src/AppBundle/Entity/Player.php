@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CustomerGame
+ * Player
  *
- * @ORM\Table(name="customer_game")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CustomerGameRepository")
+ * @ORM\Table(name="player")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PlayerRepository")
  */
-class CustomerGame
+class Player
 {
     /**
      * @var int
@@ -74,7 +74,7 @@ class CustomerGame
      *
      * @param integer $score
      *
-     * @return CustomerGame
+     * @return Player
      */
     public function setScore($score)
     {
@@ -98,7 +98,7 @@ class CustomerGame
      *
      * @param \AppBundle\Entity\Customer $customer
      *
-     * @return CustomerGame
+     * @return Player
      */
     public function setCustomer(\AppBundle\Entity\Customer $customer = null)
     {
@@ -122,7 +122,7 @@ class CustomerGame
      *
      * @param \AppBundle\Entity\Game $game
      *
-     * @return CustomerGame
+     * @return Player
      */
     public function setGame(\AppBundle\Entity\Game $game = null)
     {
@@ -146,7 +146,7 @@ class CustomerGame
      *
      * @param \AppBundle\Entity\Card $card
      *
-     * @return CustomerGame
+     * @return Player
      */
     public function setCard(\AppBundle\Entity\Card $card = null)
     {

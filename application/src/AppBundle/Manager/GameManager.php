@@ -8,7 +8,7 @@
 
 namespace AppBundle\Manager;
 
-use AppBundle\Entity\CustomerGame;
+use AppBundle\Entity\Player;
 use AppBundle\Entity\Game;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -167,7 +167,7 @@ class GameManager
      */
     public function simuleScore(Game $game)
     {
-        $customerGame = $this->manager->getRepository(CustomerGame::class)->findBy(['game' => $game]);
+        $customerGame = $this->manager->getRepository(Player::class)->findBy(['game' => $game]);
         foreach($customerGame as $row)
         {
             $row->setScore(mt_rand(0, 100));

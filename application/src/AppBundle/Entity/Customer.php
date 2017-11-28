@@ -120,7 +120,7 @@ class Customer
     private $avatar;
 
     /**
-     * @var CustomerGame
+     * @var Player
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerGame", mappedBy="customer")
      */
