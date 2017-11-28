@@ -10,6 +10,7 @@ namespace AppBundle\Event\Listener;
 
 
 use AppBundle\Event\PasswordEvent;
+use AppBundle\Event\SecurityEvent;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -55,6 +56,22 @@ class RequestPasswordListener
                     'user' => $user
                 )),
                   'text/html');
+        $this->mailer->send($message);
+    }
+
+    /**
+     * @param SecurityEvent $event
+     */
+    public function onChangePassword(SecurityEvent $event)
+    {
+        $user = $event->getUser();
+        $message = new \Swift_Message($this->translator->trans('Password changed'));
+        $message->setFrom($this->from)
+            ->setTo($user->getEmail())
+            ->setBody($this->templating->render('AppBundle:Mail:new-password.html.twig', array(
+                'user' => $user
+            )),
+                'text/html');
         $this->mailer->send($message);
     }
 }

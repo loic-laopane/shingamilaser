@@ -106,8 +106,7 @@ class SecurityController extends Controller
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid())
             {
-                $userManager->encodeUserPassword($user);
-                $userManager->save();
+                $userManager->changePassword($user);
                 $this->addFlash('success', 'Password updated');
                 return $this->redirectToRoute('login');
             }

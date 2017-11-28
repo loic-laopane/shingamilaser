@@ -11,6 +11,7 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
+use AppBundle\Event\PasswordEvent;
 use AppBundle\Event\SecurityEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -139,20 +140,6 @@ class UserManager
     }
 
     /**
-     * @param User $anonymous_user
-     * @throws \Exception
-     */
-    public function sendRequestPassword(User $anonymous_user)
-    {
-        $user = $this->getUserByEmail($anonymous_user->getEmail());
-        if(null === $user) {
-            throw new \Exception('User not found with email '.$anonymous_user->getEmail());
-        }
-
-        $this->dispatcher->dispatch(SecurityEvent::FORGOTTEN, new SecurityEvent(new Customer(), $user));
-    }
-
-    /**
      * @param $email
      * @return User
      * @throws \Exception
@@ -169,5 +156,14 @@ class UserManager
             throw new \Exception('User not found with email '.$email);
         }
         return $user;
+    }
+
+    public function changePassword(User $user)
+    {
+        $plainUser = clone $user;
+        $this->encodeUserPassword($user);
+        $this->save();
+
+        $this->dispatcher->dispatch(SecurityEvent::CHANGE_PASSWORD, new SecurityEvent(new Customer(), $plainUser));
     }
 }

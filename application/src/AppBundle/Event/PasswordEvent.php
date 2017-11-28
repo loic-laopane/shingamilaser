@@ -16,6 +16,7 @@ use Symfony\Component\EventDispatcher\Event;
 class PasswordEvent extends Event
 {
     const FORGOTTEN = 'forgotten.event';
+    const CHANGE_PASSWORD = 'change_password.event';
 
     /**
      * @var RequestPassword
