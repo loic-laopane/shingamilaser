@@ -134,5 +134,9 @@ class PlayerManager
         return $this->repository->getCustomersByGame($game);
     }
 
+    public function getGamesCustomerWithCard(Customer $customer)
+    {
+        return $this->repository->getGamesCustomerWithCard($customer);
+    }
 
 }

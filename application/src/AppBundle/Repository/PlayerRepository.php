@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Customer;
 use AppBundle\Entity\Game;
 
 /**
@@ -18,6 +19,18 @@ class PlayerRepository extends \Doctrine\ORM\EntityRepository
             ->select('p, c')
             ->where('p.game = :game')
             ->setParameter('game', $game)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getGamesCustomerWithCard(Customer $customer)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.customer', 'c')
+            ->select('p, c')
+            ->where('p.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->andWhere('p.card IS NOT NULL')
             ->getQuery()
             ->getResult();
     }

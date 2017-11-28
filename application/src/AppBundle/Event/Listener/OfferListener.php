@@ -12,6 +12,7 @@ namespace AppBundle\Event\Listener;
 use AppBundle\Entity\CustomerOffer;
 use AppBundle\Entity\Offer;
 use AppBundle\Event\OfferEvent;
+use AppBundle\Manager\PlayerManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -25,11 +26,17 @@ class OfferListener
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+    /**
+     * @var PlayerManager
+     */
+    private $playerManager;
 
-    public function __construct(ObjectManager $objectManager, EventDispatcherInterface $dispatcher)
+    public function __construct(ObjectManager $objectManager,
+                                EventDispatcherInterface $dispatcher, PlayerManager $playerManager)
     {
         $this->objectManager = $objectManager;
         $this->dispatcher = $dispatcher;
+        $this->playerManager = $playerManager;
     }
 
     /**
@@ -39,17 +46,18 @@ class OfferListener
     {
         $customer = $event->getCustomer();
         $game = $event->getGame();
-        $customerGames = $customer->getCustomerGames();
+        //$customerGames = $customer->getCustomerGames();
+        $customerGamesWithCard = $this->playerManager->getGamesCustomerWithCard($customer);
         $customerOffers = $customer->getCustomerOffers();
         $offers = $this->objectManager->getRepository(Offer::class)->getActiveOffers();
 
-        $nb_game = count($customerGames);
-        $nb_unlocked_offer = count($customerOffers);
+        $nbGameWithCard = count($customerGamesWithCard);
+        $unlockedCustomerOffers = count($customerOffers);
         foreach ($offers as $offer)
         {
-            $nb_unlockable = floor($nb_game / $offer->getCount());//1
-            $is_unlock = $nb_unlockable - $nb_unlocked_offer;//0
-            if($is_unlock)
+            $nbUnlockableOffers = floor($nbGameWithCard / $offer->getCount());//1
+            $isUnlockable = $nbUnlockableOffers - $unlockedCustomerOffers;//0
+            if($isUnlockable)
             {
                 $customerOffer = new CustomerOffer();
                 $customerOffer->setCustomer($customer)
