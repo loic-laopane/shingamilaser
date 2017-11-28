@@ -27,10 +27,12 @@ class PlayerRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.customer', 'c')
+            ->join('p.game', 'g')
             ->select('p, c')
             ->where('p.customer = :customer')
             ->setParameter('customer', $customer)
             ->andWhere('p.card IS NOT NULL')
+            ->andWhere('g.endedAt IS NOT NULL')
             ->getQuery()
             ->getResult();
     }

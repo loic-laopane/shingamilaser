@@ -182,9 +182,13 @@ class GameManager
         foreach($players as $player)
         {
             $player->setScore(mt_rand(0, 100));
-            $this->dispatcher->dispatch(OfferEvent::UNLOCKABLE_EVENT, new OfferEvent($game, $player->getCustomer()));
+
         }
         $this->manager->flush();
+        foreach($players as $player)
+        {
+            $this->dispatcher->dispatch(OfferEvent::UNLOCKABLE_EVENT, new OfferEvent($game, $player->getCustomer()));
+        }
 
         return $this;
     }
