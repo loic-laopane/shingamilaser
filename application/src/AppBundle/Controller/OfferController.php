@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class OfferController
  * @package AppBundle\Controller
- * @Route("/offers")
+ * @Route("/staff/offers")
  */
 class OfferController extends Controller
 {

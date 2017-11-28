@@ -1,7 +1,30 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Offer:list{% endblock %}
+{% block title %}Offer:list{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Offer:list page</h1>
+    <h1>Offer list</h1>
+    <a href="{{ path('offer_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
+    <hr>
+    {% if offers | length > 0 %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>On count</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for offer in offers %}
+                <tr>
+                    <td><a href="{{ path('offer_edit', { id : offer.id }) }}">{{ offer.title }}</a></td>
+                    <td>{{ offer.count}}</td>
+                    <td><a href="{{ path('offer_edit', { id : offer.id }) }}" class="btn btn-primary"></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="alert alert-info">No offer available</p>
+    {% endif %}
 {% endblock %}
