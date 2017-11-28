@@ -18,7 +18,7 @@ class CustomerOfferRepository extends \Doctrine\ORM\EntityRepository
      */
     public function findCustomerOffers(Customer $customer)
     {
-        $this->createQueryBuilder('co')
+        return $this->createQueryBuilder('co')
             ->join('co.offer', 'o')
             ->select('co, o')
             ->where('co.customer = :customer')->setParameter('customer', $customer)

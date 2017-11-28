@@ -72,6 +72,7 @@ class OfferListener
         $game = $event->getGame();
         //$customerGames = $customer->getCustomerGames();
         $customerGamesWithCard = $this->playerManager->getGamesCustomerWithCard($customer);
+
         $customerOffers = $customer->getCustomerOffers();
         $offers = $this->objectManager->getRepository(Offer::class)->getActiveOffers();
 
@@ -79,20 +80,29 @@ class OfferListener
         $unlockedCustomerOffers = count($customerOffers);
         foreach ($offers as $offer)
         {
-            $nbUnlockableOffers = floor($nbGameWithCard / $offer->getCount());//1
-            $isUnlockable = $nbUnlockableOffers - $unlockedCustomerOffers;//0
-            if($isUnlockable)
-            {
-                $customerOffer = new CustomerOffer();
-                $customerOffer->setCustomer($customer)
-                            ->setOffer($offer);
-                $this->objectManager->persist($customerOffer);
-                $this->objectManager->flush();
+            //Nombre de fois que cette offre est deblocable
+            $nbUnlockableOffers = floor($nbGameWithCard / $offer->getCount());
 
-                //Todo send an email
-                //Todo send a flash message
-                //dispatch event
-                $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
+            //Delta entre le nombre fois que l'offre est deblocable et le nombre de fois que a ete debloqué
+            $isUnlockable = $nbUnlockableOffers - $unlockedCustomerOffers;//0
+
+            //Si le delta est > 0
+            if($isUnlockable > 0)
+            {
+                //On debloque l'offre autant de fois que nécessaire
+                for($i = 0; $i < $isUnlockable; $i++)
+                {
+                    $customerOffer = new CustomerOffer();
+                    $customerOffer->setCustomer($customer)
+                        ->setOffer($offer);
+                    $this->objectManager->persist($customerOffer);
+                    $this->objectManager->flush();
+
+                    //Todo send an email
+                    //Todo send a flash message
+                    //dispatch event
+                    $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
+                }
             }
         }
     }

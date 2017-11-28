@@ -22,6 +22,7 @@
                 <li class="active"><a href="#infos" data-toggle="tab">Information</a></li>
                 <li><a href="#cards" data-toggle="tab">Fidelity cards</a></li>
                 <li><a href="#offers" data-toggle="tab">Offers</a></li>
+                <li><a href="#games" data-toggle="tab">Games</a></li>
             </ul>
         </div>
     </div>
@@ -69,11 +70,56 @@
 
         </div>
         <div class="tab-pane" id="offers">
-            {% for offer in offers %}
-                <li>{{ offer.title }}</li>
+            {% if customerOffers | length > 0 %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Offer</th>
+                            <th>Description</th>
+                            <th>Got at</th>
+                            <th>Used at</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for customerOffer in customerOffers %}
+                        <tr>
+                            <td>{{ customerOffer.offer.title }}</td>
+                            <td>{{ customerOffer.offer.description }}</td>
+                            <td>{{ customerOffer.createdAt is not null ? customerOffer.createdAt | date('d/m/Y') }}</td>
+                            <td>{{ customerOffer.usedAt is not null ? customerOffer.usedAt | date('d/m/Y') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             {% else %}
                 <p>No offer available</p>
-            {% endfor %}
+            {% endif %}
+
+        </div>
+
+        <div class="tab-pane" id="games">
+            {% if customer.customerGames | length > 0 %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Offer</th>
+                        <th>Played at</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for customerGame in customer.customerGames %}
+                        <tr>
+                            <td>{{ customerGame.game.title }}</td>
+                            <td>{{ customerGame.game.createdAt | date('d/m/Y') }}</td>
+                            <td>{{ customerGame.score }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No games played</p>
+            {% endif %}
         </div>
     </div>
 
