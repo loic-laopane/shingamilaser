@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Customer;
+use AppBundle\Entity\Offer;
 
 /**
  * CustomerOfferRepository
@@ -26,5 +27,18 @@ class CustomerOfferRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
 
+    }
+
+
+    public function getCountUnlockOffer(Customer $customer, Offer $offer)
+    {
+        return $this->createQueryBuilder('co')
+                ->select('COUNT(co)')
+                ->where('co.customer = :customer')
+                ->setParameter('customer', $customer)
+                ->andWhere('co.offer = :offer')
+                ->setParameter('offer', $offer)
+                ->getQuery()
+                ->getSingleScalarResult();
     }
 }

@@ -10,7 +10,11 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
+use AppBundle\Entity\CustomerOffer;
+use AppBundle\Entity\Game;
+use AppBundle\Entity\Offer;
 use AppBundle\Entity\User;
+use AppBundle\Event\OfferEvent;
 use AppBundle\Event\SecurityEvent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -136,5 +140,24 @@ class CustomerManager
         return $this;
     }
 
+    /**
+     * @param Offer $offer
+     * @return mixed
+     */
+    public function getCountUnlockOffer(Customer $customer, Offer $offer)
+    {
+        return $this->manager->getRepository(CustomerOffer::class)->getCountUnlockOffer($customer, $offer);
+    }
+
+    public function unlockOffer(Customer $customer, Offer $offer, Game $game)
+    {
+        $customerOffer = new CustomerOffer();
+        $customerOffer->setCustomer($customer)
+            ->setOffer($offer);
+        $this->manager->persist($customerOffer);
+        $this->manager->flush();
+
+        $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
+    }
 
 }

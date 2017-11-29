@@ -16,7 +16,7 @@ class CenterController extends Controller
 {
     /**
      * @Route("/admin/centers", name="admin_center_list")
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
     public function listAction(ObjectManager $objectManager)
@@ -29,7 +29,7 @@ class CenterController extends Controller
 
     /**
      * @Route("/admin/center/create", name="admin_center_create")
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET", "POST"})
      */
     public function createAction(Request $request, CenterManager $centerManager)
@@ -55,7 +55,7 @@ class CenterController extends Controller
 
     /**
      * @Route("/admin/center/{id}/edit", name="admin_center_edit")
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Center $center, ObjectManager $objectManager)
@@ -76,7 +76,7 @@ class CenterController extends Controller
 
     /**
      * @Route("/admin/center/{id}/delete", name="admin_center_delete")
-     * @Security("has_role('ROLE_SUPERADMIN')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
     public function deleteAction($id, CenterManager $centerManager)

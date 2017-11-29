@@ -12,6 +12,7 @@ namespace AppBundle\Event\Listener;
 use AppBundle\Entity\CustomerOffer;
 use AppBundle\Entity\Offer;
 use AppBundle\Event\OfferEvent;
+use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\PlayerManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -45,11 +46,16 @@ class OfferListener
      * @var EngineInterface
      */
     private $templating;
+    /**
+     * @var CustomerManager
+     */
+    private $customerManager;
 
     public function __construct($from,
                                 ObjectManager $objectManager,
                                 EventDispatcherInterface $dispatcher,
                                 PlayerManager $playerManager,
+                                CustomerManager $customerManager,
                                 \Swift_Mailer $mailer,
                                 TranslatorInterface $translator,
                                 EngineInterface $templating)
@@ -61,6 +67,7 @@ class OfferListener
         $this->from = $from;
         $this->translator = $translator;
         $this->templating = $templating;
+        $this->customerManager = $customerManager;
     }
 
     /**
@@ -70,43 +77,43 @@ class OfferListener
     {
         $customer = $event->getCustomer();
         $game = $event->getGame();
-        //$customerGames = $customer->getCustomerGames();
+
+        //Liste des parties du client avec une carte
         $customerGamesWithCard = $this->playerManager->getGamesCustomerWithCard($customer);
 
+        //Liste des offres deja recu
         $customerOffers = $customer->getCustomerOffers();
+
+        //Liste de toutes les offres disponibles
         $offers = $this->objectManager->getRepository(Offer::class)->getActiveOffers();
 
-        $nbGameWithCard = count($customerGamesWithCard);
-        $unlockedCustomerOffers = count($customerOffers);
         foreach ($offers as $offer)
         {
-            //Nombre de fois que cette offre est deblocable
-            $nbUnlockableOffers = floor($nbGameWithCard / $offer->getCount());
+            //Nombre de fois que cette $offer est deblocable
+            $nbUnlockableOffers = floor(count($customerGamesWithCard) / $offer->getCount());
 
-            //Delta entre le nombre fois que l'offre est deblocable et le nombre de fois que a ete debloqué
-            $isUnlockable = $nbUnlockableOffers - $unlockedCustomerOffers;//0
+            //nombre de fois que le client a debloqué cette $offer
+            $nbUnlockedOffer = $this->customerManager->getCountUnlockOffer($customer, $offer);
+
+            //Delta entre le nombre fois que $offer est deblocable et le nombre de fois $offer a ete debloquée
+            $nbCanUnlock = $nbUnlockableOffers - $nbUnlockedOffer;
 
             //Si le delta est > 0
-            if($isUnlockable > 0)
+            if($nbCanUnlock > 0)
             {
                 //On debloque l'offre autant de fois que nécessaire
-                for($i = 0; $i < $isUnlockable; $i++)
+                for($i = 0; $i < $nbCanUnlock; $i++)
                 {
-                    $customerOffer = new CustomerOffer();
-                    $customerOffer->setCustomer($customer)
-                        ->setOffer($offer);
-                    $this->objectManager->persist($customerOffer);
-                    $this->objectManager->flush();
-
-                    //Todo send an email
-                    //Todo send a flash message
-                    //dispatch event
-                    $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
+                    $this->customerManager->unlockOffer($customer, $offer, $game);
                 }
             }
         }
     }
 
+    /**
+     * Envoi d'un  mail au Customer lors du deblocage d'une Offer
+     * @param OfferEvent $event
+     */
     public function onOfferUnlocked(OfferEvent $event)
     {
         $user = $event->getUser();
