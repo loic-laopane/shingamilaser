@@ -31,11 +31,11 @@ class AccountController extends Controller
     public function showAction(ObjectManager $objectManager, CustomerManager $customerManager)
     {
         $customer = $customerManager->getCustomerByUser($this->getUser());
-        $offers = $objectManager->getRepository(CustomerOffer::class)->findCustomerOffers($customer);
+        $customerOffers = $objectManager->getRepository(CustomerOffer::class)->findCustomerOffers($customer);
         $cards = $customerManager->getCustomerCards($customer);
         return $this->render('AppBundle:Account:show.html.twig', array(
             'customer' => $customer,
-            'offers' => $offers,
+            'customerOffers' => $customerOffers,
             'cards' => $cards
         ));
     }

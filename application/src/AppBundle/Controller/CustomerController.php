@@ -11,6 +11,7 @@ use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,8 @@ class CustomerController extends Controller
 {
     /**
      * @Route("/search", name="customer_search")
+     * @Security("has_role('ROLE_STAFF', 'ROLE_ADMIN')")
+     * @Method({"GET", "POST"})
      */
     public function searchAction(Request $request, ObjectManager $objectManager)
     {

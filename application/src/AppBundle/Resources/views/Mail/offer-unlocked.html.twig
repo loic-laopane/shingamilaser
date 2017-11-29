@@ -1,0 +1,11 @@
+{% extends 'AppBundle:Mail:layout_mail.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'New Offer unlocked' | trans }}</h1>
+    <h3>Hi {{ customer.firstname }}, </h3>
+    <p>You have unlock an offer during you last visit the {{ game.createdAt | date('d/m/Y')}}.</p>
+    <p>We are waiting for you to using it !</p>
+
+
+    <p>Please <a href="{{ url('homepage') }}">visit your account</a>  show you offert.</p>
+{% endblock %}

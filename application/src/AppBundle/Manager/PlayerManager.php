@@ -10,12 +10,12 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
-use AppBundle\Entity\CustomerGame;
+use AppBundle\Entity\Player;
 use AppBundle\Entity\Game;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class CustomerGameManager
+class PlayerManager
 {
     /**
      * @var ObjectManager
@@ -40,15 +40,15 @@ class CustomerGameManager
     public function __construct(ObjectManager $manager, SessionInterface $session)
     {
         $this->manager = $manager;
-        $this->repository = $manager->getRepository(CustomerGame::class);
+        $this->repository = $manager->getRepository(Player::class);
         $this->session = $session;
     }
 
     /**
-     * @param CustomerGame $customerGame
-     * @return CustomerGame|null|object
+     * @param Player $customerGame
+     * @return Player|null|object
      */
-    public function exists(CustomerGame $customerGame)
+    public function exists(Player $customerGame)
     {
         return $this->repository->findOneBy(array(
             'customer' => $customerGame->getCustomer(),
@@ -61,7 +61,7 @@ class CustomerGameManager
      * @param Game $game
      * @return bool
      */
-    public function insert(CustomerGame $customerGame)
+    public function insert(Player $customerGame)
     {
         $this->manager->persist($customerGame);
         $this->manager->flush();
@@ -76,7 +76,7 @@ class CustomerGameManager
      */
     public function add(Customer $customer, Game $game)
     {
-        $customerGame = new CustomerGame();
+        $customerGame = new Player();
         $customerGame->setGame($game);
         $customerGame->setCustomer($customer);
         $card = $this->manager->getRepository(Card::class)->findCustomerActiveCard($customer);
@@ -118,7 +118,7 @@ class CustomerGameManager
     }
 
     /**
-     * @return CustomerGame[]|array
+     * @return Player[]|array
      */
     public function getList()
     {
@@ -134,5 +134,9 @@ class CustomerGameManager
         return $this->repository->getCustomersByGame($game);
     }
 
+    public function getGamesCustomerWithCard(Customer $customer)
+    {
+        return $this->repository->getGamesCustomerWithCard($customer);
+    }
 
 }

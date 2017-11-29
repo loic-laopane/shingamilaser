@@ -43,6 +43,12 @@ class Offer
     private $expiredAt;
 
     /**
+     * @var int
+     * @ORM\Column(name="count", type="integer", nullable=true)
+     */
+    private $count;
+
+    /**
      * Get id
      *
      * @return int
@@ -123,5 +129,24 @@ class Offer
     {
         return $this->expiredAt;
     }
+
+    /**
+     * @return int
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    /**
+     * @param int $count
+     * @return Offer
+     */
+    public function setCount($count)
+    {
+        $this->count = $count;
+        return $this;
+    }
+
 
 }

@@ -9,7 +9,7 @@ use AppBundle\Form\CustomerAddCardType;
 use AppBundle\Form\CustomerGameType;
 use AppBundle\Form\GameType;
 use AppBundle\Manager\CardManager;
-use AppBundle\Manager\CustomerGameManager;
+use AppBundle\Manager\PlayerManager;
 use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\GameManager;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -87,11 +87,11 @@ class GameController extends Controller
      * @Route("/game/{id}/manage", name="game_manage")
      * @Method({"GET"})
      */
-    public function manageAction(Game $game, CustomerGameManager $customerGameManager)
+    public function manageAction(Game $game, PlayerManager $playerManager)
     {
         $card = new Card();
         $form = $this->createForm(CustomerGameType::class);
-        $customersGame = $customerGameManager->getCustomersByGame($game);
+        $customersGame = $playerManager->getCustomersByGame($game);
 
         $form_card_customer = $this->createForm(CustomerAddCardType::class, $card);
 
@@ -108,11 +108,11 @@ class GameController extends Controller
      * @Route("/game/{id}/addUser", name="game_add_user")
      * @Method({"POST"})
      */
-    public function addUserAction(Game $game, Request $request, ObjectManager $objectManager, CustomerGameManager $customerGameManager)
+    public function addUserAction(Game $game, Request $request, ObjectManager $objectManager, PlayerManager $playerManager)
     {
         $customer_id = $request->request->get('customer_id');
         $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
-        $customerGameManager->add($customer, $game);
+        $playerManager->add($customer, $game);
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 
@@ -121,10 +121,10 @@ class GameController extends Controller
      * @Route("/game/{id}/removeUser/{customer_id}", name="game_remove_user")
      * @Method({"POST"})
      */
-    public function removeUserAction(Game $game,  $customer_id, ObjectManager $objectManager, CustomerGameManager $customerGameManager)
+    public function removeUserAction(Game $game, $customer_id, ObjectManager $objectManager, PlayerManager $playerManager)
     {
         $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
-        $customerGameManager->remove($customer, $game);
+        $playerManager->remove($customer, $game);
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 
@@ -154,13 +154,13 @@ class GameController extends Controller
      * AjaxMethod
      * @Route("/game/{id}/qrcode", name="game_qrcode")
      */
-    public function qrcodeAction(Game $game, ObjectManager $objectManager, Request $request, CustomerGameManager $customerGameManager, CardManager $cardManager)
+    public function qrcodeAction(Game $game, ObjectManager $objectManager, Request $request, PlayerManager $playerManager, CardManager $cardManager)
     {
         $return = ['status' => 1];
         try {
             $numero = $request->request->get('qrData');
             $card = $cardManager->search($numero);
-            $customerGameManager->add($card->getCustomer(), $game);
+            $playerManager->add($card->getCustomer(), $game);
 
         }
         catch(Exception $exception)
