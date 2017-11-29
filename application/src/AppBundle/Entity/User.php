@@ -91,7 +91,7 @@ class User implements UserInterface
 
     /**
      * @var Center
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Center")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Center", inversedBy="users")
      * @ORM\JoinColumn(nullable=true)
      */
     private $center;

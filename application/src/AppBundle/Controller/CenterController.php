@@ -38,10 +38,20 @@ class CenterController extends Controller
         $form = $this->createForm(CenterType::class, $center);
         $form->handleRequest($request);
 
+        $em_api = $this->getDoctrine()->getManager('api');
+        $center_api = new \Wf3\ApiBundle\Entity\Center();
+        $center_api->setName($center->getName())
+            ->setCode($center->getCode())
+            ->setAddress($center->getAddress())
+            ->setZipcode($center->getZipcode())
+            ->setCity($center->getCity());
+
         if($form->isSubmitted() && $form->isValid())
         {
             if($centerManager->insert($center)) {
 
+                $em_api->persist($center_api);
+                $em_api->flush();
                 return $this->redirectToRoute('admin_center_edit', array(
                     'id' => $center->getId()
                 ));
@@ -62,10 +72,19 @@ class CenterController extends Controller
     {
         $form = $this->createForm(CenterType::class, $center);
         $form->handleRequest($request);
+        $em_api = $this->getDoctrine()->getManager('api');
+        $center_api = $em_api->getRepository('ApiBundle:Center')->find($center->getId());
+        $center_api->setName($center->getName())
+                    ->setCode($center->getCode())
+                    ->setAddress($center->getAddress())
+                    ->setZipcode($center->getZipcode())
+                    ->setCity($center->getCity())
+                    ;
         if($form->isSubmitted() && $form->isValid())
         {
             //Flush
             $objectManager->flush();
+            $em_api->flush();
             $this->addFlash('success', 'Center updated');
         }
         return $this->render('AppBundle:Admin:Center/store.html.twig', array(
