@@ -32,7 +32,7 @@ class PlayerRepository extends \Doctrine\ORM\EntityRepository
             ->where('p.customer = :customer')
             ->setParameter('customer', $customer)
             ->andWhere('p.card IS NOT NULL')
-            ->andWhere('g.endedAt IS NOT NULL')
+            ->andWhere('g.startedAt IS NOT NULL')
             ->getQuery()
             ->getResult();
     }

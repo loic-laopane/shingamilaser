@@ -51,6 +51,4 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 }
