@@ -4,9 +4,13 @@
 
 {% block content %}
 <h1>{% if user is defined %}Edit user {{ user.username }}{% else %}New User{% endif %}</h1>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary btn-fill" type="submit" formnovalidate>{{ 'btn.save' | trans }}</button>
-    <button class="btn btn-default btn-action" data-href="{{ path('admin_user_list') }}">{{ 'btn.return' | trans }}</button>
-    {{ form_end(form) }}
+<div class="panel">
+        <div class="panel-body">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary btn-fill" type="submit"><i class="fa fa-save"></i> {{ 'btn.save' | trans }}</button>
+        <a class="btn btn-default" href="{{ path('admin_user_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
+        {{ form_end(form) }}
+    </div>
+</div>
 {% endblock %}

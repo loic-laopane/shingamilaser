@@ -87,6 +87,12 @@ class Center
     private $city;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="center")
+     */
+    private $users;
+
+    /**
      * Get id
      *
      * @return int

@@ -20,6 +20,7 @@ class UserEditType extends AbstractType
         $builder->add('username', TextType::class)
                 ->add('email')
                 ->add('center', EntityType::class, array(
+                    'required' => false,
                     'class' => Center::class,
                     'placeholder' => '-- Choose a center --',
                     'choice_label' => function(Center $center)
@@ -31,8 +32,7 @@ class UserEditType extends AbstractType
                 ->add('roles', ChoiceType::class, array(
                     'choices' => array(
                         'ROLE_USER' => 'ROLE_USER',
-                        'ROLE_STAFF' => 'ROLE_STAFF',
-                        'ROLE_ADMIN' => 'ROLE_ADMIN',
+                        'ROLE_STAFF' => 'ROLE_STAFF'
                     ),
                     'multiple' => true,
                     'expanded' => true
