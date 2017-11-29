@@ -1510,7 +1510,7 @@ textarea.form-control {
 .checkbox input,
 .radio input {
   outline: none !important;
-  display: none;
+  /*display: none;*/
 }
 
 .checkbox .icons .first-icon,
@@ -2661,7 +2661,8 @@ textarea.form-control {
   body > .navbar-collapse ul {
     position: relative;
     z-index: 3;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
+    padding:0;
     height: 95%;
   }
   body > .navbar-collapse .nav > li:last-child {
@@ -3024,7 +3025,7 @@ textarea.form-control {
   }
 
   [class*="navbar-"] .navbar-nav > li > a, [class*="navbar-"] .navbar-nav > li > a:hover, [class*="navbar-"] .navbar-nav > li > a:focus, [class*="navbar-"] .navbar-nav .active > a, [class*="navbar-"] .navbar-nav .active > a:hover, [class*="navbar-"] .navbar-nav .active > a:focus, [class*="navbar-"] .navbar-nav .open .dropdown-menu > li > a, [class*="navbar-"] .navbar-nav .open .dropdown-menu > li > a:hover, [class*="navbar-"] .navbar-nav .open .dropdown-menu > li > a:focus, [class*="navbar-"] .navbar-nav .navbar-nav .open .dropdown-menu > li > a:active {
-    color: white;
+    color: #444444;
   }
   [class*="navbar-"] .navbar-nav > li > a,
   [class*="navbar-"] .navbar-nav > li > a:hover,
@@ -3034,6 +3035,7 @@ textarea.form-control {
   [class*="navbar-"] .navbar-nav .open .dropdown-menu > li > a:focus {
     opacity: .7;
     background: transparent;
+    padding-left: 20px;
   }
   [class*="navbar-"] .navbar-nav.navbar-nav .open .dropdown-menu > li > a:active {
     opacity: 1;

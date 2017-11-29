@@ -2,13 +2,14 @@
 {% block title %}Account{% endblock %}
 {% block body %}
     {% set current_path = app.request.get('_route') %}
-    <div class="col-md-2">
+    <div class="col-md-3">
         <div class="fixed-section">
             <div class="list-group ">
-                <a href="{{ path('account_show') }}" class="list-group-item{{ current_path == 'account_show' ? ' list-group-item-info' }}">Show profil</a>
-                <a href="{{ path('account_profile_edit') }}" class="list-group-item{{ current_path == 'account_profile_edit' ? ' list-group-item-info' }}">Edit profil</a>
-                <a href="{{ path('account_edit') }}" class="list-group-item{{ current_path == 'account_edit' ? ' list-group-item-info' }}">Edit account</a>
-                <a href="{{ path('account_card_add') }}" class="list-group-item{{ current_path == 'account_card_add' ? ' list-group-item-info' }}">Add card</a>
+                <a href="{{ path('account_show') }}" class="list-group-item{{ current_path == 'account_show' ? ' list-group-item-info' }}"><i class="fa fa-eye"></i> Show profil</a>
+                <a href="{{ path('account_profile_edit') }}" class="list-group-item{{ current_path == 'account_profile_edit' ? ' list-group-item-info' }}"><i class="fa fa-edit"></i> Edit profil</a>
+                <a href="{{ path('account_edit') }}" class="list-group-item{{ current_path == 'account_edit' ? ' list-group-item-info' }}"><i class="fa fa-unlock"></i> Edit account</a>
+                <a href="{{ path('logout') }}" class="list-group-item"><i class="fa fa-sign-out"></i> Log out</a>
+                {#<a href="{{ path('account_card_add') }}" class="list-group-item{{ current_path == 'account_card_add' ? ' list-group-item-info' }}">Add card</a>#}
                 {#<a href="{{ path('account_offers_show') }}">Show offers</a>#}
             </div>
         </div>

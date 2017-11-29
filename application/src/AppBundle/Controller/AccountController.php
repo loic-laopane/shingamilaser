@@ -13,8 +13,10 @@ use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -29,11 +31,11 @@ class AccountController extends Controller
     public function showAction(ObjectManager $objectManager, CustomerManager $customerManager)
     {
         $customer = $customerManager->getCustomerByUser($this->getUser());
-        $offers = $objectManager->getRepository(CustomerOffer::class)->findCustomerOffers($customer);
+        $customerOffers = $objectManager->getRepository(CustomerOffer::class)->findCustomerOffers($customer);
         $cards = $customerManager->getCustomerCards($customer);
         return $this->render('AppBundle:Account:show.html.twig', array(
             'customer' => $customer,
-            'offers' => $offers,
+            'customerOffers' => $customerOffers,
             'cards' => $cards
         ));
     }
@@ -71,11 +73,13 @@ class AccountController extends Controller
 
         $form = $this->createForm(CustomerAccountType::class, $customer);
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid())
         {
             $manager->save($customer);
             $this->addFlash('success', 'Profile updated');
         }
+        dump($customer);
         return $this->render('AppBundle:Account:edit_customer.html.twig', array(
             'form' => $form->createView(),
             'customer' => $customer
@@ -83,6 +87,7 @@ class AccountController extends Controller
     }
 
     /**
+     * toDo : Method a supprimer apres verification
      * @param $request Request
      * @param $customerManager CustomerManager
      * @param $cardManager CardManager
@@ -93,12 +98,19 @@ class AccountController extends Controller
         $customer = $customerManager->getCustomerByUser($this->getUser());
         $empty_card = new Card();
         $form = $this->createForm(CustomerAddCardType::class, $empty_card);
+        try {
+            $form->handleRequest($request);
 
-        $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid())
+            {
 
-        if ($form->isSubmitted() && $form->isValid())
+                    $cardManager->rattach($empty_card->getNumero(), $customer);
+
+            }
+        }
+        catch (\Exception $e)
         {
-            $cardManager->rattach($empty_card->getNumero(), $customer);
+            $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
         return $this->render('AppBundle:Account:add_card.html.twig', array(
             'form' => $form->createView()
@@ -135,6 +147,25 @@ class AccountController extends Controller
         return $this->render('AppBundle:Account:show_offers.html.twig', array(
             'offers' => $offers
         ));
+    }
+
+    /**
+     * @Route("/customer/{id}/removeAvatar", name="customer_avatar_remove")
+     * @Method({"POST"})
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function removeAvatar(Customer $customer, CustomerManager $customerManager)
+    {
+        $response = array('status' => 1);
+        try {
+            $customerManager->removeAvatar($customer);
+        }
+        catch (Exception $e) {
+            $response['error'] = 'Error while removing avatar';
+            $response['status'] = 0;
+        }
+
+        return $this->json($response);
     }
 
 }

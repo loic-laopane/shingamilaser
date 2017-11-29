@@ -1,0 +1,16 @@
+{% extends "AppBundle:Admin:layout.html.twig" %}
+
+{% block title %}Center edit{% endblock %}
+
+{% block content %}
+<h1>{% if center is defined %}Edit center {{ center.name }}{% else %}New Center{% endif %}</h1>
+    <div class="panel">
+        <div class="panel-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary btn-fill" type="submit" formnovalidate><i class="fa fa-save"></i> {{ 'btn.save' | trans }}</button>
+            <button class="btn btn-default btn-action" data-href="{{ path('admin_center_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

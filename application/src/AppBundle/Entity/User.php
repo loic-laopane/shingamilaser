@@ -5,12 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity("email", message="This email is already used")
  */
 class User implements UserInterface
 {
@@ -87,6 +89,13 @@ class User implements UserInterface
      */
     private $salt;
 
+    /**
+     * @var Center
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Center", inversedBy="users")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $center;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -162,6 +171,9 @@ class User implements UserInterface
      */
     public function setEmail($email)
     {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException('Email invalid');
+        }
         $this->email = $email;
 
         return $this;
@@ -184,7 +196,7 @@ class User implements UserInterface
      *
      * @return User
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\Datetime $createdAt)
     {
         $this->createdAt = $createdAt;
 
@@ -210,6 +222,10 @@ class User implements UserInterface
      */
     public function setActive($active)
     {
+        if(!is_bool($active))
+        {
+            throw new \InvalidArgumentException('Set User active require boolean');
+        }
         $this->active = $active;
 
         return $this;
@@ -234,6 +250,10 @@ class User implements UserInterface
      */
     public function setRoles($roles)
     {
+        if(!is_array($roles))
+        {
+            throw new \InvalidArgumentException('Roles must be an array');
+        }
         $this->roles = $roles;
 
         return $this;
@@ -273,6 +293,30 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+        return $this;
+    }
+
+    /**
+     * Set center
+     *
+     * @param \AppBundle\Entity\Center $center
+     *
+     * @return User
+     */
+    public function setCenter(\AppBundle\Entity\Center $center = null)
+    {
+        $this->center = $center;
+
+        return $this;
+    }
+
+    /**
+     * Get center
+     *
+     * @return \AppBundle\Entity\Center
+     */
+    public function getCenter()
+    {
+        return $this->center;
     }
 }
-

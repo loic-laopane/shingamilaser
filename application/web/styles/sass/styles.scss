@@ -1,18 +1,74 @@
+$blue_light: #438fcf;
+$blue_dark: #254f72;
 * {
   box-sizing: border-box;
+}
+
+
+.my-panel {
+  $radius: 0px;
+  $padding: 20px;
+  border-radius: $radius;
+  box-shadow: 5px 5px 5px #999;
+  max-width:600px;
+  margin: 10px auto;
+  .heading {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 $padding;
+    background: $blue_light;
+    border-radius: $radius $radius 0 0;
+    font-size: 1.5em;
+    color: white;
+  }
+  .body {
+    border-radius: 0 0 $radius $radius;
+    padding: 10px $padding;
+    form {
+      input {
+        &[type="text"], &[type="password"], &[type="email"] {
+          border-bottom:1px solid #ccc ;
+          background: #eee;
+        }
+      }
+    }
+    section {
+      padding: $padding 0;
+      border-top: 1px solid $blue_light;
+    }
+    section:first-child, section:last-child {
+      border-top:none;
+    }
+  }
 }
 .fidelity-card {
   $padding : 10px;
   position: relative;
   width: 100%;
-  height: 200px;
+  max-width: 480px;
+  height: 280px;
   border: 1px solid #333;
   border-radius: 5px;
   padding: $padding;
   display: flex;
+  background-image:linear-gradient(60deg, $blue_light, $blue_dark);
+  color: white;
+  box-shadow: 5px 5px 8px #666;
   .block-left {
     width: 100px;
-
+    .photo {
+      width: 100%;
+      border: 1px solid #666;
+      height: 100px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      background: url("/web/img/default-avatar.jpg");
+      background-repeat: no-repeat;
+      background-size: contain;
+      img {
+        width: inherit;
+      }
+    }
     .qrcode {
 
     }
@@ -47,5 +103,85 @@
     font-size: 0.9em;
     color: white;
     text-align: center;
+    border-radius: 0 0 5px 5px;
   }
+}
+
+$avatar_edge: 55px;
+.avatar {
+  width: $avatar_edge;
+  height: $avatar_edge;
+  border: 1px solid #ccc;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  background-image: url('/web/img/default-avatar.jpg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  img
+  {
+    position: absolute;
+    width: inherit;
+  }
+
+}
+.round-avatar {
+  border-radius: 50px;
+}
+
+.block-avatar
+{
+  width: 100px;
+  position: relative;
+  img {
+    width:inherit;
+  }
+  .remove-avatar {
+    width: 25px;
+    height:25px;
+    text-align: center;
+    position: absolute;
+    z-index: 2;
+    top:-3px;
+    right:-3px;
+    border: 2px solid #666666;
+    background: #ffffff;
+    border-radius: 25px;
+    display: none;
+  }
+}
+.card-list {
+  .card-number {
+    font-family: "Courier New", sans-serif;
+  }
+  .stroken {
+    text-decoration: line-through;
+  }
+
+}
+
+.customer-details {
+  $heading_height: 40px;
+  $block_padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  .heading {
+    background: #8ECFD5;
+    font-weight: bold;
+    color: white;
+    height: $heading_height;
+    line-height: $heading_height;
+    padding: 0 $block_padding;
+    font-size:1.1em;
+  }
+
+  .body {
+    padding: $block_padding;
+  }
+}
+.text-bold {
+  font-weight: bold;
+}
+.btn {
+  border-radius: 2px;
 }

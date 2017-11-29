@@ -1,0 +1,19 @@
+<div id="cameraChoose" class="form-group"></div>
+
+<div>
+    <label for="autoadd">
+        <input type="checkbox" id="autoadd" checked="checked" data-href="{{ path('game_qrcode', { 'id' : game.id }) }}"> Automatic add customer
+    </label>
+</div>
+
+<div>
+    <button id="ScanQRStartStop" type="button" class="btn btn-default"><i class="fa fa-qrcode"></i> Démarrer / Stop le scan d'un code QR</button>
+</div>
+
+<h2 id="ScanQRResult"></h2>
+
+<div id="camera"></div>
+{% block javascripts %}
+    <script src="{{ asset('dist/qrcode/jsQRScan.min.js') }}"></script>
+    <script src="{{ asset('js/qrcode_reader.js') }}"></script>
+{% endblock %}

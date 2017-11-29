@@ -26,7 +26,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
      *     message="The field firstname is required"
      * )
@@ -36,7 +36,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=255)
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
      *     message="The field lastname is required"
      * )
@@ -51,6 +51,9 @@ class Customer
      * @Assert\NotBlank(
      *     message="The field nickname is required"
      * )
+     * @Assert\NotNull(
+     *     message="The field nickname is required"
+     * )
      */
     private $nickname;
 
@@ -58,7 +61,6 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="society", type="string", length=255, nullable=true)
-     * @Assert\Blank()
      */
     private $society;
 
@@ -87,6 +89,9 @@ class Customer
      * @var \DateTime
      *
      * @ORM\Column(name="birthdate", type="datetime", nullable=true)
+     * @Assert\Date(
+     *     message="Not a date"
+     * )
      */
     private $birthdate;
 
@@ -108,18 +113,25 @@ class Customer
     private $cards;
 
     /**
-     * @var CustomerGame
-     *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerGame", mappedBy="customer")
+     * @var Image
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
-    //private $customerGame;
+    private $avatar;
+
+    /**
+     * @var Player
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Player", mappedBy="customer")
+     */
+    private $customerGames;
 
     /**
      * @var CustomerOffer
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CustomerOffer", mappedBy="customer")
      */
-    //private $customerOffer;
+    private $customerOffers;
 
 
     
@@ -190,6 +202,10 @@ class Customer
      */
     public function setNickname($nickname)
     {
+        if(empty($nickname))
+        {
+            throw new \InvalidArgumentException("Nickname is required");
+        }
         $this->nickname = $nickname;
 
         return $this;
@@ -262,6 +278,9 @@ class Customer
      */
     public function setZipcode($zipcode)
     {
+        if(strlen($zipcode) !== 5) {
+            throw new \InvalidArgumentException('Zip code must contain 5 digits');
+        }
         $this->zipcode = $zipcode;
 
         return $this;
@@ -308,7 +327,7 @@ class Customer
      *
      * @return Customer
      */
-    public function setBirthdate($birthdate)
+    public function setBirthdate(\DateTime $birthdate=null)
     {
         $this->birthdate = $birthdate;
 
@@ -355,6 +374,8 @@ class Customer
     public function __construct()
     {
         $this->cards = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->customerGames = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->customerOffers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -389,5 +410,98 @@ class Customer
     public function getCards()
     {
         return $this->cards;
+    }
+
+    /**
+     * Set avatar
+     *
+     * @param \AppBundle\Entity\Image $avatar
+     *
+     * @return Customer
+     */
+    public function setAvatar(\AppBundle\Entity\Image $avatar = null)
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     *
+     * @return \AppBundle\Entity\Image
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+
+    /**
+     * Add customerGame
+     *
+     * @param \AppBundle\Entity\Player $customerGame
+     *
+     * @return Customer
+     */
+    public function addCustomerGame(\AppBundle\Entity\Player $customerGame)
+    {
+        $this->customerGames[] = $customerGame;
+
+        return $this;
+    }
+
+    /**
+     * Remove customerGame
+     *
+     * @param \AppBundle\Entity\Player $customerGame
+     */
+    public function removeCustomerGame(\AppBundle\Entity\Player $customerGame)
+    {
+        $this->customerGames->removeElement($customerGame);
+    }
+
+    /**
+     * Get customerGames
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCustomerGames()
+    {
+        return $this->customerGames;
+    }
+
+    /**
+     * Add customerOffer
+     *
+     * @param \AppBundle\Entity\CustomerOffer $customerOffer
+     *
+     * @return Customer
+     */
+    public function addCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
+    {
+        $this->customerOffers[] = $customerOffer;
+
+        return $this;
+    }
+
+    /**
+     * Remove customerOffer
+     *
+     * @param \AppBundle\Entity\CustomerOffer $customerOffer
+     */
+    public function removeCustomerOffer(\AppBundle\Entity\CustomerOffer $customerOffer)
+    {
+        $this->customerOffers->removeElement($customerOffer);
+    }
+
+    /**
+     * Get customerOffers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCustomerOffers()
+    {
+        return $this->customerOffers;
     }
 }

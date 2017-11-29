@@ -1,0 +1,167 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Manage game{% endblock %}
+
+{% block body %}
+    <h1>Game : {{ game.title }}</h1>
+    <div id="errors"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{{ path('game_record', { 'id' : game.id }) }}">
+                {% if game.startedAt is null %}
+                    <button class="btn btn-success btn-fill"><i class="fa fa-play"></i> {{ 'btn.start.game' | trans }}</button>
+                {% else %}
+                    {% if game.endedAt is null %}
+                        <button class="btn btn-danger btn-fill"><i class="fa fa-pause"></i> {{ 'btn.end.game' | trans }}</button>
+                    {% endif %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    {% if game.endedAt is null %}
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel">
+                <div class="panel-heading"><h3>Search customer</h3></div>
+                <div class="panel-body">
+                    {{ form_start(form, { 'attr' : {'id':'form_search', 'action' : path('game_search_customer', { 'id' : game.id }) }}) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-primary"><i class="fa fa-search"></i> {{ 'btn.search' | trans }}</button>
+                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#createCustomerModal"><i class="fa fa-plus"></i> {{ 'btn.new.customer' | trans }}</button>
+                    <a class="btn btn-default" href="{{ path('game_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel">
+                <div class="panel-heading"><h3>Scan card</h3></div>
+                <div class="panel-body">
+                    {% include 'AppBundle:Game:qrcode.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12" id="response"></div>
+    </div>
+    {% endif %}
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="panel-heading"><h2>Players</h2></div>
+                <div class="panel-body">
+
+                    {% if customersGame | length > 0 %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Player</th>
+                                    <th>Score</th>
+                                    <th>Has card</th>
+                                    {% if game.startedAt is null %}
+                                    <th>Actions</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for customerGame in customersGame %}
+                                    <tr>
+                                        <td>{{ customerGame.customer.nickname }}</td>
+                                        <td>{{ customerGame.score }}</td>
+                                        <td>{{ customerGame.customer.cards | length == 0 ? '<i class="fa fa-close"></i>' | raw  : '<i class="fa fa-check"></i>' | raw }}
+                                        </td>
+                                        {% if game.startedAt is null %}
+                                        <td>
+                                            <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
+                                                <button class="btn btn-danger btn-fill"><i class="fa fa-minus"></i> {{ 'btn.remove' }}</button>
+                                            </form>
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    {% else %}
+                        <p>No players in this game</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+    <canvas width="320" height="240" id="webcodecam-canvas"></canvas>
+
+
+    <div class="modal fade" id="createCustomerModal" tabindex="-1" role="dialog" aria-labelledby="createCustomerModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Create Customer</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert" id="alert-modal"></div>
+                    {{ render(controller('AppBundle:Customer:renderCreateQuickCustomerType')) }}
+                </div>
+                <div class="modal-footer">
+                    <div class="left-side">
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal"><i class="fa fa-close"></i> {{ 'btn.close' }}</button>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="right-side">
+                        {#<button type="button" class="btn btn-danger btn-simple">{{ 'btn.close' }}</button>#}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('dist/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript">
+        $( function() {
+            $( ".autocomplete" ).autocomplete({
+                source: function( request, response ) {
+                    $.ajax( {
+                        url: "{{ path('customer_search') }}",
+                        method: 'POST',
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function( data ) {
+                            //console.log(data);
+                            response( data );
+                        },
+                        error: function(xhr, status, error)
+                        {
+                            console.log(error);
+                        }
+                    } );
+                },
+                minLength: 2
+            } );
+        } );
+
+        $('#createCustomerModal').on('hidden.bs.modal', function(){
+            $(this).find('#nickname').val('');
+            $(this).find('#email').val('');
+            $(this).find('#alert-modal').removeClass('alert').removeClass('alert-danger').removeClass('alert-success').html('');
+
+        });
+    </script>
+
+
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('dist/jquery-ui/jquery-ui.min.css') }}">
+{% endblock %}

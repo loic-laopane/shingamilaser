@@ -3,10 +3,40 @@
 {% block title %}{{ parent() }} > {{ 'Edit profile' | trans }}{% endblock %}
 
 {% block content %}
-    <h1>{{ 'Edit profile' | trans }}</h1>
+    <h1>
+        <div class="avatar round-avatar">
+            {% if customer.avatar is not null %}
+            <img src="{{ asset('img/avatar/' ~ customer.avatar.filename) }}" alt="Avatar of {{ customer.firstname }}" title="Avatar of {{ customer.firstname }}">
+            {% endif %}
+        </div>
+        {{ 'Edit profile' | trans }}
+    </h1>
     <legend></legend>
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary btn-fill">{{ 'btn.save' | trans }}</button>
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.nickname) }}
+    {{ form_row(form.birthdate) }}
+    <hr>
+    {{ form_row(form.society) }}
+    {{ form_row(form.address) }}
+    {{ form_row(form.zipcode) }}
+    {{ form_row(form.city) }}
+    {% if customer.avatar is not null %}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="block-avatar">
+                    <img src="{{ asset('img/avatar/' ~ customer.avatar.filename) }}" alt="{{ customer.avatar.name }}" title="avatar of {{ customer.firstname }}">
+                    <a href="{{ path('customer_avatar_remove', { 'id' : customer.id }) }}" class="btn-remove-avatar" title="Remove avatar">
+                        <div class="remove-avatar">
+                            <i class="fa fa-remove"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {{ form_row(form.avatar) }}
+    <button class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.save' | trans }}</button>
     {{ form_end(form) }}
 {% endblock %}

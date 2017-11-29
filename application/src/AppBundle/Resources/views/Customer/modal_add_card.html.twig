@@ -1,0 +1,24 @@
+{# Modal pour ajouter une card a un customer #}
+<div class="modal fade" id="addCardModal{{ customer.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Link card to customer {{ customer.nickname }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert" id="alert-modal"></div>
+                {{ render(controller('AppBundle:Customer:renderCustomerCardType', { 'id' : customer.id})) }}
+            </div>
+            <div class="modal-footer">
+                <div class="left-side">
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal"><i class="fa fa-close"></i> {{ 'btn.close' }}</button>
+                </div>
+                <div class="divider"></div>
+                <div class="right-side">
+                    {#<button type="button" class="btn btn-danger btn-simple">{{ 'btn.close' }}</button>#}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

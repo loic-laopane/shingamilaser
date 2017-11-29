@@ -1,0 +1,24 @@
+{% if customer.cards | length > 0 %}
+    <table class="table" id="table_card">
+        <thead>
+        <tr>
+            <th>Card number</th>
+            <th>Activated at</th>
+            <th>Center</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for card in customer.cards %}
+            <tr>
+                <td><a href="{{ path('account_card_show', { 'id' : card.id }) }}">{{ card.numero }}</a></td>
+                <td>{{ card.activatedAt | date('d/m/Y') }}</td>
+                <td>{{ card.center.name }}</td>
+                <td><i class="fa {{ card.active ? 'fa-check' : 'fa-close'}}"></i></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No card available</p>
+{% endif %}

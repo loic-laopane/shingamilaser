@@ -1,0 +1,33 @@
+html, body {
+  background: #2B3E50; }
+  html .main, body .main {
+    background: inherit;
+    color: white; }
+    html .main .modal, body .main .modal {
+      color: #666666; }
+      html .main .modal input, body .main .modal input {
+        background: #eee;
+        border-bottom: 1px solid #ccc; }
+    html .main .my-panel, body .main .my-panel {
+      background: white;
+      color: #666666;
+      box-shadow: 5px 5px 5px #333; }
+
+.jumbotron {
+  background: #4E5D6C; }
+
+.customer-details {
+  background: white;
+  color: #666666;
+  border: none; }
+
+.fidelity-card {
+  box-shadow: 5px 5px 8px #333; }
+
+.panel {
+  color: #666666; }
+  .panel input {
+    background: #eee;
+    border-bottom: 1px solid #ccc; }
+
+/*# sourceMappingURL=shinigami-theme.css.map */

@@ -31,7 +31,6 @@ class CustomerManagerTest extends TestCase
 
         $this->repository = $this->getMockBuilder(ObjectRepository::class)->getMock();
         $this->objectManager = $this->getMockBuilder(ObjectManager::class)->getMock();
-        //$this->objectManager->method('getRepository')->with($this->equalTo(ObjectRepository::class));
         $this->userManager = $this->getMockBuilder(UserManager::class)->disableOriginalConstructor()->getMock();
         $this->customerManager = new CustomerManager($this->objectManager, $this->userManager);
         $this->user = $this->getMockBuilder(User::class)->disableOriginalConstructor()->getMock();

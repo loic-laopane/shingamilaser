@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Customer;
+
 /**
  * CardRepository
  *
@@ -10,4 +12,15 @@ namespace AppBundle\Repository;
  */
 class CardRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findCustomerActiveCard(Customer $customer)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.customer', 'customer')
+            ->where('c.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->andWhere('c.active = :active')
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

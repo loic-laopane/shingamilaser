@@ -1,0 +1,47 @@
+{% extends "AppBundle:Admin:layout.html.twig" %}
+
+{% block title %}AppBundle:User:list{% endblock %}
+
+{% block content %}
+<h1>Centers list</h1>
+<div class="panel">
+    <div class="panel-body">
+        {% if centers | length > 0 %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for center in centers %}
+                        <tr>
+                            <td><a href="{{ path('admin_center_edit', { id : center.id }) }}">{{ center.name }}</a></td>
+                            <td>{{ center.code }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_center_edit', { 'id' : center.id }) }}"><i class="fa fa-edit"></i> {{ 'btn-edit' | trans }}</a></li>
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_center_delete', { 'id' : center.id }) }}"><i class="fa fa-trash"></i> {{ 'btn-delete' }}</a></li>
+
+                                    </ul>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor  %}
+                </tbody>
+            </table>
+        {% endif %}
+        <button class="btn btn-success btn-fill btn-action" data-href="{{ path('admin_center_create') }}"><i class="fa fa-plus"></i> {{ 'btn.create' | trans }}</button>
+    </div>
+</div>
+{% endblock %}

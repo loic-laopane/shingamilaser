@@ -9,9 +9,16 @@
 namespace AppBundle\Manager;
 
 
+use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
+use AppBundle\Event\PasswordEvent;
+use AppBundle\Event\SecurityEvent;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserManager
 {
@@ -23,11 +30,30 @@ class UserManager
      * @var UserPasswordEncoderInterface
      */
     private $encoder;
+    /**
+     * @var SessionInterface
+     */
+    private $session;
 
-    public function __construct(ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    /**
+     * @var ObjectRepository
+     */
+    private $repository;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    public function __construct(ObjectManager $manager,
+                                UserPasswordEncoderInterface $encoder,
+                                SessionInterface $session,
+                                EventDispatcherInterface $dispatcher)
     {
         $this->manager = $manager;
         $this->encoder = $encoder;
+        $this->session = $session;
+        $this->repository = $this->manager->getRepository(User::class);
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -43,4 +69,101 @@ class UserManager
         return $this;
     }
 
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function exists(User $user)
+    {
+        return $this->repository->findOneByUsername($user->getUsername());
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function mailExists(User $user)
+    {
+        return $this->repository->findOneByEmail($user->getEmail());
+    }
+
+    /**
+     * Insert User in DB
+     * @param User $user
+     * @return bool
+     */
+    public function insert(User $user)
+    {
+        if($this->exists($user)) {
+            $this->session->getFlashBag()->add('danger', 'This User already exists');
+            return false;
+        }
+
+        if($this->mailExists($user)) {
+            $this->session->getFlashBag()->add('danger', 'This Email is already used');
+            return false;
+        }
+
+        $this->manager->persist($user);
+        $this->manager->flush();
+
+        $this->session->getFlashBag()->add('success', 'User created');
+        return true;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function save()
+    {
+        $this->manager->flush();
+
+        return $this;
+    }
+
+    public function delete($id)
+    {
+        $user = $this->repository->find($id);
+        if(null === $user)
+        {
+            $this->session->getFlashBag()->add('danger', 'This User doesn\'t exist');
+            return false;
+        }
+
+        $username = $user->getUsername();
+        $this->manager->remove($user);
+        $this->manager->flush();
+
+        $this->session->getFlashBag()->add('success', 'User '.$username.' has been deleted');
+        return true;
+    }
+
+    /**
+     * @param $email
+     * @return User
+     * @throws \Exception
+     */
+    public function getUserByEmail($email)
+    {
+        if(empty($email))
+        {
+            throw new \Exception('Email required');
+        }
+
+        $user = $this->repository->findOneBy(['email' => $email]);
+        if(null === $user) {
+            throw new \Exception('User not found with email '.$email);
+        }
+        return $user;
+    }
+
+    public function changePassword(User $user)
+    {
+        $plainUser = clone $user;
+        $this->encodeUserPassword($user);
+        $this->save();
+
+        $this->dispatcher->dispatch(SecurityEvent::CHANGE_PASSWORD, new SecurityEvent(new Customer(), $plainUser));
+    }
 }

@@ -29,9 +29,15 @@ class CustomerOffer
     private $usedAt;
 
     /**
+     * @var \DateTime
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
      * @var Customer
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer", inversedBy="customerOffers")
      */
     private $customer;
 
@@ -42,6 +48,11 @@ class CustomerOffer
      */
     private $offer;
 
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * Get id
@@ -123,5 +134,29 @@ class CustomerOffer
     public function getOffer()
     {
         return $this->offer;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return CustomerOffer
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

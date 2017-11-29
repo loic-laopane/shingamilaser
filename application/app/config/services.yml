@@ -43,6 +43,36 @@ services:
     AppBundle\Manager\CustomerManager:
         public: true
 
+    AppBundle\Manager\PurchaseManager:
+        public: true
+        arguments:
+            - '@workflow.purchase'
+            - '%api_base_uri%'
+
     AppBundle\Event\Listener\LoginListener:
-            tags:
-                - { name: kernel.event_listener, event: kernel.request}
+        tags:
+            - { name: kernel.event_listener, event: kernel.request}
+
+    AppBundle\Event\Subscriber\UploadAvatarSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber}
+
+    AppBundle\Event\Listener\RegisterListener:
+        arguments:
+            - '%mailer_sender_address%'
+        tags:
+            - { name: kernel.event_listener, event: register.event, method: onRegistration }
+
+    AppBundle\Event\Listener\RequestPasswordListener:
+        arguments:
+            - '%mailer_sender_address%'
+        tags:
+            - { name: kernel.event_listener, event: forgotten.event, method: onRequestPassword }
+            - { name: kernel.event_listener, event: change_password.event, method: onChangePassword }
+
+    AppBundle\Event\Listener\OfferListener:
+        arguments:
+            - '%mailer_sender_address%'
+        tags:
+            - { name: kernel.event_listener, event: offer.unlockable.event, method: onOfferUnlockable }
+            - { name: kernel.event_listener, event: offer.unlocked.event, method: onOfferUnlocked }

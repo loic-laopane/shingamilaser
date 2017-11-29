@@ -1,0 +1,102 @@
+{# Affiche la fiche d'un customer apres recherche dans un Game #}
+
+    <div class="col-md-6">
+        <div class="customer-details" id="customer-details-{{ customer.id }}">
+            <div class="heading">Customer detail #{{ customer.id }}</div>
+            <div class="body">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Firstname :</label>
+                    <div class="col-sm-8">{{ customer.firstname }}</div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Lastname :</label>
+                    <div class="col-sm-8">{{ customer.lastname }}</div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Nickname :</label>
+                    <div class="col-sm-8">{{ customer.nickname }}</div>
+                </div>
+
+                {% for card in customer.cards %}
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Card number :</label>
+                    <div class="col-sm-8">{{ card.numero }}</div>
+                </div>
+                 {% else %}
+                     <div class="form-group row" id="cardnumber{{ customer.id }}">
+                         <label class="col-sm-4 col-form-label"></label>
+                         <div class="col-sm-8">No active card found <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#addCardModal{{ customer.id }}" data-customer="{{ customer.id }}"><i class="fa fa-plus"></i> Add card</button></div>
+                     </div>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-8">
+                        <form action="{{ path('game_add_user', { 'id' : game.id }) }}" method="POST">
+                            <input type="hidden" name="customer_id" value="{{ customer.id }}">
+                            <button class="btn btn-success btn-fill"><i class="fa fa-share-square-o"></i> {{ 'btn.add_to_game' | trans }}</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{# Modal #}
+{{ render(controller('AppBundle:Customer:displayModalAddCardToCustomer', { 'id' : customer.id })) }}
+
+<script>
+    $(function()
+    {
+        //Quand la modal a fini d'etre masquée
+        $('#addCardModal{{ customer.id }}').on('hidden.bs.modal', function () {
+            $(this).find('#numero').val('');
+            $(this).find('#alert-modal').removeClass('alert-danger').removeClass('alert-success');
+            //$('#form_search').submit();
+        });
+
+        //Quand le formulaire est posté
+        $('#form_add_card{{ customer.id }}').on('submit', function (event)
+        {
+            var myForm = $(this);
+           event.preventDefault();
+           event.stopPropagation();
+           var cardNumber = myForm.find('#numero').val();
+           $.ajax({
+               url: $(this).attr('action'),
+               method: 'POST',
+               dataType: 'json',
+               data: $(this).serialize(),
+               success: function(response) {
+                    if(response.status)
+                    {
+                        //On affiche le message
+                        $('#addCardModal{{ customer.id }}').find('#alert-modal').addClass('alert-success').html(response.message);
+                        //On masque la modal
+                        //$('#addCardModal').modal('toggle');
+                        $('#cardnumber{{ customer.id }}').find('label').html('Card N° :');
+                        $('#cardnumber{{ customer.id }}').find('div').html(cardNumber);
+
+                    }
+                    else {
+                        $('#addCardModal{{ customer.id }}').find('#alert-modal').addClass('alert-danger').html(response.message);
+                    }
+
+               },
+               error: function(xhr, status, error)
+               {
+                   $('#addCardModal{{ customer.id }}').find('#alert-modal').addClass('alert-danger').html(error);
+               }
+           });
+        });
+
+        //A chaque fois qu'on tape, on masque et vide le message d'erreur
+        $('#addCardModal').on('keyup', '#numero', function(event){
+            $('#alert-modal').removeClass('alert-success').removeClass('alert-danger').html('');
+        });
+    });
+
+</script>

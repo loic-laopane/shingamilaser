@@ -1,0 +1,109 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Manager purchase{% endblock %}
+
+{% block body %}
+<h1>Manage purchase</h1>
+    {% if workflow_can(purchase, 'validate') or workflow_can(purchase, 'revalidate') %}
+    <div class="panel">
+        <div class="panel-heading">
+            <h3>Manage request</h3>
+        </div>
+        <div class="panel-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+                <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.edit' | trans }}</button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+    {% endif %}
+    <div class="panel">
+        <div class="panel-heading">
+            <h3>Manage request</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Reference :</div>
+                    <div class="col-md-4">{{ purchase.reference }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Status :</div>
+                    <div class="col-md-4">{{ purchase.status }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Quantity :</div>
+                    <div class="col-md-4">{{ purchase.quantity }} cards</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Created at :</div>
+                    <div class="col-md-4">{{ purchase.createdAt | date('d/m/Y') }}</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">Last update :</div>
+                    <div class="col-md-4">{{ purchase.updatedAt | date('d/m/Y H:i') }}</div>
+                </div>
+            </div>
+            <hr>
+            {% if workflow_can(purchase, 'validate') or workflow_can(purchase, 'revalidate') or workflow_can(purchase, 'request') %}
+            <form action="{{ path('api_client_request', { 'id' : purchase.id }) }}" method="post">
+                <button class="btn btn-success btn-fill"><i class="fa fa-send"></i> {{ 'btn.send.request' | trans }}</button>
+            </form>
+            {% endif %}
+            {% if workflow_can(purchase, 'complete') %}
+            <form action="{{ path('api_client_getall', { 'id' : purchase.id }) }}" method="post">
+                <button class="btn btn-info btn-fill"><i class="fa fa-download"></i> {{ 'btn.get.cards' | trans }}</button>
+            </form>
+            {% endif %}
+            <a href="{{ path('purchase_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.return' }}</a>
+
+            {% if purchase.cards is not null %}
+                <h4>Associated cards</h4>
+                <div class="card-list">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Card number</th>
+                                <th>Owner</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                {% for card in purchase.cards %}
+                    <tr>
+                    <td class="card-number{{ card.active == false ? ' stroken' }}">{{ card.numero }}</td>
+                    <td>
+                        {% if card.customer is not null %}
+                            {{ card.customer.firstname ~ ' ' ~ card.customer.lastname }}
+                        {% endif %}
+                    </td>
+                        <td></td>
+                    </tr>
+                {% else %}
+                    <p>No cards associated</p>
+                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
+
+
+    <style>
+        form {
+            display: inline-block;
+        }
+    </style>
+{% endblock %}

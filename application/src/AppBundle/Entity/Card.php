@@ -25,16 +25,10 @@ class Card
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=6, unique=true)
+     * @ORM\Column(name="code", type="string", length=6, nullable=true)
      */
     private $code;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="checksum", type="integer")
-     */
-    private $checksum;
 
     /**
      * @var \DateTime
@@ -68,12 +62,23 @@ class Card
 
     /**
      * @var string
-     * @ORM\Column(name="numero", type="string", length=10)
+     * @ORM\Column(name="numero", type="string", length=10, unique=true)
      * @Assert\NotBlank()
      * @Assert\Regex("/\d{10}/", message="This value must have 10 digits")
      */
     private $numero;
 
+    /**
+     * @var Purchase
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Purchase", inversedBy="cards")
+     */
+    private $purchase;
+
+
+    public function __construct()
+    {
+        $this->active = true;
+    }
 
     /**
      * Get id
@@ -94,8 +99,10 @@ class Card
      */
     public function setCode($code)
     {
+        if(strlen($code) !== 6) {
+            throw new \InvalidArgumentException('Card code must contain 6 digits');
+        }
         $this->code = $code;
-        $this->hydrateNumero();
 
         return $this;
     }
@@ -111,38 +118,13 @@ class Card
     }
 
     /**
-     * Set checksum
-     *
-     * @param integer $checksum
-     *
-     * @return Card
-     */
-    public function setChecksum($checksum)
-    {
-        $this->checksum = $checksum;
-        $this->hydrateNumero();
-
-        return $this;
-    }
-
-    /**
-     * Get checksum
-     *
-     * @return int
-     */
-    public function getChecksum()
-    {
-        return $this->checksum;
-    }
-
-    /**
      * Set activatedAt
      *
      * @param \DateTime $activatedAt
      *
      * @return Card
      */
-    public function setActivatedAt($activatedAt)
+    public function setActivatedAt(\DateTime $activatedAt)
     {
         $this->activatedAt = $activatedAt;
 
@@ -168,6 +150,10 @@ class Card
      */
     public function setActive($active)
     {
+        if(!is_bool($active))
+        {
+            throw new \InvalidArgumentException('Attribute Active must be a boolean');
+        }
         $this->active = $active;
 
         return $this;
@@ -193,7 +179,6 @@ class Card
     public function setCenter(\AppBundle\Entity\Center $center = null)
     {
         $this->center = $center;
-        $this->hydrateNumero();
 
         return $this;
     }
@@ -241,10 +226,13 @@ class Card
     }
 
     /**
-     * @param mixed $numero
+     * @param int $numero
      */
     public function setNumero($numero)
     {
+        if(strlen($numero) !== 10 || !is_numeric($numero)) {
+            throw new \InvalidArgumentException('Card number ('.$numero.') must contain 10 digits');
+        }
         $this->numero = $numero;
 
         return $this;
@@ -258,21 +246,29 @@ class Card
         return $this->getCustomer();
     }
 
+
+
     /**
-     * @return string
+     * Set purchase
+     *
+     * @param \AppBundle\Entity\Purchase $purchase
+     *
+     * @return Card
      */
-    private function generateNumero()
+    public function setPurchase(\AppBundle\Entity\Purchase $purchase = null)
     {
-        return $this->getCenter()->getCode().$this->getCode().$this->getChecksum();
+        $this->purchase = $purchase;
+
+        return $this;
     }
 
     /**
-     * Set Numero with generated numero
-     * @return $this
+     * Get purchase
+     *
+     * @return \AppBundle\Entity\Purchase
      */
-    private function hydrateNumero()
+    public function getPurchase()
     {
-        $this->setNumero($this->generateNumero());
-        return $this;
+        return $this->purchase;
     }
 }

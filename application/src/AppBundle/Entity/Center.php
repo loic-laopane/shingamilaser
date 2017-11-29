@@ -2,7 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Center
@@ -24,7 +27,15 @@ class Center
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=3)
+     * @ORM\Column(name="code", type="string", length=3, unique=true)
+     * @Assert\NotBlank(
+     *     message="Code is required"
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d{3}/",
+     *     match=true,
+     *     message="Center code must contain 3 digits"
+     * )
      */
     private $code;
 
@@ -32,6 +43,10 @@ class Center
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(
+     *     message="Code is required"
+     * )
+     *
      */
     private $name;
 
@@ -46,6 +61,12 @@ class Center
      * @var string
      *
      * @ORM\Column(name="zipcode", type="string", length=5, nullable=true)
+     * @Assert\Length(
+     *     min="5",
+     *     max="5",
+     *     minMessage="Zip code must have {{ limit }} digits",
+     *     maxMessage="Zip code must have {{ limit }} digits",
+     * )
      */
     private $zipcode;
 
@@ -53,9 +74,23 @@ class Center
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     *     message="Code is required"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^\d/",
+     *     match=false,
+     *     message="City cannot contain digits"
+     *
+     * )
      */
     private $city;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="center")
+     */
+    private $users;
 
     /**
      * Get id
@@ -76,6 +111,10 @@ class Center
      */
     public function setCode($code)
     {
+        if(strlen($code) !== 3 || !is_numeric($code))
+        {
+            throw new \InvalidArgumentException('Center code must contain 3 digits');
+        }
         $this->code = $code;
 
         return $this;
@@ -148,6 +187,9 @@ class Center
      */
     public function setZipcode($zipcode)
     {
+        if (strlen($zipcode) !== 5) {
+            throw new \InvalidArgumentException('Zipcode must contain 5 digits');
+        }
         $this->zipcode = $zipcode;
 
         return $this;
@@ -186,5 +228,47 @@ class Center
     {
         return $this->city;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Center
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+}

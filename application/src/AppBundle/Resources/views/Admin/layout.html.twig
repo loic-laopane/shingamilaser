@@ -1,0 +1,17 @@
+{% extends'::base.html.twig' %}
+{% block title %}Admin{% endblock %}
+{% block body %}
+    {% set current_path = app.request.get('_route') %}
+    <div class="col-md-2">
+        <div class="fixed-section">
+            <div class="list-group ">
+                <a href="{{ path('admin_user_list') }}" class="list-group-item{{ current_path matches '{^admin_user}'  ? ' list-group-item-info' }}"><i class="fa fa-users"></i> Users</a>
+                <a href="{{ path('admin_center_list') }}" class="list-group-item{{ current_path matches '{^admin_center}' ? ' list-group-item-info' }}"><i class="fa fa-industry"></i> Centers</a>
+                {#<a href="{{ path('account_offers_show') }}">Show offers</a>#}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 col-md-offset-1">
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

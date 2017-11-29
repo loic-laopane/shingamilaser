@@ -10,4 +10,12 @@ namespace AppBundle\Repository;
  */
 class OfferRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getActiveOffers()
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.expiredAt > CURRENT_TIMESTAMP() ')
+            ->getQuery()
+            ->getResult();
+    }
 }

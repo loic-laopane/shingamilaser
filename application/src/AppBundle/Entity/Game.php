@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Game
@@ -22,6 +23,12 @@ class Game
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\NotBlank(message="Title is required")
+     */
+    private $title;
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -31,14 +38,14 @@ class Game
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="started_at", type="datetime")
+     * @ORM\Column(name="started_at", type="datetime", nullable=true)
      */
     private $startedAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ended_at", type="datetime")
+     * @ORM\Column(name="ended_at", type="datetime", nullable=true)
      */
     private $endedAt;
 
@@ -60,7 +67,7 @@ class Game
      *
      * @return Game
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
 
@@ -84,7 +91,7 @@ class Game
      *
      * @return Game
      */
-    public function setStartedAt($startedAt)
+    public function setStartedAt(\DateTime $startedAt)
     {
         $this->startedAt = $startedAt;
 
@@ -108,7 +115,7 @@ class Game
      *
      * @return Game
      */
-    public function setEndedAt($endedAt)
+    public function setEndedAt(\DateTime $endedAt)
     {
         $this->endedAt = $endedAt;
 
@@ -129,6 +136,31 @@ class Game
      */
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         //$this->customerGame = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Game
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

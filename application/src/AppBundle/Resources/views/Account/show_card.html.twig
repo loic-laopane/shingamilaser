@@ -5,12 +5,19 @@
 {% block content %}
     <h1>{{ 'Your card' | trans }}</h1>
     <legend></legend>
+
     <div class="col-md-8">
     <div class="fidelity-card">
         <div class="block-left">
+            <div class="photo">
+                {% if card.customer.avatar is not null %}
+                    <img src="{{ asset('img/avatar/' ~ card.customer.avatar.filename) }}">
+                {% endif %}
+            </div>
             <div class="qrcode" id="qrcode"></div>
             <div class="code">
                 {{ card.numero }}
+                <input type="hidden" id="text" value="{{ card.numero }}">
             </div>
         </div>
         <div class="block-right">
@@ -18,21 +25,21 @@
             <div class="card-identity">
                 <div class="row">
                     <div class="col-sm-7">Lastname :</div>
-                    <div class="col-sm-5 text-info">{{ card.customer.lastname }}</div>
+                    <div class="col-sm-5 text-bold">{{ card.customer.lastname }}</div>
                 </div>
                 <div class="row">
                     <div class="col-sm-7">Firstname :</div>
-                    <div class="col-sm-5 text-info">{{ card.customer.firstname }}</div>
+                    <div class="col-sm-5 text-bold">{{ card.customer.firstname }}</div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-7">Card number :</div>
-                    <div class="col-sm-5 text-info">{{ card.numero }}</div>
+                    <div class="col-sm-5 text-bold">{{ card.numero }}</div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-7">Activated at :</div>
-                    <div class="col-sm-5 text-info">{{ card.activatedAt | date('d/m/Y') }}</div>
+                    <div class="col-sm-5 text-bold">{{ card.activatedAt | date('d/m/Y') }}</div>
                 </div>
             </div>
         </div>
@@ -47,12 +54,25 @@
 {% block javascripts %}
     <script src="{{ asset('dist/qrcode/qrcode.min.js') }}"></script>
     <script type="text/javascript">
-        var qrcode = new QRCode(document.getElementById("qrcode"), {
-            width : 100,
-            height : 100
+        var qrcode = new QRCode("qrcode", {
+            text: "{{ card.numero }}",
+            height: 100,
+            width: 100
         });
 
-        qrcode.makeCode({{ card.numero }});
+        function makeCode () {
+            var elText = document.getElementById("text");
+            if (!elText.value) {
+                alert("Input a text");
+                elText.focus();
+                return;
+            }
+
+            qrcode.makeCode();
+        }
+
+        makeCode();
+
     </script>
 
 {% endblock %}
