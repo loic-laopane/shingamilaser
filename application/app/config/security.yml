@@ -50,5 +50,5 @@ security:
         - { path: ^/*, roles: ROLE_USER }
 
     role_hierarchy:
-        #ROLE_STAFF: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_STAFF: [ROLE_USER]
         ROLE_ADMIN: [ ROLE_ALLOWED_TO_SWITCH]

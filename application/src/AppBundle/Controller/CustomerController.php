@@ -60,7 +60,7 @@ class CustomerController extends Controller
     {
         $empty_card = new Card();
         $form = $this->createForm(CustomerAddCardType::class, $empty_card, array(
-            'attr' => array('id' => 'form_add_card'),
+            'attr' => array('id' => 'form_add_card'.$customer->getId()),
             'action' => $this->generateUrl('customer_associate_card', array('id' => $customer->getId())),
             'method' => 'POST'
         ));
@@ -74,11 +74,12 @@ class CustomerController extends Controller
     /**
      * @param Request $request
      * Associe un carte a un customer en ajax
-     * @Route("customer/{id}/addCard", name="customer_associate_card")
+     * @Route("/customer/{id}/addCard", name="customer_associate_card")
      * @Method({"POST"})
      */
     public function associateCard(Request $request, Customer $customer, CardManager $cardManager)
     {
+        $numero = $request->request->get('numero');
         $numero = $request->request->get('numero');
         $card = new Card();
         $response = ['status' => 0, 'message' => ''];

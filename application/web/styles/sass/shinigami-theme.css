@@ -26,5 +26,8 @@ html, body {
 
 .panel {
   color: #666666; }
+  .panel input {
+    background: #eee;
+    border-bottom: 1px solid #ccc; }
 
 /*# sourceMappingURL=shinigami-theme.css.map */

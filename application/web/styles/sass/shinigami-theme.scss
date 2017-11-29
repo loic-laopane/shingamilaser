@@ -35,4 +35,8 @@ html, body {
 
 .panel {
   color: $color_grey;
+  input {
+    background: #eee;
+    border-bottom: 1px solid #ccc;
+  }
 }
