@@ -5,7 +5,7 @@ use Behat\MinkExtension\Context\MinkContext;
 /**
  * Defines application features from the specific context.
  */
-class LoginContext extends MinkContext
+class AccountContext extends MinkContext
 {
     /**
      * Initializes context.
