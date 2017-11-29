@@ -4,46 +4,50 @@
 
 {% block body %}
     <h1>Game list</h1>
-    <a href="{{ path('game_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
-    <hr>
-    {% if games | length > 0 %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Game</th>
-                    <th>Start at</th>
-                    <th>End at</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for game in games %}
+    <div class="panel">
+        <div class="panel-body">
+        <a href="{{ path('game_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
+        <hr>
+        {% if games | length > 0 %}
+            <table class="table">
+                <thead>
                     <tr>
-                        <td><a href="{{ path('game_edit', { id : game.id }) }}">{{ game.title }}</a></td>
-                        <td>{{ game.startedAt is not null ? game.endedAt | date('d/m/Y H:i') : game.startedAt }}</td>
-                        <td>{{ game.endedAt is not null ? game.endedAt | date('d/m/Y H:i') : game.endedAt }}</td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                                    Actions
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('game_edit', { 'id' : game.id }) }}"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('game_manage', { 'id' : game.id }) }}"><i class="fa fa-cog"></i> {{ 'btn.manage' | trans }}</a></li>
-
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('game_delete', { 'id' : game.id }) }}"><i class="fa fa-trash"></i> {{ 'btn.delete' }}</a></li>
-
-                                </ul>
-
-                            </div>
-                        </td>
+                        <th>Game</th>
+                        <th>Start at</th>
+                        <th>End at</th>
+                        <th></th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p class="alert alert-info">No games</p>
-    {% endif %}
+                </thead>
+                <tbody>
+                    {% for game in games %}
+                        <tr>
+                            <td><a href="{{ path('game_edit', { id : game.id }) }}">{{ game.title }}</a></td>
+                            <td>{{ game.startedAt is not null ? game.endedAt | date('d/m/Y H:i') : game.startedAt }}</td>
+                            <td>{{ game.endedAt is not null ? game.endedAt | date('d/m/Y H:i') : game.endedAt }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('game_edit', { 'id' : game.id }) }}"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('game_manage', { 'id' : game.id }) }}"><i class="fa fa-cog"></i> {{ 'btn.manage' | trans }}</a></li>
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('game_delete', { 'id' : game.id }) }}"><i class="fa fa-trash"></i> {{ 'btn.delete' }}</a></li>
+
+                                    </ul>
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="alert alert-info">No games</p>
+        {% endif %}
+        </div>
+    </div>
 {% endblock %}

@@ -4,6 +4,8 @@
 
 {% block body %}
 <h1>Purchases list</h1>
+    <div class="panel">
+        <div class="panel-body">
     <a href="{{ path('purchase_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
     <hr>
     {% if purchases is not null %}
@@ -15,6 +17,7 @@
                     <th>Requester</th>
                     <th>Created at</th>
                     <th>Updated at</th>
+                    <th>Status</th>
                     <th>~</th>
                 </tr>
             </thead>
@@ -48,4 +51,6 @@
     {% else %}
         <p>No purchase</p>
     {% endif %}
+        </div>
+    </div>
 {% endblock %}

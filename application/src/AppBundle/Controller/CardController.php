@@ -2,14 +2,21 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Card;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+/**
+ * Class CardController
+ * @package AppBundle\Controller
+ * @Route("/card")
+ */
 class CardController extends Controller
 {
 
     /**
-     * @Route("card/get")
+     * @Route("/get", )
      */
     public function getAction()
     {
@@ -29,12 +36,13 @@ class CardController extends Controller
     }
 
     /**
-     * @Route("/cards")
+     * @Route("/cards", name="card_list")
      */
-    public function listAction()
+    public function listAction(ObjectManager $objectManager)
     {
+        $cards = $objectManager->getRepository(Card::class)->findAll();
         return $this->render('AppBundle:Card:list.html.twig', array(
-            // ...
+            'cards' => $cards
         ));
     }
 

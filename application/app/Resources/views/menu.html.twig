@@ -35,7 +35,7 @@
                         <li><a href="{{ path('register') }}"><i class="fa fa-unlock"></i> {{ 'menu.register' | trans }}</a></li>
                     {% endif %}
 
-                    {% if is_granted('ROLE_USER') %}
+                    {% if is_granted('ROLE_USER') and is_granted('ROLE_STAFF') == false %}
                         <li class="dropdown">
 
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ 'menu.account' | trans}} <b class="caret"></b></a>
@@ -59,6 +59,8 @@
 
                             <ul class="dropdown-menu">
 
+                                <li><a href="{{ path('card_list') }}"><i class="fa fa-list"></i> {{ 'menu.card.list' | trans }}</a></li>
+                                <li class="divider"></li>
                                 <li><a href="{{ path('purchase_create') }}"><i class="fa fa-plus"></i> {{ 'menu.puchase.create' | trans }}</a></li>
                                 <li><a href="{{ path('purchase_list') }}"><i class="fa fa-list"></i> {{ 'menu.puchase.list' | trans }}</a></li>
 
