@@ -17,7 +17,7 @@ use PHPUnit\Exception;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserManagerTest extends TestCase
+class UserManagerTest
 {
     private $objectManager;
     private $encoder;

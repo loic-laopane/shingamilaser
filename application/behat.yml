@@ -1,0 +1,5 @@
+default:
+    suites:
+        ui:
+            contexts: [FeatureContext, WebContext]
+            filters: { tags: '@web'}
