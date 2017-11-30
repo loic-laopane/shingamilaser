@@ -1,6 +1,8 @@
 <?php
 
 use AppBundle\Entity\Game;
+use AppBundle\Entity\Purchase;
+use AppBundle\Entity\User;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Behat\Hook\Call\BeforeScenario;
@@ -13,6 +15,8 @@ class CardContext extends MinkContext
 {
     use KernelDictionary;
 
+    private $purchase;
+
 
     /**
      * Initializes context.
@@ -23,8 +27,75 @@ class CardContext extends MinkContext
      */
     public function __construct()
     {
-
+        $this->purchase = new Purchase();
     }
 
+    /**
+     * @Given I am on the cards purchase page
+     * @Then I should be on the cards purchase page
+     */
+    public function iAmOnTheCardsPurchasePage()
+    {
+        $this->visitPath('/staff/purchase/create');
+    }
 
+    /**
+     * @Then I should be on the cards purchase list
+     */
+    public function iShouldBeOnTheCardsPurchaseList()
+    {
+        $this->visitPath('/staff/purchase/list');
+    }
+
+    /**
+     * @Given I am on the edit cards purchase page
+     */
+    public function iAmOnTheEditCardsPurchasePage()
+    {
+        $this->visitPath('/staff/purchase/'.$this->purchase->getId().'/edit');
+    }
+
+    /**
+     * @AfterScenario @delete_last_purchase
+     */
+    public function deleteLastPurchaseTest()
+    {
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $purchase = $em->getRepository(Purchase::class)->findOneBy([], ['id' => 'desc'], 1);
+        if(!$purchase instanceof Purchase)
+        {
+            throw new Exception('Cannot delete the purchase');
+        }
+
+        $em->remove($purchase);
+        $em->flush();
+    }
+
+    /**
+     * @BeforeScenario @fake_purchase
+     */
+    public function createPurchase()
+    {
+        //print_r(FeatureContext::getUser());
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $current_user = $em->getRepository(User::class)->findOneBy([], ['id' => 'desc'], 1);
+        if(!$current_user instanceof User)
+        {
+            throw new Exception('Cannot get the current user logged in');
+        }
+        $this->purchase->setQuantity(2);
+        $this->purchase->setRequester($current_user);
+        $em->persist($this->purchase);
+        $em->flush();
+    }
+
+    /**
+     * @AfterScenario @fake_purchase
+     */
+    public function deletePurchase()
+    {
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $em->remove($this->purchase);
+        $em->flush();
+    }
 }

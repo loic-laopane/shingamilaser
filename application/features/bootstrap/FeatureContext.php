@@ -69,6 +69,10 @@ class FeatureContext extends RawMinkContext implements Context
     }
 
     /**
+     * @Given I am authenticated as admin
+     */
+
+    /**
      * @AfterScenario @login_user
      */
     public function deleteCustomer()
@@ -148,6 +152,4 @@ class FeatureContext extends RawMinkContext implements Context
 
         $this->logIn();
     }
-
-
 }

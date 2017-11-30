@@ -33,16 +33,23 @@ class PurchaseController extends Controller
     {
         $purchase = new Purchase();
         $form = $this->createForm(PurchaseType::class, $purchase);
-        $form->handleRequest($request);
-        $purchase->setRequester($this->getUser());
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $purchaseManager->create($purchase);
+        try {
+            $form->handleRequest($request);
+            $purchase->setRequester($this->getUser());
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                $purchaseManager->create($purchase);
 
-            return $this->redirectToRoute('purchase_edit', array(
-                'id' => $purchase->getId()
-            ));
+                return $this->redirectToRoute('purchase_edit', array(
+                    'id' => $purchase->getId()
+                ));
+            }
         }
+        catch (\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
 
         return $this->render('AppBundle:Purchase:create.html.twig', array(
             'form' => $form->createView()
@@ -57,13 +64,17 @@ class PurchaseController extends Controller
     public function editAction(Request $request, Purchase $purchase, PurchaseManager $purchaseManager)
     {
         $form = $this->createForm(PurchaseType::class, $purchase);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $purchaseManager->save($purchase);
-            $this->get('session')->getFlashBag()->add('success', 'Purchase updated');
+        try {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $purchaseManager->save($purchase);
+                $this->get('session')->getFlashBag()->add('success', 'Purchase updated');
+            }
         }
-
+        catch (\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->render('AppBundle:Purchase:edit.html.twig', array(
             'form' => $form->createView(),
             'purchase' => $purchase
