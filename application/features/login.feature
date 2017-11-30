@@ -12,6 +12,7 @@ Feature: Login
     And I fill in "_password" with "user"
     And I press "btn.login"
     Then I should be on "/"
+    And I should see "menu.logout"
 
   Scenario: Connection failed
     Given I am on "/login"
@@ -19,4 +20,9 @@ Feature: Login
     And I fill in "_password" with "bad user"
     And I press "btn.login"
     Then I should see "Invalid credentials."
-    
+
+  @login_user
+  Scenario: Logout
+    Given I am on "/"
+    When I follow "menu.logout"
+    Then I should be on "/login"

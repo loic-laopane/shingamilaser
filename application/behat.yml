@@ -6,7 +6,7 @@ default:
         Behat\MinkExtension:
             base_url: http://localhost/web/app_dev.php
             goutte: ~
-            show_cmd: 'chrome %s'
+            show_cmd: 'firefox %s'
             sessions:
                 my_session:
                     goutte: ~
@@ -18,3 +18,6 @@ default:
         account:
             contexts: [FeatureContext, AccountContext]
             filters: { tags: '@account'}
+        game:
+            contexts: [FeatureContext, GameContext]
+            filters: { tags: '@game'}

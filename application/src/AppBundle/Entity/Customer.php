@@ -98,7 +98,7 @@ class Customer
     /**
      * @var User
      *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull(message="User is required")
      * @Assert\Valid()
