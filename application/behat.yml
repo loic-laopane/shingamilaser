@@ -4,7 +4,7 @@ default:
             kernel:
                 bootstrap: 'vendor/autoload.php'
         Behat\MinkExtension:
-            base_url: http://localhost/web/app_dev.php
+            base_url: http://localhost/web/app_test.php
             goutte: ~
             show_cmd: 'firefox %s'
             sessions:
@@ -21,3 +21,6 @@ default:
         game:
             contexts: [FeatureContext, GameContext]
             filters: { tags: '@game'}
+        card:
+            contexts: [FeatureContext, CardContext]
+            filters: { tags: '@card'}
