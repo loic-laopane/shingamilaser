@@ -70,17 +70,62 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   -webkit-font-smoothing: antialiased;
   font-family: 'Work Sans', 'Montserrat', "Helvetica", Arial, sans-serif; }
 
-.btn-primary {
-  background: #2f2676; }
-  .btn-primary:hover {
-    background: black; }
+/**
+ * BUTTONS
+ */
+.btn {
+  background: none; }
+  .btn.btn-fill {
+    color: white; }
+  .btn.btn-primary {
+    color: #493999;
+    border-color: #493999; }
+    .btn.btn-primary:hover {
+      background: #291f68;
+      border-color: #291f68; }
+    .btn.btn-primary.btn-fill {
+      background: #493999;
+      border-color: #493999; }
+      .btn.btn-primary.btn-fill:hover {
+        background: #291f68;
+        border-color: #291f68; }
+  .btn.btn-success {
+    color: #dc6f4e;
+    border-color: #dc6f4e; }
+    .btn.btn-success:hover {
+      background: #b15a40;
+      border-color: #b15a40; }
+    .btn.btn-success.btn-fill {
+      background: #dc6f4e; }
+      .btn.btn-success.btn-fill:hover {
+        background: #b15a40;
+        border-color: #b15a40; }
+  .btn.danger {
+    color: #8f242a;
+    border-color: #8f242a; }
+    .btn.danger:hover {
+      background: #711c21;
+      border-color: #711c21; }
+    .btn.danger.btn-fill {
+      background: #8f242a; }
+      .btn.danger.btn-fill:hover {
+        background: #711c21;
+        border-color: #711c21; }
+  .btn.default {
+    color: #333333;
+    border-color: #333333; }
+    .btn.default:hover {
+      background: #111111;
+      border-color: #111111; }
+    .btn.default.btn-fill {
+      background: #333333; }
+      .btn.default.btn-fill:hover {
+        background: #111111;
+        border-color: #111111; }
 
-.btn-success.btn-fill {
-  background: #399fe9; }
-  .btn-success.btn-fill:hover {
-    background: #3082bd;
-    border: 2px solid #3082bd; }
-
+/**
+ * NAVBAR
+ */
 .navbar .list-group {
   border-radius: 3px; }
   .navbar .list-group .list-group-item {
@@ -98,12 +143,16 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
     background: #493999;
     color: white;
     font-size: 1.2em; }
-.navbar table.table {
+
+table.table {
   color: #333; }
 
 .logo {
   font-family: 'airstrike', 'Racing Sans One', cursive; }
 
+/**
+ * FONTS
+ */
 @font-face {
   font-family: 'airstrike';
   src: url("/web/fonts/airstrike/airstrikeb3d.ttf");
