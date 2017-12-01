@@ -36,12 +36,32 @@ Feature: Card
 #    Then I should see "Manage purchase"
 #    And I should see "btn.send.request"
 
-  @fake_purchase
-  Scenario: Edit a cards purchase
-    Given I am on the edit cards purchase page
-    When I fill in "quantity" with "2"
-    And I press "btn.edit"
-    Then I should see "Purchase updated"
+#  @fake_purchase
+#  Scenario: Edit a cards purchase
+#    Given I am on the edit cards purchase page
+#    When I fill in "quantity" with "2"
+#    And I press "btn.edit"
+#    Then I should see "Purchase updated"
+
+#  @fake_purchase
+#  Scenario: Send a failed request of cards purchase
+#    Given I am on the edit cards purchase page
+#    When I fill in "quantity" with "0"
+#    And I press "btn.send.request"
+#    Then I should see "No center associated on current user"
+
+  @remove_purchase_list
+  Scenario: List cards purchases
+    Given Purchases exist
+    And I am on the cards purchase list
+    Then I should see "btn.edit"
+    And I should see "btn.show"
+    And I should see "Status"
+
+
+  Scenario: List cards purchases
+    Given I am on the cards purchase list
+    Then I should see "No purchase"
 
 
 

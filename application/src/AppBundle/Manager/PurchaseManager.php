@@ -107,7 +107,7 @@ class PurchaseManager
         }
         if(!$purchase->getQuantity()) {
             $this->setErrorStatus($purchase);
-            throw new Exception('Qunatity cannot be null');
+            throw new Exception('Quantity cannot be null to send request');
         }
     }
 

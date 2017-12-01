@@ -16,6 +16,7 @@ class CardContext extends MinkContext
     use KernelDictionary;
 
     private $purchase;
+    private $purchase_list;
 
 
     /**
@@ -98,4 +99,49 @@ class CardContext extends MinkContext
         $em->remove($this->purchase);
         $em->flush();
     }
+
+
+
+    /**
+     * @Given I am on the cards purchase list
+     */
+    public function iAmOnTheCardsPurchaseList()
+    {
+        $this->visitPath('/staff/purchase/list');
+    }
+
+    /**
+     * @Given Purchases exist
+     */
+    public function purchasesExist()
+    {
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $current_user = $em->getRepository(User::class)->findOneBy([], ['id' => 'desc'], 1);
+        $purchase = new Purchase();
+        $purchase->setRequester($current_user)
+                ->setQuantity(1)
+                ;
+        
+        $this->purchase_list = array($purchase, $purchase);
+        foreach($this->purchase_list as $purchase)
+        {
+            $em->persist($purchase);
+        }
+        $em->flush();
+
+    }
+
+    /**
+     * @AfterScenario @remove_purchase_list
+     */
+    public function removePurchaseList()
+    {
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        foreach ($this->purchase_list as $purchase)
+        {
+            $em->remove($purchase);
+        }
+        $em->flush();
+    }
+
 }
