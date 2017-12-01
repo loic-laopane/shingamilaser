@@ -28,9 +28,9 @@
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_center_edit', { 'id' : center.id }) }}"><i class="fa fa-edit"></i> {{ 'btn-edit' | trans }}</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_center_edit', { 'id' : center.id }) }}"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></li>
 
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_center_delete', { 'id' : center.id }) }}"><i class="fa fa-trash"></i> {{ 'btn-delete' }}</a></li>
+                                        {#<li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_center_delete', { 'id' : center.id }) }}"><i class="fa fa-trash"></i> {{ 'btn.delete' }}</a></li>#}
 
                                     </ul>
 
@@ -41,7 +41,7 @@
                 </tbody>
             </table>
         {% endif %}
-        <button class="btn btn-success btn-fill btn-action" data-href="{{ path('admin_center_create') }}"><i class="fa fa-plus"></i> {{ 'btn.create' | trans }}</button>
+        <a class="btn btn-success btn-fill btn-action" href="{{ path('admin_center_create') }}"><i class="fa fa-plus"></i> {{ 'btn.create' | trans }}</a>
     </div>
 </div>
 {% endblock %}

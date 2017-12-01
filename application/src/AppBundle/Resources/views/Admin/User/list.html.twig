@@ -12,6 +12,7 @@
                     <tr>
                         <th>Username</th>
                         <th>Email</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,9 +28,9 @@
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_user_edit', { 'id' : user.id }) }}"><i class="fa fa-edit"></i> {{ 'btn-edit' | trans }}</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_user_edit', { 'id' : user.id }) }}"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></li>
 
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_user_delete', { 'id' : user.id }) }}"><i class="fa fa-trash"></i> {{ 'btn-delete' }}</a></li>
+                                        {#<li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_user_delete', { 'id' : user.id }) }}"><i class="fa fa-trash"></i> {{ 'btn.delete' }}</a></li>#}
 
                                     </ul>
 

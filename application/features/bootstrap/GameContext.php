@@ -1,7 +1,6 @@
 <?php
 
 use AppBundle\Entity\Game;
-use AppBundle\Entity\Purchase;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
 use Behat\Behat\Hook\Call\BeforeScenario;

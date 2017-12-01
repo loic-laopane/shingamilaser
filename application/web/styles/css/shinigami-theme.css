@@ -75,8 +75,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
  */
 .btn {
   background: none; }
-  .btn.btn-fill {
-    color: white; }
   .btn.btn-primary {
     color: #493999;
     border-color: #493999; }
@@ -122,6 +120,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
       .btn.default.btn-fill:hover {
         background: #111111;
         border-color: #111111; }
+  .btn.btn-fill {
+    color: white; }
 
 /**
  * NAVBAR

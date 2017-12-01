@@ -55,7 +55,10 @@ class FeatureContext extends RawMinkContext implements Context
         $this->createUser('ROLE_ADMIN');
     }
     /**
-     * @AfterScenario @login_user @login_staff @login_admin
+     * @AfterScenario
+     * @login_user
+     * @login_staff
+     * @login_admin
      */
     public function deleteUser()
     {
