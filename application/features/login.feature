@@ -1,4 +1,4 @@
-@security
+@login
 Feature: Login
 
   Scenario: Access to the login page

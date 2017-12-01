@@ -12,9 +12,12 @@ default:
                     goutte: ~
 
     suites:
-        security:
+        login:
             contexts: [FeatureContext, LoginContext]
-            filters: { tags: '@security'}
+            filters: { tags: '@login'}
+        registration:
+              contexts: [FeatureContext, RegisterContext]
+              filters: { tags: '@registration'}
         account:
             contexts: [FeatureContext, AccountContext]
             filters: { tags: '@account'}

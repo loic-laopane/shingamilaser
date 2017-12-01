@@ -51,9 +51,6 @@ class Customer
      * @Assert\NotBlank(
      *     message="The field nickname is required"
      * )
-     * @Assert\NotNull(
-     *     message="The field nickname is required"
-     * )
      */
     private $nickname;
 
