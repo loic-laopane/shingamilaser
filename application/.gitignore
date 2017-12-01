@@ -18,3 +18,4 @@
 /web/phpunit
 /web/styles/.sass-cache
 /web/img/avatar/*
+*.psd

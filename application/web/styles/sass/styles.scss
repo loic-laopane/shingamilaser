@@ -29,6 +29,7 @@ $blue_dark: #254f72;
         &[type="text"], &[type="password"], &[type="email"] {
           border-bottom:1px solid #ccc ;
           background: #eee;
+          border-radius: 0px;
         }
       }
     }

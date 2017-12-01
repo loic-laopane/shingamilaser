@@ -1,8 +1,16 @@
 html, body {
-  background: #2B3E50; }
+  background: #2B3E50;
+  font-family: 'Work Sans', sans-serif;
+  background-image: url("/web/img/background/bg-space-pink.jpg"); }
   html .main, body .main {
     background: inherit;
     color: white; }
+    html .main a:link, html .main a:visited, body .main a:link, body .main a:visited {
+      color: #326ec7; }
+      html .main a:link[class*="btn"], html .main a:visited[class*="btn"], body .main a:link[class*="btn"], body .main a:visited[class*="btn"] {
+        color: white; }
+    html .main a:hover, html .main a:active, body .main a:hover, body .main a:active {
+      color: #1f2c83; }
     html .main .modal, body .main .modal {
       color: #666666; }
       html .main .modal input, body .main .modal input {
@@ -11,10 +19,18 @@ html, body {
     html .main .my-panel, body .main .my-panel {
       background: white;
       color: #666666;
-      box-shadow: 5px 5px 5px #333; }
+      box-shadow: none; }
+      html .main .my-panel input[type="text"], html .main .my-panel input[type="password"], html .main .my-panel input[type="email"], html .main .my-panel input[type="date"], html .main .my-panel input[type="date"], body .main .my-panel input[type="text"], body .main .my-panel input[type="password"], body .main .my-panel input[type="email"], body .main .my-panel input[type="date"], body .main .my-panel input[type="date"] {
+        background: #ebdbee;
+        background-image: radial-gradient(#ffffff, #ebdbee);
+        border: none;
+        color: #333; }
+      html .main .my-panel .heading, body .main .my-panel .heading {
+        background: #493999; }
 
 .jumbotron {
-  background: #4E5D6C; }
+  background: rgba(78, 93, 108, 0.5);
+  color: white; }
 
 .customer-details {
   background: white;
@@ -25,9 +41,80 @@ html, body {
   box-shadow: 5px 5px 8px #333; }
 
 .panel {
-  color: #666666; }
+  color: #666666;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  border-bottom: none; }
+  .panel.panel-dark {
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    box-shadow: 5px 5px 12px #000; }
+  .panel .panel-primary .panel-heading {
+    background: #493999;
+    border-bottom: none;
+    font-size: 1.1em; }
   .panel input {
-    background: #eee;
-    border-bottom: 1px solid #ccc; }
+    background: #fff; }
+  .panel ul li a:link, .panel ul li a:visited {
+    color: #333; }
+  .panel ul li a:hover, .panel ul li a:active {
+    color: white; }
+
+.navbar-ct-primary {
+  background: #222222; }
+  .navbar-ct-primary ul.navbar-nav {
+    font-family: 'Work Sans', sans-serif; }
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Work Sans', 'Montserrat', "Helvetica", Arial, sans-serif; }
+
+.btn-primary {
+  background: #2f2676; }
+  .btn-primary:hover {
+    background: black; }
+
+.btn-success.btn-fill {
+  background: #399fe9; }
+  .btn-success.btn-fill:hover {
+    background: #3082bd;
+    border: 2px solid #3082bd; }
+
+.navbar .list-group {
+  border-radius: 3px; }
+  .navbar .list-group .list-group-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: none; }
+    .navbar .list-group .list-group-item:first-child {
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px; }
+    .navbar .list-group .list-group-item:last-child {
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px; }
+  .navbar .list-group .list-group-item-info {
+    background: #ebdbee; }
+  .navbar .list-group .title {
+    background: #493999;
+    color: white;
+    font-size: 1.2em; }
+.navbar table.table {
+  color: #333; }
+
+.logo {
+  font-family: 'airstrike', 'Racing Sans One', cursive; }
+
+@font-face {
+  font-family: 'airstrike';
+  src: url("/web/fonts/airstrike/airstrikeb3d.ttf");
+  src: url("/web/fonts/airstrike/airstrikeb3d.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+@font-face {
+  font-family: 'commando';
+  src: url("/web/fonts/commando/commando-webfont.eot");
+  src: url("/web/fonts/commando/commando-webfont.eot?#iefix") format("embedded-opentype"), url("/web/fonts/commando/commando-webfont.woff") format("woff"), url("/web/fonts/commando/commando-webfont.ttf") format("truetype"), url("/web/fonts/commando/commando-webfont.svg#commandocommando") format("svg");
+  font-weight: normal;
+  font-style: normal; }
 
 /*# sourceMappingURL=shinigami-theme.css.map */

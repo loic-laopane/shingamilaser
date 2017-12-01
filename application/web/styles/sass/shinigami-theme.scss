@@ -1,9 +1,29 @@
 $color_grey: #666666;
+$color_primary: #493999;
+$color_primary_hover: #291f68;
+$color_pink_extra_light: #ebdbee;
+$color_link: #326ec7;
+$color_link_hover: #1f2c83;
+$radius: 3px;
 html, body {
   background: #2B3E50;
+  font-family: 'Work Sans', sans-serif;
+  background-image: url("/web/img/background/bg-space-pink.jpg");
   .main {
     background: inherit;
     color: white;
+
+    a {
+      &:link, &:visited {
+        color: $color_link;
+        &[class*="btn"] {
+          color: white;
+        }
+      }
+      &:hover, &:active {
+        color: $color_link_hover;
+      }
+    }
 
     .modal {
       color: $color_grey;
@@ -16,12 +36,28 @@ html, body {
     .my-panel {
       background: white;
       color: $color_grey;
-      box-shadow: 5px 5px 5px #333;
+      box-shadow: none;
+
+      input {
+        &[type="text"], &[type="password"], &[type="email"], &[type="date"], &[type="date"]
+        {
+          background: $color_pink_extra_light;
+          background-image: radial-gradient(#ffffff, $color_pink_extra_light);
+
+          border: none;
+          color: #333;
+        }
+      }
+
+      .heading {
+        background: $color_primary;
+      }
     }
   }
 }
 .jumbotron {
-  background: #4E5D6C;
+  background: rgba(#4E5D6C, 0.5);
+  color: white;
 }
 .customer-details {
   background:  white;
@@ -35,8 +71,133 @@ html, body {
 
 .panel {
   color: $color_grey;
+  background: rgba(#ffffff, 0.7);
+
+  &.panel-dark {
+    background: rgba(#000000, 0.4);
+    color:white;
+    box-shadow: 5px 5px 12px #000;
+  }
+  border-radius: $radius;
+  border-bottom: none;
+
+  .panel-primary {
+    .panel-heading {
+      background: $color_primary;
+      border-bottom: none;
+      font-size: 1.1em;
+    }
+  }
+
   input {
-    background: #eee;
-    border-bottom: 1px solid #ccc;
+    background: #fff;
+    //border-bottom: 1px solid #ccc;
+  }
+
+  ul {
+    li {
+      a {
+        &:link, &:visited {
+         color: #333;
+        }
+        &:hover, &:active {
+          color:white;
+        }
+      }
+    }
   }
 }
+
+
+
+.navbar-ct-primary
+{
+  background: #222222;
+  ul.navbar-nav {
+    font-family: 'Work Sans', sans-serif;
+  }
+}
+
+
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Work Sans', 'Montserrat', "Helvetica", Arial, sans-serif;
+}
+
+.btn-primary
+{
+  background: #2f2676;
+  &:hover {
+    background: black;
+  }
+}
+.btn-success {
+  &.btn-fill {
+    background: #399fe9;
+    &:hover {
+      background: #3082bd;
+      border: 2px solid #3082bd;
+    }
+  }
+}
+  .navbar {
+
+    .list-group
+    {
+      border-radius: $radius;
+
+      .list-group-item
+      {
+        background: rgba(white, 0.9);
+        border: none;
+        &:first-child {
+          border-top-left-radius: $radius;
+          border-top-right-radius: $radius;
+        }
+        &:last-child {
+          border-bottom-left-radius: $radius;
+          border-bottom-right-radius: $radius;
+        }
+      }
+      .list-group-item-info {
+        background: rgba($color_pink_extra_light, 1);
+      }
+      .title {
+        background: $color_primary;
+        color: white;
+        font-size: 1.2em;
+      }
+    }
+
+    table {
+      &.table {
+        color: #333
+      }
+    }
+
+  }
+
+.logo {
+  font-family: 'airstrike', 'Racing Sans One', cursive;
+}
+@font-face {
+  font-family: 'airstrike';
+  src: url('/web/fonts/airstrike/airstrikeb3d.ttf');
+  src: url('/web/fonts/airstrike/airstrikeb3d.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'commando';
+  src: url('/web/fonts/commando/commando-webfont.eot');
+  src: url('/web/fonts/commando/commando-webfont.eot?#iefix') format('embedded-opentype'),
+  url('/web/fonts/commando/commando-webfont.woff') format('woff'),
+  url('/web/fonts/commando/commando-webfont.ttf') format('truetype'),
+  url('/web/fonts/commando/commando-webfont.svg#commandocommando') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
