@@ -38,6 +38,8 @@ class CreateAdminCommand extends ContainerAwareCommand
         $container = $this->getContainer();
         $userManager = $container->get('AppBundle\Manager\UserManager');
         $encoder = $container->get('security.password_encoder');
+        $mailer = $container->get('mailer');
+        $validator = $container->get('validator');
         $helper = $this->getHelper('question');
         $question_username = new Question('Enter the username [admin] : ', 'admin');
         $question_email = new Question('Enter your email : ');
@@ -52,15 +54,16 @@ class CreateAdminCommand extends ContainerAwareCommand
         $question_email->setMaxAttempts(3);
         $email = $helper->ask($input, $output, $question_email);
 
+        $choices = ['y' => true, 'n' => false];
         $confirme_send_mail = new Question('Send password by mail (y/N) ?', 'n');
-        $sendmail = $helper->ask($input, $output, $confirme_send_mail);
-        while(!preg_match('/^(y|n)$/i', $sendmail, $match))
+        $answer_sendmail = $helper->ask($input, $output, $confirme_send_mail);
+        while(!preg_match('/^(y|n)$/i', $answer_sendmail))
         {
-            $sendmail = $helper->ask($input, $output, $confirme_send_mail);
+            $answer_sendmail = $helper->ask($input, $output, $confirme_send_mail);
         }
 
 
-
+        $sendmail = $choices[$answer_sendmail];
         $password = substr(uniqid(), 0, 6);
         $user = new User();
         $user->setUsername($username)
@@ -68,8 +71,26 @@ class CreateAdminCommand extends ContainerAwareCommand
             ->setEmail($email)
             ->setRoles(['ROLE_ADMIN']);
 
+        $errors = $validator->validate($user);
+
+        if(count($errors) > 0) {
+
+        }
+
         $output->writeln('you choosed '.$username);
         $output->writeln('you choosed '.$email);
-        $output->writeln('you choosed '.strtolower($sendmail));
+        if($sendmail) {
+            $message = new \Swift_Message('Account Admin on ');
+            $message->setFrom($container->getParameter('mailer_sender_address'))
+                    ->setTo($email)
+                    ->setBody("Account Admin\n\n
+                    username: $username\n
+                    password: $password", 'text/plain')
+                    ;
+            $mailer->send($message);
+            $output->writeln('Password sent to '.$email);
+        }
+
+        $output->writeln('Account created '.strtolower($sendmail));
     }
 }
