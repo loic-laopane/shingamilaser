@@ -37,17 +37,24 @@ class UserController extends Controller
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            if($userManager->insert($user))
+            if($form->isSubmitted() && $form->isValid())
             {
+                $userManager->insert($user);
+
                 return $this->redirectToRoute('admin_user_edit', array(
-                    'id' => $user->getId()
+                  'id' => $user->getId()
                 ));
+
             }
         }
+        catch (\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
 
         return $this->render('AppBundle:Admin:User/store.html.twig', array(
             'form' => $form->createView()
@@ -78,11 +85,17 @@ class UserController extends Controller
     /**
      * @Route("/admin/user/{id}/delete", name="admin_user_delete")
      * @Security("has_role('ROLE_ADMIN')")
-     * @Method({"GET"})
+     * @Method({"GET", "POST"})
      */
     public function deleteAction($id, UserManager $userManager)
     {
-        $userManager->delete($id);
+        try {
+            $userManager->delete($id);
+        }
+        catch (\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->redirectToRoute('admin_user_list');
     }
 
