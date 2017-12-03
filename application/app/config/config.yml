@@ -41,7 +41,7 @@ twig:
     form_themes:
         - bootstrap_3_layout.html.twig
     globals:
-        app_name: 'Shinigami Laser'
+        app_name: '%app_name%'
 
 # Doctrine Configuration
 doctrine:
