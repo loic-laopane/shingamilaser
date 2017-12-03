@@ -10,14 +10,59 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Entity\User;
+use AppBundle\Manager\UserManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\ValidatorBuilderInterface;
 
 class CreateAdminCommand extends ContainerAwareCommand
 {
+    private $container;
+    /**
+     * @var null
+     */
+    private $name;
+    /**
+     * @var ObjectManager
+     */
+    private $objectManager;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
+    /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
+    /**
+     * @var ValidatorBuilderInterface
+     */
+    private $validator;
+    /**
+     * @var UserManager
+     */
+    private $userManager;
+
+    public function __construct($name = null,
+                                ObjectManager $objectManager,
+                                UserManager $userManager,
+                                UserPasswordEncoderInterface $encoder,
+                                \Swift_Mailer $mailer)
+    {
+        parent::__construct($name);
+        $this->name = $name;
+        $this->objectManager = $objectManager;
+        $this->encoder = $encoder;
+        $this->mailer = $mailer;
+        $this->userManager = $userManager;
+    }
+
     protected function configure()
     {
         $this ->setName('app:create:admin')
@@ -34,63 +79,73 @@ class CreateAdminCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
+        //Container
         $container = $this->getContainer();
-        $userManager = $container->get('AppBundle\Manager\UserManager');
-        $encoder = $container->get('security.password_encoder');
-        $mailer = $container->get('mailer');
-        $validator = $container->get('validator');
+
+        //Services
         $helper = $this->getHelper('question');
+
+        //params
+        $choices = ['y' => true, 'n' => false];
+
+        $output->writeln($container->getParameter('app_name').' Admin Creator
+        ==========');
+
+        //Definition des questions
         $question_username = new Question('Enter the username [admin] : ', 'admin');
         $question_email = new Question('Enter your email : ');
-        $username = $helper->ask($input, $output, $question_username);
         $question_email->setValidator(function($answer) {
-           if(filter_var($answer, FILTER_VALIDATE_EMAIL) == false)
+           if(filter_var(trim($answer), FILTER_VALIDATE_EMAIL) == false)
            {
                throw new \RuntimeException('Bad email format');
            }
            return $answer;
         });
         $question_email->setMaxAttempts(3);
-        $email = $helper->ask($input, $output, $question_email);
-
-        $choices = ['y' => true, 'n' => false];
         $confirme_send_mail = new Question('Send password by mail (y/N) ?', 'n');
+
+
+        //Recuperation des reponse
+        $username = $helper->ask($input, $output, $question_username);
+        $email = $helper->ask($input, $output, $question_email);
         $answer_sendmail = $helper->ask($input, $output, $confirme_send_mail);
         while(!preg_match('/^(y|n)$/i', $answer_sendmail))
         {
             $answer_sendmail = $helper->ask($input, $output, $confirme_send_mail);
         }
-
-
         $sendmail = $choices[$answer_sendmail];
         $password = substr(uniqid(), 0, 6);
+
+        //Creation d'un user UserInterface de type admin
         $user = new User();
         $user->setUsername($username)
-            ->setPassword($encoder->encodePassword($user, $password))
+            ->setPassword($this->encoder->encodePassword($user, $password))
             ->setEmail($email)
             ->setRoles(['ROLE_ADMIN']);
 
-        $errors = $validator->validate($user);
 
-        if(count($errors) > 0) {
-
-        }
-
-        $output->writeln('you choosed '.$username);
-        $output->writeln('you choosed '.$email);
-        if($sendmail) {
-            $message = new \Swift_Message('Account Admin on ');
-            $message->setFrom($container->getParameter('mailer_sender_address'))
-                    ->setTo($email)
-                    ->setBody("Account Admin\n\n
+        //On enregister l'user validé
+        try {
+            $this->userManager->insert($user);
+            $output->writeln('Username: '.$username);
+            $output->writeln('Password: '.$password);
+            if($sendmail) {
+                $message = new \Swift_Message('Account Admin on ');
+                $message->setFrom($container->getParameter('mailer_sender_address'))
+                  ->setTo($email)
+                  ->setBody("Account Admin\n\n
                     username: $username\n
                     password: $password", 'text/plain')
-                    ;
-            $mailer->send($message);
-            $output->writeln('Password sent to '.$email);
+                ;
+                $this->mailer->send($message);
+                $output->writeln('Password sent to '.$email);
+            }
+            $output->writeln('Account created !');
         }
-
-        $output->writeln('Account created '.strtolower($sendmail));
+        catch(\Exception $exception)
+        {
+            $output->writeln($exception->getMessage());
+            $output->writeln('Account not created !');
+        }
     }
 }

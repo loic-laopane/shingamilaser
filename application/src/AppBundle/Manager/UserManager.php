@@ -95,13 +95,11 @@ class UserManager
     public function insert(User $user)
     {
         if($this->exists($user)) {
-            $this->session->getFlashBag()->add('danger', 'This User already exists');
-            return false;
+            throw new \Exception('This User already exists');
         }
 
         if($this->mailExists($user)) {
-            $this->session->getFlashBag()->add('danger', 'This Email is already used');
-            return false;
+            throw new \Exception('This Email is already used');
         }
 
         $this->manager->persist($user);
