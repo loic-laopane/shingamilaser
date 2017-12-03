@@ -90,7 +90,8 @@ class UserManager
     /**
      * Insert User in DB
      * @param User $user
-     * @return bool
+     * @return $this
+     * @throws \Exception
      */
     public function insert(User $user)
     {
@@ -106,7 +107,8 @@ class UserManager
         $this->manager->flush();
 
         $this->session->getFlashBag()->add('success', 'User created');
-        return true;
+
+        return $this;
     }
 
     /**
@@ -120,13 +122,17 @@ class UserManager
         return $this;
     }
 
+    /**
+     * @param $id
+     * @return $this
+     * @throws \Exception
+     */
     public function delete($id)
     {
         $user = $this->repository->find($id);
         if(null === $user)
         {
-            $this->session->getFlashBag()->add('danger', 'This User doesn\'t exist');
-            return false;
+            throw new \Exception('This User doesn\'t exist');
         }
 
         $username = $user->getUsername();
@@ -134,7 +140,8 @@ class UserManager
         $this->manager->flush();
 
         $this->session->getFlashBag()->add('success', 'User '.$username.' has been deleted');
-        return true;
+
+        return $this;
     }
 
     /**
@@ -156,6 +163,10 @@ class UserManager
         return $user;
     }
 
+    /**
+     * @param User $user
+     * @return $this
+     */
     public function changePassword(User $user)
     {
         $plainUser = clone $user;
@@ -163,5 +174,7 @@ class UserManager
         $this->save();
 
         $this->dispatcher->dispatch(SecurityEvent::CHANGE_PASSWORD, new SecurityEvent(new Customer(), $plainUser));
+
+        return $this;
     }
 }
