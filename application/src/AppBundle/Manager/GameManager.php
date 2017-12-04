@@ -106,15 +106,35 @@ class GameManager
 
     public function record(Game $game)
     {
-        $now = new \DateTime();
         if(null !== $game->getStartedAt()) {
-            $game->setEndedAt($now);
-            $this->simuleScore($game);
+            $this->stopGame($game);
         }
         else {
-            $game->setStartedAt($now);
+            $this->startGame($game);
         }
+        return $this;
+    }
 
+    /**
+     * @param Game $game
+     * @return $this
+     */
+    private function startGame(Game $game)
+    {
+        $game->setStartedAt(new \DateTime());
+        //Verifier qu'il y ait minimum 2 joueurs
+        $this->manager->flush();
+        return $this;
+    }
+
+    /**
+     * @param Game $game
+     * @return $this
+     */
+    private function stopGame(Game $game)
+    {
+        $game->setEndedAt(new \DateTime());
+        $this->simuleScore($game);
         $this->manager->flush();
         return $this;
     }
@@ -197,5 +217,4 @@ class GameManager
 
         return $this;
     }
-
 }
