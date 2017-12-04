@@ -1,23 +1,22 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\User;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomerGameType extends AbstractType
+class UserAccountType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('numero', TextType::class, array('required' => false));
-        $builder->add('nickname', TextType::class, array('required' => false, 'attr' => ['class' => 'autocomplete']));
-        $builder->add('lastname', TextType::class, array('required' => false));
-        $builder->add('firstname', TextType::class, array('required' => false));
+        $builder->add('email', EmailType::class, array(
+                    'error_bubbling' =>  true
+                ));
     }
     
     /**
@@ -26,7 +25,7 @@ class CustomerGameType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            //'data_class' => 'AppBundle\Entity\Card'
+            'data_class' => 'AppBundle\Entity\User'
         ));
     }
 

@@ -5,10 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\CustomerOffer;
-use AppBundle\Entity\User;
-use AppBundle\Form\CustomerAccountType;
-use AppBundle\Form\CustomerAddCardType;
-use AppBundle\Form\UserAccountType;
+use AppBundle\Form\Customer\CustomerAccountType;
+use AppBundle\Form\Customer\CustomerAddCardType;
+use AppBundle\Form\User\UserAccountType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -17,7 +16,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 use Symfony\Component\HttpFoundation\Request;
 
 class AccountController extends Controller

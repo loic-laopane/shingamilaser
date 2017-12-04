@@ -5,12 +5,11 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\Game;
-use AppBundle\Form\CustomerAddCardType;
-use AppBundle\Form\CustomerGameType;
+use AppBundle\Form\Customer\CustomerAddCardType;
+use AppBundle\Form\Customer\CustomerGameType;
 use AppBundle\Form\GameType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\PlayerManager;
-use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\GameManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -71,7 +70,6 @@ class GameController extends Controller
 
         $form = $this->createForm(GameType::class, $game);
         try {
-
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid())
             {

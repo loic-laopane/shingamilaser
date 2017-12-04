@@ -3,14 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Customer;
-use AppBundle\Entity\User;
-use AppBundle\Form\CustomerRegisterType;
+
+use AppBundle\Form\Customer\CustomerRegisterType;
 use AppBundle\Form\Password\NewPasswordType;
 use AppBundle\Form\Password\RequestPasswordType;
 use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\RequestPasswordManager;
 use AppBundle\Manager\UserManager;
-use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
