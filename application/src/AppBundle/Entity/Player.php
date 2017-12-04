@@ -39,7 +39,7 @@ class Player
     /**
      * @var Game
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game", inversedBy="players")
      * @ORM\JoinColumn(nullable=false)
      */
     private $game;

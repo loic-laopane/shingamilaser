@@ -94,7 +94,11 @@ class GameController extends Controller
      */
     public function recordAction(Game $game, GameManager $gameManager)
     {
-        $gameManager->record($game);
+        try {
+            $gameManager->record($game);
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 
@@ -128,7 +132,11 @@ class GameController extends Controller
     {
         $customer_id = $request->request->get('customer_id');
         $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
-        $playerManager->add($customer, $game);
+        try {
+            $playerManager->add($customer, $game);
+        } catch (\Exception $exception) {
+
+        }
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 

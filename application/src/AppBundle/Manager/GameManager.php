@@ -121,8 +121,12 @@ class GameManager
      */
     private function startGame(Game $game)
     {
-        $game->setStartedAt(new \DateTime());
         //Verifier qu'il y ait minimum 2 joueurs
+        if(count($game->getPlayers()) < 2)
+        {
+            throw new \Exception('A game must have at least 2 players');
+        }
+        $game->setStartedAt(new \DateTime());
         $this->manager->flush();
         return $this;
     }
