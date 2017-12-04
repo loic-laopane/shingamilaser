@@ -4,6 +4,7 @@ namespace AppBundle\Form\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,6 +17,10 @@ class UserAccountType extends AbstractType
     {
         $builder->add('email', EmailType::class, array(
                     'error_bubbling' =>  true
+                ))
+                ->add('password', PasswordType::class, array(
+                    'mapped' => false,
+                    'required' => false
                 ));
     }
     

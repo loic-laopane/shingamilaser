@@ -25,7 +25,6 @@ class CustomerController extends Controller
 {
     /**
      * @Route("/search", name="customer_search")
-     * @Security("has_role('ROLE_STAFF', 'ROLE_ADMIN')")
      * @Method({"GET", "POST"})
      */
     public function searchAction(Request $request, ObjectManager $objectManager)
@@ -55,7 +54,6 @@ class CustomerController extends Controller
      * Affiche le formulaire de la modale
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/customer/{id}/renderForm", name="customer_card_form")
-     * @Security("has_role('ROLE_STAFF', 'ROLE_ADMIN')")
      */
     public function renderCustomerCardTypeAction(Customer $customer)
     {
@@ -76,7 +74,6 @@ class CustomerController extends Controller
      * @param Request $request
      * Associe un carte a un customer en ajax
      * @Route("/customer/{id}/addCard", name="customer_associate_card")
-     * @Security("has_role('ROLE_STAFF', 'ROLE_ADMIN')")
      * @Method({"POST"})
      */
     public function associateCard(Request $request, Customer $customer, CardManager $cardManager)
@@ -103,7 +100,6 @@ class CustomerController extends Controller
     /**
      * @param Request $request
      * @Route("/customer/getCards", name="customer_get_cards")
-     * @Security("has_role('ROLE_STAFF', 'ROLE_ADMIN')")
      */
     public function getCardsAction(Request $request, ObjectManager $objectManager) {
         $customer = $objectManager->getRepository(Customer::class)->findOneBy(['user' => $this->getUser()]);
@@ -114,7 +110,6 @@ class CustomerController extends Controller
      * @param Customer $customer
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/customer/create/quick", name="customer_create_quick")
-     * @Security("has_role('ROLE_STAFF', 'ROLE_ADMIN')")
      */
     public function renderCreateQuickCustomerTypeAction(Request $request)
     {
@@ -136,7 +131,6 @@ class CustomerController extends Controller
      * Associe un carte a un customer en ajax
      * @Route("/customer/create/quick/new", name="customer_create")
      * @Method({"POST"})
-     * @Security("has_role('ROLE_STAFF', 'ROLE_ADMIN')")
      */
     public function createCustomer(Request $request, CustomerManager $customerManager)
     {

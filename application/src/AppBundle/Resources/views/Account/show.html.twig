@@ -62,7 +62,7 @@
                 </div>
                 <div class="tab-pane" id="cards">
 
-                    <button class="btn btn-success btn-fill" data-toggle="modal" data-target="#addCardModal"><i class="fa fa-plus"></i> Add card</button>
+                    <button class="btn btn-success btn-fill" data-toggle="modal" data-target="#addCardModal{{ customer.id }}"><i class="fa fa-plus"></i> Add card</button>
                     <hr>
 
                     <div id="customer_cards"></div>
@@ -151,7 +151,7 @@
             loadTable();
 
             //Quand la modal a fini d'etre masquée
-            $('#addCardModal').on('hidden.bs.modal', function () {
+            $('#addCardModal{{ customer.id }}, #addCardModal').on('hidden.bs.modal', function () {
                 $(this).find('#numero').val('');
                 $(this).find('#alert-modal').removeClass('alert-danger').removeClass('alert-success');
             });
@@ -188,7 +188,7 @@
             });
 
             //A chaque fois qu'on tape, on masque et vide le message d'erreur
-            $('#addCardModal').on('keyup', '#numero', function(event){
+            $('#addCardModal{{ customer.id }}, #addCardModal').on('keyup', '#numero', function(event){
                 $('#alert-modal').removeClass('alert-success').removeClass('alert-danger').html('');
             });
         });
