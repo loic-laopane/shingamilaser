@@ -115,8 +115,12 @@ class UserManager
      * @param User $user
      * @return $this
      */
-    public function save()
+    public function save(User $user)
     {
+        if(!$this->manager->contains($user))
+        {
+            $this->manager->persist($user);
+        }
         $this->manager->flush();
 
         return $this;

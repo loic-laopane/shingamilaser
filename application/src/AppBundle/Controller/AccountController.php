@@ -10,6 +10,7 @@ use AppBundle\Form\Customer\CustomerAddCardType;
 use AppBundle\Form\User\UserAccountType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
+use AppBundle\Manager\UserManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -40,20 +41,24 @@ class AccountController extends Controller
 
     /**
      * @param $request Request
-     * @param $objectManager ObjectManager
+     * @param $userManager UserManager
      * @Route("/account/edit", name="account_edit")
      */
-    public function editUserAction(Request $request, ObjectManager $objectManager)
+    public function editUserAction(Request $request, UserManager $userManager)
     {
         $user = $this->getUser();
         $form = $this->createForm(UserAccountType::class, $user);
+        $plainPaswword = $request->request->get('password');
         try {
-
             $form->handleRequest($request);
-
             if($form->isSubmitted() && $form->isValid())
             {
-                $objectManager->flush();
+                if(!empty($plainPaswword))
+                {
+                    $user->setPassword($plainPaswword);
+                    $userManager->encodeUserPassword($user);
+                }
+                $userManager->save($user);
                 $this->addFlash('success', 'Account updated');
             }
         }
