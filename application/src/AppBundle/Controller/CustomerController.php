@@ -5,8 +5,12 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
+use AppBundle\Form\Customer\CustomerAccountType;
 use AppBundle\Form\Customer\CustomerAddCardType;
+use AppBundle\Form\Customer\CustomerGameType;
 use AppBundle\Form\Customer\CustomerQuickCreateType;
+use AppBundle\Form\Customer\CustomerRegisterType;
+use AppBundle\Form\Customer\CustomerSearchType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -19,15 +23,16 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class CustomerController
  * @package AppBundle\Controller
- * @Route("/customer")
+
  */
 class CustomerController extends Controller
 {
     /**
-     * @Route("/search", name="customer_search")
+     * Requete pour autocomplete le nickname
+     * @Route("/customer/search", name="ajax_customer_search")
      * @Method({"GET", "POST"})
      */
-    public function searchAction(Request $request, ObjectManager $objectManager)
+    public function ajaxSearchAction(Request $request, ObjectManager $objectManager)
     {
         $term = $request->request->get('term');
         $customers = $objectManager->getRepository(Customer::class)->findByNicknameLike($term);
@@ -78,7 +83,6 @@ class CustomerController extends Controller
      */
     public function associateCard(Request $request, Customer $customer, CardManager $cardManager)
     {
-        $numero = $request->request->get('numero');
         $numero = $request->request->get('numero');
         $card = new Card();
         $response = ['status' => 0, 'message' => ''];
@@ -156,4 +160,97 @@ class CustomerController extends Controller
         return $this->json($response);
     }
 
+
+    /**
+     * @Route("/staff/customer/create", name="staff_customer_create")
+     * @Security("has_role('ROLE_STAFF')")
+     */
+    public function createAction(Request $request, CustomerManager $customerManager)
+    {
+        $customer = new Customer();
+        $form = $this->createForm(CustomerRegisterType::class, $customer);
+        try {
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $customerManager->register($customer);
+                $this->addFlash('success', 'Customer has been created');
+                $this->redirectToRoute('staff_customer_edit', $customer->getId());
+            }
+        } catch (\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+        return $this->render('AppBundle:Customer:create.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/staff/customer/{id}/edit", name="staff_customer_edit")
+     * @Security("has_role('ROLE_STAFF')")
+     */
+    public function editAction(Customer $customer, Request $request, CustomerManager $customerManager)
+    {
+        $form = $this->createForm(CustomerAccountType::class, $customer);
+        try {
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $customerManager->save($customer);
+                $this->addFlash('success', 'Customer has been updated');
+            }
+        } catch (\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+        return $this->render('AppBundle:Customer:edit.html.twig', array(
+            'form' => $form->createView(),
+            'customer' => $customer
+        ));
+    }
+
+    /**
+     * Form de cherche de Customer
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("staff/customer/search", name="staff_customer_search")
+     */
+    public function searchAction(Request $request, CustomerManager $customerManager)
+    {
+        $customers = [];
+        $search_fields = ['numero' => '', 'nickname' => '', 'firstname' => '', 'lastname' => ''];
+        $form = $this->createForm(CustomerSearchType::class);
+        try {
+            //$form->handleRequest($request);
+
+            if ($request->isMethod('POST'))
+            {
+
+                $search_fields = $request->request->all();
+                $customerManager->checkSearchParams($search_fields);
+                $customers = $customerManager->getCustomerByParams($search_fields);
+            }
+        } catch (\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+        return $this->render('AppBundle:Customer:search.html.twig', array(
+            'form' => $form->createView(),
+            'customers' => $customers,
+            'search' => $search_fields
+        ));
+    }
+
+    /**
+     * @param Customer $customer
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/staff/customer/{id}/show", name="staff_customer_show")
+     */
+    public function showAction(Customer $customer)
+    {
+        return $this->render('AppBundle:Customer:show.html.twig', array(
+            'customer' => $customer
+        ));
+    }
 }

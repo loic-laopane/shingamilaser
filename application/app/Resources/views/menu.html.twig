@@ -53,6 +53,17 @@
                         </li>
                     {% endif %}
                     {% if is_granted('ROLE_STAFF') %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users"></i> {{ 'menu.customer.main' | trans}} <b class="caret"></b></a>
+
+                            <ul class="dropdown-menu">
+
+                                <li><a href="{{ path('staff_customer_search') }}"><i class="fa fa-search"></i> {{ 'menu.customer.search' | trans }}</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ path('staff_customer_create') }}"><i class="fa fa-plus"></i> {{ 'menu.customer.create' | trans }}</a></li>
+
+                            </ul>
+                        </li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-id-card-o"></i> {{ 'menu.card.main' | trans}} <b class="caret"></b></a>

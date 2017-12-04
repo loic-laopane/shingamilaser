@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ 'title.customer.detail' | trans }} :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.customer.detail' | trans }}</h1>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+
+        </div>
+        <div class="panel-body">
+            {{ dump(customer) }}
+        </div>
+    </div>
+
+{% endblock %}
