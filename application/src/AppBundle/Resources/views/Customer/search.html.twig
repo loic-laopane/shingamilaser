@@ -1,7 +1,53 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Customer:search{% endblock %}
+{% block title %}{{ 'title.search_customer' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Customer:search page</h1>
+<h1>{{ 'title.search.customer' | trans }}</h1>
+    <div class="panel">
+        <div class="panel-body">
+            <form action="{{ path('staff_customer_search') }}" method="post">
+                {% for field, val in search %}
+                    <div class="form-group">
+                        <label class="control-label" for="{{ field }}">{{ field | title }}</label>
+                        <input type="text" id="{{ field }}" name="{{ field }}" class="form-control" value="{{ val }}">
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-search"></i> {{ 'btn.search' | trans }}</button>
+            </form>
+
+        </div>
+    </div>
+    {% if customers | length > 0 %}
+        <div class="panel">
+            <div class="panel-heading">
+                {{ 'title.search.result' | trans }}
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>{{ 'customer' | trans }}</th>
+                        <th>{{ 'nickname' | trans }}</th>
+                        <th>{{ 'card number' | trans }}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.firstname ~ ' ' ~ customer.lastname }}</td>
+                            <td>{{ customer.nickname }}</td>
+                            <td>{% for card in customer.cards %}{{ card.numero }}{% endfor %}</td>
+                            <td><a href="{{ path('staff_customer_edit', { 'id' : customer.id}) }}" class="btn btn-default"><i class="fa fa-eye"></i> {{ 'btn.show' | trans }}</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <p>No result found</p>
+    {% endif %}
 {% endblock %}

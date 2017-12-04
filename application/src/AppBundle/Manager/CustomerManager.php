@@ -78,7 +78,10 @@ class CustomerManager
      */
     public function save(Customer $customer)
     {
-        $this->manager->persist($customer);
+        if (!$this->manager->contains($customer))
+        {
+            $this->manager->persist($customer);
+        }
         $this->manager->flush();
         return $this;
     }
@@ -158,6 +161,19 @@ class CustomerManager
         $this->manager->flush();
 
         $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
+    }
+
+    /**
+     * @param array $params
+     * @throws \Exception
+     */
+    public function checkSearchParams(array $params)
+    {
+        foreach($params as $field => $val)
+        {
+            if(!empty($val)) return;
+        }
+        throw new \Exception('Please fill one field at least');
     }
 
 }

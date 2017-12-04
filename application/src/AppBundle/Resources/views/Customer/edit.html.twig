@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ 'title.customer.edit' | trans ~ customer.nickname }} :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.customer.edit' | trans ~ ' '~ customer.nickname }}</h1>
+    <div class="panel">
+    <div class="panel-body">
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.save' | trans }}</button>
+    <a class="btn btn-default" href="{{ path('staff_customer_search') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
+    {{ form_end(form) }}
+    </div>
+    </div>
+{% endblock %}

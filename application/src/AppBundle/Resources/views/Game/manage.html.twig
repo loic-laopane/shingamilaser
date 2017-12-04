@@ -132,7 +132,7 @@
             $( ".autocomplete" ).autocomplete({
                 source: function( request, response ) {
                     $.ajax( {
-                        url: "{{ path('customer_search') }}",
+                        url: "{{ path('ajax_customer_search') }}",
                         method: 'POST',
                         dataType: "json",
                         data: {
