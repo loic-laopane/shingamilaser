@@ -12,6 +12,11 @@
         {{ 'Edit profile' | trans }}
     </h1>
     <legend></legend>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        {{ 'Edit your account' | trans }}
+    </div>
+    <div class="panel-body">
     {{ form_start(form) }}
     {{ form_row(form.firstname) }}
     {{ form_row(form.lastname) }}
@@ -39,4 +44,6 @@
     {{ form_row(form.avatar) }}
     <button class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.save' | trans }}</button>
     {{ form_end(form) }}
+    </div>
+</div>
 {% endblock %}

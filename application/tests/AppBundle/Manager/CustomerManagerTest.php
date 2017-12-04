@@ -16,7 +16,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 
-class CustomerManagerTest extends TestCase
+class CustomerManagerTest
 {
     private $customerManager;
     private $repository;

@@ -1,0 +1,38 @@
+default:
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: 'vendor/autoload.php'
+        Behat\MinkExtension:
+            base_url: http://localhost/web/app_test.php
+            goutte: ~
+            show_cmd: 'firefox %s'
+            sessions:
+                my_session:
+                    goutte: ~
+
+    suites:
+        login:
+            contexts: [FeatureContext, LoginContext]
+            filters: { tags: '@login'}
+        registration:
+              contexts: [FeatureContext, RegisterContext]
+              filters: { tags: '@registration'}
+        account:
+            contexts: [FeatureContext, AccountContext]
+            filters: { tags: '@account'}
+        game:
+            contexts: [FeatureContext, GameContext]
+            filters: { tags: '@game'}
+        card:
+            contexts: [FeatureContext, CardContext]
+            filters: { tags: '@card'}
+        admin_dashboard:
+            contexts: [FeatureContext, DashboardContext]
+            filters: { tags: '@dashboard'}
+        admin_user:
+            contexts: [FeatureContext, UserContext]
+            filters: { tags: '@user'}
+        admin_center:
+            contexts: [FeatureContext, CenterContext]
+            filters: { tags: '@center'}

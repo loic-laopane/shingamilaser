@@ -24,25 +24,13 @@
                         {{ form_row(form.user) }}
                     </section>
                     <section>
-                        <button type="submit" class="btn btn-primary btn-fill" formnovalidate><i class="fa fa-arrow-circle-o-right"></i> {{ 'btn.register' | trans }}</button>
+                        <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-arrow-circle-o-right"></i> {{ 'btn.register' | trans }}</button>
                     </section>
-                    {{ form_widget(form) }}
+                    {{ form_rest(form) }}
                     {{ form_end(form) }}
                 </div>
             </div>
         </div>
     </div>
 
-{% endblock %}
-
-{% block javascripts %}
-    <script type="text/javascript">
-    $('.datepicker').datepicker({
-
-    weekStart:1,
-
-    color: '{color}'
-
-    });
-    </script>
 {% endblock %}

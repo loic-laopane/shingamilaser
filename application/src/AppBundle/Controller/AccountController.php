@@ -49,12 +49,19 @@ class AccountController extends Controller
     {
         $user = $this->getUser();
         $form = $this->createForm(UserAccountType::class, $user);
-        $form->handleRequest($request);
+        try {
 
-        if($form->isSubmitted() && $form->isValid())
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $objectManager->flush();
+                $this->addFlash('success', 'Account updated');
+            }
+        }
+        catch (\Exception $exception)
         {
-            $objectManager->flush();
-            $this->addFlash('success', 'Account updated');
+            $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Account:edit_user.html.twig', array(
             'form' => $form->createView(),
@@ -72,14 +79,18 @@ class AccountController extends Controller
         $customer = $manager->getCustomerByUser($this->getUser());
 
         $form = $this->createForm(CustomerAccountType::class, $customer);
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->save($customer);
-            $this->addFlash('success', 'Profile updated');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $manager->save($customer);
+                $this->addFlash('success', 'Profile updated');
+            }
         }
-        dump($customer);
+        catch (\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->render('AppBundle:Account:edit_customer.html.twig', array(
             'form' => $form->createView(),
             'customer' => $customer

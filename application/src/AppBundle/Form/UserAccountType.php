@@ -37,7 +37,7 @@ class UserAccountType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_user';
+        return null;
     }
 
 

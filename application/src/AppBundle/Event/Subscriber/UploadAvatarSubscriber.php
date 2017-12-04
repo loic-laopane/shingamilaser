@@ -57,6 +57,7 @@ class UploadAvatarSubscriber implements EventSubscriber
 
     }
 
+
     public function hydrate(LifecycleEventArgs $eventArgs)
     {
         $entity = $eventArgs->getObject();

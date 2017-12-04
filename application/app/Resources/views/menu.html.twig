@@ -18,7 +18,7 @@
 
                 </button>
 
-                <a class="navbar-brand" href="#">{{ app_name }}</a>
+                <a class="navbar-brand logo" href="#">{{ app_name }}</a>
 
             </div>
 
@@ -42,7 +42,7 @@
 
                             <ul class="dropdown-menu">
 
-                                <li><a href="{{ path('account_show') }}"><i class="fa fa-eye"></i> {{ 'menu.profile' | trans }}</a></li>
+                                <li><a href="{{ path('account_show') }}"><i class="fa fa-eye"></i> {{ 'menu.profile.main' | trans }}</a></li>
                                 <li><a href="{{ path('account_profile_edit') }}"><i class="fa fa-edit"></i> {{ 'menu.profile_edit' | trans }}</a></li>
                                 <li><a href="{{ path('account_edit') }}"><i class="fa fa-unlock"></i> {{ 'menu.account_edit' | trans }}</a></li>
 
@@ -55,20 +55,20 @@
                     {% if is_granted('ROLE_STAFF') %}
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-id-card-o"></i> {{ 'menu.card' | trans}} <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-id-card-o"></i> {{ 'menu.card.main' | trans}} <b class="caret"></b></a>
 
                             <ul class="dropdown-menu">
 
                                 <li><a href="{{ path('card_list') }}"><i class="fa fa-list"></i> {{ 'menu.card.list' | trans }}</a></li>
                                 <li class="divider"></li>
-                                <li><a href="{{ path('purchase_create') }}"><i class="fa fa-plus"></i> {{ 'menu.puchase.create' | trans }}</a></li>
-                                <li><a href="{{ path('purchase_list') }}"><i class="fa fa-list"></i> {{ 'menu.puchase.list' | trans }}</a></li>
+                                <li><a href="{{ path('purchase_create') }}"><i class="fa fa-plus"></i> {{ 'menu.purchase.create' | trans }}</a></li>
+                                <li><a href="{{ path('purchase_list') }}"><i class="fa fa-list"></i> {{ 'menu.purchase.list' | trans }}</a></li>
 
                             </ul>
                         </li>
 
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gamepad"></i> {{ 'menu.game' | trans}} <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gamepad"></i> {{ 'menu.game.main' | trans}} <b class="caret"></b></a>
 
                             <ul class="dropdown-menu">
 

@@ -36,7 +36,7 @@ class PurchaseType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_purchase';
+        return null;
     }
 
 

@@ -58,6 +58,6 @@ class CustomerAccountType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_customer';
+        return null;
     }
 }

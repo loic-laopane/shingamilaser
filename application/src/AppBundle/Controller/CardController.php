@@ -10,13 +10,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 /**
  * Class CardController
  * @package AppBundle\Controller
- * @Route("/card")
+ * @Route("/staff")
  */
 class CardController extends Controller
 {
 
     /**
-     * @Route("/get", )
+     * @Route("/card/get", )
      */
     public function getAction()
     {

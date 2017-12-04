@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Purchase
@@ -33,6 +34,9 @@ class Purchase
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer")
+     * @Assert\NotBlank(
+     *     message="Quantity cannot be null"
+     * )
      */
     private $quantity;
 

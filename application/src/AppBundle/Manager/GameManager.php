@@ -67,12 +67,21 @@ class GameManager
      */
     public function insert(Game $game)
     {
-
         $this->manager->persist($game);
         $this->manager->flush();
 
         $this->session->getFlashBag()->add('success', 'Game created');
-        return true;
+    }
+
+    public function save(Game $game)
+    {
+        if(!$this->manager->contains($game))
+        {
+            $this->manager->persist($game);
+        }
+        $this->manager->flush();
+
+        $this->session->getFlashBag()->add('success', 'Game updated');
     }
 
     /**

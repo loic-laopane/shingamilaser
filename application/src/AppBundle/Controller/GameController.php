@@ -44,14 +44,19 @@ class GameController extends Controller
     {
         $game = new Game();
         $form = $this->createForm(GameType::class, $game);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            if($gameManager->insert($game)) {
+        try {
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $gameManager->insert($game);
                 return $this->redirectToRoute('game_edit', array('id'=>$game->getId()));
+
             }
         }
-
+        catch(\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->render('AppBundle:Game:create.html.twig', array(
             'form' => $form->createView()
         ));
@@ -61,11 +66,22 @@ class GameController extends Controller
      * @Route("/game/{id}/edit", name="game_edit")
      *
      */
-    public function editAction(Game $game, Request $request)
+    public function editAction(Game $game, Request $request, GameManager $gameManager)
     {
 
         $form = $this->createForm(GameType::class, $game);
-        $form->handleRequest($request);
+        try {
+
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $gameManager->save($game);
+            }
+        }
+        catch(\Exception $exception)
+        {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->render('AppBundle:Game:edit.html.twig', array(
             'form' => $form->createView(),
             'game' => $game
