@@ -1,5 +1,6 @@
 {# Formulaire pour ajouter une card a un Customer#}
-{{ form_start(form) }}
+{{ form_start(form, { 'attr' : {'id' : 'form_add_card'}}) }}
 {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-link"></i> {{ 'btn.link' }}</button>
 {{ form_end(form) }}
+
