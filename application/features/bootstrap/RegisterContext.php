@@ -46,7 +46,7 @@ class RegisterContext extends MinkContext
      */
     public function iFillAllTheRegisterForm()
     {
-        $this->visitPath('/register');
+        //$this->visitPath('/register');
         $session = $this->getSession();
         $page = $session->getPage();
         $page->fillField('firstname', 'fake_firstname');
@@ -55,19 +55,13 @@ class RegisterContext extends MinkContext
         $page->fillField('user_username', 'fake_username');
         $page->fillField('user_password_first', 'fake_password');
         $page->fillField('user_password_second', 'fake_password');
-        $page->fillField('user_email', 'fake_email');
+        $page->fillField('user_email', 'fake_email@email.com');
     }
 
-    /**
-     * @Then I should be on the login page
-     */
-    public function iShouldBeOnTheLoginPage()
-    {
-        $this->visitPath('/login');
-    }
 
     /**
-     * @AfterScenario @remove_registered_customer
+     * @AfterScenario
+     * @remove_registered_customer
      */
     public function deleteRegisteredUserAndCustomer()
     {
@@ -83,10 +77,7 @@ class RegisterContext extends MinkContext
         {
             throw new Exception('Cannot found the fake user linked to the fake customer');
         }
-
         $em->remove($customer);
         $em->flush();
     }
-
-
 }

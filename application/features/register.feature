@@ -15,9 +15,9 @@ Feature: Register
   @remove_registered_customer
   Scenario: Register success
     Given I am on the register page
-#    And print last response
     When I correctly fill all fields form
     And  I press "btn.register"
-    Then I should be on the login page
-#    And I should see "registration.success"
+    Then I should be on "/login"
+    And I should see "registration.success"
+
 
