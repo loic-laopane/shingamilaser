@@ -1,14 +1,15 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Customer;
 
+use AppBundle\Form\ImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomerRegisterType extends AbstractType
+class CustomerAccountType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -24,21 +25,21 @@ class CustomerRegisterType extends AbstractType
                 ->add('nickname', TextType::class, array(
                     'error_bubbling' => true
                 ))
-                ->add('society', TextType::class)
-                ->add('address', TextType::class)
-                ->add('zipcode',TextType::class)
-                ->add('city', TextType::class)
+                ->add('society', TextType::class, array('required' => false))
+                ->add('address', TextType::class, array('required' => false))
+                ->add('zipcode',TextType::class, array('required' => false))
+                ->add('city', TextType::class, array('required' => false))
+
                 ->add('birthdate', BirthdayType::class, array(
-                    'required' => false,
                     'attr' => array('class' => 'datepicker'),
                     'widget' => 'single_text',
                     'required' => false,
                     'format' => 'dd/MM/yyyy',
                     'html5' => false
                 ))
-                ->add('user', UserRegisterType::class, array(
-                    'error_bubbling' => true
-                ));
+
+                ->add('avatar', ImageType::class, array('required' => false))
+                ;
     }
     
     /**

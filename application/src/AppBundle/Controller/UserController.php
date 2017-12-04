@@ -3,8 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Form\UserEditType;
-use AppBundle\Form\UserType;
+use AppBundle\Form\User\UserEditType;
+use AppBundle\Form\User\UserType;
 use AppBundle\Manager\UserManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
