@@ -62,6 +62,7 @@ html, body {
     }
   }
 }
+
 .jumbotron {
   background: rgba(#4E5D6C, 0.5);
   color: white;
@@ -80,10 +81,53 @@ html, body {
   color: $color_grey;
   background: rgba(#ffffff, 0.7);
 
+  table {
+    &.table {
+      color: #333
+    }
+  }
+
   &.panel-dark {
     background: rgba(#000000, 0.4);
     color:white;
     box-shadow: 5px 5px 12px #000;
+    .panel-heading {
+      color: white;
+      background-color: rgba($color_primary, 0.6);
+      font-size: 1.3em;
+    }
+    .panel-body {
+      table {
+        &.table {
+          color: white
+        }
+      }
+      div.dropdown {
+        &.open {
+          .btn {
+            &.dropdown-toggle {
+                border-color: $color_default_hover;
+              background-color: $color_default_hover;
+            }
+          }
+        }
+      }
+      .btn {
+        &.dropdown-toggle {
+          color: white;
+          border-color: white;
+          span.caret {
+            color:white;
+          }
+          &:hover {
+            border-color: $color_default_hover;
+          }
+        }
+
+
+      }
+    }
+
   }
   border-radius: $radius;
   border-bottom: none;
@@ -94,6 +138,10 @@ html, body {
       border-bottom: none;
       font-size: 1.1em;
     }
+  }
+
+  table {
+    color: white;
   }
 
   input {
@@ -205,6 +253,22 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
       }
     }
   }
+
+  &.dropdown-toggle {
+    color: $color_default;
+    border-color:$color_default;
+    &:hover {
+      background: $color_default_hover;
+      border-color: $color_default_hover;
+    }
+    &.btn-fill {
+      background: $color_default;
+      &:hover {
+        background: $color_default_hover;
+        border-color:$color_default_hover;
+      }
+    }
+  }
   &.btn-fill
   {
     color: white;
@@ -242,11 +306,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
     }
   }
 }
-table {
-  &.table {
-    color: #333
-  }
-}
+
 
 
 

@@ -20,7 +20,7 @@
         </div>
     </div>
     {% if customers | length > 0 %}
-        <div class="panel">
+        <div class="panel panel-dark">
             <div class="panel-heading">
                 {{ 'title.search.result' | trans }}
             </div>
@@ -40,7 +40,22 @@
                             <td>{{ customer.firstname ~ ' ' ~ customer.lastname }}</td>
                             <td>{{ customer.nickname }}</td>
                             <td>{% for card in customer.cards %}{{ card.numero }}{% endfor %}</td>
-                            <td><a href="{{ path('staff_customer_edit', { 'id' : customer.id}) }}" class="btn btn-default"><i class="fa fa-eye"></i> {{ 'btn.show' | trans }}</a></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('staff_customer_show', { 'id' : customer.id }) }}"><i class="fa fa-eye"></i> {{ 'btn.show' | trans  }}</a></li>
+
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('staff_customer_edit', { 'id' : customer.id }) }}"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></li>
+
+                                    </ul>
+
+                                </div>
+
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

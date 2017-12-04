@@ -241,4 +241,16 @@ class CustomerController extends Controller
             'search' => $search_fields
         ));
     }
+
+    /**
+     * @param Customer $customer
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/staff/customer/{id}/show", name="staff_customer_show")
+     */
+    public function showAction(Customer $customer)
+    {
+        return $this->render('AppBundle:Customer:show.html.twig', array(
+            'customer' => $customer
+        ));
+    }
 }

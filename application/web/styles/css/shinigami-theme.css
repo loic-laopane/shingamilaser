@@ -45,14 +45,34 @@ html, body {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 3px;
   border-bottom: none; }
+  .panel table.table {
+    color: #333; }
   .panel.panel-dark {
     background: rgba(0, 0, 0, 0.4);
     color: white;
     box-shadow: 5px 5px 12px #000; }
+    .panel.panel-dark .panel-heading {
+      color: white;
+      background-color: rgba(73, 57, 153, 0.6);
+      font-size: 1.3em; }
+    .panel.panel-dark .panel-body table.table {
+      color: white; }
+    .panel.panel-dark .panel-body div.dropdown.open .btn.dropdown-toggle {
+      border-color: #111111;
+      background-color: #111111; }
+    .panel.panel-dark .panel-body .btn.dropdown-toggle {
+      color: white;
+      border-color: white; }
+      .panel.panel-dark .panel-body .btn.dropdown-toggle span.caret {
+        color: white; }
+      .panel.panel-dark .panel-body .btn.dropdown-toggle:hover {
+        border-color: #111111; }
   .panel .panel-primary .panel-heading {
     background: #493999;
     border-bottom: none;
     font-size: 1.1em; }
+  .panel table {
+    color: white; }
   .panel input {
     background: #fff; }
   .panel ul li a:link, .panel ul li a:visited {
@@ -120,6 +140,17 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
       .btn.default.btn-fill:hover {
         background: #111111;
         border-color: #111111; }
+  .btn.dropdown-toggle {
+    color: #333333;
+    border-color: #333333; }
+    .btn.dropdown-toggle:hover {
+      background: #111111;
+      border-color: #111111; }
+    .btn.dropdown-toggle.btn-fill {
+      background: #333333; }
+      .btn.dropdown-toggle.btn-fill:hover {
+        background: #111111;
+        border-color: #111111; }
   .btn.btn-fill {
     color: white; }
 
@@ -143,9 +174,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
     background: #493999;
     color: white;
     font-size: 1.2em; }
-
-table.table {
-  color: #333; }
 
 .logo {
   font-family: 'airstrike', 'Racing Sans One', cursive; }
