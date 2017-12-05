@@ -29,7 +29,11 @@
             {% endfor %}
             </tbody>
             <tfoot>
-            {% include '::pagination.html.twig' %}
+                <tr>
+                    <td colspan="5">
+                        {% include '::pagination.html.twig' %}
+                    </td>
+                </tr>
             </tfoot>
         </table>
     {% else %}

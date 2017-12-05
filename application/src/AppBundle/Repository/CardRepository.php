@@ -13,6 +13,10 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class CardRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Customer $customer
+     * @return mixed
+     */
     public function findCustomerActiveCard(Customer $customer)
     {
         return $this->createQueryBuilder('c')
@@ -27,17 +31,20 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * @param $page
-     * @param $maxDisplay
+     * @param $max
      * @return Paginator
      */
-    public function getAll($page, $maxDisplay)
+    public function getAll($page, $max)
     {
         $qr = $this->createQueryBuilder('c')
-            ->setFirstResult($maxDisplay * ($page - 1))
-            ->setMaxResults($maxDisplay);
+            ->setFirstResult($max * ($page - 1))
+            ->setMaxResults($max);
         return new Paginator($qr);
     }
 
+    /**
+     * @return mixed
+     */
     public function countAll()
     {
         return $this->createQueryBuilder('c')

@@ -91,13 +91,23 @@ class PurchaseController extends Controller
     }
 
     /**
-     * @Route("/purchase/list", name="purchase_list")
+     * @Route("/purchase/list/page/{page}", name="purchase_list", defaults={"page" : 1})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, $page)
     {
+        $maxResult = 10;
         $purchases = $objectManager->getRepository(Purchase::class)->getAll($this->getUser());
+        $purchases = $objectManager->getRepository(Purchase::class)->getAllByUserWithPage($this->getUser(), $page, $maxResult);
+        $nbPurchases = $objectManager->getRepository(Purchase::class)->countAllByUser($this->getUser());
+
+        $pagination = array(
+            'page' => $page,
+            'page_count' => ceil($nbPurchases/$maxResult),
+            'route' => 'purchase_list'
+        );
         return $this->render('AppBundle:Purchase:list.html.twig', array(
-            'purchases' => $purchases
+            'purchases' => $purchases,
+            'pagination' => $pagination
         ));
     }
 

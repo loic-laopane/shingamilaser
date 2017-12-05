@@ -40,14 +40,13 @@ class CardController extends Controller
      */
     public function listAction(ObjectManager $objectManager, $page=1)
     {
-        $maxDisplay = 10;
-        $cards = $objectManager->getRepository(Card::class)->findAll();
-        $cards =$objectManager->getRepository(Card::class)->getAll($page, $maxDisplay);
+        $maxResult = 10;
+        $cards =$objectManager->getRepository(Card::class)->getAll($page, $maxResult);
         $nbCard = $objectManager->getRepository(Card::class)->countAll();
         $pagination = array(
             'route' => 'card_list',
             'page' => $page,
-            'page_count' => ceil($nbCard / $maxDisplay)
+            'page_count' => ceil($nbCard / $maxResult)
         );
         return $this->render('AppBundle:Card:list.html.twig', array(
             'cards' => $cards,
