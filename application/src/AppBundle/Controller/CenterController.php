@@ -15,15 +15,25 @@ use Symfony\Component\HttpFoundation\Request;
 class CenterController extends Controller
 {
     /**
-     * @Route("/admin/centers", name="admin_center_list")
+     * @Route("/admin/centers/page/{page}", name="admin_center_list", defaults={"page" : 1})
      * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $centers = $objectManager->getRepository(Center::class)->findAll();
+        $maxResult = 10;
+        $repository = $objectManager->getRepository(Center::class);
+        $centers = $repository->getAllWithPage($page, $maxResult);
+        $nbCenters = $repository->countAll();
+        $pagination = array(
+            'page' => $page,
+            'page_count' => ceil($nbCenters / $maxResult),
+            'route' => $request->get('_route')
+        );
+
         return $this->render('AppBundle:Admin:Center/list.html.twig', array(
-            'centers' => $centers
+            'centers' => $centers,
+            'pagination' => $pagination
         ));
     }
 
