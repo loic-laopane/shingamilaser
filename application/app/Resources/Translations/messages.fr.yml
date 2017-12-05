@@ -5,7 +5,9 @@ menu:
         main: Les cartes
         list: Toutes les cartes
 heading:
-    signin: Connexion
+    signin: connexion
+    registration: inscription
+    account: compte
 
 label:
     username: identifiant
@@ -16,3 +18,19 @@ link:
 
 btn:
     login: Se connecter
+    register: S'inscrire
+    return: Retour
+
+Firstname: Prénom
+Lastname: Nom
+Nickname: Pseudo
+Society: Société
+Address: Adresse
+Zipcode: Code postal
+City: Ville
+Birthdate: Date de naissance
+User: ""
+Username: Identifiant
+Password: Mot de passe
+Repeat Password: Retapez le mot de passe
+Email: Email
