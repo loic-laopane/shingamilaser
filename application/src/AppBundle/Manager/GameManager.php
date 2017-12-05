@@ -144,12 +144,31 @@ class GameManager
     }
 
     /**
-     *
+     * @return Game[]|array
      */
     public function getList()
     {
         return $this->repository->findAll();
     }
+
+    /**
+     * @param $page
+     * @param $max
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    public function getListWithPage($page, $max)
+    {
+        return $this->repository->getListWithPage($page, $max);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function countAll()
+    {
+        return $this->repository->countAll();
+    }
+
 
     /**
      * Recherche un Client d'apres des parametre venant d'un formulaire

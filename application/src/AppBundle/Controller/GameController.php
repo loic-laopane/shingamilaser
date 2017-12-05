@@ -26,13 +26,22 @@ use Symfony\Component\HttpFoundation\Request;
 class GameController extends Controller
 {
     /**
-     * @Route("/games", name="game_list")
+     * @Route("/games/page/{page}", name="game_list", defaults={"page" : 1})
      */
-    public function listAction(GameManager $gameManager)
+    public function listAction(GameManager $gameManager, $page)
     {
-        $games = $gameManager->getList();
+        $maxResult = 10;
+        $games = $gameManager->getListWithPage($page, $maxResult);
+        $nbGames = $gameManager->countAll();
+        $pagination = array(
+            'page' => $page,
+            'page_count' => ceil($nbGames / $maxResult),
+            'route' => 'game_list'
+        );
+
         return $this->render('AppBundle:Game:list.html.twig', array(
-            'games' => $games
+            'games' => $games,
+            'pagination' => $pagination
         ));
     }
 

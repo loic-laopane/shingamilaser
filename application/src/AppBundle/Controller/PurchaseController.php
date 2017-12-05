@@ -96,7 +96,6 @@ class PurchaseController extends Controller
     public function listAction(ObjectManager $objectManager, $page)
     {
         $maxResult = 10;
-        $purchases = $objectManager->getRepository(Purchase::class)->getAll($this->getUser());
         $purchases = $objectManager->getRepository(Purchase::class)->getAllByUserWithPage($this->getUser(), $page, $maxResult);
         $nbPurchases = $objectManager->getRepository(Purchase::class)->countAllByUser($this->getUser());
 
