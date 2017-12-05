@@ -63,6 +63,8 @@ html, body {
     .panel.panel-dark .panel-body .btn.dropdown-toggle {
       color: white;
       border-color: white; }
+      .panel.panel-dark .panel-body .btn.dropdown-toggle span.caret {
+        color: white; }
       .panel.panel-dark .panel-body .btn.dropdown-toggle:hover {
         border-color: #111111; }
   .panel .panel-primary .panel-heading {

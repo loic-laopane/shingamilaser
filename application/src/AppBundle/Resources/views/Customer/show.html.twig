@@ -114,7 +114,37 @@
         </div>
     </div>
 
-
+    <div class="panel panel-dark">
+        <div class="panel-heading">
+            {{ 'Scores' | trans }}
+        </div>
+        <div class="panel-body">
+            {% if customer.customerGames is not null and customer.customerGames | length > 0 %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Players count</th>
+                        <th>Date</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for customerGame in customer.customerGames %}
+                        <tr>
+                            <td><a href="{{ path('game_manage', {'id' : customerGame.game.id }) }}">{{ customerGame.game.title }}</a></td>
+                            <td>{{ customerGame.game.players | length }}</a></td>
+                            <td>{{ customerGame.game.createdAt | date('d/m/Y') }}</td>
+                            <td>{{ customerGame.score}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-info">{{ 'No score found' | trans }}</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
