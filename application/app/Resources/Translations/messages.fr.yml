@@ -5,12 +5,23 @@ menu:
     card:
         main: Les cartes
         list: Toutes les cartes
+    purchase:
+        create: Commander des cartes
+        list: Toutes les demandes de cartes
     account:
         main: Profile
         edit: Modifier mon compte
     profile:
         main: Mon profil
         edit: Modifier mon profil
+    customer:
+        main: Les clients
+        search: Rechercher
+        create: Nouveau client
+    game:
+        main: Les parties
+        create: Nouvelle partie
+        list: Toutes les parties
 
 heading:
     signin: connexion
@@ -25,6 +36,17 @@ label:
 
 link:
     forgotten_password: mot de passe oublié
+
+title:
+    card:
+        list: Liste des cartes
+
+th:
+    card_number: Numéro de carte
+    purchased_at: Commandée le
+    owner: Propriétaire
+    activated_at: Activée le
+    active: Statut
 
 btn:
     login: Se connecter
