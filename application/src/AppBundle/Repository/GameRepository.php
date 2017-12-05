@@ -16,7 +16,7 @@ class GameRepository extends \Doctrine\ORM\EntityRepository
      * @param $max
      * @return Paginator
      */
-    public function getListWithPage($page, $max)
+    public function getAllWithPage($page, $max)
     {
         $qb = $this->createQueryBuilder('g')
             ->setFirstResult($max * ($page - 1))

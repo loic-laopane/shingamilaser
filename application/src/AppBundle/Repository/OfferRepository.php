@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 /**
  * OfferRepository
  *
@@ -17,5 +19,22 @@ class OfferRepository extends \Doctrine\ORM\EntityRepository
             ->where('o.expiredAt > CURRENT_TIMESTAMP() ')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getAllWithPage($page, $max)
+    {
+        $qr = $this->createQueryBuilder('o')
+            ->setFirstResult($max * ($page - 1))
+            ->setMaxResults($max);
+
+        return new Paginator($qr);
+    }
+
+    public function countAll()
+    {
+        return $this->createQueryBuilder('o')
+                ->select('COUNT(o)')
+                ->getQuery()
+                ->getSingleScalarResult();
     }
 }

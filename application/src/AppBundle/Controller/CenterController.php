@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Center;
 use AppBundle\Form\CenterType;
 use AppBundle\Manager\CenterManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,19 +22,14 @@ class CenterController extends Controller
      */
     public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $maxResult = 10;
+        $maxResult = $this->getParameter('max_result_page');
         $repository = $objectManager->getRepository(Center::class);
         $centers = $repository->getAllWithPage($page, $maxResult);
-        $nbCenters = $repository->countAll();
-        $pagination = array(
-            'page' => $page,
-            'page_count' => ceil($nbCenters / $maxResult),
-            'route' => $request->get('_route')
-        );
+        $pagination = new Pagination($page, $repository->countAll(), $request->get('_route'), $maxResult);
 
         return $this->render('AppBundle:Admin:Center/list.html.twig', array(
             'centers' => $centers,
-            'pagination' => $pagination
+            'pagination' => $pagination->getPagination()
         ));
     }
 

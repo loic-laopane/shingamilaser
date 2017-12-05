@@ -34,13 +34,14 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
      * @param $max
      * @return Paginator
      */
-    public function getAll($page, $max)
+    public function getAllWithPage($page, $max)
     {
         $qr = $this->createQueryBuilder('c')
             ->setFirstResult($max * ($page - 1))
             ->setMaxResults($max);
         return new Paginator($qr);
     }
+
 
     /**
      * @return mixed

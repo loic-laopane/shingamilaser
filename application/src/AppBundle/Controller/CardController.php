@@ -3,9 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Card;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class CardController
@@ -38,19 +40,16 @@ class CardController extends Controller
     /**
      * @Route("/cards/page/{page}", name="card_list", defaults={"page" : 1})
      */
-    public function listAction(ObjectManager $objectManager, $page=1)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $maxResult = 10;
-        $cards =$objectManager->getRepository(Card::class)->getAll($page, $maxResult);
-        $nbCard = $objectManager->getRepository(Card::class)->countAll();
-        $pagination = array(
-            'route' => 'card_list',
-            'page' => $page,
-            'page_count' => ceil($nbCard / $maxResult)
-        );
+        $maxResult = $this->getParameter('max_result_page');
+        $repository = $objectManager->getRepository(Card::class);
+        $cards = $repository->getAllWithPage($page, $maxResult);
+        $pagination = new Pagination($page, $repository->countAll(), $request->get('_route'), $maxResult);
+
         return $this->render('AppBundle:Card:list.html.twig', array(
             'cards' => $cards,
-            'pagination' => $pagination
+            'pagination' => $pagination->getPagination()
 
         ));
     }

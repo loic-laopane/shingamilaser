@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\User\UserEditType;
 use AppBundle\Form\User\UserType;
 use AppBundle\Manager\UserManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,18 +23,13 @@ class UserController extends Controller
      */
     public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $maxResult= 10;
+        $maxResult = $this->getParameter('max_result_page');
         $repository = $objectManager->getRepository(User::class);
         $users = $repository->getAllWithPage($page, $maxResult);
-        $nbUser = $repository->countAll();
-        $pagination = array(
-            'page' => $page,
-            'page_count' => ceil($nbUser / $maxResult),
-            'route' => $request->get('_route')
-        );
+        $pagination = new Pagination($page, $repository->countAll(), $request->get('_route'), $maxResult);
         return $this->render('AppBundle:Admin:User/list.html.twig', array(
             'users' => $users,
-            'pagination' => $pagination
+            'pagination' => $pagination->getPagination()
         ));
     }
 

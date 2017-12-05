@@ -152,25 +152,6 @@ class GameManager
     }
 
     /**
-     * @param $page
-     * @param $max
-     * @return \Doctrine\ORM\Tools\Pagination\Paginator
-     */
-    public function getListWithPage($page, $max)
-    {
-        return $this->repository->getListWithPage($page, $max);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function countAll()
-    {
-        return $this->repository->countAll();
-    }
-
-
-    /**
      * Recherche un Client d'apres des parametre venant d'un formulaire
      * Retourne un reponse
      * Si reponse positive, retourne une vue incluant le game
