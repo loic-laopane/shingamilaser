@@ -94,7 +94,7 @@ $(function()
     $('#form_customer_quick_create').on('submit', function(event){
 
         var modal = $(this);
-        var div_errors= $('#alert-modal');
+        var div_errors= modal.find('#alert-modal');
         div_errors.html('').removeClass('alert alert-danger');
 
         event.preventDefault();
@@ -111,7 +111,7 @@ $(function()
                     //console.log(response.data);
                     //console.log(response.message);
                     div_errors.addClass('alert alert-success');
-                    div_errors.html(response.message)
+                    div_errors.html(response.message);
                     modal.find('#nickname').val('');
                     modal.find('#email').val('');
                 }
