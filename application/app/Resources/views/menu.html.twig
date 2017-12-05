@@ -38,13 +38,13 @@
                     {% if is_granted('ROLE_USER') and is_granted('ROLE_STAFF') == false %}
                         <li class="dropdown">
 
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ 'menu.account' | trans}} <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ 'menu.account.main' | trans}} <b class="caret"></b></a>
 
                             <ul class="dropdown-menu">
 
                                 <li><a href="{{ path('account_show') }}"><i class="fa fa-eye"></i> {{ 'menu.profile.main' | trans }}</a></li>
-                                <li><a href="{{ path('account_profile_edit') }}"><i class="fa fa-edit"></i> {{ 'menu.profile_edit' | trans }}</a></li>
-                                <li><a href="{{ path('account_edit') }}"><i class="fa fa-unlock"></i> {{ 'menu.account_edit' | trans }}</a></li>
+                                <li><a href="{{ path('account_profile_edit') }}"><i class="fa fa-edit"></i> {{ 'menu.profile.edit' | trans }}</a></li>
+                                <li><a href="{{ path('account_edit') }}"><i class="fa fa-unlock"></i> {{ 'menu.account.edit' | trans }}</a></li>
 
                                 {#<li class="divider"></li>#}
 

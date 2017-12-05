@@ -1,13 +1,23 @@
 menu:
     login: Connexion
     register: Inscription
+    logout: Se déconnecter
     card:
         main: Les cartes
         list: Toutes les cartes
+    account:
+        main: Profile
+        edit: Modifier mon compte
+    profile:
+        main: Mon profil
+        edit: Modifier mon profil
+
 heading:
     signin: connexion
     registration: inscription
     account: compte
+    forgotten_password: mot de passe oublié
+
 
 label:
     username: identifiant
@@ -20,6 +30,8 @@ btn:
     login: Se connecter
     register: S'inscrire
     return: Retour
+    send_request: Envoyer la demande
+    see_more: En savoir plus
 
 Firstname: Prénom
 Lastname: Nom
