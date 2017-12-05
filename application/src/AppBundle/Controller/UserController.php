@@ -16,15 +16,24 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/admin/users", name="admin_user_list")
+     * @Route("/admin/users/page/{page}", name="admin_user_list", defaults={"page" : 1})
      * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $users = $objectManager->getRepository(User::class)->findAll();
+        $maxResult= 10;
+        $repository = $objectManager->getRepository(User::class);
+        $users = $repository->getAllWithPage($page, $maxResult);
+        $nbUser = $repository->countAll();
+        $pagination = array(
+            'page' => $page,
+            'page_count' => ceil($nbUser / $maxResult),
+            'route' => $request->get('_route')
+        );
         return $this->render('AppBundle:Admin:User/list.html.twig', array(
-            'users' => $users
+            'users' => $users,
+            'pagination' => $pagination
         ));
     }
 
