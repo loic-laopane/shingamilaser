@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\User\UserEditType;
 use AppBundle\Form\User\UserType;
 use AppBundle\Manager\UserManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -16,15 +17,19 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/admin/users", name="admin_user_list")
+     * @Route("/admin/users/page/{page}", name="admin_user_list", defaults={"page" : 1})
      * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $users = $objectManager->getRepository(User::class)->findAll();
+        $maxResult = $this->getParameter('max_result_page');
+        $repository = $objectManager->getRepository(User::class);
+        $users = $repository->getAllWithPage($page, $maxResult);
+        $pagination = new Pagination($page, $repository->countAll(), $request->get('_route'), $maxResult);
         return $this->render('AppBundle:Admin:User/list.html.twig', array(
-            'users' => $users
+            'users' => $users,
+            'pagination' => $pagination->getPagination()
         ));
     }
 

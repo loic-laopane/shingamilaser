@@ -1,0 +1,19 @@
+{% if pagination is defined %}
+    <ul class="pagination pagination-primary">
+        {% if (pagination.page - 2) > 1 %}
+            <li><a href="{{ path(pagination.route, { 'page' : 1 }) }}"><<</a></li>
+            <li><a href="{{ path(pagination.route, { 'page' : pagination.page - 1 }) }}"><</a></li>
+        {% endif %}
+        {% for page in range(max(pagination.page-2, 1), min(pagination.page + 2, pagination.page_count)) %}
+            <li {% if page == pagination.page %}class="active"{% endif %}>
+                <a href="{{ path(pagination.route, { 'page' : page }) }}">
+                    {{ page }}
+                </a>
+            </li>
+        {% endfor %}
+        {% if (pagination.page + 2) < pagination.page_count %}
+            <li><a href="{{ path(pagination.route, { 'page' : pagination.page + 1 }) }}">></a></li>
+            <li><a href="{{ path(pagination.route, { 'page' : pagination.page_count }) }}">>></a></li>
+        {% endif %}
+    </ul>
+{% endif %}

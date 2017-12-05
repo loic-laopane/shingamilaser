@@ -11,6 +11,7 @@ use AppBundle\Form\GameType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\PlayerManager;
 use AppBundle\Manager\GameManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,13 +27,18 @@ use Symfony\Component\HttpFoundation\Request;
 class GameController extends Controller
 {
     /**
-     * @Route("/games", name="game_list")
+     * @Route("/games/page/{page}", name="game_list", defaults={"page" : 1})
      */
-    public function listAction(GameManager $gameManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $games = $gameManager->getList();
+        $maxResult = $this->getParameter('max_result_page');
+        $repository = $objectManager->getRepository(Game::class);
+        $games = $repository->getAllWithPage($page, $maxResult);
+
+        $pagination = new Pagination($page, $repository->countAll(), $request->get('_route'), $maxResult);
         return $this->render('AppBundle:Game:list.html.twig', array(
-            'games' => $games
+            'games' => $games,
+            'pagination' => $pagination->getPagination()
         ));
     }
 

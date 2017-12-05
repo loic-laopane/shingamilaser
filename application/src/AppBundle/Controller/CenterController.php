@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Center;
 use AppBundle\Form\CenterType;
 use AppBundle\Manager\CenterManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,15 +16,20 @@ use Symfony\Component\HttpFoundation\Request;
 class CenterController extends Controller
 {
     /**
-     * @Route("/admin/centers", name="admin_center_list")
+     * @Route("/admin/centers/page/{page}", name="admin_center_list", defaults={"page" : 1})
      * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $centers = $objectManager->getRepository(Center::class)->findAll();
+        $maxResult = $this->getParameter('max_result_page');
+        $repository = $objectManager->getRepository(Center::class);
+        $centers = $repository->getAllWithPage($page, $maxResult);
+        $pagination = new Pagination($page, $repository->countAll(), $request->get('_route'), $maxResult);
+
         return $this->render('AppBundle:Admin:Center/list.html.twig', array(
-            'centers' => $centers
+            'centers' => $centers,
+            'pagination' => $pagination->getPagination()
         ));
     }
 

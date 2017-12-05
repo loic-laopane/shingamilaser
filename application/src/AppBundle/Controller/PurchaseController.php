@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Purchase;
 use AppBundle\Form\PurchaseType;
 use AppBundle\Manager\PurchaseManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -91,13 +92,18 @@ class PurchaseController extends Controller
     }
 
     /**
-     * @Route("/purchase/list", name="purchase_list")
+     * @Route("/purchase/list/page/{page}", name="purchase_list", defaults={"page" : 1})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $purchases = $objectManager->getRepository(Purchase::class)->getAll($this->getUser());
+        $maxResult = $this->getParameter('max_result_page');
+        $repository = $objectManager->getRepository(Purchase::class);
+        $purchases = $repository->getAllByUserWithPage($this->getUser(), $page, $maxResult);
+        $pagination = new Pagination($page, $repository->countAllByUser($this->getUser()), $request->get('_route'), $maxResult);
+
         return $this->render('AppBundle:Purchase:list.html.twig', array(
-            'purchases' => $purchases
+            'purchases' => $purchases,
+            'pagination' => $pagination->getPagination()
         ));
     }
 

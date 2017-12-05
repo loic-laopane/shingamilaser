@@ -144,7 +144,7 @@ class GameManager
     }
 
     /**
-     *
+     * @return Game[]|array
      */
     public function getList()
     {
