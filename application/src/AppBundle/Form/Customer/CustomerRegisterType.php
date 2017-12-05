@@ -16,15 +16,9 @@ class CustomerRegisterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstname', TextType::class, array(
-                    'error_bubbling' => true
-                ))
-                ->add('lastname', TextType::class, array(
-                    'error_bubbling' => true
-                ))
-                ->add('nickname', TextType::class, array(
-                    'error_bubbling' => true
-                ))
+        $builder->add('firstname', TextType::class)
+                ->add('lastname', TextType::class)
+                ->add('nickname', TextType::class)
                 ->add('society', TextType::class, array('required' => false))
                 ->add('address', TextType::class, array('required' => false))
                 ->add('zipcode',TextType::class, array('required' => false))
@@ -37,9 +31,7 @@ class CustomerRegisterType extends AbstractType
                     'format' => 'dd/MM/yyyy',
                     'html5' => false
                 ))
-                ->add('user', UserRegisterType::class, array(
-                    'error_bubbling' => true
-                ));
+                ->add('user', UserRegisterType::class);
     }
     
     /**

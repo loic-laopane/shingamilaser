@@ -39,7 +39,7 @@
                             {% for type, messages in errors %}
                                 <div class="alert alert-{{ type }}">
                                     {% for message in messages %}
-                                        <p>{{ message }}</p>
+                                        <p>{{ message | trans | capitalize }}</p>
                                     {% endfor %}
                                 </div>
                             {% endfor %}

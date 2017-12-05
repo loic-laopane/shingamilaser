@@ -40,6 +40,11 @@ link:
 title:
     card:
         list: Liste des cartes
+    customer:
+        create: Nouveau client
+        search: Rechercher un client
+    search:
+        result: Résultat de recherche
 
 th:
     card_number: Numéro de carte
@@ -47,6 +52,8 @@ th:
     owner: Propriétaire
     activated_at: Activée le
     active: Statut
+    customer: Client
+    nickname: Pseudo
 
 btn:
     login: Se connecter
@@ -54,6 +61,16 @@ btn:
     return: Retour
     send_request: Envoyer la demande
     see_more: En savoir plus
+    save: Enregistrer
+    search: Rechercher
+    show: Voir
+    edit: Modifier
+
+alert:
+    one_field_required: Veuillez renseigner au moins un champ
+    #Please fill one field at least
+    field_required: Ce champ est obligatoire
+    email_invalid: L'email n'est pas valide
 
 Firstname: Prénom
 Lastname: Nom
@@ -68,3 +85,7 @@ Username: Identifiant
 Password: Mot de passe
 Repeat Password: Retapez le mot de passe
 Email: Email
+Numero: Numéro
+
+msg:
+    no_result: Aucun résultat trouvé

@@ -3,13 +3,13 @@
 {% block title %}{{ 'title.search_customer' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>{{ 'title.search.customer' | trans }}</h1>
+<h1>{{ 'title.customer.search' | trans }}</h1>
     <div class="panel">
         <div class="panel-body">
             <form action="{{ path('staff_customer_search') }}" method="post">
                 {% for field, val in search %}
                     <div class="form-group">
-                        <label class="control-label" for="{{ field }}">{{ field | title }}</label>
+                        <label class="control-label" for="{{ field }}">{{ field | capitalize | trans }}</label>
                         <input type="text" id="{{ field }}" name="{{ field }}" class="form-control" value="{{ val }}">
                     </div>
                 {% endfor %}
@@ -28,9 +28,9 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>{{ 'customer' | trans }}</th>
-                        <th>{{ 'nickname' | trans }}</th>
-                        <th>{{ 'card number' | trans }}</th>
+                        <th>{{ 'th.customer' | trans }}</th>
+                        <th>{{ 'th.nickname' | trans }}</th>
+                        <th>{{ 'th.card_number' | trans }}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -63,6 +63,6 @@
             </div>
         </div>
     {% else %}
-        <p>No result found</p>
+        <p>{{ 'msg.no_result' | trans | capitalize }}</p>
     {% endif %}
 {% endblock %}

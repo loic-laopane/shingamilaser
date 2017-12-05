@@ -173,7 +173,7 @@ class CustomerManager
         {
             if(!empty($val)) return;
         }
-        throw new \Exception('Please fill one field at least');
+        throw new \Exception('alert.one_field_required');
     }
 
 }
