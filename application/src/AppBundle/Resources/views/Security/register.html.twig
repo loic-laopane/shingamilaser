@@ -4,11 +4,12 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-12">
+        {{ form_start(form) }}
+        <div class="col-md-6">
             <div class="my-panel">
                 <div class="heading">{{ 'Registration' | trans | title }}</div>
                 <div class="body">
-                    {{ form_start(form) }}
+
                     {{ form_errors(form) }}
                     <section>
                         {{ form_row(form.firstname) }}
@@ -20,6 +21,14 @@
                         {{ form_row(form.city) }}
                         {{ form_row(form.birthdate) }}
                     </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="my-panel">
+                <div class="heading">{{ 'Account' | trans | title }}</div>
+                <div class="body">
                     <section>
                         {{ form_row(form.user) }}
                     </section>
@@ -31,6 +40,8 @@
                 </div>
             </div>
         </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
     </div>
 
 {% endblock %}

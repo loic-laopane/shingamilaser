@@ -15,6 +15,7 @@
                     </section>
                     <section>
                         <button type="submit" class="btn btn-primary btn-fill" formnovalidate><i class="fa fa-arrow-circle-o-right"></i> {{ 'btn.send_request' | trans }}</button>
+                        <a class="btn btn-default" href="{{ path('login') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
                     </section>
                     {{ form_widget(form) }}
                     {{ form_end(form) }}
