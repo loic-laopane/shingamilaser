@@ -36,13 +36,23 @@ class CardController extends Controller
     }
 
     /**
-     * @Route("/cards", name="card_list")
+     * @Route("/cards/page/{page}", name="card_list", defaults={"page" : 1})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, $page=1)
     {
+        $maxDisplay = 10;
         $cards = $objectManager->getRepository(Card::class)->findAll();
+        $cards =$objectManager->getRepository(Card::class)->getAll($page, $maxDisplay);
+        $nbCard = $objectManager->getRepository(Card::class)->countAll();
+        $pagination = array(
+            'route' => 'card_list',
+            'page' => $page,
+            'page_count' => ceil($nbCard / $maxDisplay)
+        );
         return $this->render('AppBundle:Card:list.html.twig', array(
-            'cards' => $cards
+            'cards' => $cards,
+            'pagination' => $pagination
+
         ));
     }
 

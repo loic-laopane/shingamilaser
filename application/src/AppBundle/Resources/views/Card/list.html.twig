@@ -28,6 +28,9 @@
                 </tr>
             {% endfor %}
             </tbody>
+            <tfoot>
+            {% include '::pagination.html.twig' %}
+            </tfoot>
         </table>
     {% else %}
         <p class="alert alert-info">No Card</p>
