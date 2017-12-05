@@ -1,4 +1,18 @@
 menu:
+    login: Connexion
+    register: Inscription
     card:
         main: Les cartes
         list: Toutes les cartes
+heading:
+    signin: Connexion
+
+label:
+    username: identifiant
+    password: mot de passe
+
+link:
+    forgotten_password: mot de passe oublié
+
+btn:
+    login: Se connecter

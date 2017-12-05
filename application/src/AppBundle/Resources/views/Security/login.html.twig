@@ -6,20 +6,20 @@
 <div class="row">
     <div class="col-md-12">
         <div class="my-panel">
-            <div class="heading">{{ 'Signin' | trans | title }}</div>
+            <div class="heading">{{ 'heading.signin' | trans | title }}</div>
             <div class="body">
                 {% if errors_login %}
                     <div class="alert alert-danger">{{ errors_login.messageKey|trans(errors_login.messageData, 'security') }}</div>
                 {% endif %}
                 <form action="{{ path('login') }}" method="post">
                     <section>
-                    <label for="username">Username:</label>
+                    <label for="username">{{ 'label.username' | trans | capitalize  }} :</label>
                     <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" />
 
-                    <label for="password">Password:</label>
+                    <label for="password">{{ 'label.password' | trans | capitalize  }} :</label>
                     <input type="password" id="password" name="_password" class="form-control" />
 
-                     <p><i class="fa fa-question-circle"></i> <a href="{{ path('forgotten_password') }}">{{ 'forgotten password' | trans  }}</a></p>
+                     <p><i class="fa fa-question-circle"></i> <a href="{{ path('forgotten_password') }}">{{ 'link.forgotten_password' | trans | capitalize }}</a></p>
 
                     {#
                         If you want to control the URL the user
