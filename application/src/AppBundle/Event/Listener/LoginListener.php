@@ -8,7 +8,6 @@
 
 namespace AppBundle\Event\Listener;
 
-
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Routing\RouterInterface;
@@ -46,16 +45,13 @@ class LoginListener implements ListenerInterface
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
-
-        if(!$event->isMasterRequest() || !$this->tokenStorage->getToken())
-        {
+        if (!$event->isMasterRequest() || !$this->tokenStorage->getToken()) {
             return;
         }
 
         //Redirection si connecté
         $route = $event->getRequest()->attributes->get('_route');
-        if(in_array($route, $this->authorisedRoutes()) && $this->isUserLogged())
-        {
+        if (in_array($route, $this->authorisedRoutes()) && $this->isUserLogged()) {
             $response = new RedirectResponse($this->router->generate('homepage'));
             $event->setResponse($response);
         }

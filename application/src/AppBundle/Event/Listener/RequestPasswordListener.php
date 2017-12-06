@@ -8,7 +8,6 @@
 
 namespace AppBundle\Event\Listener;
 
-
 use AppBundle\Event\PasswordEvent;
 use AppBundle\Event\SecurityEvent;
 use Symfony\Component\Templating\EngineInterface;
@@ -30,11 +29,12 @@ class RequestPasswordListener
      */
     private $templating;
 
-    public function __construct($from,
+    public function __construct(
+        $from,
                                 \Swift_Mailer $mailer,
                                 EngineInterface $templating,
-                                TranslatorInterface $translator)
-    {
+                                TranslatorInterface $translator
+    ) {
         $this->mailer = $mailer;
         $this->translator = $translator;
         $this->from = $from;
@@ -51,11 +51,13 @@ class RequestPasswordListener
         $message = new \Swift_Message($this->translator->trans('Request forgotten password'));
         $message->setFrom($this->from)
                 ->setTo($user->getEmail())
-                ->setBody($this->templating->render('AppBundle:Mail:forgotten.html.twig', array(
+                ->setBody(
+                    $this->templating->render('AppBundle:Mail:forgotten.html.twig', array(
                   'requestPassword' => $requestPassword,
                     'user' => $user
                 )),
-                  'text/html');
+                  'text/html'
+                );
         $this->mailer->send($message);
     }
 
@@ -68,10 +70,12 @@ class RequestPasswordListener
         $message = new \Swift_Message($this->translator->trans('Password changed'));
         $message->setFrom($this->from)
             ->setTo($user->getEmail())
-            ->setBody($this->templating->render('AppBundle:Mail:new-password.html.twig', array(
+            ->setBody(
+                $this->templating->render('AppBundle:Mail:new-password.html.twig', array(
                 'user' => $user
             )),
-                'text/html');
+                'text/html'
+            );
         $this->mailer->send($message);
     }
 }

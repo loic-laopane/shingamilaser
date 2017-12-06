@@ -38,8 +38,7 @@ class CustomerController extends Controller
         $term = $request->request->get('term');
         $customers = $objectManager->getRepository(Customer::class)->findByNicknameLike($term);
         $return = [];
-        foreach($customers as $customer)
-        {
+        foreach ($customers as $customer) {
             $return[] = $customer->getNickname();
         }
         return $this->json($return);
@@ -94,9 +93,7 @@ class CustomerController extends Controller
             $response['status'] = 1;
             $response['message'] = 'Card associated to '.($customer->getUser() === $this->getUser() ? 'your account' : ' customer '.$customer->getNickname());
             $response['card'] = $card;
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
         }
         return $this->json($response);
@@ -106,7 +103,8 @@ class CustomerController extends Controller
      * @param Request $request
      * @Route("/customer/getCards", name="customer_get_cards")
      */
-    public function getCardsAction(Request $request, ObjectManager $objectManager) {
+    public function getCardsAction(Request $request, ObjectManager $objectManager)
+    {
         $customer = $objectManager->getRepository(Customer::class)->findOneBy(['user' => $this->getUser()]);
         return $this->render('AppBundle:Account:customer_cards.html.twig', array('customer' => $customer));
     }
@@ -153,9 +151,7 @@ class CustomerController extends Controller
             $customerManager->quickCreate($customer, $user);
             $response['status'] = 1;
             $response['message'] = $translator->trans('alert.account.created');
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $response['message'] = $translator->trans($e->getMessage());
         }
         return $this->json($response);
@@ -172,14 +168,12 @@ class CustomerController extends Controller
         $form = $this->createForm(CustomerRegisterType::class, $customer);
         try {
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $customerManager->register($customer);
                 $this->addFlash('success', 'Customer has been created');
                 $this->redirectToRoute('staff_customer_edit', $customer->getId());
             }
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Customer:create.html.twig', array(
@@ -196,13 +190,11 @@ class CustomerController extends Controller
         $form = $this->createForm(CustomerAccountType::class, $customer);
         try {
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $customerManager->save($customer);
                 $this->addFlash('success', 'Customer has been updated');
             }
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Customer:edit.html.twig', array(
@@ -225,15 +217,12 @@ class CustomerController extends Controller
         try {
             //$form->handleRequest($request);
 
-            if ($request->isMethod('POST'))
-            {
-
+            if ($request->isMethod('POST')) {
                 $search_fields = $request->request->all();
                 $customerManager->checkSearchParams($search_fields);
                 $customers = $customerManager->getCustomerByParams($search_fields);
             }
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Customer:search.html.twig', array(

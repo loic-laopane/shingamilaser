@@ -8,7 +8,6 @@
 
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Center;
 use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -52,7 +51,7 @@ class CenterManager
      */
     public function insert(Center $center)
     {
-        if($this->exists($center)) {
+        if ($this->exists($center)) {
             throw new \Exception('alert.center.exists');
         }
 
@@ -63,9 +62,8 @@ class CenterManager
     public function delete($id)
     {
         $center = $this->repository->find($id);
-        if (null === $center){
+        if (null === $center) {
             throw new \Exception('This Center doesn\'t exist');
-            return false;
         }
 
         $name = $center->getName();
@@ -73,7 +71,5 @@ class CenterManager
         $this->manager->flush();
 
         $this->session->getFlashBag()->add('success', 'Center '.$name.' has been deleted');
-
     }
-
 }

@@ -37,6 +37,4 @@ class CustomerGameType extends AbstractType
     {
         return null;
     }
-
-
 }

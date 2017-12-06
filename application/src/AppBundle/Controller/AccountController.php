@@ -51,19 +51,15 @@ class AccountController extends Controller
         $plainPaswword = $request->request->get('password');
         try {
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
-                if(!empty($plainPaswword))
-                {
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!empty($plainPaswword)) {
                     $user->setPassword($plainPaswword);
                     $userManager->encodeUserPassword($user);
                 }
                 $userManager->save($user);
                 $this->addFlash('success', 'Account updated');
             }
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Account:edit_user.html.twig', array(
@@ -89,9 +85,7 @@ class AccountController extends Controller
                 $manager->save($customer);
                 $this->addFlash('success', 'Profile updated');
             }
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Account:edit_customer.html.twig', array(
@@ -115,15 +109,10 @@ class AccountController extends Controller
         try {
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid())
-            {
-
-                    $cardManager->rattach($empty_card->getNumero(), $customer);
-
+            if ($form->isSubmitted() && $form->isValid()) {
+                $cardManager->rattach($empty_card->getNumero(), $customer);
             }
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
         return $this->render('AppBundle:Account:add_card.html.twig', array(
@@ -139,8 +128,7 @@ class AccountController extends Controller
      */
     public function showCardAction(Card $card, ObjectManager $objectManager)
     {
-        if($card->getCustomer()->getUser() !== $this->getUser())
-        {
+        if ($card->getCustomer()->getUser() !== $this->getUser()) {
             throw new \Exception('This card is not yours');
         }
 
@@ -173,13 +161,11 @@ class AccountController extends Controller
         $response = array('status' => 1);
         try {
             $customerManager->removeAvatar($customer);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $response['error'] = 'Error while removing avatar';
             $response['status'] = 0;
         }
 
         return $this->json($response);
     }
-
 }

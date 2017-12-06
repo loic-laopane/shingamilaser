@@ -51,15 +51,11 @@ class GameController extends Controller
         $form = $this->createForm(GameType::class, $game);
         try {
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $gameManager->insert($game);
                 return $this->redirectToRoute('game_edit', array('id'=>$game->getId()));
-
             }
-        }
-        catch(\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Game:create.html.twig', array(
@@ -73,17 +69,13 @@ class GameController extends Controller
      */
     public function editAction(Game $game, Request $request, GameManager $gameManager)
     {
-
         $form = $this->createForm(GameType::class, $game);
         try {
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $gameManager->save($game);
             }
-        }
-        catch(\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Game:edit.html.twig', array(
@@ -139,7 +131,6 @@ class GameController extends Controller
         try {
             $playerManager->add($customer, $game);
         } catch (\Exception $exception) {
-
         }
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
@@ -189,15 +180,11 @@ class GameController extends Controller
             $numero = $request->request->get('qrData');
             $card = $cardManager->search($numero);
             $playerManager->add($card->getCustomer(), $game);
-
-        }
-        catch(Exception $exception)
-        {
+        } catch (Exception $exception) {
             $return['status'] = 0;
             $this->get('session')->getFlashBag()->add('danger', $exception->getMessage());
         }
 
         return $this->json($return);
     }
-
 }

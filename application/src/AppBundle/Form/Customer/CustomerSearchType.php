@@ -37,6 +37,4 @@ class CustomerSearchType extends AbstractType
     {
         return null;
     }
-
-
 }

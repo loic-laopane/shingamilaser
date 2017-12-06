@@ -8,7 +8,6 @@
 
 namespace AppBundle\Event;
 
-
 use AppBundle\Entity\Purchase;
 use Symfony\Component\EventDispatcher\Event;
 

@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Center
  *
@@ -15,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Center
 {
-
     const CODE_LENGTH = 3;
     /**
      * @var int
@@ -113,8 +111,7 @@ class Center
      */
     public function setCode($code)
     {
-        if(strlen($code) !== self::CODE_LENGTH || !is_numeric($code))
-        {
+        if (strlen($code) !== self::CODE_LENGTH || !is_numeric($code)) {
             throw new \InvalidArgumentException('Center code must contain %code_length% digits');
         }
         $this->code = $code;

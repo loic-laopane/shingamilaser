@@ -41,6 +41,4 @@ class UserAccountType extends AbstractType
     {
         return null;
     }
-
-
 }

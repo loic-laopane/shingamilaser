@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
@@ -29,7 +30,8 @@ class CenterRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @return mixed
      */
-    public function countAll() {
+    public function countAll()
+    {
         return $this->createQueryBuilder('c')
             ->select('COUNT(c)')
             ->getQuery()

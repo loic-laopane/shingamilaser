@@ -222,8 +222,7 @@ class User implements UserInterface
      */
     public function setActive($active)
     {
-        if(!is_bool($active))
-        {
+        if (!is_bool($active)) {
             throw new \InvalidArgumentException('Set User active require boolean');
         }
         $this->active = $active;
@@ -250,8 +249,7 @@ class User implements UserInterface
      */
     public function setRoles($roles)
     {
-        if(!is_array($roles))
-        {
+        if (!is_array($roles)) {
             throw new \InvalidArgumentException('Roles must be an array');
         }
         $this->roles = $roles;

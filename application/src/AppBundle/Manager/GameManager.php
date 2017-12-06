@@ -50,13 +50,14 @@ class GameManager
     private $translator;
 
 
-    public function __construct(ObjectManager $manager,
+    public function __construct(
+        ObjectManager $manager,
                                 SessionInterface $session,
                                 EngineInterface $templating,
                                 CustomerManager $customerManager,
                                 EventDispatcherInterface $dispatcher,
-                                TranslatorInterface $translator)
-    {
+                                TranslatorInterface $translator
+    ) {
         $this->manager = $manager;
         $this->repository = $manager->getRepository(Game::class);
         $this->session = $session;
@@ -82,8 +83,7 @@ class GameManager
 
     public function save(Game $game)
     {
-        if(!$this->manager->contains($game))
-        {
+        if (!$this->manager->contains($game)) {
             $this->manager->persist($game);
         }
         $this->manager->flush();
@@ -98,7 +98,7 @@ class GameManager
     public function delete($id)
     {
         $game = $this->repository->find($id);
-        if (null === $game){
+        if (null === $game) {
             $this->session->getFlashBag()->add('danger', 'This Center doesn\'t exist');
             return false;
         }
@@ -113,10 +113,9 @@ class GameManager
 
     public function record(Game $game)
     {
-        if(null !== $game->getStartedAt()) {
+        if (null !== $game->getStartedAt()) {
             $this->stopGame($game);
-        }
-        else {
+        } else {
             $this->startGame($game);
         }
         return $this;
@@ -129,8 +128,7 @@ class GameManager
     private function startGame(Game $game)
     {
         //Verifier qu'il y ait minimum 2 joueurs
-        if(count($game->getPlayers()) < 2)
-        {
+        if (count($game->getPlayers()) < 2) {
             throw new \Exception('alert.game_must_have_2_players');
         }
         $game->setStartedAt(new \DateTime());
@@ -170,10 +168,8 @@ class GameManager
     {
         $required_fields = ['numero', 'lastname', 'firstname', 'nickname'];
         $fields_valid = false;
-        foreach($required_fields as $field)
-        {
-            if(isset($data[$field]) && !empty($data[$field]))
-            {
+        foreach ($required_fields as $field) {
+            if (isset($data[$field]) && !empty($data[$field])) {
                 $fields_valid = true;
                 break;
             }
@@ -185,20 +181,16 @@ class GameManager
             'data' => null
         ];
 
-        if(!$fields_valid)
-        {
+        if (!$fields_valid) {
             $response['message'] = $this->translator->trans('alert.search.fill_field');
-        }
-        else {
+        } else {
             $customers = $this->customerManager->getCustomerByParams($data);
             //$response['message'] = $customers;
             //return $response;
-            if(count($customers) == 0) {
+            if (count($customers) == 0) {
                 $response['message'] = $this->translator->trans('alert.customer.not_found');
-            }
-            else {
-                foreach($customers  as $customer)
-                {
+            } else {
+                foreach ($customers  as $customer) {
                     $response['data'] .= $this->templating->render('AppBundle:Game:customer.html.twig', array(
                         'customer' => $customer,
                         'game' => $game
@@ -206,7 +198,6 @@ class GameManager
                 }
                 $response['status'] = 1;
                 $response['message'] = $this->translator->trans('alert.customer.found');
-
             }
         }
         return $response;
@@ -219,8 +210,7 @@ class GameManager
     public function simuleScore(Game $game)
     {
         $players = $this->manager->getRepository(Player::class)->findBy(['game' => $game]);
-        foreach($players as $player)
-        {
+        foreach ($players as $player) {
             $player->setScore(mt_rand(0, 100));
             $this->dispatcher->dispatch(OfferEvent::UNLOCKABLE_EVENT, new OfferEvent($game, $player->getCustomer()));
         }

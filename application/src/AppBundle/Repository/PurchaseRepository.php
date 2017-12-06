@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
@@ -49,8 +50,5 @@ class PurchaseRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('user', $requester)
             ->getQuery()
             ->getSingleScalarResult();
-
     }
-
-
 }

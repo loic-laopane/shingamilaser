@@ -37,17 +37,14 @@ class PurchaseController extends Controller
         try {
             $form->handleRequest($request);
             $purchase->setRequester($this->getUser());
-            if ($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $purchaseManager->create($purchase);
 
                 return $this->redirectToRoute('purchase_edit', array(
                     'id' => $purchase->getId()
                 ));
             }
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
 
@@ -71,9 +68,7 @@ class PurchaseController extends Controller
                 $purchaseManager->save($purchase);
                 $this->get('session')->getFlashBag()->add('success', 'alert.purchase.updated');
             }
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Purchase:edit.html.twig', array(
@@ -106,5 +101,4 @@ class PurchaseController extends Controller
             'pagination' => $pagination->getPagination()
         ));
     }
-
 }

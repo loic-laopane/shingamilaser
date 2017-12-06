@@ -12,7 +12,6 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class OfferRepository extends \Doctrine\ORM\EntityRepository
 {
-
     public function getActiveOffers()
     {
         return $this->createQueryBuilder('o')

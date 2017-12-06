@@ -33,5 +33,4 @@ class OfferControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/{id}/delete');
     }
-
 }

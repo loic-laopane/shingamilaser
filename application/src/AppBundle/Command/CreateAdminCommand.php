@@ -8,7 +8,6 @@
 
 namespace AppBundle\Command;
 
-
 use AppBundle\Entity\User;
 use AppBundle\Manager\UserManager;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -49,12 +48,13 @@ class CreateAdminCommand extends ContainerAwareCommand
      */
     private $userManager;
 
-    public function __construct($name = null,
+    public function __construct(
+        $name = null,
                                 ObjectManager $objectManager,
                                 UserManager $userManager,
                                 UserPasswordEncoderInterface $encoder,
-                                \Swift_Mailer $mailer)
-    {
+                                \Swift_Mailer $mailer
+    ) {
         parent::__construct($name);
         $this->name = $name;
         $this->objectManager = $objectManager;
@@ -74,7 +74,6 @@ class CreateAdminCommand extends ContainerAwareCommand
           // the "--help" option
           ->setHelp('This command allows you to create an admin user...')
         ;
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -94,12 +93,11 @@ class CreateAdminCommand extends ContainerAwareCommand
         //Definition des questions
         $question_username = new Question('Enter the username [admin] : ', 'admin');
         $question_email = new Question('Enter your email : ');
-        $question_email->setValidator(function($answer) {
-           if(filter_var(trim($answer), FILTER_VALIDATE_EMAIL) == false)
-           {
-               throw new \RuntimeException('Bad email format');
-           }
-           return $answer;
+        $question_email->setValidator(function ($answer) {
+            if (filter_var(trim($answer), FILTER_VALIDATE_EMAIL) == false) {
+                throw new \RuntimeException('Bad email format');
+            }
+            return $answer;
         });
         $question_email->setMaxAttempts(3);
         $confirme_send_mail = new Question('Send password by mail (y/N) ?', 'n');
@@ -109,8 +107,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         $username = $helper->ask($input, $output, $question_username);
         $email = $helper->ask($input, $output, $question_email);
         $answer_sendmail = $helper->ask($input, $output, $confirme_send_mail);
-        while(!preg_match('/^(y|n)$/i', $answer_sendmail))
-        {
+        while (!preg_match('/^(y|n)$/i', $answer_sendmail)) {
             $answer_sendmail = $helper->ask($input, $output, $confirme_send_mail);
         }
         $sendmail = $choices[$answer_sendmail];
@@ -129,7 +126,7 @@ class CreateAdminCommand extends ContainerAwareCommand
             $this->userManager->insert($user);
             $output->writeln('Username: '.$username);
             $output->writeln('Password: '.$password);
-            if($sendmail) {
+            if ($sendmail) {
                 $message = new \Swift_Message('Account Admin on ');
                 $message->setFrom($container->getParameter('mailer_sender_address'))
                   ->setTo($email)
@@ -141,9 +138,7 @@ class CreateAdminCommand extends ContainerAwareCommand
                 $output->writeln('Password sent to '.$email);
             }
             $output->writeln('Account created !');
-        }
-        catch(\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $output->writeln($exception->getMessage());
             $output->writeln('Account not created !');
         }

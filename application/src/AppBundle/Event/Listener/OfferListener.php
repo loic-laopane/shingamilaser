@@ -8,7 +8,6 @@
 
 namespace AppBundle\Event\Listener;
 
-
 use AppBundle\Entity\CustomerOffer;
 use AppBundle\Entity\Offer;
 use AppBundle\Event\OfferEvent;
@@ -51,15 +50,16 @@ class OfferListener
      */
     private $customerManager;
 
-    public function __construct($from,
+    public function __construct(
+        $from,
                                 ObjectManager $objectManager,
                                 EventDispatcherInterface $dispatcher,
                                 PlayerManager $playerManager,
                                 CustomerManager $customerManager,
                                 \Swift_Mailer $mailer,
                                 TranslatorInterface $translator,
-                                EngineInterface $templating)
-    {
+                                EngineInterface $templating
+    ) {
         $this->objectManager = $objectManager;
         $this->dispatcher = $dispatcher;
         $this->playerManager = $playerManager;
@@ -87,8 +87,7 @@ class OfferListener
         //Liste de toutes les offres disponibles
         $offers = $this->objectManager->getRepository(Offer::class)->getActiveOffers();
 
-        foreach ($offers as $offer)
-        {
+        foreach ($offers as $offer) {
             //Nombre de fois que cette $offer est deblocable
             $nbUnlockableOffers = floor(count($customerGamesWithCard) / $offer->getCount());
 
@@ -99,11 +98,9 @@ class OfferListener
             $nbCanUnlock = $nbUnlockableOffers - $nbUnlockedOffer;
 
             //Si le delta est > 0
-            if($nbCanUnlock > 0)
-            {
+            if ($nbCanUnlock > 0) {
                 //On debloque l'offre autant de fois que nécessaire
-                for($i = 0; $i < $nbCanUnlock; $i++)
-                {
+                for ($i = 0; $i < $nbCanUnlock; $i++) {
                     $this->customerManager->unlockOffer($customer, $offer, $game);
                 }
             }
@@ -122,12 +119,14 @@ class OfferListener
         $message = new \Swift_Message($this->translator->trans('Offer unlocked'));
         $message->setFrom($this->from)
             ->setTo($user->getEmail())
-            ->setBody($this->templating->render('AppBundle:Mail:offer-unlocked.html.twig', array(
+            ->setBody(
+                $this->templating->render('AppBundle:Mail:offer-unlocked.html.twig', array(
                 'user' => $user,
                 'customer' => $customer,
                 'game' => $game
             )),
-                'text/html');
+                'text/html'
+            );
         $this->mailer->send($message);
     }
 }

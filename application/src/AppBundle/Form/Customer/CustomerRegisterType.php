@@ -21,7 +21,7 @@ class CustomerRegisterType extends AbstractType
                 ->add('nickname', TextType::class)
                 ->add('society', TextType::class, array('required' => false))
                 ->add('address', TextType::class, array('required' => false))
-                ->add('zipcode',TextType::class, array('required' => false))
+                ->add('zipcode', TextType::class, array('required' => false))
                 ->add('city', TextType::class, array('required' => false))
                 ->add('birthdate', BirthdayType::class, array(
                     'required' => false,

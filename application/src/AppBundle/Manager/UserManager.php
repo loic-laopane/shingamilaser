@@ -8,7 +8,6 @@
 
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
 use AppBundle\Event\PasswordEvent;
@@ -44,11 +43,12 @@ class UserManager
      */
     private $dispatcher;
 
-    public function __construct(ObjectManager $manager,
+    public function __construct(
+        ObjectManager $manager,
                                 UserPasswordEncoderInterface $encoder,
                                 SessionInterface $session,
-                                EventDispatcherInterface $dispatcher)
-    {
+                                EventDispatcherInterface $dispatcher
+    ) {
         $this->manager = $manager;
         $this->encoder = $encoder;
         $this->session = $session;
@@ -95,11 +95,11 @@ class UserManager
      */
     public function insert(User $user)
     {
-        if($this->exists($user)) {
+        if ($this->exists($user)) {
             throw new \Exception('This User already exists');
         }
 
-        if($this->mailExists($user)) {
+        if ($this->mailExists($user)) {
             throw new \Exception('This Email is already used');
         }
 
@@ -117,8 +117,7 @@ class UserManager
      */
     public function save(User $user)
     {
-        if(!$this->manager->contains($user))
-        {
+        if (!$this->manager->contains($user)) {
             $this->manager->persist($user);
         }
         $this->manager->flush();
@@ -134,8 +133,7 @@ class UserManager
     public function delete($id)
     {
         $user = $this->repository->find($id);
-        if(null === $user)
-        {
+        if (null === $user) {
             throw new \Exception('This User doesn\'t exist');
         }
 
@@ -155,13 +153,12 @@ class UserManager
      */
     public function getUserByEmail($email)
     {
-        if(empty($email))
-        {
+        if (empty($email)) {
             throw new \Exception('Email required');
         }
 
         $user = $this->repository->findOneBy(['email' => $email]);
-        if(null === $user) {
+        if (null === $user) {
             throw new \Exception('User not found with email '.$email);
         }
         return $user;

@@ -18,20 +18,17 @@ class CustomerOfferController extends Controller
         $response = ['status' => 0, 'message' => '' ];
         $customerOfferId = $request->request->get('id');
         $customerOffer = $objectManager->getRepository(CustomerOffer::class)->find($customerOfferId);
-        if ($customerOffer instanceof CustomerOffer)
-        {
+        if ($customerOffer instanceof CustomerOffer) {
             $now = new \DateTime();
             $customerOffer->setUsedAt($now);
             $objectManager->flush();
             $response['status'] = 1;
             $response['message'] = 'Offer has been used';
             $response['usedAt'] = $now->format('d/m/Y');
-        }
-        else {
+        } else {
             $response['message'] = 'Offer can be user';
         }
 
         return $this->json($response);
     }
-
 }

@@ -44,7 +44,7 @@ class CenterController extends Controller
         $center = new Center();
         $form = $this->createForm(CenterType::class, $center);
 
-        try{
+        try {
             $form->handleRequest($request);
 
             $em_api = $this->getDoctrine()->getManager('api');
@@ -55,8 +55,7 @@ class CenterController extends Controller
                 ->setZipcode($center->getZipcode())
                 ->setCity($center->getCity());
 
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $centerManager->insert($center);
                 $em_api->persist($center_api);
                 $em_api->flush();
@@ -64,10 +63,8 @@ class CenterController extends Controller
                 return $this->redirectToRoute('admin_center_edit', array(
                     'id' => $center->getId()
                 ));
-
             }
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $translator->trans($exception->getMessage(), array(
                 '%code_length%' => Center::CODE_LENGTH
             )));
@@ -90,12 +87,10 @@ class CenterController extends Controller
             $em_api = $this->getDoctrine()->getManager('api');
             $center_api = $em_api->getRepository('ApiBundle:Center')->findOneBy(['code' => $center->getCode()]);
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 //Flush
                 $objectManager->flush();
-                if($center_api)
-                {
+                if ($center_api) {
                     $center_api->setName($center->getName())
                         ->setCode($center->getCode())
                         ->setAddress($center->getAddress())
@@ -109,10 +104,6 @@ class CenterController extends Controller
         } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
-
-
-
-
 
         return $this->render('AppBundle:Admin:Center/store.html.twig', array(
             'form' => $form->createView(),
@@ -128,15 +119,11 @@ class CenterController extends Controller
     public function deleteAction($id, CenterManager $centerManager)
     {
         try {
-
             $centerManager->delete($id);
             $this->addFlash('success', 'alert.center.deleted');
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->redirectToRoute('admin_center_list');
-
     }
-
 }

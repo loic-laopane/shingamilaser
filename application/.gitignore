@@ -19,3 +19,4 @@
 /web/styles/.sass-cache
 /web/img/avatar/*
 *.psd
+.php_cs*

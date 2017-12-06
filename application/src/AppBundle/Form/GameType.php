@@ -34,6 +34,4 @@ class GameType extends AbstractType
     {
         return null;
     }
-
-
 }

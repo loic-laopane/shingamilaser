@@ -26,7 +26,6 @@ class CustomerOfferRepository extends \Doctrine\ORM\EntityRepository
             ->orderBy('co.id', 'DESC')
             ->getQuery()
             ->getResult();
-
     }
 
 

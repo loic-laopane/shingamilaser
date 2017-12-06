@@ -12,5 +12,4 @@ class CustomerControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/search');
     }
-
 }

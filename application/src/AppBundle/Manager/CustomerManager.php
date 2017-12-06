@@ -42,10 +42,11 @@ class CustomerManager
      */
     private $dispatcher;
 
-    public function __construct(ObjectManager $manager,
+    public function __construct(
+        ObjectManager $manager,
                                 UserManager $userManager,
-                                EventDispatcherInterface $dispatcher)
-    {
+                                EventDispatcherInterface $dispatcher
+    ) {
         $this->manager = $manager;
         $this->userManager = $userManager;
         $this->repository = $this->manager->getRepository(Customer::class);
@@ -61,7 +62,7 @@ class CustomerManager
         $user = clone $customer->getUser();
         $this->userManager->encodeUserPassword($customer->getUser());
 
-        if($this->userManager->mailExists($customer->getUser())) {
+        if ($this->userManager->mailExists($customer->getUser())) {
             throw new \Exception('This email is already used');
         }
         $this->manager->persist($customer);
@@ -78,8 +79,7 @@ class CustomerManager
      */
     public function save(Customer $customer)
     {
-        if (!$this->manager->contains($customer))
-        {
+        if (!$this->manager->contains($customer)) {
             $this->manager->persist($customer);
         }
         $this->manager->flush();
@@ -102,8 +102,7 @@ class CustomerManager
     public function getCustomerCards(Customer $customer)
     {
         $cards = $this->manager->getRepository(Card::class)->findByCustomer($customer);
-        if(null === $cards)
-        {
+        if (null === $cards) {
             $cards = new ArrayCollection();
         }
         return $cards;
@@ -115,10 +114,9 @@ class CustomerManager
         return $customers;
     }
 
-    public function removeAvatar(Customer $customer) {
-
-        if(null !== $customer->getAvatar())
-        {
+    public function removeAvatar(Customer $customer)
+    {
+        if (null !== $customer->getAvatar()) {
             $this->manager->remove($customer->getAvatar());
             $customer->setAvatar(null);
             $this->manager->flush();
@@ -169,11 +167,11 @@ class CustomerManager
      */
     public function checkSearchParams(array $params)
     {
-        foreach($params as $field => $val)
-        {
-            if(!empty($val)) return;
+        foreach ($params as $field => $val) {
+            if (!empty($val)) {
+                return;
+            }
         }
         throw new \Exception('alert.one_field_required');
     }
-
 }

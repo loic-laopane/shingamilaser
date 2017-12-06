@@ -52,6 +52,4 @@ class CenterType extends AbstractType
     {
         return 'appbundle_center';
     }
-
-
 }

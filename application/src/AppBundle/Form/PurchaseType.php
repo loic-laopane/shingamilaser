@@ -35,6 +35,4 @@ class PurchaseType extends AbstractType
     {
         return null;
     }
-
-
 }

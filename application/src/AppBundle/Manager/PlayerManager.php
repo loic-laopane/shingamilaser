@@ -80,13 +80,11 @@ class PlayerManager
         $customerGame->setGame($game);
         $customerGame->setCustomer($customer);
         $card = $this->manager->getRepository(Card::class)->findCustomerActiveCard($customer);
-        if(null !== $card)
-        {
+        if (null !== $card) {
             $customerGame->setCard($card);
         }
 
-        if($this->exists($customerGame))
-        {
+        if ($this->exists($customerGame)) {
             $this->session->getFlashBag()->add('danger', 'alert.customer.already_in_game');
             return false;
         }
@@ -108,13 +106,12 @@ class PlayerManager
             'game' => $game
         ));
 
-        if($customerGame) {
+        if ($customerGame) {
             $this->manager->remove($customerGame);
             $this->manager->flush();
 
             $this->session->getFlashBag()->add('success', 'Customer '.$customer->getNickname().' has been removed from this game');
         }
-
     }
 
     /**
@@ -138,5 +135,4 @@ class PlayerManager
     {
         return $this->repository->getGamesCustomerWithCard($customer);
     }
-
 }

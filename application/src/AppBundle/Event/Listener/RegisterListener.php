@@ -8,7 +8,6 @@
 
 namespace AppBundle\Event\Listener;
 
-
 use AppBundle\Event\SecurityEvent;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -29,11 +28,12 @@ class RegisterListener
      */
     private $templating;
 
-    public function __construct($from,
+    public function __construct(
+        $from,
                                 \Swift_Mailer $mailer,
                                 EngineInterface $templating,
-                                TranslatorInterface $translator)
-    {
+                                TranslatorInterface $translator
+    ) {
         $this->mailer = $mailer;
         $this->translator = $translator;
         $this->from = $from;
@@ -50,11 +50,13 @@ class RegisterListener
         $message = new \Swift_Message($this->translator->trans('Registration completed'));
         $message->setFrom($this->from)
                 ->setTo($user->getEmail())
-                ->setBody($this->templating->render('AppBundle:Mail:registration.html.twig', array(
+                ->setBody(
+                    $this->templating->render('AppBundle:Mail:registration.html.twig', array(
                   'customer' => $customer,
                     'user' => $user
                 )),
-                  'text/html');
+                  'text/html'
+                );
         $this->mailer->send($message);
     }
 }

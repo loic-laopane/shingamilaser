@@ -152,7 +152,4 @@ class RequestPassword
         $this->user = $user;
         return $this;
     }
-
-
 }
-

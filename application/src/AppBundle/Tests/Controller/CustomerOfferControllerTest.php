@@ -12,5 +12,4 @@ class CustomerOfferControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/staff/customer/{id}/checkoffer/{customer_offer_id}');
     }
-
 }

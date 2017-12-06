@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\Game;
 
@@ -36,6 +37,4 @@ class PlayerRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 }

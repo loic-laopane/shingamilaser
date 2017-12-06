@@ -8,7 +8,6 @@
 
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -42,23 +41,19 @@ class CardManager
     public function rattach($numero, Customer $customer)
     {
         $card = $this->repository->findOneBy(['numero' => $numero]);
-        if(!$card instanceof Card) {
+        if (!$card instanceof Card) {
             throw new Exception('Card '.$numero.' doesn\'t exist');
-
         }
 
-        if($card->hasOwner())
-        {
-            if($card->getCustomer() === $customer) {
+        if ($card->hasOwner()) {
+            if ($card->getCustomer() === $customer) {
                 throw new Exception('Card '.$numero.' is already attached to your account');
-            }
-            else {
+            } else {
                 throw new Exception('Card '.$numero.' has already an owner');
             }
         }
 
-        if($card->getActive() === false)
-        {
+        if ($card->getActive() === false) {
             throw new Exception('Card '.$numero.' is not active');
         }
 
@@ -100,7 +95,7 @@ class CardManager
      */
     public function search($numero)
     {
-       return $this->repository->findOneBy(['numero' => $numero]);
+        return $this->repository->findOneBy(['numero' => $numero]);
     }
 
     /**
@@ -108,7 +103,7 @@ class CardManager
      */
     private function unactiveCards(Customer $customer)
     {
-        foreach($customer->getCards() as $card) {
+        foreach ($customer->getCards() as $card) {
             $card->setActive(false);
             $this->objectManager->persist($card);
         }

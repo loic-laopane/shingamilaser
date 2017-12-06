@@ -8,7 +8,6 @@
 
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\RequestPassword;
 use AppBundle\Entity\User;
@@ -37,9 +36,10 @@ class RequestPasswordManager
      * @param ObjectManager $objectManager
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(ObjectManager $objectManager,
-                                EventDispatcherInterface $dispatcher)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+                                EventDispatcherInterface $dispatcher
+    ) {
         $this->objectManager = $objectManager;
 
         $this->repository = $objectManager->getRepository('AppBundle:RequestPassword');
@@ -69,7 +69,6 @@ class RequestPasswordManager
     private function generateToken()
     {
         return sha1(uniqid(rand(), true)); //\OAuthProvider::generateToken($nb);
-
     }
 
     /**
@@ -80,19 +79,16 @@ class RequestPasswordManager
     public function getUserByToken($token)
     {
         $requestPassword = $this->repository->getRequestByToken($token);
-        if(!$requestPassword instanceof  RequestPassword)
-        {
+        if (!$requestPassword instanceof  RequestPassword) {
             throw new \Exception('Invalid token');
         }
 
-        if($requestPassword->getExpiredAt() < new \DateTime())
-        {
+        if ($requestPassword->getExpiredAt() < new \DateTime()) {
             throw new \Exception('Token is expired');
         }
 
         $user = $requestPassword->getUser();
-        if(null === $user)
-        {
+        if (null === $user) {
             throw new \Exception('User not found');
         }
         return $user;

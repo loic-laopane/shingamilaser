@@ -8,10 +8,8 @@
 
 namespace AppBundle\Service;
 
-
 class Pagination
 {
-
     private $current_page;
     private $total;
     private $maxResult;
@@ -19,7 +17,6 @@ class Pagination
 
     public function __construct($current_page, $total, $route, $maxResult = 10)
     {
-
         $this->current_page = $current_page;
         $this->total = $total;
         $this->maxResult = $maxResult;

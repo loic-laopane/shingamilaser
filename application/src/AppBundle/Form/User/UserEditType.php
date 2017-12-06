@@ -23,8 +23,7 @@ class UserEditType extends AbstractType
                     'required' => false,
                     'class' => Center::class,
                     'placeholder' => '-- Choose a center --',
-                    'choice_label' => function(Center $center)
-                    {
+                    'choice_label' => function (Center $center) {
                         return 'N°'. $center->getCode() . ' - ' . $center->getName();
                     }
                 ))
@@ -57,6 +56,4 @@ class UserEditType extends AbstractType
     {
         return 'appbundle_user';
     }
-
-
 }

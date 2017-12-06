@@ -107,7 +107,7 @@ class Image
      */
     public function setFilename($filename)
     {
-       $this->filename = $filename;
+        $this->filename = $filename;
 
         return $this;
     }
@@ -184,8 +184,7 @@ class Image
      */
     public function setFile(UploadedFile $file)
     {
-        if(null !== $this->getFilename())
-        {
+        if (null !== $this->getFilename()) {
             $this->setTmpFilename($this->getUploadedDir().'/'.$this->getFilename());
             $this->setFilename(null);
         }
@@ -216,5 +215,4 @@ class Image
     {
         return __DIR__.'/../../../web/img/avatar';
     }
-
 }

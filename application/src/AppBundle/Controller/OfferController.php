@@ -48,19 +48,14 @@ class OfferController extends Controller
         $offer = new Offer();
         $form = $this->createForm(OfferType::class, $offer);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            try
-            {
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $offerManager->save($offer);
                 $this->addFlash('success', 'Offer created');
                 return $this->redirectToRoute('offer_edit', array('id' => $offer->getId()));
-            }
-            catch (\Exception $exception)
-            {
+            } catch (\Exception $exception) {
                 $this->addFlash('danger', $exception->getMessage());
             }
-
         }
         return $this->render('AppBundle:Offer:create.html.twig', array(
             'form' => $form->createView()
@@ -76,18 +71,14 @@ class OfferController extends Controller
     {
         $form = $this->createForm(OfferType::class, $offer);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 //save
                 $offerManager->save($offer);
                 $this->addFlash('success', 'Offer '.$offer->getTitle().' updated');
-            }
-            catch (\Exception $exception)
-            {
+            } catch (\Exception $exception) {
                 $this->addFlash('danger', $exception->getMessage());
             }
-
         }
 
         return $this->render('AppBundle:Offer:edit.html.twig', array(
@@ -95,5 +86,4 @@ class OfferController extends Controller
             'offer' => $offer
         ));
     }
-
 }

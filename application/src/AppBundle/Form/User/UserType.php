@@ -54,6 +54,4 @@ class UserType extends AbstractType
     {
         return 'appbundle_user';
     }
-
-
 }

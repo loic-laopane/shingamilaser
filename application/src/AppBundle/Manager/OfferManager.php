@@ -8,7 +8,6 @@
 
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Center;
 use AppBundle\Entity\Offer;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -35,8 +34,7 @@ class OfferManager
      */
     public function save(Offer $offer)
     {
-        if(!$this->objectManager->contains($offer))
-        {
+        if (!$this->objectManager->contains($offer)) {
             $this->objectManager->persist($offer);
         }
         $this->objectManager->flush();

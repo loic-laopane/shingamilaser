@@ -123,7 +123,7 @@ class Purchase
      */
     public function setQuantity($quantity)
     {
-        if(!is_int($quantity)) {
+        if (!is_int($quantity)) {
             throw new \InvalidArgumentException('Quantity must be an integer');
         }
         $this->quantity = $quantity;

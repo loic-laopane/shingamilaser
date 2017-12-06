@@ -33,5 +33,4 @@ class UserControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/admin/user/{id}/delete');
     }
-
 }

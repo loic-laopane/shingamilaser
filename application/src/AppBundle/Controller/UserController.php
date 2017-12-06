@@ -45,18 +45,14 @@ class UserController extends Controller
         try {
             $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $userManager->insert($user);
 
                 return $this->redirectToRoute('admin_user_edit', array(
                   'id' => $user->getId()
                 ));
-
             }
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
 
@@ -75,8 +71,7 @@ class UserController extends Controller
     {
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             //Flush
             $objectManager->flush();
             $this->addFlash('success', 'User updated');
@@ -96,12 +91,9 @@ class UserController extends Controller
     {
         try {
             $userManager->delete($id);
-        }
-        catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->redirectToRoute('admin_user_list');
     }
-
 }

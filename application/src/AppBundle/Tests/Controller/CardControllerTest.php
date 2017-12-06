@@ -33,5 +33,4 @@ class CardControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/cardst');
     }
-
 }

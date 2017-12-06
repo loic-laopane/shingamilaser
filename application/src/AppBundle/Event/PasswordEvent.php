@@ -30,7 +30,6 @@ class PasswordEvent extends Event
      */
     public function __construct(RequestPassword $requestPassword)
     {
-
         $this->requestPassword = $requestPassword;
     }
 
@@ -45,7 +44,8 @@ class PasswordEvent extends Event
     /**
      * @return User
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->requestPassword->getUser();
     }
 }

@@ -199,8 +199,7 @@ class Customer
      */
     public function setNickname($nickname)
     {
-        if(empty($nickname))
-        {
+        if (empty($nickname)) {
             throw new \InvalidArgumentException("alert.customer.nickname.required");
         }
         $this->nickname = $nickname;
@@ -275,7 +274,7 @@ class Customer
      */
     public function setZipcode($zipcode)
     {
-        if(strlen($zipcode) !== 5) {
+        if (strlen($zipcode) !== 5) {
             throw new \InvalidArgumentException('Zip code must contain 5 digits');
         }
         $this->zipcode = $zipcode;
