@@ -10,7 +10,7 @@
         h1 {
             color:#493999;
         }
-        p {
+        p, ul {
             font-size: 12px;
         }
         a {
@@ -23,7 +23,7 @@
     <table>
         <thead>
             <tr>
-                <td><a href="{{ url('homepage') }}"><img src="{{ absolute_url(asset('img/mail/banniere.png')) }}" alt=""></a></td>
+                <td><a href="{{ url('homepage') }}"><img src="{{ absolute_url(asset('img/mail/banniere.png')) }}" alt="{{ app_name }}"></a></td>
             </tr>
         </thead>
         <tbody>

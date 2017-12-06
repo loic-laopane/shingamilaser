@@ -49,7 +49,7 @@ class CreateAdminCommand extends ContainerAwareCommand
     private $userManager;
 
     public function __construct(
-        $name = null,
+                                $name = null,
                                 ObjectManager $objectManager,
                                 UserManager $userManager,
                                 UserPasswordEncoderInterface $encoder,
@@ -130,9 +130,10 @@ class CreateAdminCommand extends ContainerAwareCommand
                 $message = new \Swift_Message('Account Admin on ');
                 $message->setFrom($container->getParameter('mailer_sender_address'))
                   ->setTo($email)
-                  ->setBody("Account Admin\n\n
-                    username: $username\n
-                    password: $password", 'text/plain')
+                  ->setBody($container->get('templating')->render('AppBundle:Mail:admin-create.html.twig', array(
+                      'username' => $username,
+                      'password' => $password
+                  )), 'text/html')
                 ;
                 $this->mailer->send($message);
                 $output->writeln('Password sent to '.$email);

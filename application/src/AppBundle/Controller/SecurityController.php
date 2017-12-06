@@ -49,7 +49,7 @@ class SecurityController extends Controller
             try {
                 $customerManager->register($customer);
                 //Todo : A ajouter a un evenement
-                $this->addFlash('success', 'registration.success');
+                $this->addFlash('success', 'alert.registration.success');
                 return $this->redirectToRoute('login');
             } catch (\Exception $exception) {
                 $this->addFlash('danger', $exception->getMessage());

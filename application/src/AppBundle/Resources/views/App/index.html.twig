@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}{{ 'Edit account' | trans }} :: {{ parent() }}{% endblock %}
+{% block title %}{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }} :: {{ parent() }}{% endblock %}
 
 {% block jobotron %}
 <div class="jumbotron">
@@ -12,7 +12,7 @@
 </div>
 {% endblock %}
 {% block body %}
-<h1>Welcome to {{ app_name }}</h1>
+<h1>{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }}</h1>
 {% endblock %}
 
 
