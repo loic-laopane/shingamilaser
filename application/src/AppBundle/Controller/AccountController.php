@@ -124,7 +124,7 @@ class AccountController extends Controller
      * @param Card $card
      * @param ObjectManager $objectManager
      * @throws \Exception
-     * @Route("/account/card/{id}/show", name="account_card_show")
+     * @Route("/account/card/{numero}", name="account_card_show")
      */
     public function showCardAction(Card $card, CardManager $cardManager)
     {
