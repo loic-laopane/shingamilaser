@@ -62,9 +62,8 @@ class CardManager
         $this->unactiveCards($customer);
 
         $this->attach($card, $customer);
-        //$this->session->getFlashBag()->add('success', 'Card '.$numero.' has been attached to your account');
 
-        return true;
+        return $this;
     }
 
     /**
@@ -77,6 +76,7 @@ class CardManager
         $card->setActivatedAt(new \DateTime());
         $card->setCustomer($customer);
         $this->save($card);
+        return $this;
     }
 
     /**
