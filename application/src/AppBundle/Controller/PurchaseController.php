@@ -69,7 +69,7 @@ class PurchaseController extends Controller
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $purchaseManager->save($purchase);
-                $this->get('session')->getFlashBag()->add('success', 'Purchase updated');
+                $this->get('session')->getFlashBag()->add('success', 'alert.purchase.updated');
             }
         }
         catch (\Exception $exception)

@@ -26,7 +26,7 @@ class Game
     /**
      * @var string
      * @ORM\Column(name="title", type="string", length=255)
-     * @Assert\NotBlank(message="Title is required")
+     * @Assert\NotBlank(message="game.title.not_blank")
      */
     private $title;
     /**

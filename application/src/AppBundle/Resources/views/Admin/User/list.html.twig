@@ -3,7 +3,7 @@
 {% block title %}AppBundle:User:list{% endblock %}
 
 {% block content %}
-<h1>Users list</h1>
+<h1>{{ 'title.user.list' | trans }}</h1>
 <div class="panel">
     <div class="panel-body">
         <p><a class="btn btn-success btn-fill" href="{{ path('admin_user_create') }}"><i class="fa fa-plus"></i> {{ 'btn.create' | trans }}</a></p>
@@ -11,8 +11,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
+                        <th>{{ 'th.username' | trans }}</th>
+                        <th>{{ 'th.email' | trans }}</th>
                         <th></th>
                     </tr>
                 </thead>

@@ -15,6 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class GameManager
 {
@@ -43,13 +44,18 @@ class GameManager
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
 
     public function __construct(ObjectManager $manager,
                                 SessionInterface $session,
                                 EngineInterface $templating,
                                 CustomerManager $customerManager,
-                                EventDispatcherInterface $dispatcher)
+                                EventDispatcherInterface $dispatcher,
+                                TranslatorInterface $translator)
     {
         $this->manager = $manager;
         $this->repository = $manager->getRepository(Game::class);
@@ -57,6 +63,7 @@ class GameManager
         $this->templating = $templating;
         $this->customerManager = $customerManager;
         $this->dispatcher = $dispatcher;
+        $this->translator = $translator;
     }
 
 
@@ -70,7 +77,7 @@ class GameManager
         $this->manager->persist($game);
         $this->manager->flush();
 
-        $this->session->getFlashBag()->add('success', 'Game created');
+        $this->session->getFlashBag()->add('success', 'alert.game_created');
     }
 
     public function save(Game $game)
@@ -81,7 +88,7 @@ class GameManager
         }
         $this->manager->flush();
 
-        $this->session->getFlashBag()->add('success', 'Game updated');
+        $this->session->getFlashBag()->add('success', 'alert.game_updated');
     }
 
     /**
@@ -124,7 +131,7 @@ class GameManager
         //Verifier qu'il y ait minimum 2 joueurs
         if(count($game->getPlayers()) < 2)
         {
-            throw new \Exception('A game must have at least 2 players');
+            throw new \Exception('alert.game_must_have_2_players');
         }
         $game->setStartedAt(new \DateTime());
         $this->manager->flush();
@@ -174,20 +181,20 @@ class GameManager
 
         $response = [
             'status' => 0,
-            'message' => 'No customer found',
+            'message' => $this->translator->trans('alert.customer.not_found'),
             'data' => null
         ];
 
         if(!$fields_valid)
         {
-            $response['message'] = 'Please fill at least one search field';
+            $response['message'] = $this->translator->trans('alert.search.fill_field');
         }
         else {
             $customers = $this->customerManager->getCustomerByParams($data);
             //$response['message'] = $customers;
             //return $response;
             if(count($customers) == 0) {
-                $response['message'] = 'No customer found';
+                $response['message'] = $this->translator->trans('alert.customer.not_found');
             }
             else {
                 foreach($customers  as $customer)
@@ -198,7 +205,7 @@ class GameManager
                     ));
                 }
                 $response['status'] = 1;
-                $response['message'] = 'Customer found';
+                $response['message'] = $this->translator->trans('alert.customer.found');
 
             }
         }

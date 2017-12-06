@@ -31,8 +31,9 @@ class UserEditType extends AbstractType
                 ->add('active')
                 ->add('roles', ChoiceType::class, array(
                     'choices' => array(
-                        'ROLE_USER' => 'ROLE_USER',
-                        'ROLE_STAFF' => 'ROLE_STAFF'
+                        'USER' => 'ROLE_USER',
+                        'STAFF' => 'ROLE_STAFF',
+                        'ADMIN' => 'ROLE_ADMIN'
                     ),
                     'multiple' => true,
                     'expanded' => true

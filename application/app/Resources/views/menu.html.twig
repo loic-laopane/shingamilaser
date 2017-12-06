@@ -93,7 +93,7 @@
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('admin') }}"><i class="fa fa-lock"></i> {{ 'menu.admin' | trans }}</a></li>
+                        <li><a href="{{ path('admin') }}"><i class="fa fa-lock"></i> {{ 'menu.admin.main' | trans }}</a></li>
                     {% endif %}
 
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

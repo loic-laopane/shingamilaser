@@ -19,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CustomerController
@@ -136,7 +137,7 @@ class CustomerController extends Controller
      * @Route("/customer/create/quick/new", name="customer_create")
      * @Method({"POST"})
      */
-    public function createCustomer(Request $request, CustomerManager $customerManager)
+    public function createCustomer(Request $request, CustomerManager $customerManager, TranslatorInterface $translator)
     {
         $nickname = $request->request->get('nickname');
         $email = $request->request->get('email');
@@ -151,11 +152,11 @@ class CustomerController extends Controller
             $user->setEmail($email);
             $customerManager->quickCreate($customer, $user);
             $response['status'] = 1;
-            $response['message'] = 'Account created';
+            $response['message'] = $translator->trans('alert.account.created');
         }
         catch (\Exception $e)
         {
-            $response['message'] = $e->getMessage();
+            $response['message'] = $translator->trans($e->getMessage());
         }
         return $this->json($response);
     }

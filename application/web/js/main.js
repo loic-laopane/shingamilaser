@@ -93,8 +93,8 @@ $(function()
     //Ajax Search
     $('#form_customer_quick_create').on('submit', function(event){
 
-        var modal = $(this);
-        var div_errors= modal.find('#alert-modal');
+        var form = $(this);
+        var div_errors= $('#createCustomerModal').find('#alert-modal');
         div_errors.html('').removeClass('alert alert-danger');
 
         event.preventDefault();
@@ -112,12 +112,12 @@ $(function()
                     //console.log(response.message);
                     div_errors.addClass('alert alert-success');
                     div_errors.html(response.message);
-                    modal.find('#nickname').val('');
-                    modal.find('#email').val('');
+                    form.find('#nickname').val('');
+                    form.find('#email').val('');
                 }
                 else {
                     //display error
-                    console.log(response);
+                    //console.log(response);
                     div_errors.addClass('alert alert-danger');
                     div_errors.html(response.message);
                     //div_response.html('');

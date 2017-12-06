@@ -201,7 +201,7 @@ class Customer
     {
         if(empty($nickname))
         {
-            throw new \InvalidArgumentException("Nickname is required");
+            throw new \InvalidArgumentException("alert.customer.nickname.required");
         }
         $this->nickname = $nickname;
 

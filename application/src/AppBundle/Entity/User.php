@@ -171,9 +171,9 @@ class User implements UserInterface
      */
     public function setEmail($email)
     {
-//        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-//            throw new \InvalidArgumentException('Email invalid');
-//        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException('alert.email_invalid');
+        }
         $this->email = $email;
 
         return $this;

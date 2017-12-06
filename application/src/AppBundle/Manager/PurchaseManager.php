@@ -99,15 +99,15 @@ class PurchaseManager
         $user = $purchase->getRequester();
         if(null === $user) {
             $this->setErrorStatus($purchase);
-            throw new Exception('No requester found on this purchase');
+            throw new Exception('alert.no_request_found_on_purchase');//No requester found on this purchase
         }
         if(null === $user->getCenter()) {
             $this->setErrorStatus($purchase);
-            throw new Exception('No center associated on current user');
+            throw new Exception('alert.no_center_link_to_current_user'); //No center associated on current user
         }
         if(!$purchase->getQuantity()) {
             $this->setErrorStatus($purchase);
-            throw new Exception('Quantity cannot be null to send request');
+            throw new Exception('alert.quantity_not_null_to_send_request'); //
         }
     }
 
