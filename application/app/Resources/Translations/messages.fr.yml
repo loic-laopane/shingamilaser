@@ -160,6 +160,12 @@ alert:
         fill_field: Merci de remplir au moins un champ de recherche #Please fill at least one search field
     account:
         created: Compte créé
+    center:
+        contain_digit: Center code must contain %code_length% digits
+        created: Centre créé
+        updated: Centre modifié
+        deleted: Centre supprimé
+        exists: Ce centre existe déjà
 
 jumbotron:
     purchase:

@@ -23,3 +23,13 @@ purchase:
 game:
     title:
         not_blank: Le titre est obligatoire
+
+center:
+    code:
+        not_blank: Le code est obligatoire
+        contain_digit: Le code doit contenir %code_length% digits
+    name:
+        not_blank: Le nom est obligatoire
+    city:
+        not_blank: La ville est obligatoire
+        no_digit: La ville ne peut contenir que des lettres
