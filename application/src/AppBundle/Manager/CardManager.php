@@ -10,6 +10,7 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
+use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -108,6 +109,28 @@ class CardManager
             $this->objectManager->persist($card);
         }
         $this->objectManager->flush();
+
+        return $this;
+    }
+
+    /**
+     * @param Card $card
+     * @param User $user
+     * @throws \Exception
+     * @return $this
+     */
+    public function checkUser(Card $card, User $user)
+    {
+        $customer = $card->getCustomer();
+        if(null === $customer)
+        {
+            throw new \Exception('alert.card_error');
+        }
+        $account = $customer->getUser();
+        if($account !== $user)
+        {
+            throw new \Exception('This card is not yours');
+        }
 
         return $this;
     }

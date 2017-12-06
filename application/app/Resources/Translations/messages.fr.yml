@@ -49,6 +49,7 @@ title:
         linked: Cartes associées
         scan: Scanner une carte
         link_to_customer: Associer une carte à %nickname%
+        yours: Votre carte
     customer:
         create: Nouveau client
         search: Rechercher un client
@@ -116,6 +117,7 @@ th:
     name: Nom du centre
     code: Code
     city: Ville
+    center: Centre
 
 
 btn:
@@ -189,6 +191,7 @@ alert:
         exists: Ce centre existe déjà
     registration:
         success : Inscription réussie
+    not_your_card: Vous ne possédez pas cette carte
 
 jumbotron:
     purchase:
@@ -215,6 +218,8 @@ Reference: Référence
 Status: Statut
 Created at : Créé le
 Updated at : Modifiée le
+Activated at: Activée le
+delivery_by : Délivrée par %center_name%
 card: carte
 cards: cartes
 Title: Titre

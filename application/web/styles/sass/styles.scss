@@ -71,7 +71,8 @@ $blue_dark: #254f72;
       }
     }
     .qrcode {
-
+      padding: 5px;
+      background: white;
     }
     .code {
       padding: 5px auto;
@@ -192,4 +193,14 @@ $avatar_edge: 55px;
 }
 .logo {
   padding: 0 !important;
+  img {
+    width: 400px;
+  }
+}
+@media (max-width: 768px) {
+  .logo {
+    img {
+      width: 280px;
+    }
+  }
 }

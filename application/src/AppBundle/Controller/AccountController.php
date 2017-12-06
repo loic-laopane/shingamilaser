@@ -126,11 +126,15 @@ class AccountController extends Controller
      * @throws \Exception
      * @Route("/account/card/{id}/show", name="account_card_show")
      */
-    public function showCardAction(Card $card, ObjectManager $objectManager)
+    public function showCardAction(Card $card, CardManager $cardManager)
     {
-        if ($card->getCustomer()->getUser() !== $this->getUser()) {
-            throw new \Exception('This card is not yours');
+        try {
+            $cardManager->checkUser($card, $this->getUser());
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', 'alert.not_your_card');
+            return $this->redirectToRoute('account_show');
         }
+
 
         return $this->render('AppBundle:Account:show_card.html.twig', array(
             'card' => $card

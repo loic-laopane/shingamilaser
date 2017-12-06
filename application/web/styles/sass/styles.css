@@ -52,6 +52,9 @@
       background-size: contain; }
       .fidelity-card .block-left .photo img {
         width: inherit; }
+    .fidelity-card .block-left .qrcode {
+      padding: 5px;
+      background: white; }
     .fidelity-card .block-left .code {
       padding: 5px auto;
       font-size: 1.1em;
@@ -143,5 +146,11 @@
 
 .logo {
   padding: 0 !important; }
+  .logo img {
+    width: 400px; }
+
+@media (max-width: 768px) {
+  .logo img {
+    width: 280px; } }
 
 /*# sourceMappingURL=styles.css.map */
