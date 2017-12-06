@@ -28,7 +28,7 @@ class Customer
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
-     *     message="The field firstname is required"
+     *     message="customer.firstname.not_blank"
      * )
      */
     private $firstname;
@@ -38,7 +38,7 @@ class Customer
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
-     *     message="The field lastname is required"
+     *     message="customer.lastname.not_blank"
      * )
      */
     private $lastname;
@@ -49,7 +49,7 @@ class Customer
      *
      * @ORM\Column(name="nickname", type="string", length=255)
      * @Assert\NotBlank(
-     *     message="The field nickname is required"
+     *     message="customer.nickname.not_blank"
      * )
      */
     private $nickname;
@@ -201,7 +201,7 @@ class Customer
     {
         if(empty($nickname))
         {
-            throw new \InvalidArgumentException("Nickname is required");
+            throw new \InvalidArgumentException("alert.customer.nickname.required");
         }
         $this->nickname = $nickname;
 

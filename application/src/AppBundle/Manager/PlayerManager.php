@@ -65,7 +65,7 @@ class PlayerManager
     {
         $this->manager->persist($customerGame);
         $this->manager->flush();
-        $this->session->getFlashBag()->add('success', 'Customer has been added to the Game');
+        $this->session->getFlashBag()->add('success', 'alert.customer.added_to_game');
         return true;
     }
 
@@ -87,7 +87,7 @@ class PlayerManager
 
         if($this->exists($customerGame))
         {
-            $this->session->getFlashBag()->add('danger', 'this customer is already in this game');
+            $this->session->getFlashBag()->add('danger', 'alert.customer.already_in_game');
             return false;
         }
 

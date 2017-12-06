@@ -17,19 +17,14 @@ class UserRegisterType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username', TextType::class, array(
-                    'error_bubbling' =>  true
-                ))
+        $builder->add('username', TextType::class)
                 ->add('password', RepeatedType::class,array(
-                    'error_bubbling' =>  true,
                         'type' => PasswordType::class,
                         'first_options'  => array('label' => 'Password'),
                         'second_options' => array('label' => 'Repeat Password'),
                         'invalid_message' => 'Passwords doesn\'t match'
                 ))
-                ->add('email', EmailType::class, array(
-                    'error_bubbling' =>  true
-                ));
+                ->add('email', EmailType::class);
     }
     
     /**

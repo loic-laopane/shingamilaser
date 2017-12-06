@@ -2,25 +2,25 @@
 
     <div class="col-md-6">
         <div class="customer-details" id="customer-details-{{ customer.id }}">
-            <div class="heading">Customer detail #{{ customer.id }}</div>
+            <div class="heading">{{ 'title.customer.detail' | trans({'%nickname%' : customer.nickname}) }}</div>
             <div class="body">
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Firstname :</label>
+                    <label class="col-sm-4 col-form-label">{{ 'Firstname' | trans }} :</label>
                     <div class="col-sm-8">{{ customer.firstname }}</div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Lastname :</label>
+                    <label class="col-sm-4 col-form-label">{{ 'Lastname' | trans }} :</label>
                     <div class="col-sm-8">{{ customer.lastname }}</div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Nickname :</label>
+                    <label class="col-sm-4 col-form-label">{{ 'Nickname' | trans }} :</label>
                     <div class="col-sm-8">{{ customer.nickname }}</div>
                 </div>
 
                 {% for card in customer.cards %}
                 <div class="form-group row">
-                    <label class="col-sm-4 col-form-label">Card number :</label>
+                    <label class="col-sm-4 col-form-label">{{ 'Card number' | trans }} :</label>
                     <div class="col-sm-8">{{ card.numero }}</div>
                 </div>
                  {% else %}

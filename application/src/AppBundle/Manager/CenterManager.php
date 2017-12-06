@@ -53,22 +53,18 @@ class CenterManager
     public function insert(Center $center)
     {
         if($this->exists($center)) {
-            $this->session->getFlashBag()->add('danger', 'This Center already exists');
-            return false;
+            throw new \Exception('alert.center.exists');
         }
 
         $this->manager->persist($center);
         $this->manager->flush();
-
-        $this->session->getFlashBag()->add('success', 'Center created');
-        return true;
     }
 
     public function delete($id)
     {
         $center = $this->repository->find($id);
         if (null === $center){
-            $this->session->getFlashBag()->add('danger', 'This Center doesn\'t exist');
+            throw new \Exception('This Center doesn\'t exist');
             return false;
         }
 

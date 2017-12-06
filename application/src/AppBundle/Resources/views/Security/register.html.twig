@@ -1,13 +1,13 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ 'registration' | trans }} :: {{ parent() }}{% endblock %}
+{% block title %}{{ 'registration' | trans | capitalize}} :: {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="row">
         {{ form_start(form) }}
         <div class="col-md-6">
             <div class="my-panel">
-                <div class="heading">{{ 'Registration' | trans | title }}</div>
+                <div class="heading">{{ 'heading.registration' | trans | capitalize }}</div>
                 <div class="body">
 
                     {{ form_errors(form) }}
@@ -27,7 +27,7 @@
 
         <div class="col-md-6">
             <div class="my-panel">
-                <div class="heading">{{ 'Account' | trans | title }}</div>
+                <div class="heading">{{ 'heading.account' | trans | capitalize }}</div>
                 <div class="body">
                     <section>
                         {{ form_row(form.user) }}

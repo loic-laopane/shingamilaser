@@ -1,9 +1,9 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Purchases list{% endblock %}
+{% block title %}{{ 'title.purchase.list' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Purchases list</h1>
+<h1>{{ 'title.purchase.list' | trans }}</h1>
     <div class="panel">
         <div class="panel-body">
     <a href="{{ path('purchase_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
@@ -14,12 +14,12 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Quantity</th>
-                    <th>Requester</th>
-                    <th>Created at</th>
-                    <th>Updated at</th>
-                    <th>Status</th>
-                    <th>~</th>
+                    <th>{{ 'th.quantity' | trans }}</th>
+                    <th>{{ 'th.requester' | trans }}</th>
+                    <th>{{ 'th.created_at' | trans }}</th>
+                    <th>{{ 'th.updated_at' | trans }}</th>
+                    <th>{{ 'th.status' | trans }}</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -57,7 +57,7 @@
             </tfoot>
         </table>
     {% else %}
-        <p>No purchase</p>
+        <p>{{ 'msg.no_purchase' | trans }}</p>
     {% endif %}
         </div>
     </div>

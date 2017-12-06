@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Create new Game{% endblock %}
+{% block title %}{{ 'title.game.create' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
 <h1>{{ 'title.game.create' | trans }}</h1>
@@ -8,8 +8,8 @@
     <div class="panel-body">
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.create.game' | trans }}</button>
-    <a href="{{ path('game_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
+    <button type="submit" class="btn btn-primary btn-fill" formnovalidate><i class="fa fa-save"></i> {{ 'btn.game.create' | trans }}</button>
+    <a href="{{ path('game_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
     {{ form_end(form) }}
     </div>
 </div>

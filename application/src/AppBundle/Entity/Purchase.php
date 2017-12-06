@@ -35,7 +35,7 @@ class Purchase
      *
      * @ORM\Column(name="quantity", type="integer")
      * @Assert\NotBlank(
-     *     message="Quantity cannot be null"
+     *     message="purchase.quantity.not_blank"
      * )
      */
     private $quantity;

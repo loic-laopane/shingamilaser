@@ -30,7 +30,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="username", type="string", length=255, unique=true)
      * @Assert\NotBlank(
-     *     message="The field username is required"
+     *     message="user.username.not_blank"
      * )
      */
     private $username;
@@ -40,7 +40,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="password", type="string", length=255)
      * @Assert\NotBlank(
-     *     message="The field password is required"
+     *     message="user.password.not_blank"
      * )
      * @Assert\Length(
      *     min="4",
@@ -54,10 +54,10 @@ class User implements UserInterface
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
      * @Assert\NotBlank(
-     *     message="The field email is required"
+     *     message="user.email.not_blank"
      * )
      * @Assert\Email(
-     *     message="The field email must be a valid email"
+     *     message="user.email.email"
      * )
      */
     private $email;
@@ -172,7 +172,7 @@ class User implements UserInterface
     public function setEmail($email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException('Email invalid');
+            throw new \InvalidArgumentException('alert.email_invalid');
         }
         $this->email = $email;
 

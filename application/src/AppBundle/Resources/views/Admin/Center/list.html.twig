@@ -1,9 +1,9 @@
 {% extends "AppBundle:Admin:layout.html.twig" %}
 
-{% block title %}AppBundle:User:list{% endblock %}
+{% block title %}{{ 'title.center.list' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block content %}
-<h1>Centers list</h1>
+<h1>{{ 'title.center.list' | trans }}</h1>
 <div class="panel">
     <div class="panel-body">
         <p><a class="btn btn-success btn-fill" href="{{ path('admin_center_create') }}"><i class="fa fa-plus"></i> {{ 'btn.create' | trans }}</a></p>
@@ -11,9 +11,9 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Code</th>
-                        <th>City</th>
+                        <th>{{ 'th.name' | trans }}</th>
+                        <th>{{ 'th.code' | trans }}</th>
+                        <th>{{ 'th.city' | trans }}</th>
                     </tr>
                 </thead>
                 <tbody>

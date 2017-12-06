@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Center
 {
+
+    const CODE_LENGTH = 3;
     /**
      * @var int
      *
@@ -29,12 +31,12 @@ class Center
      *
      * @ORM\Column(name="code", type="string", length=3, unique=true)
      * @Assert\NotBlank(
-     *     message="Code is required"
+     *     message="center.code.not_blank"
      * )
      * @Assert\Regex(
      *     pattern="/\d{3}/",
      *     match=true,
-     *     message="Center code must contain 3 digits"
+     *     message="center.code.contain_digit"
      * )
      */
     private $code;
@@ -44,7 +46,7 @@ class Center
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @Assert\NotBlank(
-     *     message="Code is required"
+     *     message="center.name.not_blank"
      * )
      *
      */
@@ -75,12 +77,12 @@ class Center
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
      * @Assert\NotBlank(
-     *     message="Code is required"
+     *     message="center.city.not_blank"
      * )
      * @Assert\Regex(
      *     pattern="/^\d/",
      *     match=false,
-     *     message="City cannot contain digits"
+     *     message="center.city.no_digit"
      *
      * )
      */
@@ -111,9 +113,9 @@ class Center
      */
     public function setCode($code)
     {
-        if(strlen($code) !== 3 || !is_numeric($code))
+        if(strlen($code) !== self::CODE_LENGTH || !is_numeric($code))
         {
-            throw new \InvalidArgumentException('Center code must contain 3 digits');
+            throw new \InvalidArgumentException('Center code must contain %code_length% digits');
         }
         $this->code = $code;
 

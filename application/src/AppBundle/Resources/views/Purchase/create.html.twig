@@ -1,11 +1,11 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Purchase:show{% endblock %}
+{% block title %}{{ 'title.purchase.create' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Send card's request</h1>
+<h1>{{ 'title.purchase.create' | trans }}</h1>
     <div class="jumbotron">
-        Faites une demande de carte auprès de votre fournisseur en indiquant la quantité voulue
+        {{ 'jumbotron.purchase.create' | trans }}
     </div>
     <div class="panel">
         <div class="panel-body">
