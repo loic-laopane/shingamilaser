@@ -1,12 +1,12 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}{{ 'title.customer.detail' | trans }} :: {{ parent() }}{% endblock %}
+{% block title %}{{ 'title.customer.detail' | trans({'%nickname%' : customer.nickname}) }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.customer.detail' | trans }}</h1>
+    <h1>{{ 'title.customer.main' | trans }}</h1>
     <div class="panel panel-dark">
         <div class="panel-heading">
-            {{ 'Detail of' | trans ~ ' ' ~ customer.firstname ~ ' ' ~ customer.lastname }}
+            {{ 'title.customer.detail' | trans({'%nickname%' : customer.nickname}) }}
         </div>
         <div class="panel-body">
             <div class="row">

@@ -10,6 +10,10 @@ $color_danger: #8f242a;
 $color_danger_hover: #711c21;
 $color_default: #333333;
 $color_default_hover: #111111;
+$color_info: #b5ddfe;
+$color_info_hover: #254f72;
+$color_jumbotron: #4E5D6C;
+
 
 $radius: 3px;
 html, body {
@@ -88,7 +92,7 @@ html, body {
   }
 
   &.panel-dark {
-    background: rgba(#000000, 0.4);
+    background: rgba($color_jumbotron, 0.6);
     color:white;
     box-shadow: 5px 5px 12px #000;
     .panel-heading {
@@ -275,6 +279,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   }
 }
 
+/** ALERT */
+.alert {
+  &.alert-info {
+    background: rgba($color_info, 0.8);
+    color: $color_info_hover;
+  }
+}
+
 /**
  * NAVBAR
  */
@@ -314,6 +326,12 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   font-family: 'airstrike', 'Racing Sans One', cursive;
 }
 
+
+@media (max-width: 767px) {
+  .wrapper {
+    background: none;
+  }
+}
 /**
  * FONTS
  */

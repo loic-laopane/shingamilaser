@@ -48,7 +48,7 @@ html, body {
   .panel table.table {
     color: #333; }
   .panel.panel-dark {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(78, 93, 108, 0.6);
     color: white;
     box-shadow: 5px 5px 12px #000; }
     .panel.panel-dark .panel-heading {
@@ -154,6 +154,11 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   .btn.btn-fill {
     color: white; }
 
+/** ALERT */
+.alert.alert-info {
+  background: rgba(181, 221, 254, 0.8);
+  color: #254f72; }
+
 /**
  * NAVBAR
  */
@@ -178,6 +183,9 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
 .logo {
   font-family: 'airstrike', 'Racing Sans One', cursive; }
 
+@media (max-width: 767px) {
+  .wrapper {
+    background: none; } }
 /**
  * FONTS
  */

@@ -1,65 +1,66 @@
 menu:
-    login: Connexion
-    register: Inscription
-    logout: Se déconnecter
+    login: Sign in
+    register: Registration
+    logout: Sign out
     card:
-        main: Les cartes
-        list: Toutes les cartes
+        main: Cards
+        list: Cards list
     purchase:
-        create: Commander des cartes
-        list: Toutes les demandes de cartes
+        create: Purchase cards
+        list: Card's purchases
     account:
-        main: Profil
-        edit: Modifier mon compte
+        main: Profile
+        edit: Edit my account
     profile:
-        main: Mon profil
-        edit: Modifier mon profil
+        main: My profile
+        edit: Edit my profile
     customer:
-        main: Les clients
-        search: Rechercher
-        create: Nouveau client
+        main: Customers
+        search: Search
+        create: New customer
+        main: Customer detail
     game:
-        main: Les parties
-        create: Nouvelle partie
-        list: Toutes les parties
+        main: Games
+        create: New game
+        list: Game list
     admin:
         main: Administration
     user:
-        main: Les utilisateurs
+        main: Users
     center:
-        main: Les centres
+        main: Centers
 
 heading:
-    signin: connexion
-    registration: inscription
-    account: compte
-    forgotten_password: mot de passe oublié
+    signin: sign in
+    registration: registration
+    account: account
+    forgotten_password: forrgotten password
 
 
 label:
-    username: identifiant
-    password: mot de passe
+    username: username
+    password: password
 
 link:
-    forgotten_password: mot de passe oublié
+    forgotten_password: forgotten password
 
 title:
     card:
-        list: Liste des cartes
-        linked: Cartes associées
-        scan: Scanner une carte
-        link_to_customer: Associer une carte à %nickname%
-        yours: Votre carte
+        list: Cards list
+        linked: Cards linked
+        scan: Scan a card
+        link_to_customer: Link a card to %nickname%
+        yours: Your card
     customer:
-        create: Nouveau client
-        search: Rechercher un client
-        detail: Détail du client %nickname%
-        edit: Modifier le client %nickname%
-        main: Fiche client
+        create: New customer
+        search: Search a customer
+        detail: Detail of customer %nickname%
+        edit: Edit customer %nickname%
+        main: Customer
     search:
-        result: Résultat de recherche
+        result: Search results
     purchase:
-        list: Liste des commandes
+        list: Purchases list
         create: Création de demande de cartes
         manage: Gérer la commande
     request:

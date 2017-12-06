@@ -1,10 +1,10 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}{{ 'title.customer.edit' | trans ~ customer.nickname }} :: {{ parent() }}{% endblock %}
+{% block title %}{{ 'title.customer.edit' | trans({'%nickname%': customer.nickname}) }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.customer.edit' | trans ~ ' '~ customer.nickname }}</h1>
-    <div class="panel">
+    <h1>{{ 'title.customer.edit' | trans({'%nickname%': customer.nickname}) }}</h1>
+    <div class="panel panel-dark">
     <div class="panel-body">
     {{ form_start(form) }}
     {{ form_widget(form) }}

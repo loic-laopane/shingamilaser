@@ -197,6 +197,9 @@ $avatar_edge: 55px;
     width: 400px;
   }
 }
+li > a [class^=fa] {
+  font-size: 18px !important;
+}
 @media (max-width: 768px) {
   .logo {
     img {
