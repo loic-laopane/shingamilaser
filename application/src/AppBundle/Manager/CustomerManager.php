@@ -132,7 +132,6 @@ class CustomerManager
     {
         $user->setUsername($user->getEmail());
         $user->setPassword(substr(uniqid(), 0, 6));
-        $this->userManager->encodeUserPassword($user);
         $user->setRoles(['ROLE_USER']);
         $customer->setUser($user);
 

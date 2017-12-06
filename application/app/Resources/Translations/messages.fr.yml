@@ -70,6 +70,8 @@ title:
         list: Les joueurs
     admin:
         dashboard: Tableau de bord
+        account:
+            create: Creation d'un compte administrateur
     user:
         list: Liste des utilisateurs
         edit: Modifier %username%
@@ -78,6 +80,9 @@ title:
         list: Liste des centres
         new: Nouveau centre
         edit: Modifier le centre
+    registration:
+        completed: Inscription réussie
+    welcome: Bienvenue sur %app_name%
 
 
 th:
@@ -166,6 +171,8 @@ alert:
         updated: Centre modifié
         deleted: Centre supprimé
         exists: Ce centre existe déjà
+    registration:
+        success : Inscription réussie
 
 jumbotron:
     purchase:
@@ -215,3 +222,5 @@ msg:
     no_purchase: Aucune commande trouvée
     no_card_linked: Aucune carte associée
     no_player: Aucun joueur trouvé
+
+#Mail

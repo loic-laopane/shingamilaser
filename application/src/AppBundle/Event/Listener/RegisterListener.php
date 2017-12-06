@@ -47,7 +47,7 @@ class RegisterListener
     {
         $customer = $event->getCustomer();
         $user = $event->getUser();
-        $message = new \Swift_Message($this->translator->trans('Registration completed'));
+        $message = new \Swift_Message($this->translator->trans('title.registration.completed'));
         $message->setFrom($this->from)
                 ->setTo($user->getEmail())
                 ->setBody(

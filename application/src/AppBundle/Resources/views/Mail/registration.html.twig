@@ -1,14 +1,14 @@
 {% extends 'AppBundle:Mail:layout_mail.html.twig' %}
 
 {% block body %}
-    <h1>{{ 'Registration completed' | trans }}</h1>
-    <h2>Welcome to {{ app_name }} !</h2>
+    <h1>{{ 'title.registration.completed' | trans }}</h1>
+    <h2>{{ 'title.welcome' | trans({'%app_name%' : app_name })}} !</h2>
     <h3>Hi {{ customer.nickname }}, </h3>
     <p>
         You can log in right now with :
         <ul>
-            <li>Login : {{ user.username }}</li>
-            <li>Password : {{ user.password }}</li>
+            <li>{{ 'Login' | trans }} : {{ user.username }}</li>
+            <li>{{ 'Password' | trans }} : {{ user.password }}</li>
         </ul>
     </p>
     <p>Follow this <a href="{{ url('login') }}">link</a></p>
