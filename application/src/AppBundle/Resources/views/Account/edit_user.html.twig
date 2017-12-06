@@ -1,12 +1,12 @@
 {% extends "AppBundle:Account:account.layout.html.twig" %}
 
-{% block title %}{{ parent() }} > {{ 'Edit account' | trans }}{% endblock %}
+{% block title %}{{ 'title.account.edit' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block content %}
-    <h1>{{ 'Edit account' | trans }}</h1>
+    <h1>{{ 'title.account.edit' | trans }}</h1>
     <legend></legend>
     <div class="panel panel-primary">
-        <div class="panel-heading">{{ 'Your account' | trans }}</div>
+        <div class="panel-heading">{{ 'title.account.main' | trans }}</div>
         <div class="panel-body">
             {{ form_start(form) }}
             {{ form_widget(form) }}

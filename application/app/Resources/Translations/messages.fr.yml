@@ -9,7 +9,7 @@ menu:
         create: Commander des cartes
         list: Toutes les demandes de cartes
     account:
-        main: Profile
+        main: Profil
         edit: Modifier mon compte
     profile:
         main: Mon profil
@@ -48,6 +48,7 @@ title:
         list: Liste des cartes
         linked: Cartes associées
         scan: Scanner une carte
+        link_to_customer: Associer une carte à %nickname%
     customer:
         create: Nouveau client
         search: Rechercher un client
@@ -83,6 +84,12 @@ title:
     registration:
         completed: Inscription réussie
     welcome: Bienvenue sur %app_name%
+    account:
+        main: Votre compte
+        edit: Modifier votre compte
+    profile:
+        edit: Modifier votre profil
+        main: Votre profil
 
 
 th:
@@ -113,6 +120,7 @@ th:
 
 btn:
     login: Se connecter
+    logout: Déconnexion
     register: S'inscrire
     return: Retour
     send_request: Envoyer la demande
@@ -128,6 +136,7 @@ btn:
     cancel: Annuler
     manage: Gérer
     remove: Retirer
+    link: Associer
     send:
         request: Envoyer la demande
     get_cards: Obtenir les cartes
@@ -140,6 +149,13 @@ btn:
     qrcode:
         start_and_stop: Démarrer / Arrêter le scan d'un QRCode
     add_to_game: Ajouter à la partie
+    account:
+        edit: Modifier votre compte
+    profile:
+        show: Votre profil
+        edit: Modifier votre profil
+    card:
+        add: Ajouter une carte
 
 alert:
     one_field_required: Veuillez renseigner au moins un champ
@@ -177,6 +193,7 @@ alert:
 jumbotron:
     purchase:
         create: Faites une demande de carte auprès de votre fournisseur en indiquant la quantité voulue
+    access_personnal_info: Accéder à vos informations personnelles
 
 
 Firstname: Prénom
@@ -210,6 +227,11 @@ Active : Actif
 Code: Code
 Name: Nom
 Users: Utilisateurs
+File: ""
+informations: Informations
+fidelity cards: Mes cartes de fidélité
+offers: Mes offres
+games: Mes Parties
 
 #Status workflow
 created: Création
@@ -222,5 +244,8 @@ msg:
     no_purchase: Aucune commande trouvée
     no_card_linked: Aucune carte associée
     no_player: Aucun joueur trouvé
+    no_card_available: Aucune carte disponible
+    no_game_played: Aucune partie jouée
+    no_offer_available: Aucune offre disponible
 
 #Mail

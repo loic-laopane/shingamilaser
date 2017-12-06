@@ -2,10 +2,10 @@
     <table class="table" id="table_card">
         <thead>
         <tr>
-            <th>Card number</th>
-            <th>Activated at</th>
-            <th>Center</th>
-            <th>Status</th>
+            <th>{{ 'th.card_number' | trans }}</th>
+            <th>{{ 'th.activated_at' | trans }}</th>
+            <th>{{ 'th.center' | trans }}</th>
+            <th>{{ 'th.status' | trans }}</th>
         </tr>
         </thead>
         <tbody>
@@ -20,5 +20,5 @@
         </tbody>
     </table>
 {% else %}
-    <p>No card available</p>
+    <p>{{ 'msg.no_card_available' | trans }}</p>
 {% endif %}

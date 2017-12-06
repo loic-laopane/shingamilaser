@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Link card to customer {{ customer.nickname }}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ 'title.card.link_to_customer' | trans({'%nickname%' : customer.nickname}) }}</h4>
             </div>
             <div class="modal-body">
                 <div class="alert" id="alert-modal"></div>
@@ -12,7 +12,7 @@
             </div>
             <div class="modal-footer">
                 <div class="left-side">
-                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal"><i class="fa fa-close"></i> {{ 'btn.close' }}</button>
+                    <button type="button" class="btn btn-default btn-simple" data-dismiss="modal"><i class="fa fa-close"></i> {{ 'btn.close' | trans }}</button>
                 </div>
                 <div class="divider"></div>
                 <div class="right-side">

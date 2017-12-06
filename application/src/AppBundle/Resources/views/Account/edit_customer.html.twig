@@ -1,6 +1,6 @@
 {% extends "AppBundle:Account:account.layout.html.twig" %}
 
-{% block title %}{{ parent() }} > {{ 'Edit profile' | trans }}{% endblock %}
+{% block title %}{{ 'title.profile.edit' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block content %}
     <h1>
@@ -9,12 +9,12 @@
             <img src="{{ asset('img/avatar/' ~ customer.avatar.filename) }}" alt="Avatar of {{ customer.firstname }}" title="Avatar of {{ customer.firstname }}">
             {% endif %}
         </div>
-        {{ 'Edit profile' | trans }}
+        {{ 'title.profile.edit' | trans }}
     </h1>
     <legend></legend>
 <div class="panel panel-primary">
     <div class="panel-heading">
-        {{ 'Edit your account' | trans }}
+        {{ 'title.profile.main' | trans }}
     </div>
     <div class="panel-body">
     {{ form_start(form) }}
