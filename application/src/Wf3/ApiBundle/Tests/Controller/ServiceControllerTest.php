@@ -26,5 +26,4 @@ class ServiceControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/request');
     }
-
 }

@@ -8,7 +8,6 @@
 
 namespace Wf3\ApiBundle\Manager;
 
-
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Wf3\ApiBundle\Entity\Card;
@@ -62,8 +61,7 @@ class CardManager
     private function formatUniqId($int)
     {
         $diff =  Card::CODE_LENGTH - strlen($int);
-        for($i = 0; $i < $diff; $i++)
-        {
+        for ($i = 0; $i < $diff; $i++) {
             $int = '0'.$int;
         }
         return $int;
@@ -78,7 +76,7 @@ class CardManager
     public function requestedCards($center_code, $request_id)
     {
         $centerRequest = $this->objectManager->getRepository('ApiBundle:CenterRequest')->findCenterRequestByCenterAndId($center_code, $request_id);
-        if(null === $centerRequest) {
+        if (null === $centerRequest) {
             throw new Exception('Request not found');
         }
 
@@ -88,6 +86,4 @@ class CardManager
 
         return $cards;
     }
-
-
 }

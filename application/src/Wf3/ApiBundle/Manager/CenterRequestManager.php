@@ -8,7 +8,6 @@
 
 namespace Wf3\ApiBundle\Manager;
 
-
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Wf3\ApiBundle\Entity\Center;
@@ -51,7 +50,6 @@ class CenterRequestManager
      */
     public function __construct(ObjectManager $objectManager, CardManager $cardManager)
     {
-
         $this->objectManager = $objectManager;
         $this->cardManager = $cardManager;
         $this->messages = array();
@@ -91,12 +89,10 @@ class CenterRequestManager
     {
         $missing_fields = array_diff($accept, array_keys($data));
         $unknown_fields = array_diff(array_keys($data), $accept);
-        foreach($missing_fields as $field)
-        {
+        foreach ($missing_fields as $field) {
             throw new Exception('Field ['.$field.'] is required');
         }
-        foreach($unknown_fields as $field)
-        {
+        foreach ($unknown_fields as $field) {
             throw new Exception('Field ['.$field.'] is unknown');
         }
     }
@@ -109,14 +105,13 @@ class CenterRequestManager
     {
         $this->checkEntries($data, $this->request_accept);
 
-        if(!($data['quantity'])) {
+        if (!($data['quantity'])) {
             throw new Exception('Field [quantity] is required and must not be null');
         }
 
         $center = $this->findCenter($data['center']);
 
         $this->create($center, $data['quantity']);
-
     }
 
     /**
@@ -128,15 +123,13 @@ class CenterRequestManager
 
         $cards = $this->cardManager->requestedCards($data['center'], $data['request_id']);
 
-        if(null === $cards)
-        {
+        if (null === $cards) {
             throw new Exception('No card found');
         }
 
         $this->abstractResponse->setStatusCode(200)
                                     ->setMessage(count($cards).' card(s) found')
                                     ->setCards($cards);
-
     }
 
     /**
@@ -168,7 +161,7 @@ class CenterRequestManager
     private function findCenter($numero)
     {
         $center = $this->objectManager->getRepository(Center::class)->findOneBy(['code' => $numero]);
-        if(false === $center instanceof Center) {
+        if (false === $center instanceof Center) {
             throw new Exception('Center code '.$numero.' unknown');
         }
         return $center;
@@ -181,8 +174,7 @@ class CenterRequestManager
      */
     private function createCards(CenterRequest $centerRequest, $quantity)
     {
-        for($i=0; $i < $quantity; $i++)
-        {
+        for ($i=0; $i < $quantity; $i++) {
             $this->cardManager->create($centerRequest);
         }
         return $this;

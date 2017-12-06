@@ -22,7 +22,5 @@ class CenterRequestRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult()
             ;
-
     }
-
 }

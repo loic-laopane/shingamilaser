@@ -10,5 +10,4 @@ namespace Wf3\ApiBundle\Repository;
  */
 class CardRepository extends \Doctrine\ORM\EntityRepository
 {
-
 }

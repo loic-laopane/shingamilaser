@@ -33,7 +33,8 @@ abstract class AbstractResponse
      * @param string $statusCode
 
      */
-    public function setStatusCode($statusCode) {
+    public function setStatusCode($statusCode)
+    {
         $this->statusCode = $statusCode;
         return $this;
     }
@@ -43,7 +44,8 @@ abstract class AbstractResponse
      *
      * @return string
      */
-    public function getStatusCode() {
+    public function getStatusCode()
+    {
         return $this->statusCode;
     }
 
@@ -66,8 +68,8 @@ abstract class AbstractResponse
      *
      * @return string
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
-
 }

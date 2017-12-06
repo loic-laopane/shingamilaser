@@ -8,7 +8,6 @@
 
 namespace Wf3\ApiBundle\Manager;
 
-
 use JMS\Serializer\Exception\LogicException;
 use JMS\Serializer\Serializer;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -16,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wf3\ApiBundle\Model\AbstractResponse;
 use Wf3\ApiBundle\Model\ResponseException;
-
 
 class ResponseManager
 {
@@ -46,14 +44,13 @@ class ResponseManager
         }
         $class_name = 'Response'.ucfirst($method);
         $class = "Wf3\\ApiBundle\\Model\\".$class_name;
-        if(!class_exists($class)) {
+        if (!class_exists($class)) {
             throw new Exception('Class '.$class.' not found');
         }
 
         $isJson = json_decode($request->getContent());
 
-        if(null===$isJson)
-        {
+        if (null===$isJson) {
             return $this->exception('Invalid JSON');
         }
 
@@ -83,7 +80,8 @@ class ResponseManager
      * @param int $status_code
      * @return Response
      */
-    public function exception($message) {
+    public function exception($message)
+    {
         $reponse = new ResponseException();
         $reponse->setMessage($message);
         $reponse->setStatusCode(AbstractResponse::STATUS_BAD_REQUEST);
