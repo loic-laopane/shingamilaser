@@ -13,12 +13,13 @@ $color_default_hover: #111111;
 $color_info: #b5ddfe;
 $color_info_hover: #254f72;
 $color_jumbotron: #4E5D6C;
+$opacity: 0.6;
 
 
 $radius: 3px;
 html, body {
   background: #2B3E50;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'Oswald', 'Montserrat', "Helvetica", Arial, sans-serif;
   background-image: url("/web/img/background/bg-space-pink.jpg");
   .main {
     background: inherit;
@@ -48,6 +49,10 @@ html, body {
       background: white;
       color: $color_grey;
       box-shadow: none;
+      label {
+        font-weight: normal;
+        font-size: 1.1em;
+      }
 
       input {
         &[type="text"], &[type="password"], &[type="email"], &[type="date"], &[type="date"]
@@ -70,6 +75,15 @@ html, body {
 .jumbotron {
   background: rgba(#4E5D6C, 0.5);
   color: white;
+  &.main-jumbotron {
+    position: fixed;
+    top:0;
+    left:0;
+    opacity: 0;
+    margin-left:10%;
+    z-index: 10;
+    width: 80%;
+  }
 }
 .customer-details {
   background:  white;
@@ -85,10 +99,36 @@ html, body {
   color: $color_grey;
   background: rgba(#ffffff, 0.7);
 
+  label {
+    font-weight: normal;
+    font-size: 1.1em;
+  }
   table {
     &.table {
-      color: #333
+      color: #333;
+      thead {
+        background: rgba(black, $opacity);
+      }
+      th {
+        font-weight: normal;
+        font-size: 1.2em;
+        color: $color_success;
+      }
+      td {
+        > a {
+          &:link, &:visited {
+            color: $color_info;
+            &[class*="btn"] {
+              color: white;
+            }
+          }
+          &:hover, &:active {
+            color: $color_link;
+          }
+        }
+      }
     }
+
   }
 
   &.panel-dark {
@@ -128,7 +168,11 @@ html, body {
           }
         }
 
-
+      }
+      .checkbox {
+        label {
+          color: white;
+        }
       }
     }
 
@@ -167,13 +211,33 @@ html, body {
   }
 }
 
+.nav {
+  &.nav-tabs {
+    li {
+      a {
+        font-weight: normal;
+        font-size: 1.1em;
+        &:link, &:visited {
+          color: white;
+        }
+        &:hover, &:active
+        {
+          color: $color_info;
+        }
+      }
 
+    }
+  }
+}
+.nav-tabs-navigation {
+  border-bottom-width: 4px;
+}
 
 .navbar-ct-primary
 {
   background: #222222;
   ul.navbar-nav {
-    font-family: 'Work Sans', sans-serif;
+
   }
 }
 
@@ -182,7 +246,7 @@ html, body {
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: 'Work Sans', 'Montserrat', "Helvetica", Arial, sans-serif;
+  font-family: 'Oswald', 'Montserrat', "Helvetica", Arial, sans-serif;
 }
 
 /**
@@ -195,7 +259,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   {
     color: $color_primary;
     border-color:$color_primary;
-    &:hover {
+    &:hover, &:active {
       background: $color_primary_hover;
       border-color: $color_primary_hover;
     }
@@ -279,6 +343,31 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   }
 }
 
+/* Pagination */
+.pagination
+{
+  &.pagination-primary {
+    li {
+      &.active {
+        a {
+          background: $color_success;
+          color: white
+        }
+
+      }
+      a {
+        color: white;
+        &:link, &:visited {
+          color: white;
+          border-color: $color_success;
+        }
+        &:hover, &:active {
+          background: $color_success;
+        }
+      }
+    }
+  }
+}
 /** ALERT */
 .alert {
   &.alert-info {
@@ -290,7 +379,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
 /**
  * NAVBAR
  */
-.navbar {
+
   .list-group
   {
     border-radius: $radius;
@@ -317,7 +406,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
       font-size: 1.2em;
     }
   }
-}
+
 
 
 
@@ -326,6 +415,19 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   font-family: 'airstrike', 'Racing Sans One', cursive;
 }
 
+.perso {
+  height: 400px;
+  width: 200px;
+  position: fixed;
+  top:200px;
+  z-index: 0;
+  &.perso-left {
+    left:-200px;
+  }
+  &.perso-right {
+    right:-200px;
+  }
+}
 
 @media (max-width: 767px) {
   .wrapper {

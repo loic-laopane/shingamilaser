@@ -149,6 +149,20 @@
   .logo img {
     width: 400px; }
 
+li > a [class^=fa] {
+  font-size: 18px !important; }
+
+footer.footer {
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  background: black;
+  width: 100%;
+  line-height: 40px;
+  text-align: center;
+  z-index: 100;
+  font-size: 0.9em; }
+
 @media (max-width: 768px) {
   .logo img {
     width: 280px; } }

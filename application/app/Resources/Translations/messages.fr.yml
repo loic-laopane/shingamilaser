@@ -93,7 +93,9 @@ title:
     profile:
         edit: Modifier votre profil
         main: Votre profil
-
+    password:
+        forgotten: Mot de passe oublié
+        new: Nouveau mot de passe
 
 th:
     card_number: Numéro de carte
@@ -141,6 +143,7 @@ btn:
     manage: Gérer
     remove: Retirer
     link: Associer
+    update: Mettre à jour
     send:
         request: Envoyer la demande
     get_cards: Obtenir les cartes
@@ -194,6 +197,12 @@ alert:
     registration:
         success : Inscription réussie
     not_your_card: Vous ne possédez pas cette carte
+    token:
+        expired: Demande expirée
+        invalid: Demande non valide
+    user_not_found: Utilisateur non trouvé
+    email:
+        send_to: Un mail a été envoyé à %email%
 
 jumbotron:
     purchase:

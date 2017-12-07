@@ -3,16 +3,46 @@
 {% block title %}{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }} :: {{ parent() }}{% endblock %}
 
 {% block jobotron %}
-<div class="jumbotron">
+<div class="jumbotron main-jumbotron">
     <div class="container">
-        <h1>{{ app_name }}</h1>
+        <h1>{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }}</h1>
         <p></p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">{{ 'btn.see_more' | trans }}</a></p>
+        <p><a class="btn btn-primary btn-fill btn-lg" href="#" role="button">{{ 'btn.see_more' | trans }}</a></p>
     </div>
 </div>
 {% endblock %}
+
 {% block body %}
-<h1>{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }}</h1>
+
+    <div class="perso perso-left">
+        <img src="http://via.placeholder.com/150x350" alt="" width="100%" />
+    </div>
+    <div class="perso perso-right">
+        <img src="http://via.placeholder.com/150x350" alt="" width="100%" />
+    </div>
 {% endblock %}
 
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function()
+        {
+            $('.perso-left').animate({
+                left : '150px'
+            }, 'slow', function()
+            {
 
+                $('.perso-right').animate({
+                    right : '150px'
+                }, 'slow', function()
+                {
+                    $('.main-jumbotron').animate({
+                        'opacity' : 1,
+                        'top' : '120px'
+                    },'slow', function(){
+
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}
