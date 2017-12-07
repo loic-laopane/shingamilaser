@@ -95,6 +95,7 @@ class CenterRequestManager
         foreach ($unknown_fields as $field) {
             throw new Exception('Field ['.$field.'] is unknown');
         }
+        return $this;
     }
 
     /**
@@ -112,6 +113,7 @@ class CenterRequestManager
         $center = $this->findCenter($data['center']);
 
         $this->create($center, $data['quantity']);
+
     }
 
     /**

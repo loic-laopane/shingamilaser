@@ -25,10 +25,18 @@
                 <directory>src/*Bundle/Resources</directory>
                 <directory>src/*/*Bundle/Resources</directory>
                 <directory>src/*/Bundle/*Bundle/Resources</directory>
+                <directory>src/*Bundle/Controller</directory>
+                <directory>src/*/*Bundle/Controller</directory>
                 <directory>src/*/Bundle/*Bundle/Controller</directory>
-                <directory>src/*/Bundle/Controller</directory>
+                <directory>src/*Bundle/Repository</directory>
+                <directory>src/*/*Bundle/Repository</directory>
                 <directory>src/*/Bundle/*Bundle/Repository</directory>
-                <directory>src/*/Bundle/Repository</directory>
+                <directory>src/*Bundle/Tests</directory>
+                <directory>src/*/*Bundle/Tests</directory>
+                <directory>src/*/Bundle/*Bundle/Tests</directory>
+                <directory>src/*Bundle/DependencyInjection</directory>
+                <directory>src/*/*Bundle/DependencyInjection</directory>
+                <directory>src/*/Bundle/*Bundle/DependencyInjection</directory>
             </exclude>
         </whitelist>
     </filter>
