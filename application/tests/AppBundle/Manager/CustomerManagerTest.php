@@ -12,11 +12,13 @@ use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
 use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\UserManager;
+use AppBundle\Repository\CustomerRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class CustomerManagerTest
+class CustomerManagerTest extends TestCase
 {
     private $customerManager;
     private $repository;
@@ -24,15 +26,16 @@ class CustomerManagerTest
     private $objectManager;
     private $customer;
     private $user;
+    private $dispatcher;
 
-    public function __construct()
+    public function setUp()
     {
-        parent::__construct();
+        parent::setUp();
 
         $this->repository = $this->getMockBuilder(ObjectRepository::class)->getMock();
         $this->objectManager = $this->getMockBuilder(ObjectManager::class)->getMock();
         $this->userManager = $this->getMockBuilder(UserManager::class)->disableOriginalConstructor()->getMock();
-        $this->customerManager = new CustomerManager($this->objectManager, $this->userManager);
+        $this->dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)->getMock();
         $this->user = $this->getMockBuilder(User::class)->disableOriginalConstructor()->getMock();
 
         $customer = $this->getMockBuilder(Customer::class)
@@ -47,16 +50,35 @@ class CustomerManagerTest
     //register
     public function testCanRegister()
     {
-        $this->objectManager->expects($this->once())->method('persist')->with($this->equalTo($this->customer));
-        $this->objectManager->expects($this->once())->method('flush');
-        $this->assertInstanceOf(CustomerManager::class, $this->customerManager->register($this->customer));
+        $customerManage = new CustomerManager($this->objectManager, $this->userManager, $this->dispatcher);
+
+        $this->assertInstanceOf(CustomerManager::class, $customerManage->register($this->customer));
+    }
+
+    public function testEmailAlreadyUsedOnRegister()
+    {
+        $this->userManager->expects($this->once())->method('mailExists')->willReturn(true);
+        $customerManage = new CustomerManager($this->objectManager, $this->userManager, $this->dispatcher);
+        $this->expectException(\Exception::class);
+        $customerManage->register($this->customer);
     }
 
     public function testCanSave()
     {
-        $this->objectManager->expects($this->once())->method('persist')->with($this->equalTo($this->customer));
-        $this->objectManager->expects($this->once())->method('flush');
-        $this->assertInstanceOf(CustomerManager::class, $this->customerManager->register($this->customer));
+        $customerManage = new CustomerManager($this->objectManager, $this->userManager, $this->dispatcher);
+
+        $this->assertInstanceOf(CustomerManager::class, $customerManage->save($this->customer));
+    }
+
+    public function testGetCustomerByUser()
+    {
+        $user = $this->createMock(User::class);
+        $repo = $this->createMock(CustomerRepository::class);
+        $repo->expects($this->once())->method('findOneBy')->with(['user' => $user])->willReturn($this->customer);
+        $this->objectManager->expects($this->once())->method('getRepository')->willReturn($repo);
+        $customerManage = new CustomerManager($this->objectManager, $this->userManager, $this->dispatcher);
+
+        $this->assertInstanceOf(Customer::class, $customerManage->getCustomerByUser($user));
     }
 
 }

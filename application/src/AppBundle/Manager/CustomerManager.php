@@ -91,7 +91,7 @@ class CustomerManager
      */
     public function getCustomerByUser(User $user)
     {
-        return $this->repository->findOneByUser($user);
+        return $this->repository->findOneBy(['user' => $user]);
     }
 
     /**
