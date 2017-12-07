@@ -80,16 +80,16 @@ class RequestPasswordManager
     {
         $requestPassword = $this->repository->getRequestByToken($token);
         if (!$requestPassword instanceof  RequestPassword) {
-            throw new \Exception('Invalid token');
+            throw new \Exception('alert.token.invalid');
         }
 
         if ($requestPassword->getExpiredAt() < new \DateTime()) {
-            throw new \Exception('Token is expired');
+            throw new \Exception('alert.token.expired');
         }
 
         $user = $requestPassword->getUser();
         if (null === $user) {
-            throw new \Exception('User not found');
+            throw new \Exception('alert.user_not_found');
         }
         return $user;
     }

@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SecurityController extends Controller
 {
@@ -65,7 +66,7 @@ class SecurityController extends Controller
      * @Route("/password/forgotten", name="forgotten_password")
      * @Method({"GET", "POST"})
      */
-    public function forgottenPasswordAction(Request $request, RequestPasswordManager $requestPasswordManager, UserManager $userManager)
+    public function forgottenPasswordAction(Request $request, RequestPasswordManager $requestPasswordManager, UserManager $userManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(RequestPasswordType::class);
         try {
@@ -73,7 +74,7 @@ class SecurityController extends Controller
                 $email = $request->request->get('email');
                 $user = $userManager->getUserByEmail($email);
                 $requestPasswordManager->create($user);
-                $this->addFlash('success', 'A email has been sent to '.$email);
+                $this->addFlash('success', $translator->trans('alert.email.send_to', array('%email%' => $email)));
             }
         } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());

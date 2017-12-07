@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>{% if center is defined %}{{ 'title.center.edit' | trans({'%username%' : center.name}) }}{% else %}{{ 'title.center.new' | trans }}{% endif %}</h1>
-    <div class="panel">
+    <div class="panel panel-dark">
         <div class="panel-body">
             {{ form_start(form) }}
             {{ form_widget(form) }}
@@ -12,7 +12,7 @@
             {% if center is defined %}
                 <a class="btn btn-success btn-fill" href="{{ path('admin_center_create') }}"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
             {% endif %}
-            <a class="btn btn-default" href="{{ path('admin_center_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
+            <a class="btn btn-default btn-fill" href="{{ path('admin_center_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
             {{ form_end(form) }}
         </div>
     </div>

@@ -5,7 +5,7 @@
 {% block body %}
 <h1>{{ 'title.purchase.manage' | trans }}</h1>
     {% if workflow_can(purchase, 'validate') or workflow_can(purchase, 'revalidate') %}
-    <div class="panel">
+    <div class="panel panel-dark">
         <div class="panel-heading">
             <h3>{{ 'title.request.manage' | trans }}</h3>
         </div>
@@ -65,7 +65,7 @@
                 <button class="btn btn-info btn-fill"><i class="fa fa-download"></i> {{ 'btn.get_cards' | trans }}</button>
             </form>
             {% endif %}
-            <a href="{{ path('purchase_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
+            <a href="{{ path('purchase_list') }}" class="btn btn-default btn-fill"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
 
             {% if purchase.cards is not null %}
                 <h4>{{ 'title.card.linked' | trans }}</h4>
