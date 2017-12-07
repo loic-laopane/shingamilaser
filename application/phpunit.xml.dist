@@ -37,6 +37,9 @@
                 <directory>src/*Bundle/DependencyInjection</directory>
                 <directory>src/*/*Bundle/DependencyInjection</directory>
                 <directory>src/*/Bundle/*Bundle/DependencyInjection</directory>
+                <directory>src/*Bundle/Form</directory>
+                <directory>src/*/*Bundle/Form</directory>
+                <directory>src/*/Bundle/*Bundle/Form</directory>
             </exclude>
         </whitelist>
     </filter>

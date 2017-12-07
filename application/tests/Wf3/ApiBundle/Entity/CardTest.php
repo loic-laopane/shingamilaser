@@ -24,6 +24,30 @@ class CardTest extends TestCase
 
     }
 
+    public function testGettersSetters()
+    {
+        $code = 123456;
+        $numero = '123'.$code.'7';
+        $createdAt = new \DateTime();
+        $centerRequest = $this->createMock(CenterRequest::class);
+
+        $card = new Card();
+
+        $this->assertNull(null, $card->getId());
+
+        $this->assertEquals($card, $card->setCode($code));
+        $this->assertEquals($code, $card->getCode());
+
+        $this->assertEquals($card, $card->setCreatedAt($createdAt));
+        $this->assertEquals($createdAt, $card->getCreatedAt());
+
+        $this->assertEquals($card, $card->setNumero($numero));
+        $this->assertEquals($numero, $card->getNumero());
+
+        $this->assertEquals($card, $card->setCenterRequest($centerRequest));
+        $this->assertEquals($centerRequest, $card->getCenterRequest());
+
+    }
 
     public function testGenerateNumero()
     {

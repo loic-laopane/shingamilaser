@@ -36,8 +36,7 @@ class RequestPasswordManager
      * @param ObjectManager $objectManager
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(
-        ObjectManager $objectManager,
+    public function __construct(ObjectManager $objectManager,
                                 EventDispatcherInterface $dispatcher
     ) {
         $this->objectManager = $objectManager;
@@ -48,6 +47,7 @@ class RequestPasswordManager
 
     /**
      * @param User $user
+     * @return $this
      */
     public function create(User $user)
     {
@@ -60,6 +60,8 @@ class RequestPasswordManager
 
 
         $this->dispatcher->dispatch(PasswordEvent::FORGOTTEN, new PasswordEvent($requestPassword));
+
+        return $this;
     }
 
     /**
