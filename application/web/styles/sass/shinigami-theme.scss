@@ -75,6 +75,15 @@ html, body {
 .jumbotron {
   background: rgba(#4E5D6C, 0.5);
   color: white;
+  &.main-jumbotron {
+    position: fixed;
+    top:0;
+    left:0;
+    opacity: 0;
+    margin-left:10%;
+    z-index: 10;
+    width: 80%;
+  }
 }
 .customer-details {
   background:  white;
@@ -406,6 +415,19 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   font-family: 'airstrike', 'Racing Sans One', cursive;
 }
 
+.perso {
+  height: 400px;
+  width: 200px;
+  position: fixed;
+  top:200px;
+  z-index: 0;
+  &.perso-left {
+    left:-200px;
+  }
+  &.perso-right {
+    right:-200px;
+  }
+}
 
 @media (max-width: 767px) {
   .wrapper {
