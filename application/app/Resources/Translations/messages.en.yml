@@ -61,199 +61,207 @@ title:
         result: Search results
     purchase:
         list: Purchases list
-        create: Création de demande de cartes
-        manage: Gérer la commande
+        create: Create a cards request
+        manage: Manage the purchase
     request:
-        manage: Gérer la demande
-        send: Envoyer la demande
+        manage: Manage the request
+        send: Send the request
     game:
-        create: Créer une partie
-        edit: Modifier la partie %title%
-        manage: Partie %title%
-        list: Liste des parties
+        create: Create a game
+        edit: Edit the game %title%
+        manage: Game %title%
+        list: Games list
     player:
-        list: Les joueurs
+        list: Players
     admin:
-        dashboard: Tableau de bord
+        dashboard: Dashboard
         account:
-            create: Creation d'un compte administrateur
+            create: Creation of admin account
     user:
-        list: Liste des utilisateurs
-        edit: Modifier %username%
-        new: Nouvel utilisateur
+        list: Users list
+        edit: Edit %username%
+        new: New user
     center:
-        list: Liste des centres
-        new: Nouveau centre
-        edit: Modifier le centre
+        list: Centers list
+        new: New center
+        edit: Edit the center
     registration:
-        completed: Inscription réussie
-    welcome: Bienvenue sur %app_name%
+        completed: Registration completed
+    welcome: Welcome to %app_name%
     account:
-        main: Votre compte
-        edit: Modifier votre compte
+        main: Your account
+        edit: Edit your account
     profile:
-        edit: Modifier votre profil
-        main: Votre profil
-
+        edit: Edit your profile
+        main: Your profile
+    password:
+        forgotten: Forgotten password
+        new: New password
 
 th:
-    card_number: Numéro de carte
-    purchased_at: Commandée le
-    owner: Propriétaire
-    activated_at: Activée le
-    active: Statut
-    customer: Client
-    nickname: Pseudo
-    quantity: Quantité
-    requester: Demandeur
-    created_at: Créé le
-    updated_at: Dernière modification
-    started_at: Démarrée le
-    ended_at: Terminée le
-    status: Statut
-    player: Joueur
+    card_number: Card number
+    purchased_at: Purchased at
+    owner: Owner
+    activated_at: Activated at
+    active: Status
+    customer: Customer
+    nickname: Nickname
+    quantity: Quantity
+    requester: Requester
+    created_at: Created at
+    updated_at: Last update
+    started_at: Started at
+    ended_at: Ended at
+    status: Status
+    player: Player
     score: Score
-    has_card: Possède une carte
-    game: Partie
-    username: Identifiant
+    has_card: Has a card
+    game: Game
+    username: Username
     email: Email
-    name: Nom du centre
+    name: Center name
     code: Code
-    city: Ville
-    center: Centre
+    city: City
+    center: Center
 
 
 btn:
-    login: Se connecter
-    logout: Déconnexion
-    register: S'inscrire
-    return: Retour
-    send_request: Envoyer la demande
-    see_more: En savoir plus
-    save: Enregistrer
-    search: Rechercher
-    show: Voir
-    edit: Modifier
-    new: Nouveau
-    create: Créer
-    back: Retour
-    close: Fermer
-    cancel: Annuler
-    manage: Gérer
-    remove: Retirer
-    link: Associer
+    login: Sign in
+    logout: Sign out
+    register: Register
+    return: Return
+    send_request: Send request
+    see_more: See more
+    save: Save
+    search: Search
+    show: Show
+    edit: Edit
+    new: New
+    create: Create
+    back: Back
+    close: Close
+    cancel: Cancel
+    manage: Manage
+    remove: Remove
+    link: Link
+    update: Update
     send:
-        request: Envoyer la demande
-    get_cards: Obtenir les cartes
+        request: Send a request
+    get_cards: Get cards
     game:
-        create: Créer une partie
-        start: Démarrer la partie
-        stop: Arrêter la partie
+        create: Create game
+        start: Start the game
+        stop: Stop the game
     customer:
-        create: Nouveau client
+        create: New customer
     qrcode:
-        start_and_stop: Démarrer / Arrêter le scan d'un QRCode
-    add_to_game: Ajouter à la partie
+        start_and_stop: Start / Stop QRCode scan
+    add_to_game: Add to game
     account:
-        edit: Modifier votre compte
+        edit: Edit your account
     profile:
-        show: Votre profil
-        edit: Modifier votre profil
+        show: Your profile
+        edit: Edit your profile
     card:
-        add: Ajouter une carte
+        add: Add a card
 
 alert:
-    one_field_required: Veuillez renseigner au moins un champ
-    #Please fill one field at least
-    field_required: Ce champ est obligatoire
-    email_invalid: L'email n'est pas valide
+    one_field_required: Please fill one field at least
+    field_required: This field is required
+    email_invalid: Email not valid
     purchase:
-        updated: Commande mise à jour
-    quantity_not_null_to_send_request: La quantité ne peut être nulle pour envoyer la demande
-    no_center_link_to_current_user: Aucun centre associé à votre compte
-    no_request_found_on_purchase: Aucun demandeur trouvé sur cette commande
-    game_created: Partie créée
-    game_updated: Partie mise à jour
-    game_must_have_2_players: La partie doit avoir au moins 2 joueurs #A game must have at least 2 players
+        updated: Purchase updated
+    quantity_not_null_to_send_request: Quantity cannot be null send the request
+    no_center_link_to_current_user: No center linked to your account
+    no_request_found_on_purchase: No requester found on the purchase
+    game_created: Game created
+    game_updated: Game updated
+    game_must_have_2_players: A game must have at least 2 players
     customer:
-        found: Client trouvé
-        not_found: Aucun client trouvé
-        added_to_game: Client ajouté à la partie
-        already_in_game: Le client est déjà dans la partie
+        found: Customer found
+        not_found: No customer found
+        added_to_game: Customer add to the game
+        already_in_game: Customer already in the game
         nickname:
-            required: Le Pseudo est obligatoire
+            required: The nickname is required
     search:
-        fill_field: Merci de remplir au moins un champ de recherche #Please fill at least one search field
+        fill_field: Please fill at least one search field
     account:
-        created: Compte créé
+        created: Account created
     center:
         contain_digit: Center code must contain %code_length% digits
-        created: Centre créé
-        updated: Centre modifié
-        deleted: Centre supprimé
-        exists: Ce centre existe déjà
+        created: Center created
+        updated: Center updated
+        deleted: Center deleted
+        exists: This center already exists
     registration:
-        success : Inscription réussie
-    not_your_card: Vous ne possédez pas cette carte
+        success : Registration success
+    not_your_card: This card is not yours
+    token:
+        expired: Token expired
+        invalid: Invalid token
+    user_not_found: User not found
+    email:
+        send_to: A mail has been sent to %email%
 
 jumbotron:
     purchase:
-        create: Faites une demande de carte auprès de votre fournisseur en indiquant la quantité voulue
-    access_personnal_info: Accéder à vos informations personnelles
+        create: Request cards to your supplier, with the quantity needed
+    access_personnal_info: Access to your personal informations
 
 
-Firstname: Prénom
-Lastname: Nom
-Nickname: Pseudo
-Society: Société
-Address: Adresse
-Zipcode: Code postal
-City: Ville
-Birthdate: Date de naissance
+Firstname: Firstname
+Lastname: Lastname
+Nickname: Nickname
+Society: Society
+Address: Address
+Zipcode: Zipcode
+City: City
+Birthdate: Birthdate
 User: ""
-Username: Identifiant
-Password: Mot de passe
-Repeat Password: Retapez le mot de passe
+Username: Username
+Password: Password
+Repeat Password: Repeat Password
 Email: Email
-Numero: Numéro
-Quantity: Quantité
-Reference: Référence
-Status: Statut
-Created at : Créé le
-Updated at : Modifiée le
-Activated at: Activée le
-delivery_by : Délivrée par %center_name%
-card: carte
-cards: cartes
-Title: Titre
-auto_add_customer: Ajouter le client à la partie
-Card number: Numéro de carte
-Center: Centre
-Roles: Rôles
--- Choose a center -- : -- Choisir un centre --
-Active : Actif
+Numero: Number
+Quantity: Quantity
+Reference: Reference
+Status: Status
+Created at : Created at
+Updated at : Updated at
+Activated at: Activated at
+delivery_by : Issued by %center_name%
+card: card
+cards: cards
+Title: Title
+auto_add_customer: Auto add customer to the game
+Card number: Card number
+Center: Center
+Roles: Roles
+-- Choose a center -- : -- Choose a center --
+Active : Active
 Code: Code
-Name: Nom
-Users: Utilisateurs
+Name: Name
+Users: Users
 File: ""
 informations: Informations
-fidelity cards: Mes cartes de fidélité
-offers: Mes offres
-games: Mes Parties
+fidelity cards: My fidelity cards
+offers: My offers
+games: My games
 
 #Status workflow
-created: Création
-error: En erreur
-requested: Demande en cours
-completed: Terminé
+created: Created
+error: Error
+requested: Requested
+completed: Completed
 
 msg:
-    no_result: Aucun résultat trouvé
-    no_purchase: Aucune commande trouvée
-    no_card_linked: Aucune carte associée
-    no_player: Aucun joueur trouvé
-    no_card_available: Aucune carte disponible
-    no_game_played: Aucune partie jouée
-    no_offer_available: Aucune offre disponible
+    no_result: No result found
+    no_purchase: No purchase found
+    no_card_linked: No card linked
+    no_player: No player found
+    no_card_available: No card available
+    no_game_played: No game played
+    no_offer_available: No offer available
 
 #Mail
