@@ -6,18 +6,18 @@ Feature: Center
 
   Scenario: Access to the Center list page
     Given I am on the dashboard page
-    Then I follow "Center"
+    Then I follow "menu.center.main"
     Then I should be on the centers list page
 
   Scenario: Access to the center create page
     Given I am on the centers list page
     When I follow "btn.create"
     Then I should be on the center create page
-    And I should see "New center"
+    And I should see "title.center.new"
 
   @fake_center
   Scenario: Access to the center edit page
     Given I am on the centers list page
     When I follow "btn.edit"
     Then I should be on the center edit page
-    And I should see "Edit center"
+    And I should see "title.center.edit"

@@ -55,10 +55,7 @@ class FeatureContext extends RawMinkContext implements Context
         $this->createUser('ROLE_ADMIN');
     }
     /**
-     * @AfterScenario
-     * @login_user
-     * @login_staff
-     * @login_admin
+     * @AfterScenario @login_user @login_staff @login_admin
      */
     public function deleteUser()
     {
@@ -135,7 +132,7 @@ class FeatureContext extends RawMinkContext implements Context
         $page->pressButton('btn.login');
     }
 
-    private function createUser($role)
+    public function createUser($role)
     {
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 

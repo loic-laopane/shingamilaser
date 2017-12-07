@@ -7,7 +7,7 @@ Feature: Card
   Scenario: Access to the Card list page
     Given I am on the homepage
     When I follow "menu.card.list"
-    Then I should be on "/staff/cards"
+    Then I should be on "/staff/cards/page"
 
   Scenario: Access to the Cards Purchase page
     Given I am on the homepage
@@ -25,7 +25,7 @@ Feature: Card
     Given I am on the cards purchase page
     When I fill in "quantity" with ""
     And I press "btn.create"
-    Then I should see "Quantity cannot be null"
+    Then I should see "purchase.quantity.not_blank"
     And I should be on the cards purchase page
 
   @delete_last_purchase
@@ -33,7 +33,7 @@ Feature: Card
     Given I am on the cards purchase page
     When I fill in "quantity" with "2"
     And I press "btn.create"
-    Then I should see "Manage purchase"
+    Then I should see "title.purchase.manage"
     And I should see "btn.send.request"
 
   @fake_purchase
@@ -41,27 +41,21 @@ Feature: Card
     Given I am on the edit cards purchase page
     When I fill in "quantity" with "2"
     And I press "btn.edit"
-    Then I should see "Purchase updated"
+    Then I should see "alert.purchase.updated"
 
   @fake_purchase
   Scenario: Send a failed request of cards purchase
     Given I am on the edit cards purchase page
     When I fill in "quantity" with "0"
     And I press "btn.send.request"
-    Then I should see "No center associated on current user"
+    Then I should see "alert.no_center_link_to_current_user"
 
   @remove_purchase_list
   Scenario: List cards purchases
     Given Purchases exist
     And I am on the cards purchase list
-    Then I should see "btn.edit"
-    And I should see "btn.show"
-    And I should see "Status"
-
-
-  Scenario: List cards purchases
-    Given I am on the cards purchase list
-    Then I should see "No purchase"
+    Then I should see "th.quantity"
+    And I should see "th.status"
 
 
 

@@ -41,7 +41,7 @@ class CenterContext extends MinkContext
      */
     public function iShouldBeOnTheCentersListPage()
     {
-        $this->visitPath('/admin/centers');
+        $this->visitPath('/admin/centers/page');
     }
 
     /**
@@ -49,7 +49,7 @@ class CenterContext extends MinkContext
      */
     public function iAmOnTheCentersListPage()
     {
-        $this->visitPath('/admin/centers');
+        $this->visitPath('/admin/centers/page');
     }
 
     /**

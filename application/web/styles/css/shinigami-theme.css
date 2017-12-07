@@ -40,7 +40,7 @@ html, body {
     left: 0;
     opacity: 0;
     margin-left: 10%;
-    z-index: 10;
+    z-index: -1;
     width: 80%; }
 
 .customer-details {
@@ -237,7 +237,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   width: 200px;
   position: fixed;
   top: 200px;
-  z-index: 0; }
+  z-index: -10; }
   .perso.perso-left {
     left: -200px; }
   .perso.perso-right {

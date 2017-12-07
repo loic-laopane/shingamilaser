@@ -45,7 +45,7 @@ class CardContext extends MinkContext
      */
     public function iShouldBeOnTheCardsPurchaseList()
     {
-        $this->visitPath('/staff/purchase/list');
+        $this->visitPath('/staff/purchase/list/page');
     }
 
     /**
@@ -107,7 +107,7 @@ class CardContext extends MinkContext
      */
     public function iAmOnTheCardsPurchaseList()
     {
-        $this->visitPath('/staff/purchase/list');
+        $this->visitPath('/staff/purchase/list/page');
     }
 
     /**

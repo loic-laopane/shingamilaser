@@ -10,7 +10,7 @@ Feature: Register
   Scenario: Register failed
     Given I am on the register page
     When I press "btn.register"
-    Then I should see "The field nickname is required"
+    Then I should see "customer.nickname.not_blank"
 
   @remove_registered_customer
   Scenario: Register success
