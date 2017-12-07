@@ -8,46 +8,46 @@ Feature: Account
     Given I am on "/"
     When I follow "menu.profile"
     Then I should be on "/account/show"
-    And I should see "Profile"
-    And I should see "btn.edit_profile"
+    And I should see "title.profile.main"
+    And I should see "btn.profile.edit"
 
   Scenario: Access to the Edit profile page from homepage
     Given I am on "/"
-    When I follow "menu.profile_edit"
+    When I follow "menu.profile.edit"
     Then I should be on "/account/profile/edit"
-    And I should see "Edit profile"
+    And I should see "title.profile.edit"
 
   Scenario: Access to Edit profile page from the profile page
     Given I am on "/account/show"
-    When I follow "btn.edit_profile"
-    Then I should see "Edit Profile"
+    When I follow "btn.profile.edit"
+    Then I should see "title.profile.edit"
 
   Scenario: Access to Edit account page from homepage
     Given I am on "/"
-    When I follow "menu.account_edit"
+    When I follow "menu.account.edit"
     Then I should be on "/account/edit"
-    And I should see "Edit account"
+    And I should see "title.account.edit"
 
   Scenario: Access to Edit account page from profile page
     Given I am on "/account/show"
-    When I follow "Edit account"
+    When I follow "menu.account.edit"
     Then I should be on "/account/edit"
-    And I should see "Edit account"
+    And I should see "title.account.edit"
 
   Scenario: Display fidelity cards
     Given I am on "/account/show"
-    When I follow "Fidelity cards"
-    Then  I should see "Add card"
+    When I follow "fidelity cards"
+    Then  I should see "btn.card.add"
 
-  Scenario: Display fidelity offers
+  Scenario: Display offers
     Given I am on "/account/show"
-    When I follow "Offers"
-    Then  I should see "No offer available"
+    When I follow "offers"
+    Then  I should see "msg.no_offer_available"
 
   Scenario: Display games played
     Given I am on "/account/show"
-    When I follow "Games"
-    Then  I should see "No games played"
+    When I follow "games"
+    Then  I should see "msg.no_game_played"
 
   Scenario: Update profile with form profile
     Given I am on "/account/profile/edit"
@@ -58,7 +58,7 @@ Feature: Account
     Given I am on "/account/profile/edit"
     When I fill in "nickname" with ""
     And I press "btn.save"
-    Then  I should see "Nickname is required"
+    Then  I should see "alert.customer.nickname.required"
 
   Scenario: Update Email with form account
     Given I am on "/account/edit"
@@ -69,4 +69,4 @@ Feature: Account
     Given I am on "/account/edit"
     When I fill in "email" with ""
     And I press "btn.save"
-    Then  I should see "Email invalid"
+    Then  I should see "alert.email_invalid"
