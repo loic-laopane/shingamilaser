@@ -28,20 +28,14 @@ class PlayerManager
     private $repository;
 
     /**
-     * @var SessionInterface
-     */
-    private $session;
-
-    /**
      * CustomerGameManager constructor.
      * @param ObjectManager $manager
      * @param SessionInterface $session
      */
-    public function __construct(ObjectManager $manager, SessionInterface $session)
+    public function __construct(ObjectManager $manager)
     {
         $this->manager = $manager;
         $this->repository = $manager->getRepository(Player::class);
-        $this->session = $session;
     }
 
     /**
@@ -59,14 +53,14 @@ class PlayerManager
     /**
      * Insert Game in DB
      * @param Game $game
-     * @return bool
+     * @return $this
      */
-    public function insert(Player $customerGame)
+    public function insert(Player $player)
     {
-        $this->manager->persist($customerGame);
+        $this->manager->persist($player);
         $this->manager->flush();
-        $this->session->getFlashBag()->add('success', 'alert.customer.added_to_game');
-        return true;
+
+        return $this;
     }
 
     /**
@@ -85,8 +79,7 @@ class PlayerManager
         }
 
         if ($this->exists($customerGame)) {
-            $this->session->getFlashBag()->add('danger', 'alert.customer.already_in_game');
-            return false;
+            throw new \Exception('alert.customer.already_in_game');
         }
 
         $this->insert($customerGame);
@@ -109,9 +102,9 @@ class PlayerManager
         if ($customerGame) {
             $this->manager->remove($customerGame);
             $this->manager->flush();
-
-            $this->session->getFlashBag()->add('success', 'Customer '.$customer->getNickname().' has been removed from this game');
         }
+
+        return $this;
     }
 
     /**

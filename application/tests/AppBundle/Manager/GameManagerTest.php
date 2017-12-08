@@ -11,19 +11,12 @@ namespace test\AppBundle\Manager;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
-use AppBundle\Entity\User;
-use AppBundle\Event\OfferEvent;
 use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\GameManager;
-use AppBundle\Manager\UserManager;
 use AppBundle\Repository\PlayerRepository;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -49,18 +42,7 @@ class GameManagerTest extends TestCase
         $this->translator = $this->createMock(TranslatorInterface::class);
         $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
 
-        //$this->session->expects($this->once())->method('getFlashBag')->willReturn($nativeSessionStorage);
     }
-
-//    public function testCanGetListGames()
-//    {
-//        $repository = $this->createMock(ObjectRepository::class);
-//        $repository->expects($this->once())->method('findAll')->willReturn($this->getData());
-//        $this->objectManager->expects($this->once())->method('getRepository')->willReturn($repository);
-//
-//        $gameManager = new GameManager($this->objectManager, $this->session);
-//        $this->assertEquals($this->getData(), $gameManager->getList());
-//    }
 
     public function testCanInsertGame()
     {
