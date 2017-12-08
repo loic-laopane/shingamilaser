@@ -3,7 +3,7 @@
 {% block title %}{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }} :: {{ parent() }}{% endblock %}
 
 {% block jobotron %}
-<div class="jumbotron main-jumbotron">
+<div class="jumbotron main-jumbotron jumboSlideDown">
     <div class="container">
         <h1>{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }}</h1>
         <p></p>
@@ -14,35 +14,15 @@
 
 {% block body %}
 
-    <div class="perso perso-left">
-        <img src="http://via.placeholder.com/150x350" alt="" width="100%" />
+    <div class="perso perso-left slideRight" id="perso-left">
+        <img src="{{ asset('img/background/perso-left.png') }}" alt=""  />
     </div>
-    <div class="perso perso-right">
-        <img src="http://via.placeholder.com/150x350" alt="" width="100%" />
+    <div class="perso perso-right slideLeft" id="perso-right">
+        <img src="{{ asset('img/background/perso-right.png') }}" alt=""  />
+    </div>
+
+    <div id="">
+
     </div>
 {% endblock %}
 
-{% block javascripts %}
-    <script type="text/javascript">
-        $(function()
-        {
-            $('.perso-left').animate({
-                left : '150px'
-            }, 'slow', function()
-            {
-
-                $('.perso-right').animate({
-                    right : '150px'
-                }, 'slow', function()
-                {
-                    $('.main-jumbotron').animate({
-                        'opacity' : 1,
-                        'top' : '120px'
-                    },'slow', function(){
-
-                    });
-                });
-            });
-        });
-    </script>
-{% endblock %}
