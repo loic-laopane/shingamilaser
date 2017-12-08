@@ -1,18 +1,18 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Manage game{% endblock %}
+{% block title %}{{ 'title.game.manage' | trans({'%title%' : game.title}) }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Game : {{ game.title }}</h1>
+    <h1>{{ 'title.game.manage' | trans({'%title%' : game.title}) }}</h1>
     <div id="errors"></div>
     <div class="row">
         <div class="col-md-12">
             <form action="{{ path('game_record', { 'id' : game.id }) }}">
                 {% if game.startedAt is null %}
-                    <button class="btn btn-success btn-fill"><i class="fa fa-play"></i> {{ 'btn.start.game' | trans }}</button>
+                    <button class="btn btn-success btn-fill"><i class="fa fa-play"></i> {{ 'btn.game.start' | trans }}</button>
                 {% else %}
                     {% if game.endedAt is null %}
-                        <button class="btn btn-danger btn-fill"><i class="fa fa-pause"></i> {{ 'btn.end.game' | trans }}</button>
+                        <button class="btn btn-danger btn-fill"><i class="fa fa-pause"></i> {{ 'btn.game.stop' | trans }}</button>
                     {% endif %}
                 {% endif %}
             </form>
@@ -24,12 +24,12 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel">
-                <div class="panel-heading"><h3>Search customer</h3></div>
+                <div class="panel-heading"><h3>{{ 'title.customer.search' | trans }}</h3></div>
                 <div class="panel-body">
                     {{ form_start(form, { 'attr' : {'id':'form_search', 'action' : path('game_search_customer', { 'id' : game.id }) }}) }}
                     {{ form_widget(form) }}
                     <button class="btn btn-primary"><i class="fa fa-search"></i> {{ 'btn.search' | trans }}</button>
-                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#createCustomerModal"><i class="fa fa-plus"></i> {{ 'btn.new.customer' | trans }}</button>
+                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#createCustomerModal"><i class="fa fa-plus"></i> {{ 'btn.customer.create' | trans }}</button>
                     <a class="btn btn-default" href="{{ path('game_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
                     {{ form_end(form) }}
                 </div>
@@ -37,7 +37,7 @@
         </div>
         <div class="col-md-6">
             <div class="panel">
-                <div class="panel-heading"><h3>Scan card</h3></div>
+                <div class="panel-heading"><h3>{{ 'title.card.scan' | trans }}</h3></div>
                 <div class="panel-body">
                     {% include 'AppBundle:Game:qrcode.html.twig' %}
                 </div>
@@ -53,16 +53,16 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel">
-                <div class="panel-heading"><h2>Players</h2></div>
+                <div class="panel-heading"><h2>{{ 'title.player.list' | trans }}</h2></div>
                 <div class="panel-body">
 
                     {% if customersGame | length > 0 %}
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Player</th>
-                                    <th>Score</th>
-                                    <th>Has card</th>
+                                    <th>{{ 'th.player' | trans }}</th>
+                                    <th>{{ 'th.score' | trans }}</th>
+                                    <th>{{ 'th.has_card' | trans }}</th>
                                     {% if game.startedAt is null %}
                                     <th>Actions</th>
                                     {% endif %}
@@ -78,7 +78,7 @@
                                         {% if game.startedAt is null %}
                                         <td>
                                             <form action="{{ path('game_remove_user', { 'id' : game.id, 'customer_id' : customerGame.customer.id }) }}" method="POST">
-                                                <button class="btn btn-danger btn-fill"><i class="fa fa-minus"></i> {{ 'btn.remove' }}</button>
+                                                <button class="btn btn-danger btn-fill"><i class="fa fa-minus"></i> {{ 'btn.remove' | trans }}</button>
                                             </form>
                                         </td>
                                         {% endif %}
@@ -88,7 +88,7 @@
                         </table>
 
                     {% else %}
-                        <p>No players in this game</p>
+                        <p>{{ 'msg.no_player' | trans }}</p>
                     {% endif %}
                 </div>
             </div>
@@ -105,7 +105,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Create Customer</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{ 'title.customer.create' | trans }}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="alert" id="alert-modal"></div>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="left-side">
-                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal"><i class="fa fa-close"></i> {{ 'btn.close' }}</button>
+                        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal"><i class="fa fa-close"></i> {{ 'btn.close' | trans }}</button>
                     </div>
                     <div class="divider"></div>
                     <div class="right-side">
@@ -132,7 +132,7 @@
             $( ".autocomplete" ).autocomplete({
                 source: function( request, response ) {
                     $.ajax( {
-                        url: "{{ path('customer_search') }}",
+                        url: "{{ path('ajax_customer_search') }}",
                         method: 'POST',
                         dataType: "json",
                         data: {

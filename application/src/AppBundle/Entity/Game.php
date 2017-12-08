@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,7 +26,7 @@ class Game
     /**
      * @var string
      * @ORM\Column(name="title", type="string", length=255)
-     * @Assert\NotBlank(message="Title is required")
+     * @Assert\NotBlank(message="game.title.not_blank")
      */
     private $title;
     /**
@@ -49,6 +50,12 @@ class Game
      */
     private $endedAt;
 
+
+    /**
+     * @var Player
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Player", mappedBy="game")
+     */
+    private $players;
 
     /**
      * Get id
@@ -137,7 +144,7 @@ class Game
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        //$this->customerGame = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     /**
@@ -162,5 +169,39 @@ class Game
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Add player
+     *
+     * @param \AppBundle\Entity\Player $player
+     *
+     * @return Game
+     */
+    public function addPlayer(\AppBundle\Entity\Player $player)
+    {
+        $this->players[] = $player;
+
+        return $this;
+    }
+
+    /**
+     * Remove player
+     *
+     * @param \AppBundle\Entity\Player $player
+     */
+    public function removePlayer(\AppBundle\Entity\Player $player)
+    {
+        $this->players->removeElement($player);
+    }
+
+    /**
+     * Get players
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPlayers()
+    {
+        return $this->players;
     }
 }

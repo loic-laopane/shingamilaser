@@ -1,14 +1,15 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ 'registration' | trans }} :: {{ parent() }}{% endblock %}
+{% block title %}{{ 'registration' | trans | capitalize}} :: {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="row">
-        <div class="col-md-12">
+        {{ form_start(form) }}
+        <div class="col-md-6">
             <div class="my-panel">
-                <div class="heading">{{ 'Registration' | trans | title }}</div>
+                <div class="heading">{{ 'heading.registration' | trans | capitalize }}</div>
                 <div class="body">
-                    {{ form_start(form) }}
+
                     {{ form_errors(form) }}
                     <section>
                         {{ form_row(form.firstname) }}
@@ -20,29 +21,27 @@
                         {{ form_row(form.city) }}
                         {{ form_row(form.birthdate) }}
                     </section>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="my-panel">
+                <div class="heading">{{ 'heading.account' | trans | capitalize }}</div>
+                <div class="body">
                     <section>
                         {{ form_row(form.user) }}
                     </section>
                     <section>
-                        <button type="submit" class="btn btn-primary btn-fill" formnovalidate><i class="fa fa-arrow-circle-o-right"></i> {{ 'btn.register' | trans }}</button>
+                        <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-arrow-circle-o-right"></i> {{ 'btn.register' | trans }}</button>
                     </section>
-                    {{ form_widget(form) }}
+                    {{ form_rest(form) }}
                     {{ form_end(form) }}
                 </div>
             </div>
         </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
     </div>
 
-{% endblock %}
-
-{% block javascripts %}
-    <script type="text/javascript">
-    $('.datepicker').datepicker({
-
-    weekStart:1,
-
-    color: '{color}'
-
-    });
-    </script>
 {% endblock %}

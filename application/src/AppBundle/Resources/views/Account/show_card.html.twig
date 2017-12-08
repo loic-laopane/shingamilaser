@@ -1,9 +1,9 @@
 {% extends "AppBundle:Account:account.layout.html.twig" %}
 
-{% block title %}{{ parent() }} > {{ 'Add card' | trans }}{% endblock %}
+{% block title %}{{ 'title.card.yours' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block content %}
-    <h1>{{ 'Your card' | trans }}</h1>
+    <h1>{{ 'title.card.yours' | trans }}</h1>
     <legend></legend>
 
     <div class="col-md-8">
@@ -21,30 +21,30 @@
             </div>
         </div>
         <div class="block-right">
-            <div class="card-title">{{ app_name }}</div>
+            <div class="card-title"><img src="{{ asset('img/logo.png') }}" width="150px" alt=" {{ app_name }}"></div>
             <div class="card-identity">
                 <div class="row">
-                    <div class="col-sm-7">Lastname :</div>
+                    <div class="col-sm-7">{{ 'Lastname' | trans }} :</div>
                     <div class="col-sm-5 text-bold">{{ card.customer.lastname }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-7">Firstname :</div>
+                    <div class="col-sm-7">{{ 'Firstname' | trans }} :</div>
                     <div class="col-sm-5 text-bold">{{ card.customer.firstname }}</div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-7">Card number :</div>
+                    <div class="col-sm-7">{{ 'Card number' | trans }} :</div>
                     <div class="col-sm-5 text-bold">{{ card.numero }}</div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-7">Activated at :</div>
+                    <div class="col-sm-7">{{ 'Activated at' | trans }} :</div>
                     <div class="col-sm-5 text-bold">{{ card.activatedAt | date('d/m/Y') }}</div>
                 </div>
             </div>
         </div>
         <div class="card-footer">
-            Delivered by {{ card.center.name }}
+            {{ 'delivery_by' | trans({'%center_name%' : card.center.name}) | capitalize }}
         </div>
 
     </div>
@@ -56,8 +56,8 @@
     <script type="text/javascript">
         var qrcode = new QRCode("qrcode", {
             text: "{{ card.numero }}",
-            height: 100,
-            width: 100
+            height: 90,
+            width: 90
         });
 
         function makeCode () {

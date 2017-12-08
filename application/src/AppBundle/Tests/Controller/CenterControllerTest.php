@@ -33,5 +33,4 @@ class CenterControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/admin/center/{id}/delete');
     }
-
 }

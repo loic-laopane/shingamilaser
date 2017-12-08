@@ -33,5 +33,4 @@ class GameControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/manage/game/{id}/delete');
     }
-
 }

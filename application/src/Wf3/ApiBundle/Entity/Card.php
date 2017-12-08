@@ -15,7 +15,6 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class Card
 {
-
     const CODE_LENGTH = 6;
     /**
      * @var int

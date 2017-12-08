@@ -48,7 +48,8 @@ class SecurityEvent extends Event
     /**
      * @return User
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 }

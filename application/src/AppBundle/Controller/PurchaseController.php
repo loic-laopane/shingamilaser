@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Purchase;
 use AppBundle\Form\PurchaseType;
 use AppBundle\Manager\PurchaseManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -33,16 +34,20 @@ class PurchaseController extends Controller
     {
         $purchase = new Purchase();
         $form = $this->createForm(PurchaseType::class, $purchase);
-        $form->handleRequest($request);
-        $purchase->setRequester($this->getUser());
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $purchaseManager->create($purchase);
+        try {
+            $form->handleRequest($request);
+            $purchase->setRequester($this->getUser());
+            if ($form->isSubmitted() && $form->isValid()) {
+                $purchaseManager->create($purchase);
 
-            return $this->redirectToRoute('purchase_edit', array(
-                'id' => $purchase->getId()
-            ));
+                return $this->redirectToRoute('purchase_edit', array(
+                    'id' => $purchase->getId()
+                ));
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
         }
+
 
         return $this->render('AppBundle:Purchase:create.html.twig', array(
             'form' => $form->createView()
@@ -57,13 +62,15 @@ class PurchaseController extends Controller
     public function editAction(Request $request, Purchase $purchase, PurchaseManager $purchaseManager)
     {
         $form = $this->createForm(PurchaseType::class, $purchase);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $purchaseManager->save($purchase);
-            $this->get('session')->getFlashBag()->add('success', 'Purchase updated');
+        try {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $purchaseManager->save($purchase);
+                $this->get('session')->getFlashBag()->add('success', 'alert.purchase.updated');
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
         }
-
         return $this->render('AppBundle:Purchase:edit.html.twig', array(
             'form' => $form->createView(),
             'purchase' => $purchase
@@ -80,14 +87,18 @@ class PurchaseController extends Controller
     }
 
     /**
-     * @Route("/purchase/list", name="purchase_list")
+     * @Route("/purchase/list/page/{page}", name="purchase_list", defaults={"page" : 1})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $purchases = $objectManager->getRepository(Purchase::class)->getAll($this->getUser());
+        $maxResult = $this->getParameter('max_result_page');
+        $repository = $objectManager->getRepository(Purchase::class);
+        $purchases = $repository->getAllByUserWithPage($this->getUser(), $page, $maxResult);
+        $pagination = new Pagination($page, $repository->countAllByUser($this->getUser()), $request->get('_route'), $maxResult);
+
         return $this->render('AppBundle:Purchase:list.html.twig', array(
-            'purchases' => $purchases
+            'purchases' => $purchases,
+            'pagination' => $pagination->getPagination()
         ));
     }
-
 }

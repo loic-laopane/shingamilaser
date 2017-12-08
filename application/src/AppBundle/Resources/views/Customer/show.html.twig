@@ -1,0 +1,186 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ 'title.customer.detail' | trans({'%nickname%' : customer.nickname}) }} :: {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.customer.main' | trans }}</h1>
+    <div class="panel panel-dark">
+        <div class="panel-heading">
+            {{ 'title.customer.detail' | trans({'%nickname%' : customer.nickname}) }}
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="avatar">
+                        <img src="{{ customer.avatar is not null ? asset('img/avatar/' ~ customer.avatar.filename) : asset('img/default-avatar.jpg') }}" alt="{{ customer.firstname ~ ' ' ~ customer.lastname }}">
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ 'Customer' | trans }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ customer.firstname ~ ' ' ~ customer.lastname }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ 'Nickname' | trans }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ customer.nickname }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ 'Address' | trans }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ customer.address ~ ' ' ~ customer.zipcode ~ ' ' ~ customer.city }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="panel panel-dark">
+        <div class="panel-heading">
+            {{ 'Cards' | trans }}
+        </div>
+        <div class="panel-body">
+            {% if customer.cards is not null %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Card number</th>
+                            <th>Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for card in customer.cards %}
+                        <tr>
+                            <td>{{ card.numero }}</td>
+                            <td><i class="fa {{ card.active ? 'fa-check' : 'fa-close' }}"></i></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-info">{{ 'No card found' | trans }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="panel panel-dark">
+        <div class="panel-heading">
+            {{ 'Offers' | trans }}
+        </div>
+        <div class="panel-body">
+            {% if customer.customerOffers is not null and customer.customerOffers | length > 0 %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Offer</th>
+                        <th>Used at</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for customerOffers in customer.customerOffers %}
+                        <tr>
+                            <td>{{ customerOffers.offer.title }}</td>
+                            <td>
+                                {% if customerOffers.usedAt is not null %}
+                                   {{ customerOffers.usedAt | date('d/m/Y') }}
+                                {% else %}
+                                    <label for="check-offer-{{ customerOffers.id }}">
+                                        <input type="checkbox" class="check-offer" id="check-offer-{{ customerOffers.id }}" data-id="{{ customerOffers.id }}" title="check to use" />
+                                        {{ 'Check to use this offer' | trans }}
+                                    </label>
+                                    <span class="hidden-spin"><i class="fa fa-spinner fa-spin"></i></span>
+                                {% endif %}
+                             </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-info">{{ 'No offer found' | trans }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="panel panel-dark">
+        <div class="panel-heading">
+            {{ 'Scores' | trans }}
+        </div>
+        <div class="panel-body">
+            {% if customer.customerGames is not null and customer.customerGames | length > 0 %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Players count</th>
+                        <th>Date</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for customerGame in customer.customerGames %}
+                        <tr>
+                            <td><a href="{{ path('game_manage', {'id' : customerGame.game.id }) }}">{{ customerGame.game.title }}</a></td>
+                            <td>{{ customerGame.game.players | length }}</a></td>
+                            <td>{{ customerGame.game.createdAt | date('d/m/Y') }}</td>
+                            <td>{{ customerGame.score}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-info">{{ 'No score found' | trans }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $('.check-offer').on('click', function (e) {
+                var checkbox = $(this);
+                var parent = checkbox.parents('td');
+                console.log(parent);
+                var customerOfferId = checkbox.data('id');
+                var spinner = parent.find('.hidden-spin');
+                spinner.removeClass('hidden-spin');
+                parent.find('label').hide();
+                $.ajax({
+                   url :'{{ path('check_customer_offer') }}',
+                   method: 'POST',
+                   dataType :'json',
+                   data: 'id='+customerOfferId,
+                   success: function(response) {
+                       if(response.status)
+                       {
+                           parent.html(response.usedAt)
+                       }
+                       else {
+                           parent.find('label').addClass('hidden-spin');
+                           checkbox.prop('checked', false);
+                       }
+                       spinner.hide();
+
+                   } ,
+                    error: function(xhr, status, error)
+                    {
+                        console.log(error);
+                    }
+                });
+            })
+        });
+    </script>
+{% endblock %}

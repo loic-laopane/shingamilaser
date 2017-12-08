@@ -1,6 +1,6 @@
 {% extends "AppBundle:Account:account.layout.html.twig" %}
 
-{% block title %}{{ parent() }} > {{ 'Profile' | trans }}{% endblock %}
+{% block title %}{{ 'title.profile.main' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block content %}
     <h1>
@@ -10,119 +10,124 @@
             {% endif %}
         </div>
 
-        {{ 'Profile' | trans }}</h1>
+        {{ 'title.profile.main' | trans }}
+    </h1>
     <legend></legend>
     <div class="jumbotron">
-       <p>Access to your personal informations</p>
+       <p>{{ 'jumbotron.access_personnal_info' | trans }}</p>
     </div>
 
-    <div class="nav-tabs-navigation" style="text-align: left">
-        <div class="nav-tabs-wrapper">
-            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                <li class="active"><a href="#infos" data-toggle="tab">Information</a></li>
-                <li><a href="#cards" data-toggle="tab">Fidelity cards</a></li>
-                <li><a href="#offers" data-toggle="tab">Offers</a></li>
-                <li><a href="#games" data-toggle="tab">Games</a></li>
-            </ul>
+    <div class="panel panel-dark">
+        <div class="panel-body">
+            <div class="nav-tabs-navigation" style="text-align: left">
+                <div class="nav-tabs-wrapper">
+                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                        <li class="active"><a href="#infos" data-toggle="tab">{{ 'informations' | trans }}</a></li>
+                        <li><a href="#cards" data-toggle="tab">{{ 'fidelity cards' | trans }}</a></li>
+                        <li><a href="#offers" data-toggle="tab">{{ 'offers' | trans }}</a></li>
+                        <li><a href="#games" data-toggle="tab">{{ 'games' | trans }}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="my-tab-content" class="tab-content">
+                <div class="tab-pane active" id="infos">
+                        <div class="row">
+                            <div class="col-sm-3">{{ 'Nickname' | trans }}</div>
+                            <div class="col-sm-9 text-info">{{ customer.nickname }}</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">{{ 'Firstname' | trans }}</div>
+                            <div class="col-sm-9 text-info">{{ customer.firstname }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">{{ 'Lastname' | trans }}</div>
+                            <div class="col-sm-9 text-info">{{ customer.lastname }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">{{ 'Address' | trans }}</div>
+                            <div class="col-sm-9 text-info">
+                                {{ customer.address }}
+                                {% if customer.zipcode %}, {{ customer.zipcode }}{% endif %}
+                                {{ customer.city }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">{{ 'Birthdate' | trans }}</div>
+                            <div class="col-sm-9 text-info">{{ customer.birthdate | date('d/m/Y') }}</div>
+                        </div>
+                    <hr>
+                        <div class="form-group">
+                            <a class="btn btn-primary btn-fill" href="{{ path('account_profile_edit') }}"><i class="fa fa-edit"></i> {{ 'btn.profile.edit' | trans }}</a>
+                        </div>
+                </div>
+                <div class="tab-pane" id="cards">
+
+                    <button class="btn btn-success btn-fill" data-toggle="modal" data-target="#addCardModal{{ customer.id }}"><i class="fa fa-plus"></i> {{ 'btn.card.add' | trans }}</button>
+                    <hr>
+
+                    <div id="customer_cards"></div>
+
+                    {{ render(controller('AppBundle:Customer:displayModalAddCardToCustomer', {'id' : customer.id })) }}
+
+
+                </div>
+                <div class="tab-pane" id="offers">
+                    {% if customerOffers | length > 0 %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Offer</th>
+                                    <th>Description</th>
+                                    <th>Got at</th>
+                                    <th>Used at</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for customerOffer in customerOffers %}
+                                <tr>
+                                    <td>{{ customerOffer.offer.title }}</td>
+                                    <td>{{ customerOffer.offer.description }}</td>
+                                    <td>{{ customerOffer.createdAt is not null ? customerOffer.createdAt | date('d/m/Y') }}</td>
+                                    <td>{{ customerOffer.usedAt is not null ? customerOffer.usedAt | date('d/m/Y') }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>{{ 'msg.no_offer_available' | trans }}</p>
+                    {% endif %}
+
+                </div>
+
+                <div class="tab-pane" id="games">
+                    {% if customer.customerGames | length > 0 %}
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Offer</th>
+                                <th>Played at</th>
+                                <th>Score</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for customerGame in customer.customerGames %}
+                                <tr>
+                                    <td>{{ customerGame.game.title }}</td>
+                                    <td>{{ customerGame.game.createdAt | date('d/m/Y') }}</td>
+                                    <td>{{ customerGame.score }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>{{ 'msg.no_game_played' | trans }}</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
-    <div id="my-tab-content" class="tab-content">
-        <div class="tab-pane active" id="infos">
-                <div class="row">
-                    <div class="col-sm-3">Nickname</div>
-                    <div class="col-sm-9 text-info">{{ customer.nickname }}</div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-3">Firstname</div>
-                    <div class="col-sm-9 text-info">{{ customer.firstname }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">Lastname</div>
-                    <div class="col-sm-9 text-info">{{ customer.lastname }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">Address</div>
-                    <div class="col-sm-9 text-info">
-                        {{ customer.address }}
-                        {% if customer.zipcode %}, {{ customer.zipcode }}{% endif %}
-                        {{ customer.city }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">Birthdate</div>
-                    <div class="col-sm-9 text-info">{{ customer.birthdate | date('d/m/Y') }}</div>
-                </div>
-            <hr>
-                <div class="form-group">
-                    <button class="btn btn-primary btn-fill" onclick="window.location.href='{{ path('account_profile_edit') }}'"><i class="fa fa-edit"></i> {{ 'btn.edit_profile' | trans }}</button>
-                </div>
-        </div>
-        <div class="tab-pane" id="cards">
-
-            <button class="btn btn-success" data-toggle="modal" data-target="#addCardModal"><i class="fa fa-plus"></i> Add card</button>
-            <hr>
-
-            <div id="customer_cards"></div>
-
-            {{ render(controller('AppBundle:Customer:displayModalAddCardToCustomer', {'id' : customer.id })) }}
-
-
-        </div>
-        <div class="tab-pane" id="offers">
-            {% if customerOffers | length > 0 %}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Offer</th>
-                            <th>Description</th>
-                            <th>Got at</th>
-                            <th>Used at</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for customerOffer in customerOffers %}
-                        <tr>
-                            <td>{{ customerOffer.offer.title }}</td>
-                            <td>{{ customerOffer.offer.description }}</td>
-                            <td>{{ customerOffer.createdAt is not null ? customerOffer.createdAt | date('d/m/Y') }}</td>
-                            <td>{{ customerOffer.usedAt is not null ? customerOffer.usedAt | date('d/m/Y') }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>No offer available</p>
-            {% endif %}
-
-        </div>
-
-        <div class="tab-pane" id="games">
-            {% if customer.customerGames | length > 0 %}
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Offer</th>
-                        <th>Played at</th>
-                        <th>Score</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for customerGame in customer.customerGames %}
-                        <tr>
-                            <td>{{ customerGame.game.title }}</td>
-                            <td>{{ customerGame.game.createdAt | date('d/m/Y') }}</td>
-                            <td>{{ customerGame.score }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>No games played</p>
-            {% endif %}
-        </div>
-    </div>
-
 {% endblock %}
 
 {% block javascripts %}
@@ -147,7 +152,7 @@
             loadTable();
 
             //Quand la modal a fini d'etre masquée
-            $('#addCardModal').on('hidden.bs.modal', function () {
+            $('#addCardModal{{ customer.id }}, #addCardModal').on('hidden.bs.modal', function () {
                 $(this).find('#numero').val('');
                 $(this).find('#alert-modal').removeClass('alert-danger').removeClass('alert-success');
             });
@@ -184,7 +189,7 @@
             });
 
             //A chaque fois qu'on tape, on masque et vide le message d'erreur
-            $('#addCardModal').on('keyup', '#numero', function(event){
+            $('#addCardModal{{ customer.id }}, #addCardModal').on('keyup', '#numero', function(event){
                 $('#alert-modal').removeClass('alert-success').removeClass('alert-danger').html('');
             });
         });

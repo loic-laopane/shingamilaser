@@ -1,0 +1,267 @@
+menu:
+    login: Sign in
+    register: Registration
+    logout: Sign out
+    card:
+        main: Cards
+        list: Cards list
+    purchase:
+        create: Purchase cards
+        list: Card's purchases
+    account:
+        main: Profile
+        edit: Edit my account
+    profile:
+        main: My profile
+        edit: Edit my profile
+    customer:
+        main: Customers
+        search: Search
+        create: New customer
+        main: Customer detail
+    game:
+        main: Games
+        create: New game
+        list: Game list
+    admin:
+        main: Administration
+    user:
+        main: Users
+    center:
+        main: Centers
+
+heading:
+    signin: sign in
+    registration: registration
+    account: account
+    forgotten_password: forrgotten password
+
+
+label:
+    username: username
+    password: password
+
+link:
+    forgotten_password: forgotten password
+
+title:
+    card:
+        list: Cards list
+        linked: Cards linked
+        scan: Scan a card
+        link_to_customer: Link a card to %nickname%
+        yours: Your card
+    customer:
+        create: New customer
+        search: Search a customer
+        detail: Detail of customer %nickname%
+        edit: Edit customer %nickname%
+        main: Customer
+    search:
+        result: Search results
+    purchase:
+        list: Purchases list
+        create: Create a cards request
+        manage: Manage the purchase
+    request:
+        manage: Manage the request
+        send: Send the request
+    game:
+        create: Create a game
+        edit: Edit the game %title%
+        manage: Game %title%
+        list: Games list
+    player:
+        list: Players
+    admin:
+        dashboard: Dashboard
+        account:
+            create: Creation of admin account
+    user:
+        list: Users list
+        edit: Edit %username%
+        new: New user
+    center:
+        list: Centers list
+        new: New center
+        edit: Edit the center
+    registration:
+        completed: Registration completed
+    welcome: Welcome to %app_name%
+    account:
+        main: Your account
+        edit: Edit your account
+    profile:
+        edit: Edit your profile
+        main: Your profile
+    password:
+        forgotten: Forgotten password
+        new: New password
+
+th:
+    card_number: Card number
+    purchased_at: Purchased at
+    owner: Owner
+    activated_at: Activated at
+    active: Status
+    customer: Customer
+    nickname: Nickname
+    quantity: Quantity
+    requester: Requester
+    created_at: Created at
+    updated_at: Last update
+    started_at: Started at
+    ended_at: Ended at
+    status: Status
+    player: Player
+    score: Score
+    has_card: Has a card
+    game: Game
+    username: Username
+    email: Email
+    name: Center name
+    code: Code
+    city: City
+    center: Center
+
+
+btn:
+    login: Sign in
+    logout: Sign out
+    register: Register
+    return: Return
+    send_request: Send request
+    see_more: See more
+    save: Save
+    search: Search
+    show: Show
+    edit: Edit
+    new: New
+    create: Create
+    back: Back
+    close: Close
+    cancel: Cancel
+    manage: Manage
+    remove: Remove
+    link: Link
+    update: Update
+    send:
+        request: Send a request
+    get_cards: Get cards
+    game:
+        create: Create game
+        start: Start the game
+        stop: Stop the game
+    customer:
+        create: New customer
+    qrcode:
+        start_and_stop: Start / Stop QRCode scan
+    add_to_game: Add to game
+    account:
+        edit: Edit your account
+    profile:
+        show: Your profile
+        edit: Edit your profile
+    card:
+        add: Add a card
+
+alert:
+    one_field_required: Please fill one field at least
+    field_required: This field is required
+    email_invalid: Email not valid
+    purchase:
+        updated: Purchase updated
+    quantity_not_null_to_send_request: Quantity cannot be null send the request
+    no_center_link_to_current_user: No center linked to your account
+    no_request_found_on_purchase: No requester found on the purchase
+    game_created: Game created
+    game_updated: Game updated
+    game_must_have_2_players: A game must have at least 2 players
+    customer:
+        found: Customer found
+        not_found: No customer found
+        added_to_game: Customer add to the game
+        already_in_game: Customer already in the game
+        nickname:
+            required: The nickname is required
+    search:
+        fill_field: Please fill at least one search field
+    account:
+        created: Account created
+    center:
+        contain_digit: Center code must contain %code_length% digits
+        created: Center created
+        updated: Center updated
+        deleted: Center deleted
+        exists: This center already exists
+    registration:
+        success : Registration success
+    not_your_card: This card is not yours
+    token:
+        expired: Token expired
+        invalid: Invalid token
+    user_not_found: User not found
+    email:
+        send_to: A mail has been sent to %email%
+
+jumbotron:
+    purchase:
+        create: Request cards to your supplier, with the quantity needed
+    access_personnal_info: Access to your personal informations
+
+
+Firstname: Firstname
+Lastname: Lastname
+Nickname: Nickname
+Society: Society
+Address: Address
+Zipcode: Zipcode
+City: City
+Birthdate: Birthdate
+User: ""
+Username: Username
+Password: Password
+Repeat Password: Repeat Password
+Email: Email
+Numero: Number
+Quantity: Quantity
+Reference: Reference
+Status: Status
+Created at : Created at
+Updated at : Updated at
+Activated at: Activated at
+delivery_by : Issued by %center_name%
+card: card
+cards: cards
+Title: Title
+auto_add_customer: Auto add customer to the game
+Card number: Card number
+Center: Center
+Roles: Roles
+-- Choose a center -- : -- Choose a center --
+Active : Active
+Code: Code
+Name: Name
+Users: Users
+File: ""
+informations: Informations
+fidelity cards: My fidelity cards
+offers: My offers
+games: My games
+
+#Status workflow
+created: Created
+error: Error
+requested: Requested
+completed: Completed
+
+msg:
+    no_result: No result found
+    no_purchase: No purchase found
+    no_card_linked: No card linked
+    no_player: No player found
+    no_card_available: No card available
+    no_game_played: No game played
+    no_offer_available: No offer available
+
+#Mail

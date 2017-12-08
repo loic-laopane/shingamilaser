@@ -1,12 +1,12 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ 'forgotten password' | trans }} :: {{ parent() }}{% endblock %}
+{% block title %}{{ 'title.password.forgotten' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="row">
         <div class="col-md-12">
             <div class="my-panel">
-                <div class="heading">{{ 'Forgotten password' | trans | title }}</div>
+                <div class="heading">{{ 'heading.forgotten_password' | trans | capitalize }}</div>
                 <div class="body">
                     {{ form_start(form) }}
                     {{ form_errors(form) }}
@@ -15,6 +15,7 @@
                     </section>
                     <section>
                         <button type="submit" class="btn btn-primary btn-fill" formnovalidate><i class="fa fa-arrow-circle-o-right"></i> {{ 'btn.send_request' | trans }}</button>
+                        <a class="btn btn-default btn-fill" href="{{ path('login') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
                     </section>
                     {{ form_widget(form) }}
                     {{ form_end(form) }}

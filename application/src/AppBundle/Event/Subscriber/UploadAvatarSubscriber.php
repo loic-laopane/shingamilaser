@@ -8,14 +8,12 @@
 
 namespace AppBundle\Event\Subscriber;
 
-
 use AppBundle\Entity\Image;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class UploadAvatarSubscriber implements EventSubscriber
 {
-
     public function getSubscribedEvents()
     {
         return array(
@@ -52,10 +50,12 @@ class UploadAvatarSubscriber implements EventSubscriber
         $entity = $eventArgs->getObject();
         if ($entity instanceof Image) {
             $fileToRemove = $entity->getUploadedDir().'/'.$entity->getFilename();
-            if(file_exists($fileToRemove)) unlink($fileToRemove);
+            if (file_exists($fileToRemove)) {
+                unlink($fileToRemove);
+            }
         }
-
     }
+
 
     public function hydrate(LifecycleEventArgs $eventArgs)
     {
@@ -66,8 +66,6 @@ class UploadAvatarSubscriber implements EventSubscriber
             $entity->setFilename($filename);
             $entity->setExtension($entity->getFile()->guessExtension());
         }
-
-
     }
 
     public function upload(LifecycleEventArgs $eventArgs)
@@ -80,14 +78,11 @@ class UploadAvatarSubscriber implements EventSubscriber
 
             $entity->getFile()->move($entity->getUploadedDir(), $entity->getFilename());
 
-            if(null !== $entity->getTmpFilename())
-            {
-                if(file_exists($entity->getTmpFilename())) unlink($entity->getTmpFilename());
+            if (null !== $entity->getTmpFilename()) {
+                if (file_exists($entity->getTmpFilename())) {
+                    unlink($entity->getTmpFilename());
+                }
             }
-
         }
     }
-
-
-
 }

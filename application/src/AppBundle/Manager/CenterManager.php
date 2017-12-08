@@ -8,12 +8,10 @@
 
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Center;
-use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class CenterManager
 {
@@ -23,17 +21,16 @@ class CenterManager
     private $manager;
 
     private $repository;
+
     /**
-     * @var SessionInterface
+     * CenterManager constructor.
+     * @param ObjectManager $manager
+     * @param SessionInterface $session
      */
-    private $session;
-
-
-    public function __construct(ObjectManager $manager, SessionInterface $session)
+    public function __construct(ObjectManager $manager)
     {
         $this->manager = $manager;
         $this->repository = $manager->getRepository(Center::class);
-        $this->session = $session;
     }
 
     /**
@@ -42,42 +39,42 @@ class CenterManager
      */
     public function exists(Center $center)
     {
-        return $this->repository->findOneByCode($center->getCode());
+        return $this->repository->findOneBy(['code' => $center->getCode()]);
     }
 
     /**
-     * Insert Center in DB
      * @param Center $center
-     * @return bool
+     * @return $this
+     * @throws \Exception
      */
     public function insert(Center $center)
     {
-        if($this->exists($center)) {
-            $this->session->getFlashBag()->add('danger', 'This Center already exists');
-            return false;
+        if ($this->exists($center)) {
+            throw new \Exception('alert.center.exists');
         }
 
         $this->manager->persist($center);
         $this->manager->flush();
 
-        $this->session->getFlashBag()->add('success', 'Center created');
-        return true;
+        return $this;
     }
 
+    /**
+     * @param $id
+     * @return $this
+     * @throws \Exception
+     */
     public function delete($id)
     {
         $center = $this->repository->find($id);
-        if (null === $center){
-            $this->session->getFlashBag()->add('danger', 'This Center doesn\'t exist');
-            return false;
+        if (null === $center) {
+            throw new \Exception('This Center doesn\'t exist');
         }
 
         $name = $center->getName();
         $this->manager->remove($center);
         $this->manager->flush();
 
-        $this->session->getFlashBag()->add('success', 'Center '.$name.' has been deleted');
-
+        return $this;
     }
-
 }

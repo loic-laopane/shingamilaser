@@ -8,14 +8,12 @@
 
 namespace AppBundle\Event;
 
-
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\Game;
 use Symfony\Component\EventDispatcher\Event;
 
 class OfferEvent extends Event
 {
-
     const UNLOCKABLE_EVENT = 'offer.unlockable.event';
     const UNLOCKED_EVENT = 'offer.unlocked.event';
     /**

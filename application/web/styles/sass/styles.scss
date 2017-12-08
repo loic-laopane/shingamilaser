@@ -29,6 +29,7 @@ $blue_dark: #254f72;
         &[type="text"], &[type="password"], &[type="email"] {
           border-bottom:1px solid #ccc ;
           background: #eee;
+          border-radius: 0px;
         }
       }
     }
@@ -70,7 +71,8 @@ $blue_dark: #254f72;
       }
     }
     .qrcode {
-
+      padding: 5px;
+      background: white;
     }
     .code {
       padding: 5px auto;
@@ -184,4 +186,40 @@ $avatar_edge: 55px;
 }
 .btn {
   border-radius: 2px;
+}
+
+.hidden-spin {
+  display: none;
+}
+.logo {
+  padding: 0 !important;
+  img {
+    width: 400px;
+  }
+}
+li > a [class^=fa] {
+  font-size: 18px !important;
+}
+//div.wrapper {
+//  margin-top: 60px;
+//}
+footer {
+  &.footer {
+    position: fixed;
+    bottom: 0;
+    height: 40px;
+    background: black;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    z-index: 100;
+    font-size: 0.9em;
+  }
+}
+@media (max-width: 768px) {
+  .logo {
+    img {
+      width: 280px;
+    }
+  }
 }

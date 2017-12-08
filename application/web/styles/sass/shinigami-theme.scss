@@ -1,9 +1,41 @@
 $color_grey: #666666;
+$color_primary: #493999;
+$color_primary_hover: #291f68;
+$color_pink_extra_light: #ebdbee;
+$color_link: #326ec7;
+$color_link_hover: #1f2c83;
+$color_success: #dc6f4e;
+$color_success_hover: #b15a40;
+$color_danger: #8f242a;
+$color_danger_hover: #711c21;
+$color_default: #333333;
+$color_default_hover: #111111;
+$color_info: #b5ddfe;
+$color_info_hover: #254f72;
+$color_jumbotron: #4E5D6C;
+$opacity: 0.6;
+
+
+$radius: 3px;
 html, body {
   background: #2B3E50;
+  font-family: 'Oswald', 'Montserrat', "Helvetica", Arial, sans-serif;
+  background-image: url("/web/img/background/bg-space-pink.jpg");
   .main {
     background: inherit;
     color: white;
+
+    a {
+      &:link, &:visited {
+        color: $color_link;
+        &[class*="btn"] {
+          color: white;
+        }
+      }
+      &:hover, &:active {
+        color: $color_link_hover;
+      }
+    }
 
     .modal {
       color: $color_grey;
@@ -16,12 +48,61 @@ html, body {
     .my-panel {
       background: white;
       color: $color_grey;
-      box-shadow: 5px 5px 5px #333;
+      box-shadow: none;
+      label {
+        font-weight: normal;
+        font-size: 1.1em;
+      }
+
+      input {
+        &[type="text"], &[type="password"], &[type="email"], &[type="date"], &[type="date"]
+        {
+          background: $color_pink_extra_light;
+          background-image: radial-gradient(#ffffff, $color_pink_extra_light);
+
+          border: none;
+          color: #333;
+        }
+      }
+
+      .heading {
+        background: $color_primary;
+      }
     }
   }
 }
+
 .jumbotron {
-  background: #4E5D6C;
+  background: rgba(#4E5D6C, 0.5);
+  color: white;
+  &.main-jumbotron {
+
+    position: fixed;
+    top:120px;
+    left:0;
+    opacity: 1;
+    margin-left:10%;
+    z-index: -1;
+    width: 80%;
+  }
+}
+.jumboSlideDown {
+  -webkit-animation: jumboDown 1s ease;
+  -moz-animation: jumboDown 1s ease;
+  -ms-animation: jumboDown 1s ease;
+  -o-animation: jumboDown 1s ease;
+  animation: jumboDown 1s ease 1;
+}
+@keyframes jumboDown {
+  from {
+    opacity: 0;
+    top: 0;
+  }
+
+  to {
+    opacity: 1;
+    top: 120px;
+  }
 }
 .customer-details {
   background:  white;
@@ -35,8 +116,407 @@ html, body {
 
 .panel {
   color: $color_grey;
+  background: rgba(#ffffff, 0.7);
+
+  label {
+    font-weight: normal;
+    font-size: 1.1em;
+  }
+  table {
+    &.table {
+      color: #333;
+      thead {
+        background: rgba(black, $opacity);
+      }
+      th {
+        font-weight: normal;
+        font-size: 1.2em;
+        color: $color_success;
+      }
+      td {
+        > a {
+          &:link, &:visited {
+            color: $color_info;
+            &[class*="btn"] {
+              color: white;
+            }
+          }
+          &:hover, &:active {
+            color: $color_link;
+          }
+        }
+      }
+    }
+
+  }
+
+  &.panel-dark {
+    background: rgba($color_jumbotron, 0.6);
+    color:white;
+    box-shadow: 5px 5px 12px #000;
+    .panel-heading {
+      color: white;
+      background-color: rgba($color_primary, 0.6);
+      font-size: 1.3em;
+    }
+    .panel-body {
+      table {
+        &.table {
+          color: white
+        }
+      }
+      div.dropdown {
+        &.open {
+          .btn {
+            &.dropdown-toggle {
+                border-color: $color_default_hover;
+              background-color: $color_default_hover;
+            }
+          }
+        }
+      }
+      .btn {
+        &.dropdown-toggle {
+          color: white;
+          border-color: white;
+          span.caret {
+            color:white;
+          }
+          &:hover {
+            border-color: $color_default_hover;
+          }
+        }
+
+      }
+      .checkbox {
+        label {
+          color: white;
+        }
+      }
+    }
+
+  }
+  border-radius: $radius;
+  border-bottom: none;
+
+  .panel-primary {
+    .panel-heading {
+      background: $color_primary;
+      border-bottom: none;
+      font-size: 1.1em;
+    }
+  }
+
+  table {
+    color: white;
+  }
+
   input {
-    background: #eee;
-    border-bottom: 1px solid #ccc;
+    background: #fff;
+    //border-bottom: 1px solid #ccc;
+  }
+
+  ul {
+    li {
+      a {
+        &:link, &:visited {
+         color: #333;
+        }
+        &:hover, &:active {
+          color:white;
+        }
+      }
+    }
   }
 }
+
+.nav {
+  &.nav-tabs {
+    li {
+      a {
+        font-weight: normal;
+        font-size: 1.1em;
+        &:link, &:visited {
+          color: white;
+        }
+        &:hover, &:active
+        {
+          color: $color_info;
+        }
+      }
+
+    }
+  }
+}
+.nav-tabs-navigation {
+  border-bottom-width: 4px;
+}
+
+.navbar-ct-primary
+{
+  background: #222222;
+  ul.navbar-nav {
+
+  }
+}
+
+
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Oswald', 'Montserrat', "Helvetica", Arial, sans-serif;
+}
+
+/**
+ * BUTTONS
+ */
+.btn {
+  background: none;
+
+  &.btn-primary
+  {
+    color: $color_primary;
+    border-color:$color_primary;
+    &:hover, &:active {
+      background: $color_primary_hover;
+      border-color: $color_primary_hover;
+    }
+    &.btn-fill {
+      background: $color_primary;
+      border-color: $color_primary;
+      &:hover {
+        background: $color_primary_hover;
+        border-color: $color_primary_hover;
+      }
+    }
+
+  }
+
+  &.btn-success {
+    color: $color_success;
+    border-color:$color_success;
+    &:hover {
+      background: $color_success_hover;
+      border-color: $color_success_hover;
+    }
+    &.btn-fill {
+      background: $color_success;
+      &:hover {
+        background: $color_success_hover;
+        border-color:$color_success_hover;
+      }
+    }
+  }
+
+  &.danger {
+    color: $color_danger;
+    border-color:$color_danger;
+    &:hover {
+      background: $color_danger_hover;
+      border-color: $color_danger_hover;
+    }
+    &.btn-fill {
+      background: $color_danger;
+      &:hover {
+        background: $color_danger_hover;
+        border-color:$color_danger_hover;
+      }
+    }
+  }
+
+  &.default {
+    color: $color_default;
+    border-color:$color_default;
+    &:hover {
+      background: $color_default_hover;
+      border-color: $color_default_hover;
+    }
+    &.btn-fill {
+      background: $color_default;
+      &:hover {
+        background: $color_default_hover;
+        border-color:$color_default_hover;
+      }
+    }
+  }
+
+  &.dropdown-toggle {
+    color: $color_default;
+    border-color:$color_default;
+    &:hover {
+      background: $color_default_hover;
+      border-color: $color_default_hover;
+    }
+    &.btn-fill {
+      background: $color_default;
+      &:hover {
+        background: $color_default_hover;
+        border-color:$color_default_hover;
+      }
+    }
+  }
+  &.btn-fill
+  {
+    color: white;
+  }
+}
+
+/* Pagination */
+.pagination
+{
+  &.pagination-primary {
+    li {
+      &.active {
+        a {
+          background: $color_success;
+          color: white
+        }
+
+      }
+      a {
+        color: white;
+        &:link, &:visited {
+          color: white;
+          border-color: $color_success;
+        }
+        &:hover, &:active {
+          background: $color_success;
+        }
+      }
+    }
+  }
+}
+/** ALERT */
+.alert {
+  &.alert-info {
+    background: rgba($color_info, 0.8);
+    color: $color_info_hover;
+  }
+}
+
+/**
+ * NAVBAR
+ */
+
+  .list-group
+  {
+    border-radius: $radius;
+
+    .list-group-item
+    {
+      background: rgba(white, 0.9);
+      border: none;
+      &:first-child {
+        border-top-left-radius: $radius;
+        border-top-right-radius: $radius;
+      }
+      &:last-child {
+        border-bottom-left-radius: $radius;
+        border-bottom-right-radius: $radius;
+      }
+    }
+    .list-group-item-info {
+      background: rgba($color_pink_extra_light, 1);
+    }
+    .title {
+      background: $color_primary;
+      color: white;
+      font-size: 1.2em;
+    }
+  }
+
+
+
+
+
+.logo {
+  font-family: 'airstrike', 'Racing Sans One', cursive;
+}
+
+.perso {
+  //height: 400px;
+  width: 50%;
+  position: fixed;
+  bottom: 40px;
+  z-index: -10;
+
+    img {
+      width:100%;
+    }
+
+  &.perso-left {
+    left:-7%;
+  }
+  &.perso-right {
+    right:-7%;
+  }
+}
+.slideRight {
+  -webkit-animation: slideRight 1s ease;
+  -moz-animation: slideRight 1s ease;
+  -ms-animation: slideRight 1s ease;
+  -o-animation: slideRight 1s ease;
+  animation: slideRight 1s ease;
+}
+
+.slideLeft {
+  -webkit-animation: slideLeft 1s ease;
+  -moz-animation: slideLeft 1s ease;
+  -ms-animation: slideLeft 1s ease;
+  -o-animation: slideLeft 1s ease;
+  animation: slideLeft 1s ease;
+}
+@keyframes slideRight {
+  from {
+    left: -50%;
+  }
+
+  to {
+    left: -7%;
+  }
+}
+@keyframes slideLeft {
+  from {
+    right: -50%;
+  }
+
+  to {
+    right: -7%;
+  }
+}
+.home-banniere {
+  position: fixed;
+  left:0;
+  width: 100%;
+  background: white;
+  height: 250px;
+}
+
+@media (max-width: 767px) {
+  .wrapper {
+    background: none;
+  }
+}
+/**
+ * FONTS
+ */
+@font-face {
+  font-family: 'airstrike';
+  src: url('/web/fonts/airstrike/airstrikeb3d.ttf');
+  src: url('/web/fonts/airstrike/airstrikeb3d.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'commando';
+  src: url('/web/fonts/commando/commando-webfont.eot');
+  src: url('/web/fonts/commando/commando-webfont.eot?#iefix') format('embedded-opentype'),
+  url('/web/fonts/commando/commando-webfont.woff') format('woff'),
+  url('/web/fonts/commando/commando-webfont.ttf') format('truetype'),
+  url('/web/fonts/commando/commando-webfont.svg#commandocommando') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+

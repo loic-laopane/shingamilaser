@@ -34,6 +34,4 @@ class ImageType extends AbstractType
     {
         return 'appbundle_image';
     }
-
-
 }

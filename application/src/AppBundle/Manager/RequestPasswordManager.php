@@ -8,7 +8,6 @@
 
 namespace AppBundle\Manager;
 
-
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\RequestPassword;
 use AppBundle\Entity\User;
@@ -38,8 +37,8 @@ class RequestPasswordManager
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(ObjectManager $objectManager,
-                                EventDispatcherInterface $dispatcher)
-    {
+                                EventDispatcherInterface $dispatcher
+    ) {
         $this->objectManager = $objectManager;
 
         $this->repository = $objectManager->getRepository('AppBundle:RequestPassword');
@@ -48,6 +47,7 @@ class RequestPasswordManager
 
     /**
      * @param User $user
+     * @return $this
      */
     public function create(User $user)
     {
@@ -60,6 +60,8 @@ class RequestPasswordManager
 
 
         $this->dispatcher->dispatch(PasswordEvent::FORGOTTEN, new PasswordEvent($requestPassword));
+
+        return $this;
     }
 
     /**
@@ -69,7 +71,6 @@ class RequestPasswordManager
     private function generateToken()
     {
         return sha1(uniqid(rand(), true)); //\OAuthProvider::generateToken($nb);
-
     }
 
     /**
@@ -80,20 +81,17 @@ class RequestPasswordManager
     public function getUserByToken($token)
     {
         $requestPassword = $this->repository->getRequestByToken($token);
-        if(!$requestPassword instanceof  RequestPassword)
-        {
-            throw new \Exception('Invalid token');
+        if (!$requestPassword instanceof  RequestPassword) {
+            throw new \Exception('alert.token.invalid');
         }
 
-        if($requestPassword->getExpiredAt() < new \DateTime())
-        {
-            throw new \Exception('Token is expired');
+        if ($requestPassword->getExpiredAt() < new \DateTime()) {
+            throw new \Exception('alert.token.expired');
         }
 
         $user = $requestPassword->getUser();
-        if(null === $user)
-        {
-            throw new \Exception('User not found');
+        if (null === $user) {
+            throw new \Exception('alert.user_not_found');
         }
         return $user;
     }

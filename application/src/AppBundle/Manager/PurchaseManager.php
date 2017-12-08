@@ -48,14 +48,13 @@ class PurchaseManager
     private $workflow;
 
 
-    public function __construct(Workflow $workflow,
-                                $base_uri,
+    public function __construct($base_uri,
+                                Workflow $workflow,
                                 ObjectManager $objectManager,
                                 SessionInterface $session,
                                 EventDispatcherInterface $dispatcher,
                                 SerializerInterface $serializer
-                                )
-    {
+                                ) {
         $this->objectManager = $objectManager;
         $this->repository = $objectManager->getRepository(Purchase::class);
         $this->session = $session;
@@ -88,7 +87,7 @@ class PurchaseManager
      */
     public function search($numero)
     {
-       return $this->repository->findOneBy(['numero' => $numero]);
+        return $this->repository->findOneBy(['numero' => $numero]);
     }
 
     /**
@@ -97,17 +96,17 @@ class PurchaseManager
     private function checkPrerequisite(Purchase $purchase)
     {
         $user = $purchase->getRequester();
-        if(null === $user) {
+        if (null === $user) {
             $this->setErrorStatus($purchase);
-            throw new Exception('No requester found on this purchase');
+            throw new Exception('alert.no_request_found_on_purchase');//No requester found on this purchase
         }
-        if(null === $user->getCenter()) {
+        if (null === $user->getCenter()) {
             $this->setErrorStatus($purchase);
-            throw new Exception('No center associated on current user');
+            throw new Exception('alert.no_center_link_to_current_user'); //No center associated on current user
         }
-        if(!$purchase->getQuantity()) {
+        if (!$purchase->getQuantity()) {
             $this->setErrorStatus($purchase);
-            throw new Exception('Qunatity cannot be null');
+            throw new Exception('alert.quantity_not_null_to_send_request'); //
         }
     }
 
@@ -120,13 +119,11 @@ class PurchaseManager
         $this->checkPrerequisite($purchase);
 
         //Si on est en erreur, on revalide
-        if($this->workflow->can($purchase, 'validate'))
-        {
+        if ($this->workflow->can($purchase, 'validate')) {
             $this->workflow->apply($purchase, 'validate');
         }
 
-        if($this->workflow->can($purchase, 'revalidate'))
-        {
+        if ($this->workflow->can($purchase, 'revalidate')) {
             $this->workflow->apply($purchase, 'revalidate');
         }
 
@@ -157,20 +154,17 @@ class PurchaseManager
         $return = array();
         $return['status'] = $data['status_code'];
         $return['message'] = $data['message'];
-        if ($data['status_code'] === 400)
-        {
+        if ($data['status_code'] === 400) {
             $this->setErrorStatus($purchase);
             throw new Exception($data['message']);
         }
 
-        if(isset($data['request_id'])) {
-
+        if (isset($data['request_id'])) {
             $this->setRequestedStatus($purchase, $data['request_id']);
             $this->session->getFlashBag()->add('success', $data['message']);
         }
 
         return $this;
-
     }
 
     /**
@@ -208,15 +202,13 @@ class PurchaseManager
         $return = array();
         $return['status'] = $data['status_code'];
         $return['message'] = $data['message'];
-        if ($data['status_code'] === 400)
-        {
+        if ($data['status_code'] === 400) {
             $this->setErrorStatus($purchase);
             throw new Exception($data['message']);
         }
 
-        if(isset($data['cards'])) {
-            foreach($data['cards'] as $api_card)
-            {
+        if (isset($data['cards'])) {
+            foreach ($data['cards'] as $api_card) {
                 $card = new Card();
                 $card->setCode($api_card['code']);
                 $card->setNumero($api_card['numero']);
@@ -256,14 +248,12 @@ class PurchaseManager
      */
     private function setErrorStatus(Purchase $purchase)
     {
-        if($this->workflow->can($purchase, 'error'))
-        {
+        if ($this->workflow->can($purchase, 'error')) {
             $this->workflow->apply($purchase, 'error');
             $purchase->setUpdatedAt(new \DateTime());
             $this->save($purchase);
         }
         return $this;
-
     }
 
     /**
@@ -272,8 +262,7 @@ class PurchaseManager
      */
     private function setCompletedStatus(Purchase $purchase)
     {
-        if(!$this->workflow->can($purchase, 'complete'))
-        {
+        if (!$this->workflow->can($purchase, 'complete')) {
             throw new Exception('Purchase cannot be as Completed status');
         }
         $this->workflow->apply($purchase, 'complete');
@@ -281,7 +270,4 @@ class PurchaseManager
         $this->save($purchase);
         return $this;
     }
-
-
-
 }

@@ -48,6 +48,4 @@ class OfferType extends AbstractType
     {
         return 'appbundle_offer';
     }
-
-
 }

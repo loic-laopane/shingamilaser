@@ -2,16 +2,16 @@
     <table class="table" id="table_card">
         <thead>
         <tr>
-            <th>Card number</th>
-            <th>Activated at</th>
-            <th>Center</th>
-            <th>Status</th>
+            <th>{{ 'th.card_number' | trans }}</th>
+            <th>{{ 'th.activated_at' | trans }}</th>
+            <th>{{ 'th.center' | trans }}</th>
+            <th>{{ 'th.status' | trans }}</th>
         </tr>
         </thead>
         <tbody>
         {% for card in customer.cards %}
             <tr>
-                <td><a href="{{ path('account_card_show', { 'id' : card.id }) }}">{{ card.numero }}</a></td>
+                <td><a href="{{ path('account_card_show', { 'numero' : card.numero }) }}">{{ card.numero }}</a></td>
                 <td>{{ card.activatedAt | date('d/m/Y') }}</td>
                 <td>{{ card.center.name }}</td>
                 <td><i class="fa {{ card.active ? 'fa-check' : 'fa-close'}}"></i></td>
@@ -20,5 +20,5 @@
         </tbody>
     </table>
 {% else %}
-    <p>No card available</p>
+    <p>{{ 'msg.no_card_available' | trans }}</p>
 {% endif %}

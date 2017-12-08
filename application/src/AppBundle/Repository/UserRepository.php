@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 /**
  * UserRepository
  *
@@ -10,4 +12,20 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getAllWithPage($page, $max)
+    {
+        $qr = $this->createQueryBuilder('u')
+            ->setFirstResult($max * ($page - 1))
+            ->setMaxResults($max);
+
+        return new Paginator($qr);
+    }
+
+    public function countAll()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

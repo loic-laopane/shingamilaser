@@ -99,7 +99,7 @@ class Card
      */
     public function setCode($code)
     {
-        if(strlen($code) !== 6) {
+        if (strlen($code) !== 6) {
             throw new \InvalidArgumentException('Card code must contain 6 digits');
         }
         $this->code = $code;
@@ -150,8 +150,7 @@ class Card
      */
     public function setActive($active)
     {
-        if(!is_bool($active))
-        {
+        if (!is_bool($active)) {
             throw new \InvalidArgumentException('Attribute Active must be a boolean');
         }
         $this->active = $active;
@@ -230,7 +229,7 @@ class Card
      */
     public function setNumero($numero)
     {
-        if(strlen($numero) !== 10 || !is_numeric($numero)) {
+        if (strlen($numero) !== 10 || !is_numeric($numero)) {
             throw new \InvalidArgumentException('Card number ('.$numero.') must contain 10 digits');
         }
         $this->numero = $numero;

@@ -1,14 +1,17 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ parent() }} :: Edit game{% endblock %}
+{% block title %}{{ 'title.game.edit' | trans({'%title%': game.title}) }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Edit game</h1>
+<h1>{{ 'title.game.edit' | trans({'%title%': game.title}) }}</h1>
+<div class="panel panel-dark">
+    <div class="panel-body">
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.edit.game' | trans }}</button>
+    <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.edit' | trans }}</button>
     <a class="btn btn-success btn-fill" href="{{ path('game_manage', { 'id' : game.id }) }}"><i class="fa fa-cog"></i> {{ 'btn.manage' | trans }}</a>
-    <a class="btn btn-default" href="{{ path('game_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
+    <a class="btn btn-default btn-fill" href="{{ path('game_list') }}"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
     {{ form_end(form) }}
-    </form>
+    </div>
+</div>
 {% endblock %}

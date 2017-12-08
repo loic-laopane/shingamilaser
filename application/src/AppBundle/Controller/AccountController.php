@@ -5,19 +5,18 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\CustomerOffer;
-use AppBundle\Entity\User;
-use AppBundle\Form\CustomerAccountType;
-use AppBundle\Form\CustomerAddCardType;
-use AppBundle\Form\UserAccountType;
+use AppBundle\Form\Customer\CustomerAccountType;
+use AppBundle\Form\Customer\CustomerAddCardType;
+use AppBundle\Form\User\UserAccountType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
+use AppBundle\Manager\UserManager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 use Symfony\Component\HttpFoundation\Request;
 
 class AccountController extends Controller
@@ -42,19 +41,26 @@ class AccountController extends Controller
 
     /**
      * @param $request Request
-     * @param $objectManager ObjectManager
+     * @param $userManager UserManager
      * @Route("/account/edit", name="account_edit")
      */
-    public function editUserAction(Request $request, ObjectManager $objectManager)
+    public function editUserAction(Request $request, UserManager $userManager)
     {
         $user = $this->getUser();
         $form = $this->createForm(UserAccountType::class, $user);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $objectManager->flush();
-            $this->addFlash('success', 'Account updated');
+        $plainPaswword = $request->request->get('password');
+        try {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                if (!empty($plainPaswword)) {
+                    $user->setPassword($plainPaswword);
+                    $userManager->encodeUserPassword($user);
+                }
+                $userManager->save($user);
+                $this->addFlash('success', 'Account updated');
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Account:edit_user.html.twig', array(
             'form' => $form->createView(),
@@ -72,14 +78,16 @@ class AccountController extends Controller
         $customer = $manager->getCustomerByUser($this->getUser());
 
         $form = $this->createForm(CustomerAccountType::class, $customer);
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $manager->save($customer);
-            $this->addFlash('success', 'Profile updated');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $manager->save($customer);
+                $this->addFlash('success', 'Profile updated');
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
         }
-        dump($customer);
         return $this->render('AppBundle:Account:edit_customer.html.twig', array(
             'form' => $form->createView(),
             'customer' => $customer
@@ -101,15 +109,10 @@ class AccountController extends Controller
         try {
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid())
-            {
-
-                    $cardManager->rattach($empty_card->getNumero(), $customer);
-
+            if ($form->isSubmitted() && $form->isValid()) {
+                $cardManager->rattach($empty_card->getNumero(), $customer);
             }
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
         return $this->render('AppBundle:Account:add_card.html.twig', array(
@@ -121,14 +124,17 @@ class AccountController extends Controller
      * @param Card $card
      * @param ObjectManager $objectManager
      * @throws \Exception
-     * @Route("/account/card/{id}/show", name="account_card_show")
+     * @Route("/account/card/{numero}", name="account_card_show")
      */
-    public function showCardAction(Card $card, ObjectManager $objectManager)
+    public function showCardAction(Card $card, CardManager $cardManager)
     {
-        if($card->getCustomer()->getUser() !== $this->getUser())
-        {
-            throw new \Exception('This card is not yours');
+        try {
+            $cardManager->checkUser($card, $this->getUser());
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', 'alert.not_your_card');
+            return $this->redirectToRoute('account_show');
         }
+
 
         return $this->render('AppBundle:Account:show_card.html.twig', array(
             'card' => $card
@@ -159,13 +165,11 @@ class AccountController extends Controller
         $response = array('status' => 1);
         try {
             $customerManager->removeAvatar($customer);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $response['error'] = 'Error while removing avatar';
             $response['status'] = 0;
         }
 
         return $this->json($response);
     }
-
 }

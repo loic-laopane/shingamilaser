@@ -57,6 +57,4 @@ class ResponseGetAll extends AbstractResponse
         $this->cards = $cards;
         return $this;
     }
-
-
 }

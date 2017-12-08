@@ -1,6 +1,6 @@
 {% extends "AppBundle:Account:account.layout.html.twig" %}
 
-{% block title %}{{ parent() }} > {{ 'Edit profile' | trans }}{% endblock %}
+{% block title %}{{ 'title.profile.edit' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block content %}
     <h1>
@@ -9,9 +9,14 @@
             <img src="{{ asset('img/avatar/' ~ customer.avatar.filename) }}" alt="Avatar of {{ customer.firstname }}" title="Avatar of {{ customer.firstname }}">
             {% endif %}
         </div>
-        {{ 'Edit profile' | trans }}
+        {{ 'title.profile.edit' | trans }}
     </h1>
     <legend></legend>
+<div class="panel panel-dark">
+    <div class="panel-heading">
+        {{ 'title.profile.main' | trans }}
+    </div>
+    <div class="panel-body">
     {{ form_start(form) }}
     {{ form_row(form.firstname) }}
     {{ form_row(form.lastname) }}
@@ -39,4 +44,6 @@
     {{ form_row(form.avatar) }}
     <button class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.save' | trans }}</button>
     {{ form_end(form) }}
+    </div>
+</div>
 {% endblock %}

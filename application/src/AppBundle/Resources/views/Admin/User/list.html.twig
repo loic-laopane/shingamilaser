@@ -3,15 +3,17 @@
 {% block title %}AppBundle:User:list{% endblock %}
 
 {% block content %}
-<h1>Users list</h1>
-<div class="panel">
+<h1>{{ 'title.user.list' | trans }}</h1>
+<div class="panel panel-dark">
     <div class="panel-body">
+        <p><a class="btn btn-success btn-fill" href="{{ path('admin_user_create') }}"><i class="fa fa-plus"></i> {{ 'btn.create' | trans }}</a></p>
         {% if users | length > 0 %}
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Email</th>
+                        <th>{{ 'th.username' | trans }}</th>
+                        <th>{{ 'th.email' | trans }}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,9 +29,9 @@
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_user_edit', { 'id' : user.id }) }}"><i class="fa fa-edit"></i> {{ 'btn-edit' | trans }}</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('admin_user_edit', { 'id' : user.id }) }}"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></li>
 
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_user_delete', { 'id' : user.id }) }}"><i class="fa fa-trash"></i> {{ 'btn-delete' }}</a></li>
+                                        {#<li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('admin_user_delete', { 'id' : user.id }) }}"><i class="fa fa-trash"></i> {{ 'btn.delete' }}</a></li>#}
 
                                     </ul>
 
@@ -38,9 +40,16 @@
                         </tr>
                     {% endfor  %}
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            {% include '::pagination.html.twig' %}
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         {% endif %}
-        <button class="btn btn-success btn-fill btn-action" data-href="{{ path('admin_user_create') }}"><i class="fa fa-plus"></i> {{ 'btn.create' | trans }}</button>
+
     </div>
 </div>
 {% endblock %}

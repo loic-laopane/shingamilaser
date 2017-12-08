@@ -40,5 +40,4 @@ class ResponseException extends AbstractResponse
     {
         return $this->id;
     }
-
 }

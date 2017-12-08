@@ -5,13 +5,13 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\Game;
-use AppBundle\Form\CustomerAddCardType;
-use AppBundle\Form\CustomerGameType;
+use AppBundle\Form\Customer\CustomerAddCardType;
+use AppBundle\Form\Customer\CustomerGameType;
 use AppBundle\Form\GameType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\PlayerManager;
-use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\GameManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,13 +27,18 @@ use Symfony\Component\HttpFoundation\Request;
 class GameController extends Controller
 {
     /**
-     * @Route("/games", name="game_list")
+     * @Route("/games/page/{page}", name="game_list", defaults={"page" : 1})
      */
-    public function listAction(GameManager $gameManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $games = $gameManager->getList();
+        $maxResult = $this->getParameter('max_result_page');
+        $repository = $objectManager->getRepository(Game::class);
+        $games = $repository->getAllWithPage($page, $maxResult);
+
+        $pagination = new Pagination($page, $repository->countAll(), $request->get('_route'), $maxResult);
         return $this->render('AppBundle:Game:list.html.twig', array(
-            'games' => $games
+            'games' => $games,
+            'pagination' => $pagination->getPagination()
         ));
     }
 
@@ -44,14 +49,16 @@ class GameController extends Controller
     {
         $game = new Game();
         $form = $this->createForm(GameType::class, $game);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            if($gameManager->insert($game)) {
+        try {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $gameManager->insert($game);
+                $this->addFlash('success', 'alert.game_created');
                 return $this->redirectToRoute('game_edit', array('id'=>$game->getId()));
             }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
         }
-
         return $this->render('AppBundle:Game:create.html.twig', array(
             'form' => $form->createView()
         ));
@@ -61,11 +68,18 @@ class GameController extends Controller
      * @Route("/game/{id}/edit", name="game_edit")
      *
      */
-    public function editAction(Game $game, Request $request)
+    public function editAction(Game $game, Request $request, GameManager $gameManager)
     {
-
         $form = $this->createForm(GameType::class, $game);
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $gameManager->save($game);
+                $this->addFlash('success', 'alert.game_updated');
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->render('AppBundle:Game:edit.html.twig', array(
             'form' => $form->createView(),
             'game' => $game
@@ -78,7 +92,11 @@ class GameController extends Controller
      */
     public function recordAction(Game $game, GameManager $gameManager)
     {
-        $gameManager->record($game);
+        try {
+            $gameManager->record($game);
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 
@@ -112,7 +130,12 @@ class GameController extends Controller
     {
         $customer_id = $request->request->get('customer_id');
         $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
-        $playerManager->add($customer, $game);
+        try {
+            $playerManager->add($customer, $game);
+            $this->addFlash('success', 'alert.customer.added_to_game');
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 
@@ -123,8 +146,14 @@ class GameController extends Controller
      */
     public function removeUserAction(Game $game, $customer_id, ObjectManager $objectManager, PlayerManager $playerManager)
     {
-        $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
-        $playerManager->remove($customer, $game);
+        try {
+            $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
+            $playerManager->remove($customer, $game);
+            $this->addFlash('success', 'Customer '.$customer->getNickname().' has been removed from this game');
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 
@@ -161,15 +190,11 @@ class GameController extends Controller
             $numero = $request->request->get('qrData');
             $card = $cardManager->search($numero);
             $playerManager->add($card->getCustomer(), $game);
-
-        }
-        catch(Exception $exception)
-        {
+        } catch (Exception $exception) {
             $return['status'] = 0;
             $this->get('session')->getFlashBag()->add('danger', $exception->getMessage());
         }
 
         return $this->json($return);
     }
-
 }

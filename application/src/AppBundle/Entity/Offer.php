@@ -147,6 +147,4 @@ class Offer
         $this->count = $count;
         return $this;
     }
-
-
 }

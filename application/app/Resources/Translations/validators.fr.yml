@@ -1,0 +1,35 @@
+customer:
+    firstname:
+        not_blank: Le champ Prénom est obligatoire
+    lastname:
+        not_blank: Le champ Nom est obligatoire
+    nickname:
+        not_blank: Le champ Pseudo est obligatoire
+
+user:
+    username:
+        not_blank: Le champ Identifiant est obligatoire
+    password:
+        not_blank: Le champ Mot de passe est obligatoire
+    email:
+        not_blank: Le champ Email est obligatoire
+        email: Le champ Email doit être un email valide
+Passwords doesn't match : Les mots de passe ne correspondent pas
+
+purchase:
+    quantity:
+        not_blank: La quantité ne peut être nulle
+
+game:
+    title:
+        not_blank: Le titre est obligatoire
+
+center:
+    code:
+        not_blank: Le code est obligatoire
+        contain_digit: Le code doit contenir %code_length% digits
+    name:
+        not_blank: Le nom est obligatoire
+    city:
+        not_blank: La ville est obligatoire
+        no_digit: La ville ne peut contenir que des lettres

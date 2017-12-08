@@ -5,8 +5,12 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Card;
 use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
-use AppBundle\Form\CustomerAddCardType;
-use AppBundle\Form\CustomerQuickCreateType;
+use AppBundle\Form\Customer\CustomerAccountType;
+use AppBundle\Form\Customer\CustomerAddCardType;
+use AppBundle\Form\Customer\CustomerGameType;
+use AppBundle\Form\Customer\CustomerQuickCreateType;
+use AppBundle\Form\Customer\CustomerRegisterType;
+use AppBundle\Form\Customer\CustomerSearchType;
 use AppBundle\Manager\CardManager;
 use AppBundle\Manager\CustomerManager;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -15,26 +19,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class CustomerController
  * @package AppBundle\Controller
- * @Route("/customer")
+
  */
 class CustomerController extends Controller
 {
     /**
-     * @Route("/search", name="customer_search")
-     * @Security("has_role('ROLE_STAFF', 'ROLE_ADMIN')")
+     * Requete pour autocomplete le nickname
+     * @Route("/customer/search", name="ajax_customer_search")
      * @Method({"GET", "POST"})
      */
-    public function searchAction(Request $request, ObjectManager $objectManager)
+    public function ajaxSearchAction(Request $request, ObjectManager $objectManager)
     {
         $term = $request->request->get('term');
         $customers = $objectManager->getRepository(Customer::class)->findByNicknameLike($term);
         $return = [];
-        foreach($customers as $customer)
-        {
+        foreach ($customers as $customer) {
             $return[] = $customer->getNickname();
         }
         return $this->json($return);
@@ -80,7 +84,6 @@ class CustomerController extends Controller
     public function associateCard(Request $request, Customer $customer, CardManager $cardManager)
     {
         $numero = $request->request->get('numero');
-        $numero = $request->request->get('numero');
         $card = new Card();
         $response = ['status' => 0, 'message' => ''];
 
@@ -90,10 +93,7 @@ class CustomerController extends Controller
             $response['status'] = 1;
             $response['message'] = 'Card associated to '.($customer->getUser() === $this->getUser() ? 'your account' : ' customer '.$customer->getNickname());
             $response['card'] = $card;
-        }
-        catch (\Exception $e)
-        {
-            //$this->get('session')->getFlashBag()->add('danger', $e->getMessage());
+        } catch (\Exception $e) {
             $response['message'] = $e->getMessage();
         }
         return $this->json($response);
@@ -103,7 +103,8 @@ class CustomerController extends Controller
      * @param Request $request
      * @Route("/customer/getCards", name="customer_get_cards")
      */
-    public function getCardsAction(Request $request, ObjectManager $objectManager) {
+    public function getCardsAction(Request $request, ObjectManager $objectManager)
+    {
         $customer = $objectManager->getRepository(Customer::class)->findOneBy(['user' => $this->getUser()]);
         return $this->render('AppBundle:Account:customer_cards.html.twig', array('customer' => $customer));
     }
@@ -134,7 +135,7 @@ class CustomerController extends Controller
      * @Route("/customer/create/quick/new", name="customer_create")
      * @Method({"POST"})
      */
-    public function createCustomer(Request $request, CustomerManager $customerManager)
+    public function createCustomer(Request $request, CustomerManager $customerManager, TranslatorInterface $translator)
     {
         $nickname = $request->request->get('nickname');
         $email = $request->request->get('email');
@@ -145,19 +146,101 @@ class CustomerController extends Controller
         try {
             $customer = new Customer();
             $customer->setNickname($nickname);
-dump($customer);
             $user = new User();
             $user->setEmail($email);
             $customerManager->quickCreate($customer, $user);
             $response['status'] = 1;
-            $response['message'] = 'Account created';
-        }
-        catch (\Exception $e)
-        {
-            //$this->get('session')->getFlashBag()->add('danger', $e->getMessage());
-            $response['message'] = $e->getMessage();
+            $response['message'] = $translator->trans('alert.account.created');
+        } catch (\Exception $e) {
+            $response['message'] = $translator->trans($e->getMessage());
         }
         return $this->json($response);
     }
 
+
+    /**
+     * @Route("/staff/customer/create", name="staff_customer_create")
+     * @Security("has_role('ROLE_STAFF')")
+     */
+    public function createAction(Request $request, CustomerManager $customerManager)
+    {
+        $customer = new Customer();
+        $form = $this->createForm(CustomerRegisterType::class, $customer);
+        try {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $customerManager->register($customer);
+                $this->addFlash('success', 'Customer has been created');
+                $this->redirectToRoute('staff_customer_edit', $customer->getId());
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+        return $this->render('AppBundle:Customer:create.html.twig', array(
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/staff/customer/{id}/edit", name="staff_customer_edit")
+     * @Security("has_role('ROLE_STAFF')")
+     */
+    public function editAction(Customer $customer, Request $request, CustomerManager $customerManager)
+    {
+        $form = $this->createForm(CustomerAccountType::class, $customer);
+        try {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $customerManager->save($customer);
+                $this->addFlash('success', 'Customer has been updated');
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+        return $this->render('AppBundle:Customer:edit.html.twig', array(
+            'form' => $form->createView(),
+            'customer' => $customer
+        ));
+    }
+
+    /**
+     * Form de cherche de Customer
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("staff/customer/search", name="staff_customer_search")
+     */
+    public function searchAction(Request $request, CustomerManager $customerManager)
+    {
+        $customers = [];
+        $search_fields = ['numero' => '', 'nickname' => '', 'firstname' => '', 'lastname' => ''];
+        $form = $this->createForm(CustomerSearchType::class);
+        try {
+            //$form->handleRequest($request);
+
+            if ($request->isMethod('POST')) {
+                $search_fields = $request->request->all();
+                $customerManager->checkSearchParams($search_fields);
+                $customers = $customerManager->getCustomerByParams($search_fields);
+            }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+        return $this->render('AppBundle:Customer:search.html.twig', array(
+            'form' => $form->createView(),
+            'customers' => $customers,
+            'search' => $search_fields
+        ));
+    }
+
+    /**
+     * @param Customer $customer
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/staff/customer/{id}/show", name="staff_customer_show")
+     */
+    public function showAction(Customer $customer)
+    {
+        return $this->render('AppBundle:Customer:show.html.twig', array(
+            'customer' => $customer
+        ));
+    }
 }

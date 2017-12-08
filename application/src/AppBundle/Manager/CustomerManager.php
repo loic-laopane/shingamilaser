@@ -42,10 +42,11 @@ class CustomerManager
      */
     private $dispatcher;
 
-    public function __construct(ObjectManager $manager,
+    public function __construct(
+        ObjectManager $manager,
                                 UserManager $userManager,
-                                EventDispatcherInterface $dispatcher)
-    {
+                                EventDispatcherInterface $dispatcher
+    ) {
         $this->manager = $manager;
         $this->userManager = $userManager;
         $this->repository = $this->manager->getRepository(Customer::class);
@@ -61,7 +62,7 @@ class CustomerManager
         $user = clone $customer->getUser();
         $this->userManager->encodeUserPassword($customer->getUser());
 
-        if($this->userManager->mailExists($customer->getUser())) {
+        if ($this->userManager->mailExists($customer->getUser())) {
             throw new \Exception('This email is already used');
         }
         $this->manager->persist($customer);
@@ -78,7 +79,9 @@ class CustomerManager
      */
     public function save(Customer $customer)
     {
-        $this->manager->persist($customer);
+        if (!$this->manager->contains($customer)) {
+            $this->manager->persist($customer);
+        }
         $this->manager->flush();
         return $this;
     }
@@ -88,7 +91,7 @@ class CustomerManager
      */
     public function getCustomerByUser(User $user)
     {
-        return $this->repository->findOneByUser($user);
+        return $this->repository->findOneBy(['user' => $user]);
     }
 
     /**
@@ -98,9 +101,8 @@ class CustomerManager
      */
     public function getCustomerCards(Customer $customer)
     {
-        $cards = $this->manager->getRepository(Card::class)->findByCustomer($customer);
-        if(null === $cards)
-        {
+        $cards = $this->manager->getRepository(Card::class)->findBy(['customer' => $customer]);
+        if (null === $cards) {
             $cards = new ArrayCollection();
         }
         return $cards;
@@ -112,14 +114,14 @@ class CustomerManager
         return $customers;
     }
 
-    public function removeAvatar(Customer $customer) {
-
-        if(null !== $customer->getAvatar())
-        {
+    public function removeAvatar(Customer $customer)
+    {
+        if (null !== $customer->getAvatar()) {
             $this->manager->remove($customer->getAvatar());
             $customer->setAvatar(null);
             $this->manager->flush();
         }
+        return $this;
     }
 
     /**
@@ -131,7 +133,6 @@ class CustomerManager
     {
         $user->setUsername($user->getEmail());
         $user->setPassword(substr(uniqid(), 0, 6));
-        $this->userManager->encodeUserPassword($user);
         $user->setRoles(['ROLE_USER']);
         $customer->setUser($user);
 
@@ -158,6 +159,21 @@ class CustomerManager
         $this->manager->flush();
 
         $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
+
+        return $this;
     }
 
+    /**
+     * @param array $params
+     * @throws \Exception
+     */
+    public function checkSearchParams(array $params)
+    {
+        foreach ($params as $field => $val) {
+            if (!empty($val)) {
+                return;
+            }
+        }
+        throw new \Exception('alert.one_field_required');
+    }
 }

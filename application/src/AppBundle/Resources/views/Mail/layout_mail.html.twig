@@ -6,8 +6,40 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mail</title>
+    <style>
+        h1 {
+            color:#493999;
+        }
+        p, ul {
+            font-size: 12px;
+        }
+        a {
+            color: #493999;
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body>
-    {% block body %}{% endblock %}
+<body style="font-family: Tahoma, Arial, Helvetica, sans-serif">
+    <table>
+        <thead>
+            <tr>
+                <td><a href="{{ url('homepage') }}"><img src="{{ absolute_url(asset('img/mail/banniere.png')) }}" alt="{{ app_name }}"></a></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 2px 5px 20px 5px">
+                    {% block body %}{% endblock %}
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style="background-color: #333; color:#999999; padding: 2px 5px; text-align: center; font-size: 11px; height: 100px;">
+                    <a href="{{ url('homepage') }}" style="color:#999999; text-decoration: underline">{{ app_name }}</a> - &copy; 2017 All rights reserved
+                </td>
+            </tr>
+        </tfoot>
+    </table>
 </body>
 </html>

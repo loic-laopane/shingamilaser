@@ -3,6 +3,11 @@ imports:
 
 framework:
     test: ~
+    translator:
+        enabled:              false
+        fallbacks:            [en]
+        logging:              "%kernel.debug%"
+        paths:                []
     session:
         storage_id: session.storage.mock_file
     profiler:

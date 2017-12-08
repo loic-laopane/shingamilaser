@@ -1,10 +1,10 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Game:list{% endblock %}
+{% block title %}{{ 'title.game.list' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Game list</h1>
-    <div class="panel">
+    <h1>{{ 'title.game.list' | trans }}</h1>
+    <div class="panel panel-dark">
         <div class="panel-body">
         <a href="{{ path('game_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
         <hr>
@@ -12,9 +12,9 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Game</th>
-                        <th>Start at</th>
-                        <th>End at</th>
+                        <th>{{ 'th.game' | trans }}</th>
+                        <th>{{ 'th.started_at' | trans }}</th>
+                        <th>{{ 'th.ended_at' | trans }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -35,7 +35,7 @@
                                         <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('game_edit', { 'id' : game.id }) }}"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></li>
                                         <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('game_manage', { 'id' : game.id }) }}"><i class="fa fa-cog"></i> {{ 'btn.manage' | trans }}</a></li>
 
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('game_delete', { 'id' : game.id }) }}"><i class="fa fa-trash"></i> {{ 'btn.delete' }}</a></li>
+                                        {#<li role="presentation"><a role="menuitem" tabindex="-1" class="btn-confirm" href="{{ path('game_delete', { 'id' : game.id }) }}"><i class="fa fa-trash"></i> {{ 'btn.delete' }}</a></li>#}
 
                                     </ul>
 
@@ -44,6 +44,13 @@
                         </tr>
                     {% endfor %}
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="4">
+                        {% include '::pagination.html.twig' %}
+                    </td>
+                </tr>
+                </tfoot>
             </table>
         {% else %}
             <p class="alert alert-info">No games</p>

@@ -3,9 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Form\UserEditType;
-use AppBundle\Form\UserType;
+use AppBundle\Form\User\UserEditType;
+use AppBundle\Form\User\UserType;
 use AppBundle\Manager\UserManager;
+use AppBundle\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -16,15 +17,19 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/admin/users", name="admin_user_list")
+     * @Route("/admin/users/page/{page}", name="admin_user_list", defaults={"page" : 1})
      * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET"})
      */
-    public function listAction(ObjectManager $objectManager)
+    public function listAction(ObjectManager $objectManager, Request $request, $page)
     {
-        $users = $objectManager->getRepository(User::class)->findAll();
+        $maxResult = $this->getParameter('max_result_page');
+        $repository = $objectManager->getRepository(User::class);
+        $users = $repository->getAllWithPage($page, $maxResult);
+        $pagination = new Pagination($page, $repository->countAll(), $request->get('_route'), $maxResult);
         return $this->render('AppBundle:Admin:User/list.html.twig', array(
-            'users' => $users
+            'users' => $users,
+            'pagination' => $pagination->getPagination()
         ));
     }
 
@@ -37,17 +42,20 @@ class UserController extends Controller
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
-            if($userManager->insert($user))
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $userManager->insert($user);
+                $this->addFlash('success', 'User created');
                 return $this->redirectToRoute('admin_user_edit', array(
-                    'id' => $user->getId()
+                  'id' => $user->getId()
                 ));
             }
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
         }
+
 
         return $this->render('AppBundle:Admin:User/store.html.twig', array(
             'form' => $form->createView()
@@ -63,8 +71,7 @@ class UserController extends Controller
     {
         $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             //Flush
             $objectManager->flush();
             $this->addFlash('success', 'User updated');
@@ -78,12 +85,16 @@ class UserController extends Controller
     /**
      * @Route("/admin/user/{id}/delete", name="admin_user_delete")
      * @Security("has_role('ROLE_ADMIN')")
-     * @Method({"GET"})
+     * @Method({"GET", "POST"})
      */
     public function deleteAction($id, UserManager $userManager)
     {
-        $userManager->delete($id);
+        try {
+            $userManager->delete($id);
+            $this->addFlash('success', 'User has been deleted');
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
         return $this->redirectToRoute('admin_user_list');
     }
-
 }

@@ -3,20 +3,20 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Customer;
-use AppBundle\Entity\User;
-use AppBundle\Form\CustomerRegisterType;
+
+use AppBundle\Form\Customer\CustomerRegisterType;
 use AppBundle\Form\Password\NewPasswordType;
 use AppBundle\Form\Password\RequestPasswordType;
 use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\RequestPasswordManager;
 use AppBundle\Manager\UserManager;
-use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SecurityController extends Controller
 {
@@ -46,20 +46,15 @@ class SecurityController extends Controller
         $form = $this->createForm(CustomerRegisterType::class, $customer);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $customerManager->register($customer);
                 //Todo : A ajouter a un evenement
-                $this->addFlash('success', 'registration.success');
+                $this->addFlash('success', 'alert.registration.success');
                 return $this->redirectToRoute('login');
-            }
-            catch(\Exception $exception)
-            {
+            } catch (\Exception $exception) {
                 $this->addFlash('danger', $exception->getMessage());
             }
-
-
         }
 
         return $this->render('AppBundle:Security:register.html.twig', array(
@@ -71,21 +66,17 @@ class SecurityController extends Controller
      * @Route("/password/forgotten", name="forgotten_password")
      * @Method({"GET", "POST"})
      */
-    public function forgottenPasswordAction(Request $request, RequestPasswordManager $requestPasswordManager, UserManager $userManager)
+    public function forgottenPasswordAction(Request $request, RequestPasswordManager $requestPasswordManager, UserManager $userManager, TranslatorInterface $translator)
     {
         $form = $this->createForm(RequestPasswordType::class);
         try {
-            if ($request->isMethod('POST'))
-            {
+            if ($request->isMethod('POST')) {
                 $email = $request->request->get('email');
                 $user = $userManager->getUserByEmail($email);
                 $requestPasswordManager->create($user);
-                $this->addFlash('success', 'A email has been sent to '.$email);
+                $this->addFlash('success', $translator->trans('alert.email.send_to', array('%email%' => $email)));
             }
-
-        }
-        catch(\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }
         return $this->render('AppBundle:Security:forgotten.html.twig', array(
@@ -99,13 +90,11 @@ class SecurityController extends Controller
      */
     public function newPasswordAction($token, Request $request, RequestPasswordManager $requestPasswordManager, UserManager $userManager)
     {
-
         try {
             $user = $requestPasswordManager->getUserByToken($token);
             $form = $this->createForm(NewPasswordType::class, $user);
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $userManager->changePassword($user);
                 $this->addFlash('success', 'Password updated');
                 return $this->redirectToRoute('login');
@@ -113,13 +102,10 @@ class SecurityController extends Controller
             return $this->render('AppBundle:Security:new-password.html.twig', array(
                 'form' => $form->createView()
             ));
-        }
-        catch(\Exception $exception)
-        {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
             return $this->redirectToRoute('forgotten_password');
         }
-
     }
 
     /**
@@ -133,5 +119,4 @@ class SecurityController extends Controller
 
         ));
     }
-
 }

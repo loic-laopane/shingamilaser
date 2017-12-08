@@ -28,11 +28,8 @@ class ApiController extends Controller
     public function requestAction(Purchase $purchase, PurchaseManager $purchaseManager)
     {
         try {
-
             $purchaseManager->makeRequest($purchase);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
 
@@ -46,15 +43,11 @@ class ApiController extends Controller
     public function getAllAction(Purchase $purchase, PurchaseManager $purchaseManager)
     {
         try {
-
             $purchaseManager->getCards($purchase);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $this->get('session')->getFlashBag()->add('danger', $e->getMessage());
         }
 
         return $this->redirectToRoute('purchase_edit', array('id' => $purchase->getId()));
     }
-
 }

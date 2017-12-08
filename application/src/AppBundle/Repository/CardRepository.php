@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Customer;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * CardRepository
@@ -12,6 +13,10 @@ use AppBundle\Entity\Customer;
  */
 class CardRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param Customer $customer
+     * @return mixed
+     */
     public function findCustomerActiveCard(Customer $customer)
     {
         return $this->createQueryBuilder('c')
@@ -22,5 +27,30 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('active', true)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * @param $page
+     * @param $max
+     * @return Paginator
+     */
+    public function getAllWithPage($page, $max)
+    {
+        $qr = $this->createQueryBuilder('c')
+            ->setFirstResult($max * ($page - 1))
+            ->setMaxResults($max);
+        return new Paginator($qr);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function countAll()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

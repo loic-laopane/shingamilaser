@@ -1,13 +1,13 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Manager purchase{% endblock %}
+{% block title %}{{ 'title.purchase.manage' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Manage purchase</h1>
+<h1>{{ 'title.purchase.manage' | trans }}</h1>
     {% if workflow_can(purchase, 'validate') or workflow_can(purchase, 'revalidate') %}
-    <div class="panel">
+    <div class="panel panel-dark">
         <div class="panel-heading">
-            <h3>Manage request</h3>
+            <h3>{{ 'title.request.manage' | trans }}</h3>
         </div>
         <div class="panel-body">
             {{ form_start(form) }}
@@ -21,36 +21,36 @@
     {% endif %}
     <div class="panel">
         <div class="panel-heading">
-            <h3>Manage request</h3>
+            <h3>{{ 'title.request.send' | trans }}</h3>
         </div>
         <div class="panel-body">
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-4">Reference :</div>
+                    <div class="col-md-4">{{ 'Reference' | trans }} :</div>
                     <div class="col-md-4">{{ purchase.reference }}</div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-4">Status :</div>
-                    <div class="col-md-4">{{ purchase.status }}</div>
+                    <div class="col-md-4">{{ 'Status' | trans }} :</div>
+                    <div class="col-md-4">{{ purchase.status | trans }}</div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-4">Quantity :</div>
-                    <div class="col-md-4">{{ purchase.quantity }} cards</div>
+                    <div class="col-md-4">{{ 'Quantity' | trans }} :</div>
+                    <div class="col-md-4">{{ purchase.quantity }} {{ (purchase.quantity > 1 ? 'cards' : 'card') | trans }}</div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-4">Created at :</div>
+                    <div class="col-md-4">{{ 'Created at' | trans }} :</div>
                     <div class="col-md-4">{{ purchase.createdAt | date('d/m/Y') }}</div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-4">Last update :</div>
+                    <div class="col-md-4">{{ 'Updated at' | trans }} :</div>
                     <div class="col-md-4">{{ purchase.updatedAt | date('d/m/Y H:i') }}</div>
                 </div>
             </div>
@@ -62,19 +62,19 @@
             {% endif %}
             {% if workflow_can(purchase, 'complete') %}
             <form action="{{ path('api_client_getall', { 'id' : purchase.id }) }}" method="post">
-                <button class="btn btn-info btn-fill"><i class="fa fa-download"></i> {{ 'btn.get.cards' | trans }}</button>
+                <button class="btn btn-info btn-fill"><i class="fa fa-download"></i> {{ 'btn.get_cards' | trans }}</button>
             </form>
             {% endif %}
-            <a href="{{ path('purchase_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.return' }}</a>
+            <a href="{{ path('purchase_list') }}" class="btn btn-default btn-fill"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
 
             {% if purchase.cards is not null %}
-                <h4>Associated cards</h4>
+                <h4>{{ 'title.card.linked' | trans }}</h4>
                 <div class="card-list">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Card number</th>
-                                <th>Owner</th>
+                                <th>{{ 'th.card_number' | trans }}</th>
+                                <th>{{ 'th.owner' | trans }}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -90,7 +90,7 @@
                         <td></td>
                     </tr>
                 {% else %}
-                    <p>No cards associated</p>
+                    <p>{{ 'msg.no_card_linked' | trans }}</p>
                 {% endfor %}
                         </tbody>
                     </table>

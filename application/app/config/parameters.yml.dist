@@ -27,3 +27,5 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
 
     api_base_uri: ~
+
+    app_name: 'Shinigami Laser'

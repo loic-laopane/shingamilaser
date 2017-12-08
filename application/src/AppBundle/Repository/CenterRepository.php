@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 /**
  * CenterRepository
  *
@@ -10,4 +12,29 @@ namespace AppBundle\Repository;
  */
 class CenterRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * @param $page
+     * @param $max
+     * @return Paginator
+     */
+    public function getAllWithPage($page, $max)
+    {
+        $qr = $this->createQueryBuilder('c')
+            ->setFirstResult($max * ($page - 1))
+            ->setMaxResults($max);
+
+        return new Paginator($qr);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function countAll()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

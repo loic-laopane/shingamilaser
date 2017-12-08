@@ -14,56 +14,169 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Exception;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserManagerTest extends TestCase
 {
     private $objectManager;
     private $encoder;
-    private $session;
-    private $userManager;
+    private $dispatcher;
 
-    public function __construct()
+    public function setUp()
     {
-        parent::__construct();
+        parent::setUp();
         $this->objectManager = $this->getMockBuilder(ObjectManager::class)->getMock();
 
         $this->encoder = $this->getMockBuilder(UserPasswordEncoderInterface::class)->getMock();
-        $this->session = $this->getMockBuilder(SessionInterface::class)->getMock();
-        $this->userManager = $userManager = new UserManager($this->objectManager, $this->encoder, $this->session);
+        $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
     }
 
     public function testCanEncodeUserPassword()
     {
-        $user = $this->getMockBuilder(User::class)->getMock();
+        $user = $this->createMock(User::class);
+        $user->method('getPassword')->willReturn('test');
 
-        $this->assertInstanceOf(UserManager::class, $this->userManager->encodeUserPassword($user));
-
-        $this->expectException(\TypeError::class);
-
-        $this->userManager->encodeUserPassword('test');
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->assertEquals($userManager, $userManager->encodeUserPassword($user));
     }
 
-    public function testCantCheckUserExist()
+    public function testUserExists()
     {
-        $this->expectException(\TypeError::class);
-        $this->userManager->exists('not_an_user');
+        $pseudo = 'mon pseudo';
+        $user = $this->createMock(User::class);
+        $user->method('getUsername')->willReturn($pseudo);
+
+        $repo = $this->createMock(ObjectRepository::class);
+        $repo->method('findOneBy')->with(['username' => $pseudo])->willReturn($user);
+        $this->objectManager->method('getRepository')->willReturn($repo);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->assertEquals($user, $userManager->exists($user));
+    }
+
+    public function testUserMailExists()
+    {
+        $email = 'test@email.com';
+        $user = $this->createMock(User::class);
+        $user->method('getEmail')->willReturn($email);
+
+        $repo = $this->createMock(ObjectRepository::class);
+        $repo->method('findOneBy')->with(['email' => $email])->willReturn($user);
+        $this->objectManager->method('getRepository')->willReturn($repo);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->assertEquals($user, $userManager->mailExists($user));
+    }
+
+    public function testSaveUser()
+    {
+        $user = $this->createMock(User::class);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->assertEquals($userManager, $userManager->save($user));
     }
 
 
-    public function testCantCheckUserMailExist()
-    {
-        $this->expectException(\TypeError::class);
-        $this->userManager->exists('not_an_user');
+    public function testChangePassword() {
+
+        $user = $this->createMock(User::class);
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->assertEquals($userManager, $userManager->changePassword($user));
     }
 
-    public function testCantInsertUser()
+    public function testGetUserByEmail()
     {
-        $user = $this->getMockBuilder(User::class)->getMock();
+        $email = 'test@test.com';
+        $user = $this->createMock(User::class);
+        $user->method('getEmail')->willReturn($email);
 
-        $this->expectException(\TypeError::class);
-        $this->userManager->insert('not_an_user');
+        $repo = $this->createMock(ObjectRepository::class);
+        $repo->method('findOneBy')->with(['email' => $email])->willReturn($user);
+
+        $this->objectManager->method('getRepository')->willReturn($repo);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->assertEquals($user, $userManager->getUserByEmail($email));
+    }
+
+    public function testCannotGetUserByEmailEmpty()
+    {
+        $email = null;
+        $user = $this->createMock(User::class);
+        $user->method('getEmail')->willReturn($email);
+
+        $repo = $this->createMock(ObjectRepository::class);
+        $repo->method('findOneBy')->with(['email' => $email])->willReturn($user);
+
+        $this->objectManager->method('getRepository')->willReturn($repo);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->expectException(\Exception::class);
+        $userManager->getUserByEmail($email);
+    }
+
+    public function testCannotFindUserByEmail()
+    {
+        $email = 'test@test.com';
+        $user = $this->createMock(User::class);
+        $user->method('getEmail')->willReturn($email);
+
+        $repo = $this->createMock(ObjectRepository::class);
+        $repo->method('findOneBy')->with(['email' => $email])->willReturn(null);
+
+        $this->objectManager->method('getRepository')->willReturn($repo);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->expectException(\Exception::class);
+        $userManager->getUserByEmail($email);
+    }
+
+    public function testCanInsertUser()
+    {
+        $pseudo = 'pseudo';
+        $email = 'test@test.com';
+        $user = $this->createMock(User::class);
+        $user->method('getEmail')->willReturn($email);
+        $user->method('getUsername')->willReturn($pseudo);
+
+        $repo = $this->createMock(ObjectRepository::class);
+        $repo->expects($this->any())->method('findOneBy')->willReturn(null);
+
+        $this->objectManager->method('getRepository')->willReturn($repo);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->assertEquals($userManager, $userManager->insert($user));
+    }
+
+    public function testCannotInsertUserExists()
+    {
+        $pseudo = 'pseudo';
+        $user = $this->createMock(User::class);
+        $user->method('getUsername')->willReturn($pseudo);
+
+        $repo = $this->createMock(ObjectRepository::class);
+        $repo->expects($this->any())->method('findOneBy')->willReturn($user);
+
+        $this->objectManager->method('getRepository')->willReturn($repo);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->expectException(\Exception::class);
+        $userManager->insert($user);
+    }
+
+    public function testDeleteUser()
+    {
+        $user_id = 1;
+        $user = $this->createMock(User::class);
+        $user->method('getId')->willReturn($user_id);
+
+        $repo = $this->createMock(ObjectRepository::class);
+        $repo->expects($this->any())->method('find')->with($user_id)->willReturn($user);
+        $this->objectManager->method('getRepository')->willReturn($repo);
+
+        $userManager = new UserManager($this->objectManager, $this->encoder, $this->dispatcher);
+        $this->assertEquals($userManager, $userManager->delete($user_id));
     }
 
 }
