@@ -225,6 +225,8 @@ class CenterRequest
     public function removeCard(\Wf3\ApiBundle\Entity\Card $card)
     {
         $this->cards->removeElement($card);
+
+        return $this;
     }
 
     /**

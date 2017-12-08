@@ -53,6 +53,7 @@ class GameController extends Controller
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $gameManager->insert($game);
+                $this->addFlash('success', 'alert.game_created');
                 return $this->redirectToRoute('game_edit', array('id'=>$game->getId()));
             }
         } catch (\Exception $exception) {
@@ -74,6 +75,7 @@ class GameController extends Controller
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $gameManager->save($game);
+                $this->addFlash('success', 'alert.game_updated');
             }
         } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
@@ -130,7 +132,9 @@ class GameController extends Controller
         $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
         try {
             $playerManager->add($customer, $game);
+            $this->addFlash('success', 'alert.customer.added_to_game');
         } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
         }
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
@@ -142,8 +146,14 @@ class GameController extends Controller
      */
     public function removeUserAction(Game $game, $customer_id, ObjectManager $objectManager, PlayerManager $playerManager)
     {
-        $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
-        $playerManager->remove($customer, $game);
+        try {
+            $customer = $objectManager->getRepository(Customer::class)->find($customer_id);
+            $playerManager->remove($customer, $game);
+            $this->addFlash('success', 'Customer '.$customer->getNickname().' has been removed from this game');
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+        }
+
         return $this->redirectToRoute('game_manage', array('id' => $game->getId()));
     }
 

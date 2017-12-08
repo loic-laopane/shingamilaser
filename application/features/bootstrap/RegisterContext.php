@@ -46,7 +46,6 @@ class RegisterContext extends MinkContext
      */
     public function iFillAllTheRegisterForm()
     {
-        //$this->visitPath('/register');
         $session = $this->getSession();
         $page = $session->getPage();
         $page->fillField('firstname', 'fake_firstname');
@@ -60,8 +59,7 @@ class RegisterContext extends MinkContext
 
 
     /**
-     * @AfterScenario
-     * @remove_registered_customer
+     * @AfterScenario @remove_registered_customer
      */
     public function deleteRegisteredUserAndCustomer()
     {

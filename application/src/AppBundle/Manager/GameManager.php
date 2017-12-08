@@ -28,10 +28,7 @@ class GameManager
      * @var \AppBundle\Repository\GameRepository|\Doctrine\Common\Persistence\ObjectRepository
      */
     private $repository;
-    /**
-     * @var SessionInterface
-     */
-    private $session;
+
     /**
      * @var EngineInterface
      */
@@ -50,9 +47,7 @@ class GameManager
     private $translator;
 
 
-    public function __construct(
-        ObjectManager $manager,
-                                SessionInterface $session,
+    public function __construct(ObjectManager $manager,
                                 EngineInterface $templating,
                                 CustomerManager $customerManager,
                                 EventDispatcherInterface $dispatcher,
@@ -60,7 +55,6 @@ class GameManager
     ) {
         $this->manager = $manager;
         $this->repository = $manager->getRepository(Game::class);
-        $this->session = $session;
         $this->templating = $templating;
         $this->customerManager = $customerManager;
         $this->dispatcher = $dispatcher;
@@ -71,46 +65,33 @@ class GameManager
     /**
      * Insert Game in DB
      * @param Game $game
-     * @return bool
+     * @return $this
      */
     public function insert(Game $game)
     {
         $this->manager->persist($game);
         $this->manager->flush();
 
-        $this->session->getFlashBag()->add('success', 'alert.game_created');
+        return $this;
     }
 
+    /**
+     * @param Game $game
+     * @return $this
+     */
     public function save(Game $game)
     {
         if (!$this->manager->contains($game)) {
             $this->manager->persist($game);
         }
         $this->manager->flush();
-
-        $this->session->getFlashBag()->add('success', 'alert.game_updated');
+        return $this;
     }
 
     /**
-     * @param $id
-     * @return bool
+     * @param Game $game
+     * @return $this
      */
-    public function delete($id)
-    {
-        $game = $this->repository->find($id);
-        if (null === $game) {
-            $this->session->getFlashBag()->add('danger', 'This Center doesn\'t exist');
-            return false;
-        }
-
-        $title = $game->getTitle();
-        $this->manager->remove($game);
-        $this->manager->flush();
-
-        $this->session->getFlashBag()->add('success', 'Game '.$title.' has been deleted');
-        return true;
-    }
-
     public function record(Game $game)
     {
         if (null !== $game->getStartedAt()) {

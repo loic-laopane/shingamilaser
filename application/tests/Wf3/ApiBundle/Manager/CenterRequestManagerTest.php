@@ -1,45 +1,101 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Etudiant
+ * Date: 07/12/2017
+ * Time: 14:12
+ */
 
-namespace test\Wf3\ApiBundle\Manager;
+namespace Wf3\ApiBundle\Manager;
+
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityRepository;
+use JMS\Serializer\Serializer;
 use PHPUnit\Framework\TestCase;
-use Wf3\ApiBundle\Entity\Center;
-use Wf3\ApiBundle\Manager\CardManager;
-use Wf3\ApiBundle\Manager\CenterRequestManager;
+use Symfony\Component\HttpFoundation\Request;
 use Wf3\ApiBundle\Model\AbstractResponse;
+use Wf3\ApiBundle\Model\ResponseRequest;
 
-class CenterRequestManagerTest
+class CenterRequestManagerTest extends TestCase
 {
-
+    private $centerRequestManager;
+    private $serializer;
+    private $request;
     private $objectManager;
-    private $abstractResponse;
-    private $center;
+    private $cardManager;
+    private $abstractRespnse;
 
-    public function __construct()
+    public function setUp()
     {
-        parent::__construct();
-
+        $this->centerRequestManager = $this->createMock(CenterRequestManager::class);
+        $this->serializer = $this->createMock(Serializer::class);
+        $this->request = $this->createMock(Request::class);
+        $this->abstractRespnse = $this->getMockBuilder(AbstractResponse::class)
+            ->setMethods(['setCenterRequest'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->objectManager = $this->createMock(ObjectManager::class);
         $this->cardManager = $this->createMock(CardManager::class);
-        $this->abstractResponse = $this->createMock(AbstractResponse::class);
-        $this->center = $this->createMock(Center::class);
     }
 
-    public function getData()
-    {
-        return array('center' => 123, 'quantity' => 1);
-    }
-    public function testCanRequest()
-    {
-        $repository = $this->getMockForAbstractClass(ObjectRepository::class);
-        $repository->expects($this->any())->method('findOneBy')->with(['numero' => 123])->willReturn($this->center);
-        $this->objectManager->expects($this->any())->method('getRepository')->willReturn($repository);
+   public function testCenterFieldMissingInRequest() {
 
+        $data = [];
+        $centerRequestManager = new CenterRequestManager($this->objectManager, $this->cardManager);
+        $this->expectException(\Exception::class);
+        $centerRequestManager->request($data, $this->abstractRespnse);
+   }
+
+    public function testGoodRequest() {
+
+        $data = ['center' => 123];
+        $centerRequestManager = new CenterRequestManager($this->objectManager, $this->cardManager);
+        $this->expectException(\Exception::class);
+        $this->assertInstanceOf(ResponseRequest::class, $centerRequestManager->request($data, $this->abstractRespnse));
+    }
+
+    public function testRequestIdFieldMissingInGetAllRequest() {
+        $data = ['center' => 123];
+        $centerRequestManager = new CenterRequestManager($this->objectManager, $this->cardManager);
+        $this->expectException(\Exception::class);
+       $centerRequestManager->getAll($data, $this->abstractRespnse);
+    }
+
+    public function testCheckedEntries()
+    {
+        $accept_array = ['field_1', 'field_2'];
+        $data_array = ['field_1' => 'val 1', 'field_2' => 'val 2'];
         $centerRequestManager = new CenterRequestManager($this->objectManager, $this->cardManager);
 
-        $this->assertInstanceOf(AbstractResponse::class, $centerRequestManager->request($this->getData(), $this->abstractResponse));
+        $this->assertInstanceOf(CenterRequestManager::class, $centerRequestManager->checkEntries($data_array, $accept_array));
     }
+
+    public function testCheckedMissingEntries()
+    {
+        $accept_array = ['field_1', 'field_2'];
+        $data_array = ['field_1' => 'val 1', 'field_3' => 'val 2'];
+        $centerRequestManager = new CenterRequestManager($this->objectManager, $this->cardManager);
+        $this->expectException(\Exception::class);
+        $centerRequestManager->checkEntries($data_array, $accept_array);
+    }
+
+    public function testCheckedUnknownedEntries()
+    {
+        $accept_array = ['field_1', 'field_2'];
+        $data_array = ['field_1' => 'val 1', 'field_2' => 'val 2', 'field_3' => 'val_3'];
+        $centerRequestManager = new CenterRequestManager($this->objectManager, $this->cardManager);
+        $this->expectException(\Exception::class);
+        $centerRequestManager->checkEntries($data_array, $accept_array);
+    }
+
+
+
+    public function testGetAllRequest() {
+
+        $data = ['request_id' => 1, 'center' => 123];
+        $centerRequestManager = new CenterRequestManager($this->objectManager, $this->cardManager);
+        $this->expectException(\Exception::class);
+        $centerRequestManager->getAll($data, $this->abstractRespnse);
+    }
+
 }

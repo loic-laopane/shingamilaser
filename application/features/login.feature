@@ -5,7 +5,7 @@ Feature: Login
     Given I am on "/"
     When I follow "menu.login"
     Then I should be on "/login"
-  
+
   Scenario: Connection success
     Given I am on "/login"
     When I fill in "_username" with "user"

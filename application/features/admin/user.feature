@@ -6,7 +6,7 @@ Feature: User
 
   Scenario: Access to the User list page
     Given I am on the dashboard page
-    Then I follow "Users"
+    Then I follow "menu.user.main"
     Then I should be on the users list page
 
   @fake_user
@@ -14,4 +14,4 @@ Feature: User
     Given I am on the users list page
     When I follow "btn.edit"
     Then I should be on the user edit page
-    And I should see "Edit user"
+    And I should see "title.user.edit"

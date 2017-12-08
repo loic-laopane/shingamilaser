@@ -47,8 +47,9 @@ services:
     AppBundle\Manager\PurchaseManager:
         public: true
         arguments:
-            - '@workflow.purchase'
             - '%api_base_uri%'
+            - '@workflow.purchase'
+
 
     AppBundle\Event\Listener\LoginListener:
         tags:

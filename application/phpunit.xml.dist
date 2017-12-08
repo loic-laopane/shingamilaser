@@ -25,6 +25,27 @@
                 <directory>src/*Bundle/Resources</directory>
                 <directory>src/*/*Bundle/Resources</directory>
                 <directory>src/*/Bundle/*Bundle/Resources</directory>
+                <directory>src/*Bundle/Controller</directory>
+                <directory>src/*/*Bundle/Controller</directory>
+                <directory>src/*/Bundle/*Bundle/Controller</directory>
+                <directory>src/*Bundle/Repository</directory>
+                <directory>src/*/*Bundle/Repository</directory>
+                <directory>src/*/Bundle/*Bundle/Repository</directory>
+                <directory>src/*Bundle/Tests</directory>
+                <directory>src/*/*Bundle/Tests</directory>
+                <directory>src/*/Bundle/*Bundle/Tests</directory>
+                <directory>src/*Bundle/DependencyInjection</directory>
+                <directory>src/*/*Bundle/DependencyInjection</directory>
+                <directory>src/*/Bundle/*Bundle/DependencyInjection</directory>
+                <directory>src/*Bundle/Form</directory>
+                <directory>src/*/*Bundle/Form</directory>
+                <directory>src/*/Bundle/*Bundle/Form</directory>
+                <directory>src/*Bundle/Command</directory>
+                <directory>src/*/*Bundle/Command</directory>
+                <directory>src/*/Bundle/*Bundle/Command</directory>
+                <directory>src/*Bundle/Event</directory>
+                <directory>src/*/*Bundle/Event</directory>
+                <directory>src/*/Bundle/*Bundle/Event</directory>
             </exclude>
         </whitelist>
     </filter>

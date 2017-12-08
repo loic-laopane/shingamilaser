@@ -13,7 +13,7 @@ use AppBundle\Entity\Customer;
 use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
 
 class CardManager
 {
@@ -21,16 +21,12 @@ class CardManager
      * @var ObjectManager
      */
     private $objectManager;
-    /**
-     * @var SessionInterface
-     */
-    private $session;
 
-    public function __construct(ObjectManager $objectManager, SessionInterface $session)
+
+    public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
         $this->repository = $objectManager->getRepository(Card::class);
-        $this->session = $session;
     }
 
     /**

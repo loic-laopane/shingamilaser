@@ -48,7 +48,7 @@ class UserContext extends MinkContext
      */
     public function iAmOnTheUsersListPage()
     {
-        $this->visitPath('/admin/users');
+        $this->visitPath('/admin/users/page');
     }
 
     /**

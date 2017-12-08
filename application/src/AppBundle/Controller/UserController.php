@@ -47,7 +47,7 @@ class UserController extends Controller
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $userManager->insert($user);
-
+                $this->addFlash('success', 'User created');
                 return $this->redirectToRoute('admin_user_edit', array(
                   'id' => $user->getId()
                 ));
@@ -91,6 +91,7 @@ class UserController extends Controller
     {
         try {
             $userManager->delete($id);
+            $this->addFlash('success', 'User has been deleted');
         } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }

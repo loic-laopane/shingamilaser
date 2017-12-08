@@ -76,13 +76,32 @@ html, body {
   background: rgba(#4E5D6C, 0.5);
   color: white;
   &.main-jumbotron {
+
     position: fixed;
-    top:0;
+    top:120px;
     left:0;
-    opacity: 0;
+    opacity: 1;
     margin-left:10%;
-    z-index: 10;
+    z-index: -1;
     width: 80%;
+  }
+}
+.jumboSlideDown {
+  -webkit-animation: jumboDown 1s ease;
+  -moz-animation: jumboDown 1s ease;
+  -ms-animation: jumboDown 1s ease;
+  -o-animation: jumboDown 1s ease;
+  animation: jumboDown 1s ease 1;
+}
+@keyframes jumboDown {
+  from {
+    opacity: 0;
+    top: 0;
+  }
+
+  to {
+    opacity: 1;
+    top: 120px;
   }
 }
 .customer-details {
@@ -416,17 +435,62 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
 }
 
 .perso {
-  height: 400px;
-  width: 200px;
+  //height: 400px;
+  width: 50%;
   position: fixed;
-  top:200px;
-  z-index: 0;
+  bottom: 40px;
+  z-index: -10;
+
+    img {
+      width:100%;
+    }
+
   &.perso-left {
-    left:-200px;
+    left:-7%;
   }
   &.perso-right {
-    right:-200px;
+    right:-7%;
   }
+}
+.slideRight {
+  -webkit-animation: slideRight 1s ease;
+  -moz-animation: slideRight 1s ease;
+  -ms-animation: slideRight 1s ease;
+  -o-animation: slideRight 1s ease;
+  animation: slideRight 1s ease;
+}
+
+.slideLeft {
+  -webkit-animation: slideLeft 1s ease;
+  -moz-animation: slideLeft 1s ease;
+  -ms-animation: slideLeft 1s ease;
+  -o-animation: slideLeft 1s ease;
+  animation: slideLeft 1s ease;
+}
+@keyframes slideRight {
+  from {
+    left: -50%;
+  }
+
+  to {
+    left: -7%;
+  }
+}
+@keyframes slideLeft {
+  from {
+    right: -50%;
+  }
+
+  to {
+    right: -7%;
+  }
+}
+.home-banniere {
+  position: fixed;
+  left:0;
+  width: 100%;
+  background: white;
+  height: 250px;
 }
 
 @media (max-width: 767px) {
