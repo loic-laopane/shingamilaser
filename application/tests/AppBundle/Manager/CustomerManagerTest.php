@@ -170,7 +170,7 @@ class CustomerManagerTest extends TestCase
         $params  = [];
         $customerManage = new CustomerManager($this->objectManager, $this->userManager, $this->dispatcher);
         $this->expectException(\Exception::class);
-        $this->assertEquals($customerManage, $customerManage->checkSearchParams($params));
+         $customerManage->checkSearchParams($params);
     }
 
     public function testCheckSearchParams() {
