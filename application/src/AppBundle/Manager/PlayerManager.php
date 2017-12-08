@@ -42,11 +42,11 @@ class PlayerManager
      * @param Player $customerGame
      * @return Player|null|object
      */
-    public function exists(Player $customerGame)
+    public function exists(Player $player)
     {
         return $this->repository->findOneBy(array(
-            'customer' => $customerGame->getCustomer(),
-            'game' => $customerGame->getGame()
+            'customer' => $player->getCustomer(),
+            'game' => $player->getGame()
         ));
     }
 
@@ -70,19 +70,19 @@ class PlayerManager
      */
     public function add(Customer $customer, Game $game)
     {
-        $customerGame = new Player();
-        $customerGame->setGame($game);
-        $customerGame->setCustomer($customer);
+        $player = new Player();
+        $player->setGame($game);
+        $player->setCustomer($customer);
         $card = $this->manager->getRepository(Card::class)->findCustomerActiveCard($customer);
         if (null !== $card) {
-            $customerGame->setCard($card);
+            $player->setCard($card);
         }
 
-        if ($this->exists($customerGame)) {
+        if ($this->exists($player)) {
             throw new \Exception('alert.customer.already_in_game');
         }
 
-        $this->insert($customerGame);
+        $this->insert($player);
 
         return $this;
     }
@@ -94,13 +94,13 @@ class PlayerManager
      */
     public function remove(Customer $customer, Game $game)
     {
-        $customerGame = $this->repository->findOneBy(array(
+        $player = $this->repository->findOneBy(array(
             'customer' => $customer,
             'game' => $game
         ));
 
-        if ($customerGame) {
-            $this->manager->remove($customerGame);
+        if ($player) {
+            $this->manager->remove($player);
             $this->manager->flush();
         }
 

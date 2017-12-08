@@ -40,6 +40,9 @@
                 <directory>src/*Bundle/Form</directory>
                 <directory>src/*/*Bundle/Form</directory>
                 <directory>src/*/Bundle/*Bundle/Form</directory>
+                <directory>src/*Bundle/Command</directory>
+                <directory>src/*/*Bundle/Command</directory>
+                <directory>src/*/Bundle/*Bundle/Command</directory>
             </exclude>
         </whitelist>
     </filter>
