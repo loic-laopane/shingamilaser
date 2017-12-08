@@ -152,9 +152,11 @@ class CustomerManagerTest extends TestCase
     public function testGetCountUnlockOffer() {
         $nbUnlockedOffers = 5;
         $offer = $this->createMock(Offer::class);
+
         $repo = $this->createMock(CustomerOfferRepository::class);
         $repo->method('getCountUnlockOffer')->willReturn($nbUnlockedOffers);
         $this->objectManager->method('getRepository')->willReturn($repo);
+
         $customerManage = new CustomerManager($this->objectManager, $this->userManager, $this->dispatcher);
         $this->assertEquals($nbUnlockedOffers, $customerManage->getCountUnlockOffer($this->customer, $offer));
     }

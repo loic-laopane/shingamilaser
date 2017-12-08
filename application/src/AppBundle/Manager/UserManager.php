@@ -29,10 +29,6 @@ class UserManager
      * @var UserPasswordEncoderInterface
      */
     private $encoder;
-    /**
-     * @var SessionInterface
-     */
-    private $session;
 
     /**
      * @var ObjectRepository
@@ -43,15 +39,12 @@ class UserManager
      */
     private $dispatcher;
 
-    public function __construct(
-        ObjectManager $manager,
+    public function __construct(ObjectManager $manager,
                                 UserPasswordEncoderInterface $encoder,
-                                SessionInterface $session,
                                 EventDispatcherInterface $dispatcher
     ) {
         $this->manager = $manager;
         $this->encoder = $encoder;
-        $this->session = $session;
         $this->repository = $this->manager->getRepository(User::class);
         $this->dispatcher = $dispatcher;
     }
@@ -75,7 +68,7 @@ class UserManager
      */
     public function exists(User $user)
     {
-        return $this->repository->findOneByUsername($user->getUsername());
+        return $this->repository->findOneBy(['username' => $user->getUsername()]);
     }
 
     /**
@@ -84,7 +77,7 @@ class UserManager
      */
     public function mailExists(User $user)
     {
-        return $this->repository->findOneByEmail($user->getEmail());
+        return $this->repository->findOneBy(['email' => $user->getEmail()]);
     }
 
     /**
@@ -105,8 +98,6 @@ class UserManager
 
         $this->manager->persist($user);
         $this->manager->flush();
-
-        $this->session->getFlashBag()->add('success', 'User created');
 
         return $this;
     }
@@ -141,8 +132,6 @@ class UserManager
         $this->manager->remove($user);
         $this->manager->flush();
 
-        $this->session->getFlashBag()->add('success', 'User '.$username.' has been deleted');
-
         return $this;
     }
 
@@ -172,7 +161,7 @@ class UserManager
     {
         $plainUser = clone $user;
         $this->encodeUserPassword($user);
-        $this->save();
+        $this->save($user);
 
         $this->dispatcher->dispatch(SecurityEvent::CHANGE_PASSWORD, new SecurityEvent(new Customer(), $plainUser));
 
