@@ -53,6 +53,7 @@ class GameController extends Controller
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $gameManager->insert($game);
+                $this->addFlash('success', 'alert.game_created');
                 return $this->redirectToRoute('game_edit', array('id'=>$game->getId()));
             }
         } catch (\Exception $exception) {
@@ -74,6 +75,7 @@ class GameController extends Controller
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $gameManager->save($game);
+                $this->addFlash('success', 'alert.game_updated');
             }
         } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
