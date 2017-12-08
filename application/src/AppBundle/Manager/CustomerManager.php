@@ -101,7 +101,7 @@ class CustomerManager
      */
     public function getCustomerCards(Customer $customer)
     {
-        $cards = $this->manager->getRepository(Card::class)->findByCustomer($customer);
+        $cards = $this->manager->getRepository(Card::class)->findBy(['customer' => $customer]);
         if (null === $cards) {
             $cards = new ArrayCollection();
         }
@@ -121,6 +121,7 @@ class CustomerManager
             $customer->setAvatar(null);
             $this->manager->flush();
         }
+        return $this;
     }
 
     /**
@@ -158,6 +159,8 @@ class CustomerManager
         $this->manager->flush();
 
         $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
+
+        return $this;
     }
 
     /**
