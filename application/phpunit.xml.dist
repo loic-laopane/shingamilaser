@@ -43,6 +43,9 @@
                 <directory>src/*Bundle/Command</directory>
                 <directory>src/*/*Bundle/Command</directory>
                 <directory>src/*/Bundle/*Bundle/Command</directory>
+                <directory>src/*Bundle/Event</directory>
+                <directory>src/*/*Bundle/Event</directory>
+                <directory>src/*/Bundle/*Bundle/Event</directory>
             </exclude>
         </whitelist>
     </filter>
