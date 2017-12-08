@@ -7,7 +7,7 @@
     <div class="container">
         <h1>{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }}</h1>
         <p></p>
-        <p><a class="btn btn-primary btn-fill btn-lg" href="#" role="button">{{ 'btn.see_more' | trans }}</a></p>
+        <p><a class="btn btn-primary btn-fill btn-lg" href="{{ path('login') }}" role="button"><i class="fa fa-plus-circle"></i> {{ 'btn.see_more' | trans }}</a></p>
     </div>
 </div>
 {% endblock %}
