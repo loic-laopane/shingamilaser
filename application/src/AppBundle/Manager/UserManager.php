@@ -96,6 +96,7 @@ class UserManager
             throw new \Exception('This Email is already used');
         }
 
+        $this->encodeUserPassword($user);
         $this->manager->persist($user);
         $this->manager->flush();
 
