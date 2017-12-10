@@ -28,4 +28,14 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function getAdminsMails()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.email')
+          ->where('u.roles LIKE :role')
+          ->setParameter('role', '%ROLE_ADMIN%')
+          ->getQuery()
+          ->getArrayResult();
+    }
 }

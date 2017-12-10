@@ -1,0 +1,13 @@
+{% extends 'AppBundle:Mail:layout_mail.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'title.account.creation' | trans }}</h1>
+    <h3>Hello,</h3>
+    <p>An account has been created for you</p>
+    <ul>
+        <li>{{ 'Username' | trans }} : <b>{{ user.username }}</b></li>
+        <li>{{ 'Password' | trans }} : <b>{{ user.password }}</b></li>
+    </ul>
+
+    <p>You can log in with this <a href="{{ url('homepage') }}">link</a>.</p>
+{% endblock %}

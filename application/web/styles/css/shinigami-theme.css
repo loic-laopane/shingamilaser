@@ -28,6 +28,11 @@ html, body {
         background-image: radial-gradient(#ffffff, #ebdbee);
         border: none;
         color: #333; }
+      html .main .my-panel textarea, body .main .my-panel textarea {
+        background: #ebdbee;
+        background-image: radial-gradient(#ffffff, #ebdbee);
+        border: none;
+        color: #333; }
       html .main .my-panel .heading, body .main .my-panel .heading {
         background: #493999; }
 

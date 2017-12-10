@@ -85,6 +85,7 @@ doctrine:
         entity_managers:
             default:
                 connection: default
+                auto_mapping: true
                 mappings:
                     AppBundle: ~
             api:

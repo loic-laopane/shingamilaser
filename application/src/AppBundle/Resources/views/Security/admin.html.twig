@@ -4,6 +4,32 @@
 
 {% block content %}
 <h1>{{ 'title.admin.dashboard' | trans }}</h1>
-
+<div class="panel panel-dark">
+    <div class="panel-heading">
+        {{ 'title.admin.top_players' | trans }}
+    </div>
+    <div class="panel-body">
+        {% if topPlayers is not null %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{{ 'th.player' | trans }}</th>
+                        <th>{{ 'th.avg_score' | trans }}</th>
+                        <th>{{ 'th.nb_game' | trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player in topPlayers %}
+                        <tr>
+                            <td>{{ player.player.customer.nickname }}</td>
+                            <td>{{ player.avg_score }}</td>
+                            <td>{{ player.nb_game }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}

@@ -28,8 +28,7 @@ class RegisterListener
      */
     private $templating;
 
-    public function __construct(
-        $from,
+    public function __construct($from,
                                 \Swift_Mailer $mailer,
                                 EngineInterface $templating,
                                 TranslatorInterface $translator
@@ -57,6 +56,25 @@ class RegisterListener
                 )),
                   'text/html'
                 );
+        $this->mailer->send($message);
+    }
+
+    /**
+     * @param SecurityEvent $event
+     */
+    public function onQuickRegistration(SecurityEvent $event)
+    {
+        $user = $event->getUser();
+        $message = new \Swift_Message($this->translator->trans('title.account.completed'));
+        $message->setFrom($this->from)
+          ->setTo($user->getEmail())
+          ->setBody(
+            $this->templating->render('AppBundle:Mail:user-create.html.twig', array(
+              'title' => 'title.account.create',
+              'user' => $user
+            )),
+            'text/html'
+          );
         $this->mailer->send($message);
     }
 }

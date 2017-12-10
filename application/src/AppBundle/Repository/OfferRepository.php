@@ -16,6 +16,7 @@ class OfferRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->createQueryBuilder('o')
             ->where('o.expiredAt > CURRENT_TIMESTAMP() ')
+          ->orWhere('o.expiredAt IS NULL')
             ->getQuery()
             ->getResult();
     }

@@ -64,6 +64,13 @@ html, body {
           color: #333;
         }
       }
+      textarea {
+        background: $color_pink_extra_light;
+        background-image: radial-gradient(#ffffff, $color_pink_extra_light);
+
+        border: none;
+        color: #333;
+      }
 
       .heading {
         background: $color_primary;

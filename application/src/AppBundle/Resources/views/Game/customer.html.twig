@@ -26,7 +26,7 @@
                  {% else %}
                      <div class="form-group row" id="cardnumber{{ customer.id }}">
                          <label class="col-sm-4 col-form-label"></label>
-                         <div class="col-sm-8">No active card found <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#addCardModal{{ customer.id }}" data-customer="{{ customer.id }}"><i class="fa fa-plus"></i> Add card</button></div>
+                         <div class="col-sm-8">{{ 'msg.no_active_card_found' | trans }} <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#addCardModal{{ customer.id }}" data-customer="{{ customer.id }}"><i class="fa fa-plus"></i> {{ 'btn.card.add' | trans }}</button></div>
                      </div>
                 {% endfor %}
 

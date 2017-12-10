@@ -96,8 +96,14 @@ class UserManager
             throw new \Exception('This Email is already used');
         }
 
+        $plainUser = clone $user;
+        $this->encodeUserPassword($user);
         $this->manager->persist($user);
         $this->manager->flush();
+
+        $securityEvent = new SecurityEvent();
+        $securityEvent->setUser($plainUser);
+        $this->dispatcher->dispatch(SecurityEvent::CREATE_USER, $securityEvent);
 
         return $this;
     }
@@ -163,7 +169,10 @@ class UserManager
         $this->encodeUserPassword($user);
         $this->save($user);
 
-        $this->dispatcher->dispatch(SecurityEvent::CHANGE_PASSWORD, new SecurityEvent(new Customer(), $plainUser));
+        $securityEvent = new SecurityEvent();
+        $securityEvent->setUser($plainUser);
+
+        $this->dispatcher->dispatch(SecurityEvent::CHANGE_PASSWORD, $securityEvent);
 
         return $this;
     }

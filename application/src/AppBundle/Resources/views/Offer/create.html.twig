@@ -1,12 +1,17 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Create offer :: {{ parent() }}{% endblock %}
+{% block title %}{{ 'title.offer.create' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Create a new offer</h1>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.create.offer' | trans }}</button>
-    <a href="{{ path('offer_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
-    {{ form_end(form) }}
+<h1>{{ 'title.offer.create' | trans }}</h1>
+    <div class="panel panel-dark">
+        <div class="panel-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.offer.create' | trans }}</button>
+            <a href="{{ path('offer_list') }}" class="btn btn-default btn-fill"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+
 {% endblock %}

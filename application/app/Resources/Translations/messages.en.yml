@@ -2,6 +2,7 @@ menu:
     login: Sign in
     register: Registration
     logout: Sign out
+    contact: Contact us
     card:
         main: Cards
         list: Cards list
@@ -25,10 +26,16 @@ menu:
         list: Game list
     admin:
         main: Administration
+        dashboard: Dashboard
     user:
         main: Users
     center:
         main: Centers
+    offer:
+        main: Offers
+        create: New offer
+        list: Offers list
+        edit: Offer edit
 
 heading:
     signin: sign in
@@ -77,6 +84,7 @@ title:
         dashboard: Dashboard
         account:
             create: Creation of admin account
+        top_players: Best players
     user:
         list: Users list
         edit: Edit %username%
@@ -91,12 +99,18 @@ title:
     account:
         main: Your account
         edit: Edit your account
+        creation: Account creation
+        completed: Account creation completed
     profile:
         edit: Edit your profile
         main: Your profile
     password:
         forgotten: Forgotten password
         new: New password
+    offer:
+        create: New offer
+        list: Offers list
+    contact: Contact
 
 th:
     card_number: Card number
@@ -123,7 +137,8 @@ th:
     code: Code
     city: City
     center: Center
-
+    avg_score: Score average
+    nb_game: Games count
 
 btn:
     login: Sign in
@@ -147,6 +162,7 @@ btn:
     update: Update
     send:
         request: Send a request
+        contact: Send
     get_cards: Get cards
     game:
         create: Create game
@@ -164,6 +180,8 @@ btn:
         edit: Edit your profile
     card:
         add: Add a card
+    offer:
+        create: Create l'offer
 
 alert:
     one_field_required: Please fill one field at least
@@ -203,6 +221,8 @@ alert:
     user_not_found: User not found
     email:
         send_to: A mail has been sent to %email%
+    message:
+        sent: Message sent
 
 jumbotron:
     purchase:
@@ -248,6 +268,10 @@ informations: Informations
 fidelity cards: My fidelity cards
 offers: My offers
 games: My games
+Expired at: Expired at
+Count: Games count
+Subject: Subject
+Message: Message
 
 #Status workflow
 created: Created
@@ -263,5 +287,6 @@ msg:
     no_card_available: No card available
     no_game_played: No game played
     no_offer_available: No offer available
+    no_active_card_found: No active card found
 
 #Mail

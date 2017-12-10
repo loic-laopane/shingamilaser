@@ -37,4 +37,13 @@ class PlayerRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findTopPlayers($nb=5)
+    {
+        $dql = "SELECT p as player, d, AVG(p.score) as avg_score, COUNT(p) as nb_game FROM AppBundle\Entity\Player p
+                JOIN p.customer d 
+                GROUP BY d
+                ORDER BY avg_score DESC";
+        return $this->_em->createQuery($dql)->setMaxResults($nb)->getArrayResult();
+    }
 }

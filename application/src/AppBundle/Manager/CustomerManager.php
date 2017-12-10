@@ -68,7 +68,10 @@ class CustomerManager
         $this->manager->persist($customer);
         $this->manager->flush();
 
-        $this->dispatcher->dispatch(SecurityEvent::REGISTER, new SecurityEvent($customer, $user));
+        $securityEvent = new SecurityEvent();
+        $securityEvent->setCustomer($customer);
+        $securityEvent->setUser($user);
+        $this->dispatcher->dispatch(SecurityEvent::REGISTER, $securityEvent);
 
         return $this;
     }
@@ -158,7 +161,10 @@ class CustomerManager
         $this->manager->persist($customerOffer);
         $this->manager->flush();
 
-        $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, new OfferEvent($game, $customer));
+        $offerEvent = new OfferEvent();
+        $offerEvent->setGame($game)
+                    ->setCustomer($customer);
+        $this->dispatcher->dispatch(OfferEvent::UNLOCKED_EVENT, $offerEvent);
 
         return $this;
     }

@@ -2,6 +2,7 @@ menu:
     login: Connexion
     register: Inscription
     logout: Se déconnecter
+    contact: Contact
     card:
         main: Les cartes
         list: Toutes les cartes
@@ -24,10 +25,15 @@ menu:
         list: Toutes les parties
     admin:
         main: Administration
+        dashboard: Tableau de bord
     user:
         main: Les utilisateurs
     center:
         main: Les centres
+    offer:
+        main: Les offres
+        create: Nouvelle offre
+        list: Toutes les offres
 
 heading:
     signin: connexion
@@ -76,6 +82,7 @@ title:
         dashboard: Tableau de bord
         account:
             create: Creation d'un compte administrateur
+        top_players: Meilleurs joueurs
     user:
         list: Liste des utilisateurs
         edit: Modifier %username%
@@ -90,12 +97,19 @@ title:
     account:
         main: Votre compte
         edit: Modifier votre compte
+        creation: Création de compte
+        completed: Création de compte réussie
     profile:
         edit: Modifier votre profil
         main: Votre profil
     password:
         forgotten: Mot de passe oublié
         new: Nouveau mot de passe
+    offer:
+        create: Nouvelle offre
+        list: Liste des offres
+        edit: Modifier l'offre
+    contact: Contact
 
 th:
     card_number: Numéro de carte
@@ -122,7 +136,8 @@ th:
     code: Code
     city: Ville
     center: Centre
-
+    avg_score: Score moyen
+    nb_game: Nombre de partie
 
 btn:
     login: Se connecter
@@ -146,6 +161,7 @@ btn:
     update: Mettre à jour
     send:
         request: Envoyer la demande
+        contact: Envoyer
     get_cards: Obtenir les cartes
     game:
         create: Créer une partie
@@ -163,6 +179,8 @@ btn:
         edit: Modifier votre profil
     card:
         add: Ajouter une carte
+    offer:
+        create: Créer l'offre
 
 alert:
     one_field_required: Veuillez renseigner au moins un champ
@@ -203,6 +221,8 @@ alert:
     user_not_found: Utilisateur non trouvé
     email:
         send_to: Un mail a été envoyé à %email%
+    message:
+        sent: Message envoyé
 
 jumbotron:
     purchase:
@@ -248,6 +268,10 @@ informations: Informations
 fidelity cards: Mes cartes de fidélité
 offers: Mes offres
 games: Mes Parties
+Expired at: Expirée le
+Count: Nombre de parties
+Subject: Sujet
+Message: Message
 
 #Status workflow
 created: Création
@@ -263,5 +287,6 @@ msg:
     no_card_available: Aucune carte disponible
     no_game_played: Aucune partie jouée
     no_offer_available: Aucune offre disponible
+    no_active_card_found: Aucune carte active trouvée
 
 #Mail

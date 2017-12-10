@@ -5,9 +5,9 @@
     <div class="col-md-3">
         <div class="fixed-section">
             <div class="list-group ">
-                <a href="{{ path('admin_user_list') }}" class="list-group-item{{ current_path matches '{^admin_user}'  ? ' list-group-item-info' }}"><i class="fa fa-users"></i> {{ 'menu.user.main' | trans }}</a>
+                <a href="{{ path('admin') }}" class="list-group-item{{ current_path matches '{^admin$}' ? ' list-group-item-info' }}"><i class="fa fa-dashboard"></i> {{ 'menu.admin.dashboard' | trans }}</a>
                 <a href="{{ path('admin_center_list') }}" class="list-group-item{{ current_path matches '{^admin_center}' ? ' list-group-item-info' }}"><i class="fa fa-industry"></i> {{ 'menu.center.main' | trans }}</a>
-                {#<a href="{{ path('account_offers_show') }}">Show offers</a>#}
+                <a href="{{ path('admin_user_list') }}" class="list-group-item{{ current_path matches '{^admin_user}'  ? ' list-group-item-info' }}"><i class="fa fa-users"></i> {{ 'menu.user.main' | trans }}</a>
             </div>
         </div>
     </div>

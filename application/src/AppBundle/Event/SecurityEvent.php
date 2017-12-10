@@ -16,6 +16,7 @@ class SecurityEvent extends Event
 {
     const REGISTER = 'register.event';
     const CHANGE_PASSWORD = 'change_password.event';
+    const CREATE_USER = 'create_user.event';
     /**
      * @var Customer
      */
@@ -25,17 +26,6 @@ class SecurityEvent extends Event
      * @var User
      */
     private $user;
-
-    /**
-     * RegisterEvent constructor.
-     * @param Customer $customer
-     * @param User $user
-     */
-    public function __construct(Customer $customer, User $user)
-    {
-        $this->customer = $customer;
-        $this->user = $user;
-    }
 
     /**
      * @return Customer
@@ -51,5 +41,22 @@ class SecurityEvent extends Event
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer = $customer;
+        $user = $this->customer->getUser();
+        if (null !== $user) {
+            $this->setUser($user);
+        }
+
+        return $this;
+    }
+
+    public function setUser(User $user) {
+        $this->user = $user;
+
+        return $this;
     }
 }

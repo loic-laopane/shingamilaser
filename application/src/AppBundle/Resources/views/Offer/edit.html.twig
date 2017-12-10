@@ -1,12 +1,16 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Edit the offer :: {{ parent() }}{% endblock %}
+{% block title %}{{ 'title.offer.edit' | trans }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Edit the offer</h1>
+<h1>{{ 'title.offer.edit' | trans }}</h1>
+<div class="panel panel-dark">
+    <div class="panel-body">
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-save"></i> {{ 'btn.save' | trans }}</button>
-    <a href="{{ path('offer_list') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i> {{ 'btn.return' | trans }}</a>
+    <a href="{{ path('offer_list') }}" class="btn btn-default btn-fill"><i class="fa fa-arrow-left"></i> {{ 'btn.back' | trans }}</a>
     {{ form_end(form) }}
+    </div>
+</div>
 {% endblock %}
