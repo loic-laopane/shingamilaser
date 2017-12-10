@@ -25,6 +25,7 @@ menu:
         list: Game list
     admin:
         main: Administration
+        dashboard: Dashboard
     user:
         main: Users
     center:
@@ -82,6 +83,7 @@ title:
         dashboard: Dashboard
         account:
             create: Creation of admin account
+        top_players: Best players
     user:
         list: Users list
         edit: Edit %username%
@@ -133,7 +135,8 @@ th:
     code: Code
     city: City
     center: Center
-
+    avg_score: Score average
+    nb_game: Games count
 
 btn:
     login: Sign in

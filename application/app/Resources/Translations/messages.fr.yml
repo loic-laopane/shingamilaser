@@ -24,6 +24,7 @@ menu:
         list: Toutes les parties
     admin:
         main: Administration
+        dashboard: Tableau de bord
     user:
         main: Les utilisateurs
     center:
@@ -80,6 +81,7 @@ title:
         dashboard: Tableau de bord
         account:
             create: Creation d'un compte administrateur
+        top_players: Meilleurs joueurs
     user:
         list: Liste des utilisateurs
         edit: Modifier %username%
@@ -132,7 +134,8 @@ th:
     code: Code
     city: Ville
     center: Centre
-
+    avg_score: Score moyen
+    nb_game: Nombre de partie
 
 btn:
     login: Se connecter

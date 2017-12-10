@@ -4,12 +4,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Customer;
 
+use AppBundle\Entity\Player;
 use AppBundle\Form\Customer\CustomerRegisterType;
 use AppBundle\Form\Password\NewPasswordType;
 use AppBundle\Form\Password\RequestPasswordType;
 use AppBundle\Manager\CustomerManager;
 use AppBundle\Manager\RequestPasswordManager;
 use AppBundle\Manager\UserManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -113,10 +115,11 @@ class SecurityController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function adminAction()
+    public function adminAction(ObjectManager $objectManager)
     {
+        $topPlayers = $objectManager->getRepository(Player::class)->findTopPlayers();
         return $this->render('AppBundle:Security:admin.html.twig', array(
-
+            'topPlayers' => $topPlayers
         ));
     }
 }
