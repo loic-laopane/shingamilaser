@@ -1,0 +1,27 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ 'title.welcome' | trans({ '%app_name%' : app_name}) }} :: {{ parent() }}{% endblock %}
+
+{% block jobotron %}
+<div class="jumbotron main-jumbotron jumboSlideDown">
+    <div class="container">
+        <p>{{ 'Please contact us by filling the followers fields' }}</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block body %}
+
+    <div class="my-panel">
+        <div class="heading">
+            {{ 'title.contact' | trans }}
+        </div>
+        <div class="body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary btn-fill"><i class="fa fa-send"></i> {{ 'btn.send.contact' | trans }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

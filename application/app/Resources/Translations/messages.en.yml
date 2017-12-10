@@ -2,6 +2,7 @@ menu:
     login: Sign in
     register: Registration
     logout: Sign out
+    contact: Contact us
     card:
         main: Cards
         list: Cards list
@@ -109,6 +110,7 @@ title:
     offer:
         create: New offer
         list: Offers list
+    contact: Contact
 
 th:
     card_number: Card number
@@ -160,6 +162,7 @@ btn:
     update: Update
     send:
         request: Send a request
+        contact: Send
     get_cards: Get cards
     game:
         create: Create game
@@ -218,6 +221,8 @@ alert:
     user_not_found: User not found
     email:
         send_to: A mail has been sent to %email%
+    message:
+        sent: Message sent
 
 jumbotron:
     purchase:
@@ -265,6 +270,8 @@ offers: My offers
 games: My games
 Expired at: Expired at
 Count: Games count
+Subject: Subject
+Message: Message
 
 #Status workflow
 created: Created
