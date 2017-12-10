@@ -33,6 +33,8 @@
                         <li><a href="{{ path('login') }}"><i class="fa fa-sign-in"></i> {{ 'menu.login' | trans }}</a></li>
 
                         <li><a href="{{ path('register') }}"><i class="fa fa-unlock"></i> {{ 'menu.register' | trans }}</a></li>
+
+                        <li><a href="{{ path('contact') }}"><i class="fa fa-envelope"></i> {{ 'menu.contact' | trans }}</a></li>
                     {% endif %}
 
                     {% if is_granted('ROLE_USER') and is_granted('ROLE_STAFF') == false %}

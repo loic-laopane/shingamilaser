@@ -1,0 +1,10 @@
+{% extends 'AppBundle:Mail:layout_mail.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'title.contact' | trans }}</h1>
+    <h3>Somebody contact you on {{ app_name }}, </h3>
+    <p>Email : {{ contact.email }}</p>
+    <p>Subject : {{ contact.subject }}</p>
+    <p>Message : {{ contact.message }}</p>
+    <p>Follow this <a href="{{ url('login') }}">link</a></p>
+{% endblock %}
