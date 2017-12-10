@@ -29,6 +29,11 @@ menu:
         main: Users
     center:
         main: Centers
+    offer:
+        main: Offers
+        create: New offer
+        list: Offers list
+        edit: Offer edit
 
 heading:
     signin: sign in
@@ -91,12 +96,17 @@ title:
     account:
         main: Your account
         edit: Edit your account
+        creation: Account creation
+        completed: Account creation completed
     profile:
         edit: Edit your profile
         main: Your profile
     password:
         forgotten: Forgotten password
         new: New password
+    offer:
+        create: New offer
+        list: Offers list
 
 th:
     card_number: Card number
@@ -164,6 +174,8 @@ btn:
         edit: Edit your profile
     card:
         add: Add a card
+    offer:
+        create: Create l'offer
 
 alert:
     one_field_required: Please fill one field at least
@@ -248,6 +260,8 @@ informations: Informations
 fidelity cards: My fidelity cards
 offers: My offers
 games: My games
+Expired at: Expired at
+Count: Games count
 
 #Status workflow
 created: Created
@@ -263,5 +277,6 @@ msg:
     no_card_available: No card available
     no_game_played: No game played
     no_offer_available: No offer available
+    no_active_card_found: No active card found
 
 #Mail

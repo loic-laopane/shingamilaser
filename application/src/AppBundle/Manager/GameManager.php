@@ -193,7 +193,10 @@ class GameManager
         $players = $this->manager->getRepository(Player::class)->findBy(['game' => $game]);
         foreach ($players as $player) {
             $player->setScore(mt_rand(0, 100));
-            $this->dispatcher->dispatch(OfferEvent::UNLOCKABLE_EVENT, new OfferEvent($game, $player->getCustomer()));
+            $offerEvent = new OfferEvent();
+            $offerEvent->setGame($game)
+                        ->setCustomer($player->getCustomer());
+            $this->dispatcher->dispatch(OfferEvent::UNLOCKABLE_EVENT, $offerEvent);
         }
         $this->manager->flush();
 

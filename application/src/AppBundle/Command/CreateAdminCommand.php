@@ -31,10 +31,7 @@ class CreateAdminCommand extends ContainerAwareCommand
      * @var ObjectManager
      */
     private $objectManager;
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
+
     /**
      * @var \Swift_Mailer
      */
@@ -52,13 +49,11 @@ class CreateAdminCommand extends ContainerAwareCommand
                                 $name = null,
                                 ObjectManager $objectManager,
                                 UserManager $userManager,
-                                UserPasswordEncoderInterface $encoder,
                                 \Swift_Mailer $mailer
     ) {
         parent::__construct($name);
         $this->name = $name;
         $this->objectManager = $objectManager;
-        $this->encoder = $encoder;
         $this->mailer = $mailer;
         $this->userManager = $userManager;
     }
@@ -84,9 +79,6 @@ class CreateAdminCommand extends ContainerAwareCommand
         //Services
         $helper = $this->getHelper('question');
 
-        //params
-        $choices = ['y' => true, 'n' => false];
-
         $output->writeln($container->getParameter('app_name').' Admin Creator
         ==========');
 
@@ -100,44 +92,25 @@ class CreateAdminCommand extends ContainerAwareCommand
             return $answer;
         });
         $question_email->setMaxAttempts(3);
-        $confirme_send_mail = new Question('Send password by mail (y/N) ?', 'n');
 
 
         //Recuperation des reponse
         $username = $helper->ask($input, $output, $question_username);
         $email = $helper->ask($input, $output, $question_email);
-        $answer_sendmail = $helper->ask($input, $output, $confirme_send_mail);
-        while (!preg_match('/^(y|n)$/i', $answer_sendmail)) {
-            $answer_sendmail = $helper->ask($input, $output, $confirme_send_mail);
-        }
-        $sendmail = $choices[$answer_sendmail];
         $password = substr(uniqid(), 0, 6);
 
         //Creation d'un user UserInterface de type admin
         $user = new User();
         $user->setUsername($username)
-            ->setPassword($this->encoder->encodePassword($user, $password))
+            ->setPassword($password)
             ->setEmail($email)
             ->setRoles(['ROLE_ADMIN']);
-
 
         //On enregister l'user validé
         try {
             $this->userManager->insert($user);
             $output->writeln('Username: '.$username);
             $output->writeln('Password: '.$password);
-            if ($sendmail) {
-                $message = new \Swift_Message('Account Admin on ');
-                $message->setFrom($container->getParameter('mailer_sender_address'))
-                  ->setTo($email)
-                  ->setBody($container->get('templating')->render('AppBundle:Mail:admin-create.html.twig', array(
-                      'username' => $username,
-                      'password' => $password
-                  )), 'text/html')
-                ;
-                $this->mailer->send($message);
-                $output->writeln('Password sent to '.$email);
-            }
             $output->writeln('Account created !');
         } catch (\Exception $exception) {
             $output->writeln($exception->getMessage());
