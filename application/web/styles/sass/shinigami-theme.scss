@@ -169,7 +169,10 @@ html, body {
     .panel-body {
       table {
         &.table {
-          color: white
+          color: white;
+          th, td {
+            vertical-align: middle;
+          }
         }
       }
       div.dropdown {
@@ -499,10 +502,35 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td
   background: white;
   height: 250px;
 }
-
+.main-container {
+  margin-top: -21px;
+}
 @media (max-width: 767px) {
   .wrapper {
     background: none;
+  }
+  .perso {
+    display: none;
+  }
+
+  .jumbotron {
+    &.main-jumbotron {
+      top: 20px;
+    }
+  }
+  .modal {
+    bottom: 0;
+  }
+  @keyframes jumboDown {
+    from {
+      opacity: 0;
+      top: 0;
+    }
+
+    to {
+      opacity: 1;
+      top: 20px;
+    }
   }
 }
 /**

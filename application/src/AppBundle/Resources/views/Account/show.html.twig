@@ -77,18 +77,18 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Offer</th>
-                                    <th>Description</th>
-                                    <th>Got at</th>
-                                    <th>Used at</th>
+                                    <th>{{ 'th.offer' | trans }}</th>
+                                    <th class="hidden-xs">{{ 'th.description' | trans }}</th>
+                                    <th class="hidden-xs">{{ 'th.got_at' | trans }}</th>
+                                    <th>{{ 'th.used_at' | trans }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for customerOffer in customerOffers %}
                                 <tr>
                                     <td>{{ customerOffer.offer.title }}</td>
-                                    <td>{{ customerOffer.offer.description }}</td>
-                                    <td>{{ customerOffer.createdAt is not null ? customerOffer.createdAt | date('d/m/Y') }}</td>
+                                    <td class="hidden-xs">{{ customerOffer.offer.description }}</td>
+                                    <td class="hidden-xs">{{ customerOffer.createdAt is not null ? customerOffer.createdAt | date('d/m/Y') }}</td>
                                     <td>{{ customerOffer.usedAt is not null ? customerOffer.usedAt | date('d/m/Y') }}</td>
                                 </tr>
                             {% endfor %}
@@ -105,9 +105,9 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Offer</th>
-                                <th>Played at</th>
-                                <th>Score</th>
+                                <th>{{ 'th.game' | trans }}</th>
+                                <th>{{ 'th.played_at' | trans }}</th>
+                                <th>{{ 'th.score' | trans }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -155,6 +155,10 @@
             $('#addCardModal{{ customer.id }}, #addCardModal').on('hidden.bs.modal', function () {
                 $(this).find('#numero').val('');
                 $(this).find('#alert-modal').removeClass('alert-danger').removeClass('alert-success');
+            });
+            $('#addCardModal{{ customer.id }}, #addCardModal').on('shown.bs.modal', function () {
+                $(this).find('#numero').focus();
+                $('html, body').animate({scrollTop : 0}, 'slow');
             });
 
             //Quand le formulaire est posté

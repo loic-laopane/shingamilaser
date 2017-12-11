@@ -13,11 +13,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="hidden-xs">#</th>
                     <th>{{ 'th.quantity' | trans }}</th>
-                    <th>{{ 'th.requester' | trans }}</th>
+                    <th class="hidden-xs">{{ 'th.requester' | trans }}</th>
                     <th>{{ 'th.created_at' | trans }}</th>
-                    <th>{{ 'th.updated_at' | trans }}</th>
+                    <th class="hidden-xs">{{ 'th.updated_at' | trans }}</th>
                     <th>{{ 'th.status' | trans }}</th>
                     <th></th>
                 </tr>
@@ -25,11 +25,11 @@
             <tbody>
             {% for purchase in purchases %}
                 <tr>
-                    <td>#{{ purchase.id }}</td>
+                    <td class="hidden-xs">#{{ purchase.id }}</td>
                     <td>{{ purchase.quantity }}</td>
-                    <td>{{ purchase.requester.username }}</td>
+                    <td class="hidden-xs">{{ purchase.requester.username }}</td>
                     <td>{{ purchase.createdAt | date('d/m/Y') }}</td>
-                    <td>{{ purchase.updatedAt | date('d/m/Y H:i') }}</td>
+                    <td class="hidden-xs">{{ purchase.updatedAt | date('d/m/Y H:i') }}</td>
                     <td>{{ purchase.status | trans }}</td>
                     <td>
                         <div class="dropdown">

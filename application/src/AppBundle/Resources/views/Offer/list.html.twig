@@ -1,31 +1,35 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Offer:list{% endblock %}
+{% block title %}{{ 'title.offer.list' | trans  }} :: {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1>Offer list</h1>
+    <h1>{{ 'title.offer.list' | trans  }}</h1>
     <a href="{{ path('offer_create') }}" class="btn btn-success btn-fill"><i class="fa fa-plus"></i> {{ 'btn.new' | trans }}</a>
     <hr>
     {% if offers | length > 0 %}
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Title</th>
-                <th>On count</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for offer in offers %}
-                <tr>
-                    <td><a href="{{ path('offer_edit', { id : offer.id }) }}">{{ offer.title }}</a></td>
-                    <td>{{ offer.count}}</td>
-                    <td><a href="{{ path('offer_edit', { id : offer.id }) }}" class="btn btn-primary btn-fill"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <div class="panel panel-dark">
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>{{ 'th.title' | trans  }}</th>
+                        <th>{{ 'th.on_count' | trans  }}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for offer in offers %}
+                        <tr>
+                            <td><a href="{{ path('offer_edit', { id : offer.id }) }}">{{ offer.title }}</a></td>
+                            <td>{{ offer.count}}</td>
+                            <td><a href="{{ path('offer_edit', { id : offer.id }) }}" class="btn btn-primary btn-fill"><i class="fa fa-edit"></i> {{ 'btn.edit' | trans }}</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     {% else %}
-        <p class="alert alert-info">No offer available</p>
+        <p class="alert alert-info">{{ 'msg.no_offer_available' | trans  }}</p>
     {% endif %}
 {% endblock %}

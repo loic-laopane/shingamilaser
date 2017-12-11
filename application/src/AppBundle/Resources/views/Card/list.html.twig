@@ -11,9 +11,9 @@
             <thead>
             <tr>
                 <th>{{ 'th.card_number' | trans }}</th>
-                <th>{{ 'th.purchased_at' | trans }}</th>
+                <th class="hidden-xs">{{ 'th.purchased_at' | trans }}</th>
                 <th>{{ 'th.owner' | trans }}</th>
-                <th>{{ 'th.activated_at' | trans }}</th>
+                <th class="hidden-xs">{{ 'th.activated_at' | trans }}</th>
                 <th>{{ 'th.active' | trans }}</th>
             </tr>
             </thead>
@@ -21,9 +21,9 @@
             {% for card in cards %}
                 <tr>
                     <td>{{ card.numero }}</td>
-                    <td>{{ card.purchase.createdAt | date('d/m/Y') }}</td>
+                    <td class="hidden-xs">{{ card.purchase.createdAt | date('d/m/Y') }}</td>
                     <td>{{ card.customer is not null ? card.customer.firstname ~ ' ' ~ card.customer.lastname }}</td>
-                    <td>{{ card.activatedAt is not null ? card.activatedAt | date('d/m/Y') }}</td>
+                    <td class="hidden-xs">{{ card.activatedAt is not null ? card.activatedAt | date('d/m/Y') }}</td>
                     <td>{{ card.active ? '<i class="fa fa-check"></i>' : '<i class="fa fa-close"></i>' }}</td>
                 </tr>
             {% endfor %}
