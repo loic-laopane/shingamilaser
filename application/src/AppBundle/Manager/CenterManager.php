@@ -12,7 +12,6 @@ use AppBundle\Entity\Center;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-
 class CenterManager
 {
     /**

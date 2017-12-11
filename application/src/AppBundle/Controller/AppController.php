@@ -32,29 +32,29 @@ class AppController extends Controller
     public function contactAction(Request $request, ObjectManager $objectManager, \Swift_Mailer $mailer, EngineInterface $templating)
     {
         $contact = new Contact();
-        $admins = $objectManager->getRepository(User::class)->getAdminsMails();;
+        $admins = $objectManager->getRepository(User::class)->getAdminsMails();
+        ;
         $mails_to = [];
-        foreach($admins as $admin_mail)
-        {
+        foreach ($admins as $admin_mail) {
             $mails_to[] = $admin_mail['email'];
         }
         $form = $this->createForm(ContactType::class, $contact);
         try {
             $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $message = new \Swift_Message('Contact');
                 $message->setFrom($this->getParameter('mailer_sender_address'))
                         ->setTo($this->getParameter('mailer_sender_address'))
-                        ->setBody($templating->render('AppBundle:Mail:contact.html.twig', array(
+                        ->setBody(
+                            $templating->render('AppBundle:Mail:contact.html.twig', array(
                       'contact' => $contact
                     )),
-                      'text/html');
+                      'text/html'
+                        );
                 $mailer->send($message);
                 $form = $this->createForm(ContactType::class, new Contact());
                 $this->addFlash('success', 'alert.message.sent');
             }
-
         } catch (\Exception $exception) {
             $this->addFlash('danger', $exception->getMessage());
         }

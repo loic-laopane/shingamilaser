@@ -47,7 +47,8 @@ class GameManager
     private $translator;
 
 
-    public function __construct(ObjectManager $manager,
+    public function __construct(
+        ObjectManager $manager,
                                 EngineInterface $templating,
                                 CustomerManager $customerManager,
                                 EventDispatcherInterface $dispatcher,

@@ -34,5 +34,4 @@ class ContactType extends AbstractType
             'data_class' => 'AppBundle\Model\Contact'
         ));
     }
-
 }

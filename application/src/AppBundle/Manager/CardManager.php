@@ -14,7 +14,6 @@ use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
-
 class CardManager
 {
     /**
@@ -82,7 +81,7 @@ class CardManager
      */
     public function save(Card $card)
     {
-        if(!$this->objectManager->contains($card)) {
+        if (!$this->objectManager->contains($card)) {
             $this->objectManager->persist($card);
         }
         $this->objectManager->flush();
@@ -121,13 +120,11 @@ class CardManager
     public function checkUser(Card $card, User $user)
     {
         $customer = $card->getCustomer();
-        if(null === $customer)
-        {
+        if (null === $customer) {
             throw new \Exception('alert.card_error');
         }
         $account = $customer->getUser();
-        if($account !== $user)
-        {
+        if ($account !== $user) {
             throw new \Exception('This card is not yours');
         }
 

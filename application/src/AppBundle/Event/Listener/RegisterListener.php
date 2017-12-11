@@ -28,7 +28,8 @@ class RegisterListener
      */
     private $templating;
 
-    public function __construct($from,
+    public function __construct(
+        $from,
                                 \Swift_Mailer $mailer,
                                 EngineInterface $templating,
                                 TranslatorInterface $translator

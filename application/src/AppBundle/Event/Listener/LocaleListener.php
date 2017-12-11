@@ -52,22 +52,23 @@ class LocaleListener implements ListenerInterface
         $route_exists = false; //by default assume route does not exist.
         $routeName = null;
 
-        foreach($this->router->getRouteCollection() as $routeObject){
+        foreach ($this->router->getRouteCollection() as $routeObject) {
             $routePath = $routeObject->getPath();
-            if($routePath == "/{_locale}".$path){
+            if ($routePath == "/{_locale}".$path) {
                 $route_exists = true;
-                dump($path);die;
+                dump($path);
+                die;
                 break;
             }
         }
 
         //If the route does indeed exist then lets redirect there.
-        if($route_exists == true){
+        if ($route_exists == true) {
             //Get the locale from the users browser.
             $locale = $request->getDefaultLocale();
 
             //If no locale from browser or locale not in list of known locales supported then set to defaultLocale set in config.yml
-            if($locale==""){
+            if ($locale=="") {
                 $locale = $request->getDefaultLocale();
             }
 

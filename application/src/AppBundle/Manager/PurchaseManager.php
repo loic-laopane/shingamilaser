@@ -48,7 +48,8 @@ class PurchaseManager
     private $workflow;
 
 
-    public function __construct($base_uri,
+    public function __construct(
+        $base_uri,
                                 Workflow $workflow,
                                 ObjectManager $objectManager,
                                 SessionInterface $session,

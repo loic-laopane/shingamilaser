@@ -8,7 +8,6 @@
 
 namespace AppBundle\Model;
 
-
 class Contact
 {
     private $email;
@@ -70,6 +69,4 @@ class Contact
         $this->message = $message;
         return $this;
     }
-
-
 }

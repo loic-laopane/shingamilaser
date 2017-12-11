@@ -27,7 +27,6 @@ class OfferEvent extends Event
 
     public function __construct()
     {
-
     }
 
     public function getGame()
@@ -69,5 +68,4 @@ class OfferEvent extends Event
 
         return $this;
     }
-
 }
