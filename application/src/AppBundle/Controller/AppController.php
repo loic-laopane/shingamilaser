@@ -43,10 +43,10 @@ class AppController extends Controller
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid())
             {
-                $message = (new \Swift_Message('Contact'))
-                  ->setFrom($this->getParameter('mailer_sender_address'))
-                  ->setTo($mails_to)
-                    ->setBody($templating->render('AppBundle:Mail:contact.html.twig', array(
+                $message = new \Swift_Message('Contact');
+                $message->setFrom($this->getParameter('mailer_sender_address'))
+                        ->setTo($this->getParameter('mailer_sender_address'))
+                        ->setBody($templating->render('AppBundle:Mail:contact.html.twig', array(
                       'contact' => $contact
                     )),
                       'text/html');

@@ -59,9 +59,10 @@
         });
 
         //Quand le formulaire est posté
-        $('#form_add_card{{ customer.id }}, #form_add_card').on('submit', function (event)
+        $('#addCardModal{{ customer.id }}').on('submit', 'form#form_add_card',function (event)
         {
             var myForm = $(this);
+            console.log(myForm);
            event.preventDefault();
            event.stopPropagation();
            var cardNumber = myForm.find('#numero').val();

@@ -33,7 +33,7 @@ class CardManager
      * Try to attach a card to a customer by numero
      * @param $numero
      * @param Customer $customer
-     * @return bool
+     * @return $this
      */
     public function rattach($numero, Customer $customer)
     {
@@ -41,6 +41,7 @@ class CardManager
         if (!$card instanceof Card) {
             throw new Exception('Card '.$numero.' doesn\'t exist');
         }
+
 
         if ($card->hasOwner()) {
             if ($card->getCustomer() === $customer) {
@@ -81,7 +82,9 @@ class CardManager
      */
     public function save(Card $card)
     {
-        $this->objectManager->persist($card);
+        if(!$this->objectManager->contains($card)) {
+            $this->objectManager->persist($card);
+        }
         $this->objectManager->flush();
         return $this;
     }
