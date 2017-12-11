@@ -139,6 +139,12 @@ th:
     center: Center
     avg_score: Score average
     nb_game: Games count
+    title: Titre
+    on_count: On count
+    played_at: Date
+    used_at: Used at
+    got_at: Got at
+    offer: Offrer
 
 btn:
     login: Sign in

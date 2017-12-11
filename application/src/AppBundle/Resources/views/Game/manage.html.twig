@@ -60,10 +60,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th class="hidden-xs"></th>
                                     <th>{{ 'th.player' | trans }}</th>
                                     <th>{{ 'th.score' | trans }}</th>
-                                    <th>{{ 'th.has_card' | trans }}</th>
+                                    <th class="hidden-xs">{{ 'th.has_card' | trans }}</th>
                                     {% if game.startedAt is null %}
                                     <th>Actions</th>
                                     {% endif %}
@@ -72,7 +72,7 @@
                             <tbody>
                                 {% for customerGame in customersGame %}
                                     <tr>
-                                        <td>
+                                        <td class="hidden-xs">
                                             <div class="avatar round-avatar">
                                                 {% if customerGame.customer.avatar is not null %}
                                                     <img src="{{ asset('img/avatar/' ~ customerGame.customer.avatar.filename) }}" alt="Avatar of {{ customerGame.customer.firstname }}" title="Avatar of {{ customerGame.customer.firstname }}">
@@ -81,7 +81,7 @@
                                         </td>
                                         <td>{{ customerGame.customer.nickname }}</td>
                                         <td>{{ customerGame.score }}</td>
-                                        <td>{{ customerGame.customer.cards | length == 0 ? '<i class="fa fa-close"></i>' | raw  : '<i class="fa fa-check"></i>' | raw }}
+                                        <td class="hidden-xs">{{ customerGame.customer.cards | length == 0 ? '<i class="fa fa-close"></i>' | raw  : '<i class="fa fa-check"></i>' | raw }}
                                         </td>
                                         {% if game.startedAt is null %}
                                         <td>

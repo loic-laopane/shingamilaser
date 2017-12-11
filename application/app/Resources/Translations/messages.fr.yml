@@ -138,6 +138,12 @@ th:
     center: Centre
     avg_score: Score moyen
     nb_game: Nombre de partie
+    title: Titre
+    on_count: Nombre requis
+    played_at: Date
+    used_at: Utilisée le
+    got_at: Obtenue le
+    offer: Offre
 
 btn:
     login: Se connecter
