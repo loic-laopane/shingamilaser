@@ -36,7 +36,8 @@ class RequestPasswordManager
      * @param ObjectManager $objectManager
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(ObjectManager $objectManager,
+    public function __construct(
+        ObjectManager $objectManager,
                                 EventDispatcherInterface $dispatcher
     ) {
         $this->objectManager = $objectManager;

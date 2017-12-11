@@ -113,7 +113,6 @@ class CenterRequestManager
         $center = $this->findCenter($data['center']);
 
         $this->create($center, $data['quantity']);
-
     }
 
     /**

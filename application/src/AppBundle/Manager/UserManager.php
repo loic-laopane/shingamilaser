@@ -39,7 +39,8 @@ class UserManager
      */
     private $dispatcher;
 
-    public function __construct(ObjectManager $manager,
+    public function __construct(
+        ObjectManager $manager,
                                 UserPasswordEncoderInterface $encoder,
                                 EventDispatcherInterface $dispatcher
     ) {
