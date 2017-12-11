@@ -1,72 +1,104 @@
-Symfony Standard Edition
-========================
+# Shiningami Laser
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+## 1. Installation
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+```sh
+git clone https://gitlab.com/lowkick/lasergame.git
+```
 
-What's inside?
---------------
+## 2. Deploiement
 
-The Symfony Standard Edition is configured with the following defaults:
+### 2.1 Avec Docker
 
-  * An AppBundle you can use to start coding;
+#### Télécharger et installer docker
 
-  * Twig as the only configured template engine;
+- [Docker for windows](https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows) (Windows 10 Pro)
 
-  * Doctrine ORM/DBAL;
+- [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) (Windows 7, 8, 10)
 
-  * Swiftmailer;
 
-  * Annotations enabled for everything.
+#### Image Docker
+Télécharger l'image [edyan/full-lamp](https://github.com/edyan/docker-full-lamp)
+```sh
+docker pull edyan/full-lamp
+```
 
-It comes pre-configured with the following bundles:
+#### Créer un conteneur Docker
+Sur Window 10 Pro :
+```sh
+docker run -d -p 80:80 -p 3306:3306 -v "path/to/your/local_app:/var/www/html" -v "path/to/your/local_db:/var/lib/mysql" -w "/var/www/hml" edyan/full-lamp
+```
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+Sur Windows < 10 Pro :
+- S'assurer que la virtualisation est bien activée sur votre machine (voir le BIOS)
+- Lancer `VirtualBox` installé par défaut avec `Docker ToolBox`
+- Ajouter le répertoire racine de votre serveur local comme dossier partagé et donner lui un alias (ex : VM_Docker)
+- Lancer la commande :
+```sh
+docker run -d -p 80:80 -p 3306:3306 -v /VM_Docker/local_app:/var/www/html -v "/VM_Docker/local_db:/var/lib/mysql -w /var/www/hml edyan/full-lamp
+```
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+**En utilisant docker sur Windows inférieur au 10 Pro, l'IP du serveur est accessible sur : [`http://192.168.99.100`](http://192.168.99.100)**
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+### 2.2 Sans Docker
+Vous pouvez utiliser des serveurs tels que [Wampserver](http://www.wampserver.com/en/download-wampserver-64bits/) ou [Xampp](https://www.apachefriends.org/fr/index.html), et suivre la documentation d'installation
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+## Configuration
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+**Accès dev**
+- Sous `Docker` modifier le fichier `/web/app_dev.php` et ajouter l'IP de la machine Docker : `192.168.99.1`
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+**Serveur mail**
+- Modifier parameters.yml en y mettant votre l'IP local de votre PC sur le réseau local : `mailer_host: 192.168.1.xx`
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+**Bases de données (par défaut sur le driver `sqlite`)**
+- Créér la base de données principale : 
+```sh
+php bin/console doctrine:database:create
+php bin/console doctrine:schema:update --force
+```
+- Créér la base de données de l'API : 
+```sh
+php bin/console doctrine:database:create --connection=api
+php bin/console doctrine:schema:update --force --em=api
+```
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+## Utilisation de Maildev
 
-  * [**SensioGeneratorBundle**][13] (in dev env) - Adds code generation
-    capabilities
+Installer maildev sous docker : 
+```sh
+docker pull djfarrelly/maildev
+```
+Puis créer un conteneur
+```sh
+docker run -d -p 25:25 -p:1080:80 djfarrelly/maildev
+```
 
-  * [**WebServerBundle**][14] (in dev env) - Adds commands for running applications
-    using the PHP built-in web server
+Sur votre nagigateur, accéder à la mailbox via http://ip_server:1080
 
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
 
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
+## 3. Prise en main
 
-Enjoy!
+### Création d'un compte `admin`
 
-[1]:  https://symfony.com/doc/3.3/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.3/doctrine.html
-[8]:  https://symfony.com/doc/3.3/templating.html
-[9]:  https://symfony.com/doc/3.3/security.html
-[10]: https://symfony.com/doc/3.3/email.html
-[11]: https://symfony.com/doc/3.3/logging.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
-[14]: https://symfony.com/doc/current/setup/built_in_web_server.html
+L'application **Shiningami Laser** ne contient par défaut aucun utilisateur.
+
+Pour créer un utilisateur `admin`, ouvrir la console et taper :
+```sh
+php bin/console app:create:admin
+```
+Puis renseigner les champs demandé :
+- un identifiant, par défaut : admin
+
+```sh
+Username [admin] :
+```
+
+- Un email valide
+
+```sh
+Email :
+```
+
+Si tous les pré-requis sont validés, le compte administrateur est créé et un récapitulatif des informations est affiché en console. 
